@@ -417,7 +417,7 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
           <span><i style="border:1px solid #f0a06c"></i>Changed from an open week</span>
         </div>
         <ul class="why-list" id="why"></ul>
-        <p class="fine">This is a simplified copy of Dreamy's <code>week-skeleton.ts</code> and <code>mileage-enforcement.ts</code>. It places runs in the same order, keeps the same 48 hours between hard days and uses the same mileage rules, and easy days stay at or under 80 percent of the long run. The real app also looks at your fitness, fatigue, the weather and your recent runs before it picks each workout.</p>
+        <p class="fine">This is a simplified copy of Dreamy's <code>week-skeleton.ts</code> and <code>mileage-enforcement.ts</code>. It places runs in the same order, keeps the same 48 hours between hard days and uses the same mileage rules, and easy days stay at or under 80 percent of the long run. In the app you set how many runs and quality sessions you want each week; here they follow the weekly miles (4 runs and one quality session at 25 miles or less, up to 7 runs above 50). The real app also looks at your fitness, fatigue, the weather and your recent runs before it picks each workout.</p>
       </div>
     </section>
 
@@ -430,7 +430,7 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
           <li><div><b>The long run goes on your preferred day.</b> If that day is gone, it moves to the other weekend day, then to the nearest open day.</div></li>
           <li><div><b>The day after the long run is a recovery run.</b></div></li>
           <li><div><b>Quality sessions go on your preferred days,</b> never next to the long run, at least 48 hours apart, and never longer than the long run. If those days are gone, they move to any open day that fits. Once Dreamy has learned how fast you recover, it uses your recovery time instead of 48 hours.</div></li>
-          <li><div><b>Every other open day gets an easy run.</b> That's how you can get four runs one week and seven the next.</div></li>
+          <li><div><b>Other open days get easy runs</b> until you reach the number of runs you set for the week, and the rest are rest days. That's how you can get four runs one week and seven the next.</div></li>
           <li><div><b>Miles are rebalanced to hit the weekly target.</b> Easy days take the changes first, up to 3 miles each, and no run goes below 2 miles. Quality days and the long run change last. If there's no way to hit the target, it tells you instead of overloading the runs you have.</div></li>
         </ol>
         <div class="prose">
@@ -768,10 +768,14 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
     return candidates.concat(rest);
   }
 
-  function skeleton(blocked, prefs) {
+  // Runs and quality sessions per week are the runner's settings in the app; here they follow the weekly miles.
+  function runsFor(miles) { return miles <= 25 ? 4 : miles <= 35 ? 5 : miles <= 50 ? 6 : 7; }
+
+  function skeleton(blocked, prefs, runsWanted) {
     var A = [null, null, null, null, null, null, null];
     blocked.forEach(function (d) { A[d] = { role: 'off', why: "You can't run" }; });
-    var runsTarget = 7 - blocked.length;
+    var runsTarget = Math.min(runsWanted, 7 - blocked.length);
+    var qualityTarget = runsWanted >= 5 ? prefs.qualityTarget : 1;
 
     // Long run: preferred day, else fallback order.
     var L = null;
@@ -807,15 +811,15 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
       return true;
     }
     prefs.qualityDays.forEach(function (d) {
-      if (placed.length >= prefs.qualityTarget) return;
+      if (placed.length >= qualityTarget) return;
       if (canPlace(d)) { A[d] = { role: 'quality', why: 'Quality on a preferred day' }; placed.push(d); }
     });
     [0, 1, 2, 3, 4, 5, 6].filter(function (d) { return prefs.qualityDays.indexOf(d) === -1; }).forEach(function (d) {
-      if (placed.length >= prefs.qualityTarget) return;
+      if (placed.length >= qualityTarget) return;
       if (canPlace(d)) { A[d] = { role: 'quality', why: "Quality moved here; the usual day doesn't work this week" }; placed.push(d); }
     });
 
-    // Fill the rest: easy runs up to the run target, else rest.
+    // Fill the rest in calendar order: easy runs up to the run target, else rest (same as week-skeleton.ts).
     for (var d = 0; d < 7; d++) {
       if (A[d]) continue;
       var runs = A.filter(function (x) { return x && x.role !== 'off' && x.role !== 'rest'; }).length;
@@ -921,9 +925,10 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
   }
 
   function render() {
-    var sk = skeleton(blocked.slice().sort(), PREFS);
+    var runsWanted = runsFor(weekly);
+    var sk = skeleton(blocked.slice().sort(), PREFS, runsWanted);
     var ml = mileage(sk, weekly);
-    var base = skeleton([], PREFS);
+    var base = skeleton([], PREFS, runsWanted);
     var baseMl = mileage(base, weekly);
     var maxMiles = Math.max(ml.longTarget + 2, 8, Math.max.apply(null, ml.miles));
 
@@ -1015,13 +1020,13 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
       if (ml.impossible) {
         notes.push("Can't reach " + weekly + ' miles with ' + runCount + (runCount === 1 ? ' run day' : ' run days') + ': ' + fmt(Math.abs(ml.short)) + ' miles short. Dreamy flags it instead of overloading the runs you have.');
       }
-      notes.push(runCount + (runCount === 1 ? ' run' : ' runs') + ' this week, versus 7 in an open week.');
+      if (runCount !== runsWanted) notes.push(runCount + (runCount === 1 ? ' run' : ' runs') + ' this week, versus ' + runsWanted + ' in an open week.');
     }
     changesEl.innerHTML = '';
     if (notes.length === 0 && runCount > 0) {
       var li0 = document.createElement('li');
       li0.className = 'same';
-      li0.textContent = 'Every day is open: seven runs, with quality on Tuesday and Thursday and the long run on Saturday. Tap a day to block it.';
+      li0.textContent = 'Every day is open. At ' + weekly + ' miles a week that is ' + runsWanted + ' runs, with the long run on Saturday. Tap a day you can\'t run.';
       changesEl.appendChild(li0);
     }
     notes.forEach(function (t) { var li = document.createElement('li'); li.textContent = t; changesEl.appendChild(li); });
