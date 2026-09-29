@@ -297,6 +297,29 @@
     if (!reduceMotion) feedTimer = setInterval(randomSale, 3500);
   });
 
+  // ---- Print buttons ----
+  $$("[data-print]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var src = b.closest(".tally"), root = document.createElement("div");
+      root.className = "print-root"; root.appendChild(src.cloneNode(true));
+      document.body.appendChild(root); document.body.classList.add("print-sheet");
+      function clean() { document.body.classList.remove("print-sheet"); root.remove(); window.removeEventListener("afterprint", clean); }
+      window.addEventListener("afterprint", clean);
+      window.print();
+      setTimeout(clean, 1000);
+    });
+  });
+  $$("[data-copy]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var t = $(b.getAttribute("data-copy")); if (!t) return;
+      var text = t.innerText.trim(), label = b.textContent;
+      function done() { b.textContent = "Copied"; setTimeout(function () { b.textContent = label; }, 1600); }
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, function () { selectText(t); });
+      else selectText(t);
+    });
+  });
+  function selectText(el) { var r = document.createRange(); r.selectNodeContents(el); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); }
+
   // ---- Demo request form ----------------------------------------------------
   var form = $("#demo-form");
   if (form) {
@@ -308,12 +331,25 @@
     var PLANS = { lease: "Lease", purchase: "Purchase", event: "Event rental" };
     var pre = TYPES[params.get("type")];
     if (pre) { var r = $('input[name=venue_type][value="' + pre + '"]', form); if (r) r.checked = true; }
-    var TOPICS = { pricing: "Request pricing", event: "Event rental date", demo: "Book a demo" };
+    var TOPICS = { pricing: "Request pricing", event: "Event rental date", demo: "Book a demo", brand: "Brand partnership" };
+    var venueType = $$("input[name=venue_type]", form);
+    function applyTopic(key) {
+      $$("[data-topic-h]").forEach(function (h) { h.hidden = h.getAttribute("data-topic-h") !== key; });
+      var brand = key === "brand";
+      $$("[data-topic-l]").forEach(function (l) { l.hidden = (l.getAttribute("data-topic-l") === "brand") !== brand; });
+      $$(".venue-only", form).forEach(function (el) { el.hidden = brand; });
+      venueType.forEach(function (r) { r.required = !brand; });
+    }
     var topicKey = params.get("topic") || (params.get("type") === "event" ? "event" : "demo");
     if (TOPICS[topicKey]) {
       var rt = $('input[name=topic][value="' + TOPICS[topicKey] + '"]', form); if (rt) rt.checked = true;
-      $$("[data-topic-h]").forEach(function (h) { h.hidden = h.getAttribute("data-topic-h") !== topicKey; });
+      applyTopic(topicKey);
     }
+    $$("input[name=topic]", form).forEach(function (r) {
+      r.addEventListener("change", function () {
+        for (var k in TOPICS) if (TOPICS[k] === r.value) applyTopic(k);
+      });
+    });
     var prePlan = PLANS[params.get("plan")] || (params.get("type") === "event" ? "Event rental" : "");
     if (prePlan) { var rp = $('input[name=plan][value="' + prePlan + '"]', form); if (rp) rp.checked = true; }
     var err = $(".form-error", form), btn = $("button[type=submit]", form);
