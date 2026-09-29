@@ -417,7 +417,7 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
           <span><i style="border:1px solid #f0a06c"></i>Changed from an open week</span>
         </div>
         <ul class="why-list" id="why"></ul>
-        <p class="fine">This is a simplified copy of Dreamy's <code>week-skeleton.ts</code> and <code>mileage-enforcement.ts</code>. It places runs in the same order, keeps the same 48 hours between hard days and uses the same mileage rules, and easy days stay at or under 80 percent of the long run. In the app you set how many runs and quality sessions you want each week; here they follow the weekly miles (4 runs and one quality session at 25 miles or less, up to 7 runs above 50). The real app also looks at your fitness, fatigue, the weather and your recent runs before it picks each workout.</p>
+        <p class="fine">This is a simplified copy of Dreamy's <code>week-skeleton.ts</code> and <code>mileage-enforcement.ts</code>. Weekly totals land within about a mile of the target. It places runs in the same order, keeps the same 48 hours between hard days and uses the same mileage rules, and easy days stay at or under 80 percent of the long run. In the app you set how many runs and quality sessions you want each week; here they follow the weekly miles (4 runs and one quality session at 25 miles or less, up to 7 runs above 50). The real app also looks at your fitness, fatigue, the weather and your recent runs before it picks each workout.</p>
       </div>
     </section>
 
@@ -542,7 +542,7 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
         <div class="prose">
           <p>Each model gives an estimate, how confident it is, why, and what data would make it better. Its weight is a base weight times that confidence. Models that drift away from your actual races lose weight, and too-optimistic ones lose it faster: a model 8 percent faster than your races gets zero weight, while a slow one gets there at 10 percent. Models that use the same inputs don't count as separate votes when the range is worked out.</p>
           <p>The anchor is a small meta-analysis of your own races, pooled with random effects (Paule-Mandel, with the Hartung-Knapp correction). A race that went wrong counts as censored data, and old races you've since beaten count as floors so they don't drag the estimate down.</p>
-          <p>The range comes from six named sources of uncertainty, and it leans slow because more things go wrong on race day than right. The fast end is your perfect-day time. The weights were still set by hand when I stopped building full time. The part that would tune them against real race results wasn't running yet.</p>
+          <p>The range comes from six named sources of uncertainty, and it leans slow because more things go wrong on race day than right. The fast end is your perfect-day time. The weights were still set by hand when the main build ended. The part that would tune them against real race results wasn't running yet.</p>
         </div>
         <figure class="shot">
           <img src="img/dreamy-disagree.webp" width="900" height="789" alt="Dreamy's race predictions card showing VDOT 49.8 with low confidence and 28 percent agreement, flagging significant disagreement of plus or minus 4.1 VDOT with the heart-rate VO2max model as the outlier." loading="lazy" decoding="async">
@@ -612,7 +612,7 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
           <figcaption>When you ask the coach something, it calls the same engine that built your plan.</figcaption>
         </figure>
       </div>
-      <p class="count">From the repo: 1,985 commits between January 28 and April 20, 95 percent of them co-authored with Claude; about 16,000 automated tests in 281 files; 332,000 lines of code; 63 database tables; 96 tools the coach can call; and 133 workout templates.</p>
+      <p class="count">From the repo, as of the end of the main build: 1,985 commits between January 28 and April 20, 95 percent of them co-authored with Claude; about 16,000 automated tests in 281 files; 332,000 lines of code; 63 database tables; 96 tools the coach can call; and 133 workout templates.</p>
       <h3 id="beta" style="margin-top:44px;font-size:19px">What I learned from the beta</h3>
       <ul class="lessons">
         <li><b>Heart-rate VO2max can flatter you.</b>One runner's heart-rate model said VDOT 54 while their races said 46 to 48. Now any estimate that runs way ahead of real races gets set aside.</li>
@@ -655,8 +655,8 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
       </table>
 
       <div class="pause">
-        <h3>Why I stopped building it full time</h3>
-        <p>I stopped building full time in April. I still tinker with it and use it to make training plans, but I haven&rsquo;t pushed it past the beta. Over the next few months the big platforms started shipping things Dreamy already had. Google launched a Gemini health coach, Strava (which already owned Runna) launched a connector so Claude can read your Strava data, Runna added heat-adjusted paces, and Garmin bought TrainingPeaks. Strava alone has more than 180 million users.</p>
+        <h3>Why I stopped after the main build</h3>
+        <p>I wrapped up the main build in April. I still tinker with it and use it to make training plans, but I haven&rsquo;t pushed it past the beta. Over the next few months the big platforms started shipping things Dreamy already had. Google launched a Gemini health coach, Strava (which already owned Runna) launched a connector so Claude can read your Strava data, Runna added heat-adjusted paces, and Garmin bought TrainingPeaks. Strava alone has more than 180 million users.</p>
         <p>That was part of why I didn't go further with it. The ideas held up, but a one-person app wasn't going to beat them on distribution. The part I'd do the same way anywhere is the process. I started from a problem runners actually have, turned the research into rules the code follows, and shipped it with Claude Code in twelve weeks.</p>
       </div>
 
@@ -687,7 +687,7 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
   </main>
 
   <footer class="foot">
-    <p>The numbers on this page come from Dreamy's repo (last commit April 20, 2026) and the app's screens. The forecast is my own half marathon data.</p>
+    <p>The numbers on this page come from Dreamy's repo as of April 20, 2026, the end of the main build, and the app's screens. The forecast is my own half marathon data.</p>
     <p><a href="./">Back to the portfolio</a> &middot; jtraum@wharton.upenn.edu</p>
   </footer>
 </div>
@@ -1010,12 +1010,12 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
       var added = ml.adjustments.filter(function (a) { return a.miles > 0; });
       if (added.length) {
         var addTotal = added.reduce(function (s, a) { return s + a.miles; }, 0);
-        notes.push(listDays(added.map(function (a) { return a.day; })) + (added.length === 1 ? ' picks' : ' pick') + ' up ' + fmt(addTotal) + ' extra ' + (addTotal === 1 ? 'mile' : 'miles') + ' to hold the weekly total.');
+        notes.push(listDays(added.map(function (a) { return a.day; })) + (added.length === 1 ? ' picks' : ' pick') + ' up ' + fmt(addTotal) + ' extra ' + (addTotal === 1 ? 'mile' : 'miles') + (ml.impossible ? ' to get closer to the weekly total.' : ' to hold the weekly total.'));
       }
       var cut = ml.adjustments.filter(function (a) { return a.miles < 0; });
       if (cut.length) {
         var cutTotal = cut.reduce(function (s, a) { return s - a.miles; }, 0);
-        notes.push(listDays(cut.map(function (a) { return a.day; })) + (cut.length === 1 ? ' gives' : ' give') + ' up ' + fmt(cutTotal) + ' ' + (cutTotal === 1 ? 'mile' : 'miles') + ' to hold the weekly total.');
+        notes.push(listDays(cut.map(function (a) { return a.day; })) + (cut.length === 1 ? ' gives' : ' give') + ' up ' + fmt(cutTotal) + ' ' + (cutTotal === 1 ? 'mile' : 'miles') + (ml.impossible ? ' to get closer to the weekly total.' : ' to hold the weekly total.'));
       }
       if (ml.impossible) {
         notes.push("Can't reach " + weekly + ' miles with ' + runCount + (runCount === 1 ? ' run day' : ' run days') + ': ' + fmt(Math.abs(ml.short)) + ' miles short. Dreamy flags it instead of overloading the runs you have.');
@@ -1037,7 +1037,7 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
       var li = document.createElement('li');
       var extra = '';
       var adj = ml.adjustments.filter(function (a) { return a.day === i; });
-      if (adj.length) { var s = adj.reduce(function (t2, a) { return t2 + a.miles; }, 0); extra = ' (' + (s > 0 ? '+' : '') + fmt(s) + ' mi to hold the weekly total)'; }
+      if (adj.length) { var s = adj.reduce(function (t2, a) { return t2 + a.miles; }, 0); extra = ' (' + (s > 0 ? '+' : '') + fmt(s) + ' mi ' + (ml.impossible ? 'to get closer to' : 'to hold') + ' the weekly total)'; }
       li.innerHTML = '<b>' + SHORT[i] + '</b> ' + x.why + extra;
       whyEl.appendChild(li);
     });
