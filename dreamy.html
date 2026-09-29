@@ -508,10 +508,10 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
       </div>
       <div class="two" style="margin-top:22px">
         <div class="prose">
-          <p>Each system builds and fades at its own speed, and the speeds come from the research. VO2max builds over about 28 days and fades over about 49. Tendons and bones are the slowest both ways.</p>
-          <p>How much you get out of a workout depends on how ready you were. On a bad day the model only counts 40 to 70 percent of the workout, so a slog doesn't count as full training.</p>
+          <p>Each system builds and fades at its own speed. The research gives a range for each one, and I picked a value inside it. VO2max builds over about 28 days and fades over about 49. Tendons and bones are the slowest both ways.</p>
+          <p>How much you get out of a workout depends on how ready you were. On a bad day the model only counts 40 to 70 percent of the workout, so a slog doesn't count as full training. The research backs the direction, and I picked the exact cutoffs myself.</p>
         </div>
-        <p class="small">Time constants in days, from <code>simulator/constants.ts</code>: build then fade. Aerobic efficiency follows Granata 2016, VO2max follows Mujika &amp; Padilla, musculoskeletal follows Magnusson 2010.</p>
+        <p class="small">Time constants in days, from <code>simulator/constants.ts</code>: build then fade. The ranges come from Granata 2016, Mujika &amp; Padilla and Magnusson 2010. The exact values are starting guesses the app was supposed to tune for each runner, and that tuning never went live.</p>
       </div>
     </section>
 
@@ -656,8 +656,9 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
 
       <div class="pause">
         <h3>Why I stopped after the main build</h3>
-        <p>I wrapped up the main build in April. I still tinker with it and use it to make training plans, but I haven&rsquo;t pushed it past the beta. Over the next few months the big platforms started shipping things Dreamy already had. Google launched a Gemini health coach, Strava (which already owned Runna) launched a connector so Claude can read your Strava data, Runna added heat-adjusted paces, and Garmin bought TrainingPeaks. Strava alone has more than 180 million users.</p>
-        <p>That was part of why I didn't go further with it. The ideas held up, but a one-person app wasn't going to beat them on distribution. The part I'd do the same way anywhere is the process. I started from a problem runners actually have, turned the research into rules the code follows, and shipped it with Claude Code in twelve weeks.</p>
+        <p>I wrapped up the main build in April, the day after the Jersey City Marathon, and turned off the scheduled jobs so it stopped costing money. I still tinker with it and use it to make my own training plans. The beta showed runners would stick with it through a full training block. It didn&rsquo;t prove the race forecasts are accurate, since checking that takes about 50 predictions matched to real results. It also didn&rsquo;t prove anyone would pay. Nobody was ever asked to, and a heavy user would have cost $5 to $20 a month in AI calls against my goal of under $5.</p>
+        <p>Over the next few months the big platforms started shipping things Dreamy already had. Google launched a Gemini health coach, Strava (which already owned Runna) launched a connector so Claude can read your Strava data, Runna added heat-adjusted paces, and Garmin bought TrainingPeaks. Strava alone has more than 180 million users.</p>
+        <p>Going further would have meant proving the forecasts, testing a price and supporting real users while those platforms caught up. Right now I&rsquo;d rather build smaller things for needs I can see than turn one into a full business. The part I&rsquo;d do the same way anywhere is the process. I started from a problem runners actually have, turned the research into rules the code follows, and shipped it with Claude Code in twelve weeks.</p>
       </div>
 
       <p class="sources">Sources:
