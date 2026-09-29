@@ -473,3 +473,14 @@ input[type="range"]::-moz-range-thumb { width: 22px; height: 22px; border-radius
 }
 
 @media (max-width: 699px) { .tiles .media { aspect-ratio: 3 / 2; } .tiles { gap: 28px; } }
+
+/* 3D viewer */
+.viewer { position: relative; aspect-ratio: 16 / 10; border-radius: var(--r-media); overflow: hidden; }
+.viewer canvas { position: absolute; inset: 0; width: 100% !important; height: 100% !important; cursor: grab; }
+.viewer canvas:active { cursor: grabbing; }
+.viewer-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; transition: opacity .3s var(--ease-out); }
+.viewer.live .viewer-poster { opacity: 0; pointer-events: none; }
+@media (max-width: 699px) { .viewer { aspect-ratio: 4 / 5; } }
+.seg { display: inline-flex; background: var(--night-2); border-radius: 999px; padding: 4px; gap: 2px; }
+.seg button { font: inherit; font-size: 15px; font-weight: 600; color: var(--night-muted); background: transparent; border: 0; border-radius: 999px; min-height: 40px; padding: 0 18px; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: #fff; color: var(--ink); }
