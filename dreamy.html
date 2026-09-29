@@ -367,6 +367,11 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
 
 @media (prefers-reduced-motion: reduce) { .bar-v { transition: none; } }
 
+/* On-this-page links */
+.toc { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 14px 0 22px; font-size: 14px; }
+.toc a { color: inherit; opacity: .85; }
+.toc a:hover { opacity: 1; }
+
 </style>
 </head>
 <body>
@@ -382,6 +387,7 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
       <h1 id="h1">How I built Dreamy</h1>
       <p class="lead">Dreamy is an AI running coach I built with Claude Code over twelve weeks while I was still working full time at Morgan Stanley. I built it because AI training plans were unreliable and not backed by any science, you had to be really good at prompting to get something usable, and they didn't sync with anything or look at your actual runs. Dreamy's plans come from rules taken from the research, it analyzes every run you sync from Strava, and it works around the days you can't run.</p>
       <p class="hero-meta"><span>Built Jan 28 to Apr 20, 2026</span><span>TypeScript, Next.js, Postgres, Anthropic API</span><span>Beta done; I still use it</span></p>
+      <nav class="toc" aria-label="On this page"><a href="#builder">Try the week builder</a><a href="#week-rules">How the week gets built</a><a href="#engine">The engine</a><a href="#forecast">Race forecasting</a><a href="#research">The research</a><a href="#beta">What I learned from the beta</a><a href="#screens">Screenshots</a></nav>
 
       <div class="builder" id="builder">
         <div class="b-top">
@@ -607,7 +613,7 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
         </figure>
       </div>
       <p class="count">From the repo: 1,985 commits between January 28 and April 20, 95 percent of them co-authored with Claude; about 16,000 automated tests in 281 files; 332,000 lines of code; 63 database tables; 96 tools the coach can call; and 133 workout templates.</p>
-      <h3 style="margin-top:44px;font-size:19px">What I learned from the beta</h3>
+      <h3 id="beta" style="margin-top:44px;font-size:19px">What I learned from the beta</h3>
       <ul class="lessons">
         <li><b>Heart-rate VO2max can flatter you.</b>One runner's heart-rate model said VDOT 54 while their races said 46 to 48. Now any estimate that runs way ahead of real races gets set aside.</li>
         <li><b>Most of the early bugs were in the data, not the models.</b>One runner's import quietly failed on 922 of 1,211 runs.</li>
