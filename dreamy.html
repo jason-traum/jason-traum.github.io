@@ -1,0 +1,1072 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>How I built Dreamy</title>
+<meta name="description" content="How Jason Traum built Dreamy with Claude Code: a running coach built on rules from the research that rebuilds your week around the days you can't run.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How I built Dreamy">
+<meta property="og:description" content="A running coach built on rules from the research that rebuilds your week around the days you can't run. Includes a working demo.">
+<meta property="og:url" content="https://jason-traum.github.io/dreamy.html">
+<meta property="og:image" content="https://jason-traum.github.io/og-dreamy.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Dreamy's week builder with Tuesday to Thursday blocked: quality moves to Monday, the long run stays on Saturday.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://jason-traum.github.io/dreamy.html">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23a78bfa'/%3E%3Cstop offset='1' stop-color='%23f0a06c'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='%230a0a0f'/%3E%3Ccircle cx='16' cy='16' r='8' fill='url(%23g)'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&family=Syne:wght@700&display=swap">
+<style>
+:root {
+  --s0: #0a0a0f;
+  --s1: #141420;
+  --s1b: #181826;
+  --s2: #1f1f2e;
+  --s3: #282836;
+  --t1: #ededf2;
+  --t2: #b8b8c8;
+  --t3: #8888a0;
+  --t4: #5a5a68;
+  --b1: rgba(255, 255, 255, 0.07);
+  --b2: #333345;
+  --b3: #42425a;
+  --brand: #a78bfa;
+  --brand-2: #7c6cf0;
+  --glow: #c4b5fd;
+  --warm: #f0a06c;
+  --long: #14b8a6;
+  --quality: #8b5cf6;
+  --easy: #5ea8c8;
+  --recovery: #8a9bb8;
+  --good: #4ade80;
+  --display: "Manrope", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --body: "Inter", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --brandface: "Syne", "Manrope", system-ui, sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--s0);
+  color: var(--t1);
+  font-family: var(--body);
+  font-size: 16.5px;
+  line-height: 1.62;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+h1, h2, h3, h4 { margin: 0; font-family: var(--display); text-wrap: balance; letter-spacing: -0.02em; }
+p { margin: 0; }
+a { color: var(--glow); text-decoration: underline; text-decoration-color: rgba(196, 181, 253, 0.45); text-underline-offset: 3px; }
+a:hover { color: #fff; text-decoration-color: var(--glow); }
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; border-radius: 3px; }
+::selection { background: var(--brand-2); color: #fff; }
+.num { font-variant-numeric: tabular-nums; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+.wrap { max-width: 1100px; margin: 0 auto; padding-inline: 16px; }
+@media (min-width: 720px) { .wrap { padding-inline: 32px; } }
+@media (min-width: 1100px) { .wrap { padding-inline: 44px; } }
+
+.eyebrow { font-size: 12px; font-weight: 600; color: var(--t3); }
+.small { font-size: 13px; line-height: 1.5; color: var(--t3); }
+
+/* Top bar */
+.bar { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-block: 18px; border-bottom: 1px solid var(--b1); }
+.back { color: var(--t2); text-decoration: none; font-size: 14px; }
+.back:hover { color: #fff; }
+.wordmark {
+  font-family: var(--brandface); font-weight: 700; font-size: 22px; letter-spacing: -0.02em; line-height: 1;
+  background: linear-gradient(135deg, #a78bfa, #f0a06c);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
+/* Hero */
+.hero { position: relative; padding-block: 56px 26px; overflow: hidden; }
+#stars { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0.9; }
+.hero > * { position: relative; }
+.hero h1 {
+  margin-top: 14px;
+  font-size: clamp(2.35rem, 6.4vw, 4.6rem);
+  line-height: 1.02;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  max-width: 14ch;
+}
+.hero .lead { margin-top: 20px; font-size: clamp(1.08rem, 1.8vw, 1.28rem); line-height: 1.55; color: var(--t2); max-width: 40em; }
+.hero-meta { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 13.5px; color: var(--t3); }
+.hero-meta span { white-space: nowrap; }
+
+/* Section rhythm */
+.sec { padding-block: 64px; border-top: 1px solid var(--b1); scroll-margin-top: 10px; }
+.sec h2 { font-size: clamp(1.7rem, 3.6vw, 2.5rem); line-height: 1.1; font-weight: 700; }
+.sec .kicker { margin-bottom: 10px; }
+.sec .intro { margin-top: 14px; max-width: 42em; color: var(--t2); font-size: 1.05rem; }
+.prose { display: grid; gap: 14px; max-width: 42em; color: var(--t2); }
+.prose strong { color: var(--t1); font-weight: 600; }
+.two { display: grid; gap: 36px; margin-top: 30px; }
+@media (min-width: 920px) { .two { grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: 48px; align-items: start; } }
+
+/* Week builder */
+.builder {
+  margin-top: 26px;
+  background: var(--s1);
+  border: 1px solid var(--b1);
+  border-radius: 16px;
+  padding: 18px;
+}
+@media (min-width: 720px) { .builder { padding: 24px 26px 26px; } }
+.b-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 14px 24px; }
+.b-title { font-family: var(--display); font-weight: 700; font-size: clamp(1.25rem, 2.6vw, 1.6rem); letter-spacing: -0.02em; }
+.b-sub { margin-top: 4px; font-size: 14px; color: var(--t3); }
+.presets { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  font: 500 13.5px/1 var(--body);
+  color: var(--t2);
+  background: transparent;
+  border: 1px solid var(--b3);
+  border-radius: 999px;
+  padding: 9px 13px;
+  min-height: 40px;
+  cursor: pointer;
+}
+@media (pointer: coarse) { .chip { min-height: 44px; } }
+.chip:hover { color: #fff; border-color: var(--brand); }
+.chip[aria-pressed="true"] { color: #fff; border-color: var(--brand); background: rgba(124, 108, 240, 0.18); }
+.miles { display: grid; gap: 6px; min-width: 220px; }
+.miles label { font-size: 13px; color: var(--t3); display: flex; justify-content: space-between; gap: 12px; }
+.miles output { color: var(--t1); font-weight: 600; font-variant-numeric: tabular-nums; }
+input[type="range"] { width: 100%; accent-color: var(--brand-2); }
+
+.week { margin-top: 20px; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+@media (min-width: 720px) { .week { gap: 10px; } }
+.day { display: grid; grid-template-rows: auto 150px auto; gap: 8px; min-width: 0; }
+@media (max-width: 559px) { .day { grid-template-rows: auto 118px auto; gap: 6px; } }
+.day-btn {
+  font: 600 13px/1.15 var(--body);
+  color: var(--t1);
+  background: var(--s2);
+  border: 1px solid var(--b2);
+  border-radius: 10px;
+  padding: 8px 4px;
+  min-height: 48px;
+  cursor: pointer;
+  display: grid; gap: 3px; justify-items: center;
+}
+.day-btn .state { font-weight: 500; font-size: 11px; color: var(--t3); }
+.day-btn:hover { border-color: var(--brand); }
+.day-btn[aria-pressed="true"] { background: transparent; border-style: dashed; border-color: var(--b3); color: var(--t3); }
+.day-btn[aria-pressed="true"] .state { color: var(--warm); }
+.col {
+  position: relative;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--b1);
+  display: flex; flex-direction: column; justify-content: flex-end; align-items: stretch;
+  padding: 6px;
+  overflow: hidden;
+}
+.col.off { background: repeating-linear-gradient(135deg, rgba(255,255,255,0.045) 0 6px, transparent 6px 12px); }
+.col.changed { border-color: rgba(240, 160, 108, 0.75); }
+.bar-v { border-radius: 6px; min-height: 4px; transition: height 0.35s ease, background-color 0.2s ease; }
+.mi { text-align: center; font-weight: 700; font-size: 15px; font-variant-numeric: tabular-nums; margin-bottom: 6px; line-height: 1; }
+@media (max-width: 559px) { .mi { font-size: 12.5px; } }
+.role { text-align: center; font-size: 12px; font-weight: 600; line-height: 1.2; min-height: 2.4em; }
+@media (max-width: 559px) { .role { font-size: 10.5px; } }
+.r-long { color: var(--long); } .bg-long { background: var(--long); }
+.r-quality { color: #b39dff; } .bg-quality { background: var(--quality); }
+.r-easy { color: var(--easy); } .bg-easy { background: var(--easy); }
+.r-recovery { color: var(--recovery); } .bg-recovery { background: var(--recovery); }
+.r-off, .r-rest { color: var(--t4); }
+.summary { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: 15px; }
+.summary b { font-weight: 700; font-variant-numeric: tabular-nums; }
+.changes { margin: 12px 0 0; padding: 0; list-style: none; display: grid; gap: 7px; font-size: 14.5px; color: var(--t2); }
+.changes li { position: relative; padding-left: 18px; }
+.changes li::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 7px; height: 7px; border-radius: 2px; background: var(--warm); }
+.changes li.same::before { background: var(--b3); }
+.legend { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12.5px; color: var(--t3); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+.why-list { margin: 16px 0 0; padding: 14px 0 0; list-style: none; display: grid; gap: 6px; border-top: 1px solid var(--b1); font-size: 13.5px; color: var(--t3); }
+.why-list b { color: var(--t2); font-weight: 600; display: inline-block; min-width: 2.6em; }
+.fine { margin-top: 16px; font-size: 12.5px; line-height: 1.5; color: var(--t3); max-width: 60em; }
+
+/* Ordered rules */
+.steps { margin: 0; padding: 0; list-style: none; counter-reset: s; display: grid; gap: 16px; }
+.steps li { counter-increment: s; display: grid; grid-template-columns: 34px 1fr; gap: 12px; align-items: start; color: var(--t2); }
+.steps li::before {
+  content: counter(s);
+  font-family: var(--display); font-weight: 700; font-size: 15px; font-variant-numeric: tabular-nums;
+  width: 30px; height: 30px; border-radius: 999px; display: grid; place-items: center;
+  color: var(--t1); background: var(--s2); border: 1px solid var(--b2);
+}
+.steps li b { color: var(--t1); font-weight: 600; }
+
+/* Pipeline diagram */
+.pipe { margin-top: 30px; display: grid; gap: 22px; }
+@media (min-width: 980px) { .pipe { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 26px; } }
+.stage { position: relative; background: var(--s1); border: 1px solid var(--b1); border-radius: 14px; padding: 16px 16px 18px; }
+.stage.core { border-color: rgba(167, 139, 250, 0.5); background: #1e1d35; }
+.stage h3 { font-size: 15.5px; font-weight: 700; letter-spacing: -0.01em; }
+.stage .tag { font-size: 13px; font-weight: 600; color: var(--t3); margin-bottom: 6px; }
+.stage ul { margin: 10px 0 0; padding: 0; list-style: none; display: grid; gap: 6px; font-size: 13.5px; line-height: 1.45; color: var(--t2); }
+.stage li::before { content: ""; display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--t4); margin: 0 8px 2px 0; vertical-align: middle; }
+.stage::after {
+  content: ""; position: absolute; left: 50%; bottom: -17px; width: 1.5px; height: 12px; background: var(--b3);
+}
+.stage:last-child::after { display: none; }
+@media (min-width: 980px) {
+  .stage::after { left: auto; right: -20px; top: 50%; bottom: auto; width: 14px; height: 1.5px; }
+}
+
+/* Seven systems chart */
+.systems { margin-top: 26px; background: var(--s1); border: 1px solid var(--b1); border-radius: 16px; padding: 18px 18px 14px; }
+.sys-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; align-items: baseline; }
+.sys-head h3 { font-size: 16px; font-weight: 700; }
+.sys-key { display: flex; gap: 14px; font-size: 12.5px; color: var(--t3); }
+.sys-key span { display: inline-flex; align-items: center; gap: 6px; }
+.sys-key i { width: 14px; height: 6px; border-radius: 3px; display: inline-block; }
+.sys-rows { margin-top: 14px; display: grid; gap: 12px; }
+.sys { display: grid; grid-template-columns: minmax(118px, 170px) 1fr; gap: 12px; align-items: center; }
+@media (max-width: 559px) { .sys { grid-template-columns: 1fr; gap: 4px; } }
+.sys .nm { font-size: 13.5px; color: var(--t1); line-height: 1.25; }
+.sys .nm span { display: block; font-size: 12px; color: var(--t3); }
+.sys .bars { display: grid; gap: 4px; }
+.sys .track { position: relative; height: 12px; }
+.sys .fill { position: absolute; left: 0; top: 1px; height: 10px; border-radius: 3px; }
+.sys .fill.b { background: var(--brand-2); }
+.sys .fill.d { background: var(--warm); opacity: 0.85; }
+.sys .v { position: absolute; top: -2px; font-size: 11.5px; font-variant-numeric: tabular-nums; color: var(--t2); padding-left: 6px; line-height: 16px; }
+.axis { margin-top: 10px; margin-left: calc(min(170px, 30%) + 12px); position: relative; height: 18px; border-top: 1px solid var(--b2); font-size: 11px; color: var(--t3); font-variant-numeric: tabular-nums; }
+@media (max-width: 559px) { .axis { margin-left: 0; } }
+.axis span { position: absolute; top: 3px; transform: translateX(-50%); white-space: nowrap; }
+.axis span:first-child { transform: none; }
+.axis span:last-child { transform: translateX(-50%); }
+
+/* Forecast forest plot */
+.forest { margin-top: 26px; background: var(--s1); border: 1px solid var(--b1); border-radius: 16px; padding: 18px; }
+@media (min-width: 720px) { .forest { padding: 22px 24px 18px; } }
+.fr-head { display: grid; gap: 12px; }
+@media (min-width: 720px) { .fr-head { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.kv .k { font-size: 13px; font-weight: 600; color: var(--t3); }
+.kv .v { font-family: var(--display); font-weight: 700; font-size: 1.5rem; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; line-height: 1.2; }
+.kv .v.big { font-size: 2rem; }
+.fr-grid { margin-top: 18px; position: relative; }
+.fr-row { display: grid; grid-template-columns: minmax(120px, 190px) 1fr 76px; gap: 12px; align-items: center; min-height: 34px; border-top: 1px solid var(--b1); }
+.fr-row:first-child { border-top: 0; }
+@media (max-width: 559px) { .fr-row { grid-template-columns: 1fr 58px; grid-template-rows: auto 26px; gap: 0 10px; padding-block: 6px; } .fr-row .fr-track { grid-column: 1 / -1; grid-row: 2; } }
+.fr-name { font-size: 13.5px; color: var(--t1); line-height: 1.25; }
+.fr-name small { display: block; font-size: 11.5px; color: var(--t3); }
+.fr-val { font-size: 12.5px; text-align: right; color: var(--t2); font-variant-numeric: tabular-nums; line-height: 1.3; }
+.fr-val b { display: block; color: var(--t1); font-weight: 600; font-size: 13.5px; }
+.fr-track { position: relative; height: 30px; }
+.fr-dot { position: absolute; top: 50%; border-radius: 50%; transform: translate(-50%, -50%); background: var(--brand); box-shadow: 0 0 0 2px var(--s1); }
+.fr-none { position: absolute; left: 0; top: 50%; transform: translateY(-50%); font-size: 12px; color: var(--t4); }
+.fr-overlay { position: absolute; top: -1px; bottom: -1px; pointer-events: none; }
+.fr-track .fr-dot { z-index: 2; }
+.fr-track .fr-none { z-index: 2; }
+.fr-axis-row { display: grid; grid-template-columns: minmax(120px, 190px) 1fr 76px; gap: 12px; }
+@media (max-width: 559px) { .fr-axis-row { grid-template-columns: 1fr; } .fr-axis-row > div:first-child, .fr-axis-row > div:last-child { display: none; } }
+.fr-band { background: rgba(124, 108, 240, 0.14); border-left: 1px solid rgba(167, 139, 250, 0.35); border-right: 1px solid rgba(167, 139, 250, 0.35); }
+.fr-blend { width: 0; border-left: 2px solid var(--glow); }
+.fr-ceiling { width: 0; border-left: 1.5px dashed var(--warm); }
+.fr-axis { position: relative; height: 22px; margin-top: 6px; border-top: 1px solid var(--b2); font-size: 11.5px; color: var(--t3); font-variant-numeric: tabular-nums; }
+.fr-axis span { position: absolute; top: 4px; transform: translateX(-50%); white-space: nowrap; }
+.fr-key { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 12.5px; color: var(--t3); }
+.fr-key span { display: inline-flex; align-items: center; gap: 7px; }
+.fr-key i { display: inline-block; }
+.k-band { width: 16px; height: 10px; background: rgba(124, 108, 240, 0.3); border-radius: 2px; }
+.k-blend { width: 2px; height: 14px; background: var(--glow); }
+.k-ceiling { width: 0; height: 14px; border-left: 1.5px dashed var(--warm); }
+.k-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--brand); }
+
+/* Figures */
+.shot { margin: 0; }
+.shot img { display: block; width: 100%; height: auto; border-radius: 14px; border: 1px solid var(--b1); background: var(--s1); }
+.shot figcaption { margin-top: 9px; font-size: 13px; line-height: 1.45; color: var(--t3); }
+.phone { max-width: 300px; }
+.gallery { margin-top: 28px; display: grid; gap: 22px; grid-template-columns: 1fr; align-items: start; justify-items: center; }
+.gallery .shot { max-width: 320px; }
+@media (min-width: 560px) { .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); justify-items: stretch; } .gallery .shot { max-width: none; } }
+@media (min-width: 900px) { .gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 26px; } }
+
+/* Research */
+.timeline { margin: 26px 0 0; padding: 0; list-style: none; position: relative; display: grid; gap: 0; max-width: 820px; }
+.timeline li { display: grid; grid-template-columns: 112px 1fr; gap: 16px; padding-block: 12px; border-top: 1px solid var(--b1); color: var(--t2); font-size: 15px; }
+.timeline li:first-child { border-top: 0; }
+.timeline time { font-weight: 600; color: var(--t1); font-variant-numeric: tabular-nums; font-size: 14px; }
+@media (max-width: 559px) { .timeline li { grid-template-columns: 1fr; gap: 2px; } }
+.reading { margin-top: 34px; display: grid; gap: 28px; }
+@media (min-width: 920px) { .reading { grid-template-columns: 1.35fr 1fr; gap: 44px; } }
+.reading h3 { font-size: 17px; font-weight: 700; margin-bottom: 12px; }
+.refs { margin: 0; padding: 0; list-style: none; display: grid; gap: 0; }
+.refs li { display: grid; grid-template-columns: minmax(150px, 0.9fr) 1.1fr; gap: 14px; padding-block: 9px; border-top: 1px solid var(--b1); font-size: 14px; }
+.refs li:first-child { border-top: 0; }
+.refs .src { color: var(--t1); font-weight: 500; }
+.refs .use { color: var(--t3); }
+@media (max-width: 559px) { .refs li { grid-template-columns: 1fr; gap: 1px; } }
+.cut { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; }
+.cut li { font-size: 14.5px; color: var(--t2); padding: 12px 14px; background: var(--s1); border: 1px solid var(--b1); border-radius: 12px; }
+.cut li b { display: block; color: var(--t1); font-weight: 600; margin-bottom: 2px; }
+
+/* Numbers */
+.count { margin-top: 28px; max-width: 46em; font-size: 15px; line-height: 1.6; color: var(--t2); font-variant-numeric: tabular-nums; }
+.lessons { margin: 18px 0 0; padding: 0; list-style: none; display: grid; gap: 0 44px; max-width: 980px; }
+@media (min-width: 820px) { .lessons { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.lessons li { padding-block: 14px 16px; border-top: 1px solid var(--b2); color: var(--t2); font-size: 14.5px; }
+.lessons li b { display: block; color: var(--t1); font-weight: 600; font-size: 15.5px; margin-bottom: 4px; }
+
+/* Comparison */
+.cmp-wrap { margin-top: 26px; }
+.cmp { width: 100%; border-collapse: collapse; font-size: 14px; line-height: 1.45; }
+.cmp th, .cmp td { text-align: left; vertical-align: top; padding: 12px 14px 12px 0; border-bottom: 1px solid var(--b1); }
+.cmp thead th { font-size: 13px; font-weight: 600; color: var(--t3); border-bottom: 1px solid var(--b3); padding-bottom: 10px; }
+.cmp tbody th { font-weight: 700; color: var(--t1); white-space: nowrap; font-family: var(--display); font-size: 15px; letter-spacing: -0.01em; }
+.cmp td { color: var(--t2); }
+.cmp tr.me th, .cmp tr.me td { color: var(--t1); }
+.cmp tr.me { background: rgba(124, 108, 240, 0.1); }
+.cmp tr.me th { padding-left: 10px; }
+.cmp td:last-child, .cmp th:last-child { padding-right: 0; }
+.cmp .price { white-space: nowrap; font-variant-numeric: tabular-nums; }
+@media (max-width: 799px) {
+  .cmp thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .cmp, .cmp tbody { display: block; }
+  .cmp tr { display: grid; gap: 6px; padding: 14px 12px; border-bottom: 1px solid var(--b1); }
+  .cmp th, .cmp td { display: block; padding: 0; border: 0; white-space: normal; }
+  .cmp td::before { content: attr(data-l); display: block; font-size: 12.5px; font-weight: 600; color: var(--t3); margin-bottom: 1px; }
+  .cmp tr.me { border-radius: 12px; }
+  .cmp tr.me th { padding-left: 0; }
+}
+.early { width: 100%; border-collapse: collapse; margin-top: 18px; font-size: 14.5px; line-height: 1.45; }
+.early th, .early td { text-align: left; vertical-align: top; padding: 12px 16px 12px 0; border-bottom: 1px solid var(--b1); }
+.early thead th { font-size: 13px; font-weight: 600; color: var(--t3); border-bottom: 1px solid var(--b3); }
+.early tbody th { font-weight: 600; color: var(--t1); }
+.early .d { color: var(--brand); font-weight: 700; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.early td { color: var(--t2); }
+@media (max-width: 719px) {
+  .early thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .early, .early tbody { display: block; }
+  .early tr { display: grid; gap: 4px; padding: 12px 0; border-bottom: 1px solid var(--b1); }
+  .early th, .early td { display: block; padding: 0; border: 0; }
+  .early td::before { content: attr(data-l); display: block; font-size: 12.5px; font-weight: 600; color: var(--t3); }
+}
+.sources { margin-top: 18px; font-size: 12.5px; line-height: 1.7; color: var(--t3); }
+.sources a { color: var(--t2); }
+.pause { margin-top: 30px; padding: 20px; border-radius: 16px; background: var(--s1); border: 1px solid var(--b1); max-width: 46em; display: grid; gap: 10px; color: var(--t2); }
+.pause h3 { font-size: 18px; font-weight: 700; color: var(--t1); }
+
+.foot { padding-block: 34px 48px; border-top: 1px solid var(--b1); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 24px; font-size: 13px; color: var(--t3); }
+.foot p { max-width: 52em; }
+
+@media (prefers-reduced-motion: reduce) { .bar-v { transition: none; } }
+
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="bar">
+    <a class="back" href="./"><span aria-hidden="true">&larr;</span> Jason Traum</a>
+    <span class="wordmark" aria-label="Dreamy">dreamy</span>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="h1">
+      <canvas id="stars" aria-hidden="true"></canvas>
+      <h1 id="h1">How I built Dreamy</h1>
+      <p class="lead">Dreamy is an AI running coach I built with Claude Code over twelve weeks while I was still working full time at Morgan Stanley. I built it because AI training plans were unreliable and not backed by any science, you had to be really good at prompting to get something usable, and they didn't sync with anything or look at your actual runs. Dreamy's plans come from rules taken from the research, it analyzes every run you sync from Strava, and it works around the days you can't run.</p>
+      <p class="hero-meta"><span>Built Jan 28 to Apr 20, 2026</span><span>TypeScript, Next.js, Postgres, Anthropic API</span><span>Beta done; I still use it</span></p>
+
+      <div class="builder" id="builder">
+        <div class="b-top">
+          <div>
+            <h2 class="b-title">Try it: tap the days you can't run</h2>
+            <p class="b-sub">A simplified version of Dreamy's scheduling rules, running in your browser.</p>
+          </div>
+          <div class="miles">
+            <label for="mi">Weekly miles <output id="mi-out" for="mi">40</output></label>
+            <input type="range" id="mi" min="20" max="70" step="5" value="40">
+          </div>
+        </div>
+        <div class="presets" role="group" aria-label="Example weeks">
+          <button class="chip" type="button" data-preset="" aria-pressed="true">Open week</button>
+          <button class="chip" type="button" data-preset="1,2,3" aria-pressed="false">Work trip, Tue to Thu</button>
+          <button class="chip" type="button" data-preset="5,6" aria-pressed="false">Wedding weekend</button>
+          <button class="chip" type="button" data-preset="0,2" aria-pressed="false">Late meetings, Mon and Wed</button>
+        </div>
+        <div class="week" id="week" aria-describedby="week-summary"></div>
+        <div class="summary" id="week-summary" aria-live="polite"></div>
+        <ul class="changes" id="changes"></ul>
+        <div class="legend" aria-hidden="true">
+          <span><i class="bg-long"></i>Long run</span>
+          <span><i class="bg-quality"></i>Quality session</span>
+          <span><i class="bg-easy"></i>Easy</span>
+          <span><i class="bg-recovery"></i>Recovery</span>
+          <span><i style="border:1px solid #f0a06c"></i>Changed from an open week</span>
+        </div>
+        <ul class="why-list" id="why"></ul>
+        <p class="fine">This is a simplified copy of Dreamy's <code>week-skeleton.ts</code> and <code>mileage-enforcement.ts</code>. It places runs in the same order, keeps the same 48 hours between hard days and uses the same mileage rules, and easy days stay at or under 80 percent of the long run. The real app also looks at your fitness, fatigue, the weather and your recent runs before it picks each workout.</p>
+      </div>
+    </section>
+
+    <section class="sec" id="week-rules" aria-labelledby="rules-h">
+      <h2 id="rules-h">How the week gets built</h2>
+      <p class="intro">Dreamy rebuilds the week in the same order every time, based on what you actually ran and which days you have.</p>
+      <div class="two">
+        <ol class="steps">
+          <li><div><b>Days you can't run come off first.</b> Everything else gets planned around them.</div></li>
+          <li><div><b>The long run goes on your preferred day.</b> If that day is gone, it moves to the other weekend day, then to the nearest open day.</div></li>
+          <li><div><b>The day after the long run is a recovery run.</b></div></li>
+          <li><div><b>Quality sessions go on your preferred days,</b> never next to the long run, at least 48 hours apart, and never longer than the long run. If those days are gone, they move to any open day that fits. Once Dreamy has learned how fast you recover, it uses your recovery time instead of 48 hours.</div></li>
+          <li><div><b>Every other open day gets an easy run.</b> That's how you can get four runs one week and seven the next.</div></li>
+          <li><div><b>Miles are rebalanced to hit the weekly target.</b> Easy days take the changes first, up to 3 miles each, and no run goes below 2 miles. Quality days and the long run change last. If there's no way to hit the target, it tells you instead of overloading the runs you have.</div></li>
+        </ol>
+        <div class="prose">
+          <p>Then the daily engine picks the actual workout for each day from 133 templates. It simulates seven training systems one day at a time and redoes the rest of the week every day based on what you actually ran.</p>
+          <p>A few safety rules override everything else. You get a forced rest day after 14 straight days of running, when you say you're sick, or when your readiness drops below 25 out of 100. The day before a race is a shakeout of 4 miles or less, and there's nothing hard in the three days before it.</p>
+          <p>When a run syncs from Strava, Dreamy asks why it went the way it did before it changes anything. If it was the heat or bad fueling, the plan stays the same. If your legs were heavy, it cuts the next day by 20 percent and adds more time before the next hard session. Every change shows what moved, and you can undo it.</p>
+          <figure class="shot phone">
+            <img src="img/dreamy-plan.webp" width="600" height="986" alt="A week in Dreamy's plan view: Monday easy with strides, Tuesday VO2max intervals, Wednesday rest, Thursday VO2max, Friday medium-long, Saturday long run, Sunday easy with strides." loading="lazy" decoding="async">
+            <figcaption>A peak week in the app, 55 miles over six runs</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="engine" aria-labelledby="engine-h">
+      <h2 id="engine-h">The engine</h2>
+      <p class="intro">For a few weeks in February an LLM was writing parts of the plan. It was expensive and it wasn't reliable, so I moved every training decision into regular code. I wanted LLM costs under $5 a month per runner, and I wanted the same data to always give the same plan. Now the LLM only talks to you about it.</p>
+      <div class="pipe" role="list" aria-label="How data flows through Dreamy">
+        <div class="stage" role="listitem">
+          <p class="tag">In</p>
+          <h3>Your data</h3>
+          <ul>
+            <li>Strava runs, heart rate streams and laps</li>
+            <li>HRV and resting heart rate from Intervals.icu</li>
+            <li>Weather for every run</li>
+            <li>Check-ins: sleep, soreness, days off</li>
+          </ul>
+        </div>
+        <div class="stage" role="listitem">
+          <p class="tag">Per run</p>
+          <h3>Run pipeline</h3>
+          <ul>
+            <li>Classifies the run and detects intervals</li>
+            <li>Training load, zones, efficiency, decoupling</li>
+            <li>Mines best efforts for the forecast</li>
+          </ul>
+        </div>
+        <div class="stage core" role="listitem">
+          <p class="tag">State</p>
+          <h3>Athlete state</h3>
+          <ul>
+            <li>Fitness and fatigue, 42 and 7 days</li>
+            <li>Seven adaptation systems</li>
+            <li>Fitness signals and readiness</li>
+          </ul>
+        </div>
+        <div class="stage core" role="listitem">
+          <p class="tag">Decide</p>
+          <h3>Daily engine</h3>
+          <ul>
+            <li>Week skeleton and mileage rules</li>
+            <li>Workout optimizer over 133 templates</li>
+            <li>Safety overrides</li>
+            <li>Race forecast</li>
+          </ul>
+        </div>
+        <div class="stage" role="listitem">
+          <p class="tag">Talk</p>
+          <h3>LLM coach</h3>
+          <ul>
+            <li>Claude, routed by question</li>
+            <li>96 tools that call the engine</li>
+            <li>Explains, answers, makes changes you ask for</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="systems" aria-labelledby="sys-h">
+        <div class="sys-head">
+          <h3 id="sys-h">Seven training systems, and how fast each one builds and fades</h3>
+          <div class="sys-key" aria-hidden="true"><span><i style="background:#7c6cf0"></i>Builds</span><span><i style="background:#f0a06c"></i>Fades</span></div>
+        </div>
+        <div class="sys-rows" role="table" aria-label="Adaptation time constants in days"><div class="sys" role="row"><div class="nm" role="rowheader">Aerobic efficiency<span>Mitochondria, capillaries</span></div><div class="bars" role="cell" aria-label="Builds over 30 days, fades over 35 days"><div class="track"><span class="fill b" style="width:30.0%"></span><span class="v num" style="left:30.0%">30</span></div><div class="track"><span class="fill d" style="width:35.0%"></span><span class="v num" style="left:35.0%">35</span></div></div></div><div class="sys" role="row"><div class="nm" role="rowheader">Aerobic threshold (LT1)<span>Easy-pace endurance</span></div><div class="bars" role="cell" aria-label="Builds over 25 days, fades over 40 days"><div class="track"><span class="fill b" style="width:25.0%"></span><span class="v num" style="left:25.0%">25</span></div><div class="track"><span class="fill d" style="width:40.0%"></span><span class="v num" style="left:40.0%">40</span></div></div></div><div class="sys" role="row"><div class="nm" role="rowheader">Lactate threshold (LT2)<span>Tempo and threshold</span></div><div class="bars" role="cell" aria-label="Builds over 18 days, fades over 28 days"><div class="track"><span class="fill b" style="width:18.0%"></span><span class="v num" style="left:18.0%">18</span></div><div class="track"><span class="fill d" style="width:28.0%"></span><span class="v num" style="left:28.0%">28</span></div></div></div><div class="sys" role="row"><div class="nm" role="rowheader">VO2max<span>Aerobic power</span></div><div class="bars" role="cell" aria-label="Builds over 28 days, fades over 49 days"><div class="track"><span class="fill b" style="width:28.0%"></span><span class="v num" style="left:28.0%">28</span></div><div class="track"><span class="fill d" style="width:49.0%"></span><span class="v num" style="left:49.0%">49</span></div></div></div><div class="sys" role="row"><div class="nm" role="rowheader">Anaerobic capacity<span>Short, hard efforts</span></div><div class="bars" role="cell" aria-label="Builds over 10 days, fades over 18 days"><div class="track"><span class="fill b" style="width:10.0%"></span><span class="v num" style="left:10.0%">10</span></div><div class="track"><span class="fill d" style="width:18.0%"></span><span class="v num" style="left:18.0%">18</span></div></div></div><div class="sys" role="row"><div class="nm" role="rowheader">Neuromuscular<span>Speed and economy</span></div><div class="bars" role="cell" aria-label="Builds over 32 days, fades over 32 days"><div class="track"><span class="fill b" style="width:32.0%"></span><span class="v num" style="left:32.0%">32</span></div><div class="track"><span class="fill d" style="width:32.0%"></span><span class="v num" style="left:32.0%">32</span></div></div></div><div class="sys" role="row"><div class="nm" role="rowheader">Musculoskeletal<span>Tendons and bones</span></div><div class="bars" role="cell" aria-label="Builds over 60 days, fades over 90 days"><div class="track"><span class="fill b" style="width:60.0%"></span><span class="v num" style="left:60.0%">60</span></div><div class="track"><span class="fill d" style="width:90.0%"></span><span class="v num" style="left:90.0%">90</span></div></div></div></div>
+        <div class="axis" aria-hidden="true"><span style="left:0.0%">0</span><span style="left:30.0%">30</span><span style="left:60.0%">60</span><span style="left:90.0%">90 days</span></div>
+      </div>
+      <div class="two" style="margin-top:22px">
+        <div class="prose">
+          <p>Each system builds and fades at its own speed, and the speeds come from the research. VO2max builds over about 28 days and fades over about 49. Tendons and bones are the slowest both ways.</p>
+          <p>How much you get out of a workout depends on how ready you were. On a bad day the model only counts 40 to 70 percent of the workout, so a slog doesn't count as full training.</p>
+        </div>
+        <p class="small">Time constants in days, from <code>simulator/constants.ts</code>: build then fade. Aerobic efficiency follows Granata 2016, VO2max follows Mujika &amp; Padilla, musculoskeletal follows Magnusson 2010.</p>
+      </div>
+    </section>
+
+    <section class="sec" id="forecast" aria-labelledby="fc-h">
+      <h2 id="fc-h">Race forecasting</h2>
+      <p class="intro">Most apps give you one predicted race time from one method. Dreamy runs a bunch of separate models, weights each one by how much evidence it has, and shows you how much they agree. This is my own half marathon forecast from March.</p>
+      <div class="forest" aria-labelledby="fr-h">
+        <h3 id="fr-h" class="sr-only">Half marathon forecast by model</h3>
+        <div class="fr-head">
+          <div class="kv"><div class="k">Blended estimate</div><div class="v big">1:31:04</div></div>
+          <div class="kv"><div class="k">Likely range</div><div class="v">1:27:53 to 1:34:30</div></div>
+          <div class="kv"><div class="k">Perfect-day ceiling</div><div class="v">1:25:08</div></div>
+          <div class="kv"><div class="k">Model agreement</div><div class="v">60%</div></div>
+        </div>
+        <div class="fr-grid" role="table" aria-label="Each model's half marathon estimate and weight">
+          <div class="fr-row" role="row"><div class="fr-name" role="rowheader">HR VO2max<small>VDOT 53.0</small></div><div class="fr-track"><span class="fr-overlay fr-band" style="left:21.57%;width:36.76%"></span><span class="fr-overlay fr-ceiling" style="left:6.30%"></span><span class="fr-overlay fr-blend" style="left:39.26%"></span><span class="fr-dot" style="left:16.30%;width:22.0px;height:22.0px" title="HR VO2max: 1:26:56, weight 27.2%"></span></div><div class="fr-val"><b>1:26:56</b>27.2%</div></div><div class="fr-row" role="row"><div class="fr-name" role="rowheader">Daniels Baseline<small>VDOT 49.9</small></div><div class="fr-track"><span class="fr-overlay fr-band" style="left:21.57%;width:36.76%"></span><span class="fr-overlay fr-ceiling" style="left:6.30%"></span><span class="fr-overlay fr-blend" style="left:39.26%"></span><span class="fr-dot" style="left:43.15%;width:17.6px;height:17.6px" title="Daniels Baseline: 1:31:46, weight 14.4%"></span></div><div class="fr-val"><b>1:31:46</b>14.4%</div></div><div class="fr-row" role="row"><div class="fr-name" role="rowheader">Personal Duration Curve<small>VDOT 51.6</small></div><div class="fr-track"><span class="fr-overlay fr-band" style="left:21.57%;width:36.76%"></span><span class="fr-overlay fr-ceiling" style="left:6.30%"></span><span class="fr-overlay fr-blend" style="left:39.26%"></span><span class="fr-dot" style="left:28.52%;width:17.4px;height:17.4px" title="Personal Duration Curve: 1:29:08, weight 13.8%"></span></div><div class="fr-val"><b>1:29:08</b>13.8%</div></div><div class="fr-row" role="row"><div class="fr-name" role="rowheader">Durability Decay<small>VDOT 49.6</small></div><div class="fr-track"><span class="fr-overlay fr-band" style="left:21.57%;width:36.76%"></span><span class="fr-overlay fr-ceiling" style="left:6.30%"></span><span class="fr-overlay fr-blend" style="left:39.26%"></span><span class="fr-dot" style="left:44.44%;width:17.1px;height:17.1px" title="Durability Decay: 1:32:00, weight 13.2%"></span></div><div class="fr-val"><b>1:32:00</b>13.2%</div></div><div class="fr-row" role="row"><div class="fr-name" role="rowheader">Critical Speed<small>VDOT 45.0</small></div><div class="fr-track"><span class="fr-overlay fr-band" style="left:21.57%;width:36.76%"></span><span class="fr-overlay fr-ceiling" style="left:6.30%"></span><span class="fr-overlay fr-blend" style="left:39.26%"></span><span class="fr-dot" style="left:90.46%;width:16.7px;height:16.7px" title="Critical Speed: 1:40:17, weight 12.2%"></span></div><div class="fr-val"><b>1:40:17</b>12.2%</div></div><div class="fr-row" role="row"><div class="fr-name" role="rowheader">Training Trajectory<small>VDOT 50.2</small></div><div class="fr-track"><span class="fr-overlay fr-band" style="left:21.57%;width:36.76%"></span><span class="fr-overlay fr-ceiling" style="left:6.30%"></span><span class="fr-overlay fr-blend" style="left:39.26%"></span><span class="fr-dot" style="left:41.20%;width:15.3px;height:15.3px" title="Training Trajectory: 1:31:25, weight 9.1%"></span></div><div class="fr-val"><b>1:31:25</b>9.1%</div></div><div class="fr-row" role="row"><div class="fr-name" role="rowheader">Race VDOT<small>VDOT 50.8</small></div><div class="fr-track"><span class="fr-overlay fr-band" style="left:21.57%;width:36.76%"></span><span class="fr-overlay fr-ceiling" style="left:6.30%"></span><span class="fr-overlay fr-blend" style="left:39.26%"></span><span class="fr-dot" style="left:34.44%;width:13.1px;height:13.1px" title="Race VDOT: 1:30:12, weight 5.3%"></span></div><div class="fr-val"><b>1:30:12</b>5.3%</div></div><div class="fr-row" role="row"><div class="fr-name" role="rowheader">Historical Block Comparison<small>VDOT 50.7</small></div><div class="fr-track"><span class="fr-overlay fr-band" style="left:21.57%;width:36.76%"></span><span class="fr-overlay fr-ceiling" style="left:6.30%"></span><span class="fr-overlay fr-blend" style="left:39.26%"></span><span class="fr-dot" style="left:45.65%;width:12.7px;height:12.7px" title="Historical Block Comparison: 1:32:13, weight 4.8%"></span></div><div class="fr-val"><b>1:32:13</b>4.8%</div></div><div class="fr-row" role="row"><div class="fr-name" role="rowheader">Interval Peaks<small>Sat out</small></div><div class="fr-track"><span class="fr-overlay fr-band" style="left:21.57%;width:36.76%"></span><span class="fr-overlay fr-ceiling" style="left:6.30%"></span><span class="fr-overlay fr-blend" style="left:39.26%"></span><span class="fr-none">Not enough data</span></div><div class="fr-val"><b>&ndash;</b>0.0%</div></div><div class="fr-row" role="row"><div class="fr-name" role="rowheader">Comparable Runners<small>Sat out</small></div><div class="fr-track"><span class="fr-overlay fr-band" style="left:21.57%;width:36.76%"></span><span class="fr-overlay fr-ceiling" style="left:6.30%"></span><span class="fr-overlay fr-blend" style="left:39.26%"></span><span class="fr-none">Not enough data</span></div><div class="fr-val"><b>&ndash;</b>0.0%</div></div>
+          <div class="fr-axis-row" aria-hidden="true"><div></div><div class="fr-axis"><span style="left:0.00%">1:24</span><span style="left:16.67%">1:27</span><span style="left:33.33%">1:30</span><span style="left:50.00%">1:33</span><span style="left:66.67%">1:36</span><span style="left:83.33%">1:39</span><span style="left:100.00%">1:42</span></div><div></div></div>
+        </div>
+        <div class="fr-key" aria-hidden="true">
+          <span><i class="k-dot"></i>Model estimate, sized by weight</span>
+          <span><i class="k-blend"></i>Blend</span>
+          <span><i class="k-band"></i>Likely range</span>
+          <span><i class="k-ceiling"></i>Perfect-day ceiling</span>
+        </div>
+        <p class="fine">My half marathon forecast as the app showed it in March 2026: ten models, eight with enough data to vote, with HR VO2max carrying the most weight. By April the engine ran nine live models plus a durability adjustment.</p>
+      </div>
+      <div class="two">
+        <div class="prose">
+          <p>Each model gives an estimate, how confident it is, why, and what data would make it better. Its weight is a base weight times that confidence. Models that drift away from your actual races lose weight, and too-optimistic ones lose it faster: a model 8 percent faster than your races gets zero weight, while a slow one gets there at 10 percent. Models that use the same inputs don't count as separate votes when the range is worked out.</p>
+          <p>The anchor is a small meta-analysis of your own races, pooled with random effects (Paule-Mandel, with the Hartung-Knapp correction). A race that went wrong counts as censored data, and old races you've since beaten count as floors so they don't drag the estimate down.</p>
+          <p>The range comes from six named sources of uncertainty, and it leans slow because more things go wrong on race day than right. The fast end is your perfect-day time. The weights were still set by hand when I stopped building full time. The part that would tune them against real race results wasn't running yet.</p>
+        </div>
+        <figure class="shot">
+          <img src="img/dreamy-disagree.webp" width="900" height="789" alt="Dreamy's race predictions card showing VDOT 49.8 with low confidence and 28 percent agreement, flagging significant disagreement of plus or minus 4.1 VDOT with the heart-rate VO2max model as the outlier." loading="lazy" decoding="async">
+          <figcaption>When the models disagree, the app shows which one it thinks is off.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="sec" id="research" aria-labelledby="rs-h">
+      <h2 id="rs-h">The research</h2>
+      <p class="intro">I wanted every rule in the engine to trace back to a source. I ran the research through ChatGPT and Gemini deep research and Claude at the same time, compared what they found, had them check each other, and gave them a ton of direction from my own running. Claude Code turned the results into reference docs in the repo before building anything, and for the forecast nothing got built until I signed off. Then I had Codex audit the code over seven rounds.</p>
+      <ol class="timeline">
+        <li><time>Jan 2025</time><span>I start writing a marathon coaching prompt for ChatGPT. By September it's 6,000 words.</span></li>
+        <li><time>Jan 28, 2026</time><span>First commit.</span></li>
+        <li><time>Feb 19</time><span>Same research question to Claude, Gemini and ChatGPT. I merge the three answers with my roadmap.</span></li>
+        <li><time>Feb 23</time><span>I decide to move every training decision into code. The LLM just talks.</span></li>
+        <li><time>Mar 1</time><span>Pace Zone Atlas: 22 coaching systems' zones on one axis.</span></li>
+        <li><time>Mar 2</time><span>Seven-system simulator with research-backed constants. Single-run spike detection replaces the acute:chronic workload ratio.</span></li>
+        <li><time>Mar 10 to 15</time><span>Deep research reports on training adaptation and race forecasting.</span></li>
+        <li><time>Mar 20</time><span>Multi-model review of the forecast and a redesign plan.</span></li>
+        <li><time>Apr 7</time><span>Race anchor research: 15 questions to three sources. I sign off before any code.</span></li>
+        <li><time>Apr 8 to 10</time><span>Codex audit, rounds 1 to 7.</span></li>
+        <li><time>Apr 20</time><span>Last commit.</span></li>
+      </ol>
+      <div class="reading">
+        <div>
+          <h3>In the engine</h3>
+          <ul class="refs">
+            <li><span class="src">Daniels &amp; Gilbert</span><span class="use">VDOT and training paces</span></li>
+            <li><span class="src">Pfitzinger</span><span class="use">Periodization and recovery hours by workout type</span></li>
+            <li><span class="src">Hansons</span><span class="use">16-mile long run cap and cumulative fatigue</span></li>
+            <li><span class="src">Canova</span><span class="use">Race-specific work at 95 to 105 percent of goal pace</span></li>
+            <li><span class="src">Seiler 2010, Fitzgerald</span><span class="use">The 80/20 intensity split</span></li>
+            <li><span class="src">Bowerman</span><span class="use">48 hours between hard days</span></li>
+            <li><span class="src">Banister 1975</span><span class="use">Fitness and fatigue with 42- and 7-day time constants</span></li>
+            <li><span class="src">Mujika &amp; Padilla; Granata 2016</span><span class="use">How fast fitness fades</span></li>
+            <li><span class="src">Joyner &amp; Coyle 2008</span><span class="use">Threshold capped at 85 to 90 percent of VO2max</span></li>
+            <li><span class="src">5,200-runner cohort, BJSM 2025</span><span class="use">Injury risk from single-run spikes</span></li>
+            <li><span class="src">Ely 2007; El Helou 2012</span><span class="use">Heat and dew point slowdown, scaled by ability</span></li>
+            <li><span class="src">Minetti 2002</span><span class="use">The energy cost of hills</span></li>
+            <li><span class="src">Riegel 1981; Tanda 2011</span><span class="use">Race-time models</span></li>
+            <li><span class="src">Paule-Mandel; Hartung-Knapp; Tukey</span><span class="use">Statistics for the race anchor</span></li>
+          </ul>
+        </div>
+        <div>
+          <h3>What the research threw out</h3>
+          <ul class="cut">
+            <li><b>The acute:chronic workload ratio</b>Criticized in the literature; replaced by spike detection on single runs.</li>
+            <li><b>The 10 percent rule</b>No evidence behind it; replaced by tunable ramp caps and down weeks.</li>
+            <li><b>A fixed Riegel exponent</b>Runs too fast at the marathon; replaced by exponents per distance pair.</li>
+            <li><b>A single training-stress number</b>Replaced by seven systems that each build and fade at their own speed.</li>
+            <li><b>Reinforcement learning</b>Deferred until there's a safe way to evaluate it offline.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="build" aria-labelledby="bd-h">
+      <h2 id="bd-h">How I built it</h2>
+      <div class="two">
+        <div class="prose">
+          <p>Claude Code wrote the code. I decided what the engine should do, did the research behind it, and checked whether its plans actually held up. To tune it I ran real runners' training histories through it, had LLMs grade the plans against the research and suggest rule changes, and reviewed every round myself.</p>
+          <p>I set the repo up for working with AI. A CLAUDE.md sets the rules, like keeping the engine away from the database and never rewriting the VDOT math. When I corrected something, it went into a lessons file as a new rule. A test fails the build if any API route doesn't say who's allowed to call it, and every change runs type checks, lint, all the tests and a production build.</p>
+        </div>
+        <figure class="shot phone" style="max-width:240px">
+          <img src="img/dreamy-coach.webp" width="600" height="1266" alt="Dreamy's coach chat screen with the sheep mascot and suggested prompts like Ready to run, Log a run and Week review." loading="lazy" decoding="async">
+          <figcaption>When you ask the coach something, it calls the same engine that built your plan.</figcaption>
+        </figure>
+      </div>
+      <p class="count">From the repo: 1,985 commits between January 28 and April 20, 95 percent of them co-authored with Claude; about 16,000 automated tests in 281 files; 332,000 lines of code; 63 database tables; 96 tools the coach can call; and 133 workout templates.</p>
+      <h3 style="margin-top:44px;font-size:19px">What I learned from the beta</h3>
+      <ul class="lessons">
+        <li><b>Heart-rate VO2max can flatter you.</b>One runner's heart-rate model said VDOT 54 while their races said 46 to 48. Now any estimate that runs way ahead of real races gets set aside.</li>
+        <li><b>Most of the early bugs were in the data, not the models.</b>One runner's import quietly failed on 922 of 1,211 runs.</li>
+        <li><b>Plans have to know about races.</b>After a race, one plan jumped 30 percent in mileage. The week after a race is now capped at a 15 percent increase.</li>
+        <li><b>Related fixes have to ship together.</b>One runner's forecast only came out right once four model fixes landed at the same time, so model changes now go out together.</li>
+      </ul>
+    </section>
+
+    <section class="sec" id="compare" aria-labelledby="cmp-h">
+      <h2 id="cmp-h">How it compares</h2>
+      <p class="intro">Here's how it compares with the other apps, a plan from ChatGPT, a human coach and a book plan, based on each company's own help and pricing pages as of September 27, 2026. The others are ahead on watch apps, strength plans, real human coaching and scale. Dreamy is a web app that syncs with Strava.</p>
+      <div class="cmp-wrap">
+        <table class="cmp">
+          <thead>
+            <tr><th scope="col">Option</th><th scope="col">Days you can't run</th><th scope="col">Explains why</th><th scope="col">Race forecast</th><th scope="col">Price</th></tr>
+          </thead>
+          <tbody>
+            <tr class="me"><th scope="row">Dreamy</th><td data-l="Days you can't run">Rebuilds the week around them; run days flex from 4 to 7</td><td data-l="Explains why">Each day carries the rule that set it; the coach answers follow-ups</td><td data-l="Race forecast">Several models blended, with agreement and a range</td><td data-l="Price" class="price">Private beta</td></tr>
+            <tr><th scope="row">Runna</th><td data-l="Days you can't run">Skipping adapts the plan; after more than three misses it asks how to realign. Moving runs is manual.</td><td data-l="Explains why">Explains pace changes; AI feedback after runs</td><td data-l="Race forecast">One undisclosed model, with a range</td><td data-l="Price" class="price">$19.99/mo</td></tr>
+            <tr><th scope="row">Garmin Coach</th><td data-l="Days you can't run">Adapts going forward from runs, sleep and readiness; users report missed workouts can't be rescheduled</td><td data-l="Explains why">Templated what, how and why on each workout</td><td data-l="Race forecast">One model from VO2 max and history, a single time</td><td data-l="Price" class="price">Free with a watch</td></tr>
+            <tr><th scope="row">TrainAsONE</th><td data-l="Days you can't run">Regenerates the whole plan overnight; blocking a day rebuilds it</td><td data-l="Explains why">No per-workout explanation documented</td><td data-l="Race forecast">Machine learning on your history; no range documented</td><td data-l="Price" class="price">Free tier; &pound;9.99/mo</td></tr>
+            <tr><th scope="row">TrainingPeaks</th><td data-l="Days you can't run">Manual drag and drop</td><td data-l="Explains why">Coach notes, if you have a coach</td><td data-l="Race forecast">No predictor; a fitness chart instead</td><td data-l="Price" class="price">$19.95/mo</td></tr>
+            <tr><th scope="row">ChatGPT plan</th><td data-l="Days you can't run">You re-prompt it; the new plan can contradict the old one</td><td data-l="Explains why">Explains confidently, but nothing checks it against the research</td><td data-l="Race forecast">A guess, with no model behind it</td><td data-l="Price" class="price">$20/mo</td></tr>
+            <tr><th scope="row">Human coach</th><td data-l="Days you can't run">Yes, by hand, as often as the package allows</td><td data-l="Explains why">Yes</td><td data-l="Race forecast">Judgment</td><td data-l="Price" class="price">~$150 to $180/mo</td></tr>
+            <tr><th scope="row">Book plan</th><td data-l="Days you can't run">No; a fixed schedule</td><td data-l="Explains why">Explains the method, not your week</td><td data-l="Race forecast">Static tables, like Daniels' VDOT</td><td data-l="Price" class="price">$20 to $30 once</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 style="margin-top:46px;font-size:19px">Built before the big platforms shipped it</h3>
+      <table class="early">
+        <thead><tr><th scope="col">Feature</th><th scope="col">Dreamy</th><th scope="col">The big platforms</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">A coach you chat with that reads your training history</th><td data-l="Dreamy" class="d">Feb 2026</td><td data-l="The big platforms">COROS connector for ChatGPT and Claude, May 2026. Google's Gemini health coach, May 2026. Strava's Claude connector, June 2026.</td></tr>
+          <tr><th scope="row">Training paces adjusted for heat and humidity</th><td data-l="Dreamy" class="d">Jan 2026</td><td data-l="The big platforms">Runna, July 2026. My standalone heat calculator has been live since 2024.</td></tr>
+          <tr><th scope="row">Several forecast models blended, with an agreement score and a range</th><td data-l="Dreamy" class="d">Mar 2026</td><td data-l="The big platforms">Not in Runna, Strava, Garmin or COROS as of September 2026. Each shows one model's number; Runna adds a range.</td></tr>
+          <tr><th scope="row">Pace zones compared across coaching systems</th><td data-l="Dreamy" class="d">Mar 2026</td><td data-l="The big platforms">No app found as of September 2026.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="pause">
+        <h3>Why I stopped building it full time</h3>
+        <p>I stopped building full time in April. I still tinker with it and use it to make training plans, but I haven&rsquo;t pushed it past the beta. Over the next few months the big platforms started shipping things Dreamy already had. Google launched a Gemini health coach, Strava (which already owned Runna) launched a connector so Claude can read your Strava data, Runna added heat-adjusted paces, and Garmin bought TrainingPeaks. Strava alone has more than 180 million users.</p>
+        <p>That was part of why I didn't go further with it. The ideas held up, but a one-person app wasn't going to beat them on distribution. The part I'd do the same way anywhere is the process. I started from a problem runners actually have, turned the research into rules the code follows, and shipped it with Claude Code in twelve weeks.</p>
+      </div>
+
+      <p class="sources">Sources:
+        Runna <a href="https://support.runna.com/en/articles/15012850-how-and-when-to-skip-a-run-managing-missed-sessions-in-your-training-plan">skipping</a>, <a href="https://support.runna.com/en/articles/10026375-how-to-use-the-plan-realignment-feature">realignment</a>, <a href="https://support.runna.com/en/articles/14656203-what-are-pace-insights-and-how-do-they-work">pace insights</a>, <a href="https://support.runna.com/en/articles/6251445-how-is-my-target-race-time-predicted">predictions</a>, <a href="https://www.runna.com/pricing">pricing</a>, <a href="https://www.runna.com/press/runna-announces-new-updates">heat update</a>;
+        Garmin <a href="https://www.garmin.com/en-US/newsroom/press-release/wearables-health/train-smarter-with-personalized-garmin-coach-training-plans-that-can-adapt-to-help-you-reach-your-goals/">adaptive plans</a>, <a href="https://forums.garmin.com/apps-software/mobile-apps-web/f/garmin-connect-web/400635/reschedule-a-missed-workout-in-garmin-coach-plan">forum on missed workouts</a>, <a href="https://the5krunner.com/2024/11/12/garmin-adaptive-plans-get-improved-explanations/">explanations</a>, <a href="https://www8.garmin.com/manuals/webhelp/GUID-025D75CF-3445-49E1-8D81-1AA74AB4E00F/EN-US/GUID-31B2458A-859A-4A34-AB83-224E4A29387A.html">race predictor</a>, <a href="https://www.garmin.com/en-US/newsroom/press-release/corporate/garmin-acquires-trainingpeaks-and-trainheroic-leading-endurance-and-strength-training-platforms-for-athletes-and-coaches/">TrainingPeaks acquisition</a>;
+        TrainAsONE <a href="https://trainasone.com/faqs/2025/i-missed-a-workout-and-now-it-has-disappeared-how-can-i-do-it-today">missed runs</a>, <a href="https://trainasone.com/faqs/2022/how-do-i-tell-trainasone-that-i-cannot-run-on-a-specific-day">blocked days</a>, <a href="https://trainasone.com/faqs/2022/does-trainasone-provide-race-time-predictions">predictions</a>, <a href="https://trainasone.com/pricing">pricing</a>;
+        TrainingPeaks <a href="https://help.trainingpeaks.com/hc/en-us/articles/204072164-How-do-I-move-a-workout">moving workouts</a>, <a href="https://www.trainingpeaks.com/pricing/for-athletes/">pricing</a>;
+        <a href="https://marathonhandbook.com/how-much-does-a-running-coach-cost/">coaching costs</a>;
+        <a href="https://coros.com/stories/coros-metrics/c/mcp-testing">COROS connector</a>;
+        <a href="https://blog.google/products-and-platforms/products/google-health/google-health-coach/">Google Health Coach</a>;
+        <a href="https://press.strava.com/articles/strava-launches-mcp-connector">Strava connector</a>, <a href="https://press.strava.com/articles/strava-to-acquire-runna-a-leading-running-training-app">Runna acquisition</a>.
+        Dreamy dates are from the repository's commit history.
+      </p>
+    </section>
+
+    <section class="sec" id="screens" aria-labelledby="sc-h">
+      <h2 id="sc-h">Screenshots</h2>
+      <div class="gallery">
+        <figure class="shot"><img src="img/dreamy-today.webp" width="600" height="857" alt="Today screen with a race countdown and the day's easy run." loading="lazy" decoding="async"><figcaption>Today, three days before a half marathon</figcaption></figure>
+        <figure class="shot"><img src="img/dreamy-week.webp" width="600" height="857" alt="This Week screen after one swap: Wednesday's tempo became a rest day and Thursday carries the quality session." loading="lazy" decoding="async"><figcaption>A week after one swap</figcaption></figure>
+        <figure class="shot"><img src="img/dreamy-why.webp" width="600" height="982" alt="Why This Felt Hard: high recent volume and a hard run the day before, with a training adaptation profile below." loading="lazy" decoding="async"><figcaption>Why a run felt hard, and what it trained</figcaption></figure>
+        <figure class="shot"><img src="img/dreamy-training.webp" width="600" height="927" alt="How Is My Training: the mix is imbalanced, with a suggestion to add about 15 minutes a week of VO2max work." loading="lazy" decoding="async"><figcaption>Training balance, with a specific fix</figcaption></figure>
+        <figure class="shot"><img src="img/dreamy-forecast.webp" width="600" height="857" alt="The race forecast with each model's estimate, VDOT, confidence and weight." loading="lazy" decoding="async"><figcaption>The model explorer</figcaption></figure>
+        <figure class="shot"><img src="img/dreamy-atlas.webp" width="600" height="1055" alt="The Pace Zone Atlas comparing how coaching systems from Lydiard to Garmin define each pace zone." loading="lazy" decoding="async"><figcaption>Pace Zone Atlas: 22 systems, approximate mappings</figcaption></figure>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>The numbers on this page come from Dreamy's repo (last commit April 20, 2026) and the app's screens. The forecast is my own half marathon data.</p>
+    <p><a href="./">Back to the portfolio</a> &middot; jtraum@wharton.upenn.edu</p>
+  </footer>
+</div>
+<script>
+(function () {
+  'use strict';
+
+  // ---------------------------------------------------------------------------
+  // Starfield behind the hero. Static, drawn once, seeded so it looks the same
+  // on every load.
+  // ---------------------------------------------------------------------------
+  var canvas = document.getElementById('stars');
+  function drawStars() {
+    if (!canvas || !canvas.getContext) return;
+    var rect = canvas.getBoundingClientRect();
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(rect.width * dpr);
+    canvas.height = Math.round(rect.height * dpr);
+    var ctx = canvas.getContext('2d');
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, rect.width, rect.height);
+    var seed = 20260128;
+    var rand = function () { seed = (seed * 1664525 + 1013904223) % 4294967296; return seed / 4294967296; };
+    var count = Math.round((rect.width * rect.height) / 5200);
+    for (var i = 0; i < count; i++) {
+      var x = rand() * rect.width;
+      var y = rand() * rect.height;
+      var r = rand() < 0.93 ? 0.6 + rand() * 0.6 : 1.1 + rand() * 0.7;
+      var a = 0.12 + rand() * 0.5;
+      var tint = rand();
+      ctx.fillStyle = tint < 0.15 ? 'rgba(196,181,253,' + a + ')' : tint < 0.2 ? 'rgba(240,160,108,' + a + ')' : 'rgba(237,237,242,' + a + ')';
+      ctx.beginPath();
+      ctx.arc(x, y, r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+  drawStars();
+  var resizeTimer;
+  window.addEventListener('resize', function () {
+    window.clearTimeout(resizeTimer);
+    resizeTimer = window.setTimeout(drawStars, 150);
+  });
+
+  // ---------------------------------------------------------------------------
+  // Week builder: a simplified port of Dreamy's week-skeleton.ts
+  // (generateWeekSkeleton with respectExplicitTargets, as used when a runner
+  // marks days off) and mileage-enforcement.ts (enforceMileageTarget), with the
+  // MILEAGE_DISTRIBUTION table from training-status.ts.
+  // Days are 0 = Monday ... 6 = Sunday.
+  // ---------------------------------------------------------------------------
+  var SHORT = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  var FULL = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  var ROLE_LABEL = { long: 'Long run', quality: 'Quality', easy: 'Easy', recovery: 'Recovery', off: 'Off', rest: 'Rest' };
+  var ROLE_SHORT = { long: 'Long', quality: 'Quality', easy: 'Easy', recovery: 'Recov.', off: 'Off', rest: 'Rest' };
+
+  var PREFS = { longDay: 5, qualityDays: [1, 3], qualityTarget: 2 };
+
+  // Mirrors MILEAGE_DISTRIBUTION in training-status.ts
+  var DIST = {
+    3: { long: 0.35, quality: 0.33, easy: 0.32 },
+    4: { long: 0.30, quality: 0.25, easy: 0.25, easy2: 0.20 },
+    5: { long: 0.25, quality: 0.16, quality2: 0.16, easy: 0.22, easy2: 0.21 },
+    6: { long: 0.23, quality: 0.15, quality2: 0.14, medium_long: 0.16, easy: 0.17, easy2: 0.15 },
+    7: { long: 0.21, quality: 0.14, quality2: 0.13, medium_long: 0.15, easy: 0.14, easy2: 0.12, recovery: 0.11 }
+  };
+
+  function round1(x) { return Math.round(x * 10) / 10; }
+  // daysBetween(from, to): forward distance, wrapping; same day counts as 7.
+  function daysBetween(from, to) { var d = to - from; return d > 0 ? d : d + 7; }
+  function gap(a, b) { return Math.min(daysBetween(a, b), daysBetween(b, a)); }
+
+  function fallbackLongRunDays(pref) {
+    var weekend = [5, 6];
+    var candidates = weekend.filter(function (d) { return d !== pref; });
+    var rest = [0, 1, 2, 3, 4, 5, 6]
+      .filter(function (d) { return d !== pref && candidates.indexOf(d) === -1; })
+      .sort(function (a, b) { return gap(pref, a) - gap(pref, b); });
+    return candidates.concat(rest);
+  }
+
+  function skeleton(blocked, prefs) {
+    var A = [null, null, null, null, null, null, null];
+    blocked.forEach(function (d) { A[d] = { role: 'off', why: "You can't run" }; });
+    var runsTarget = 7 - blocked.length;
+
+    // Long run: preferred day, else fallback order.
+    var L = null;
+    if (runsTarget > 0) {
+      if (!A[prefs.longDay]) {
+        A[prefs.longDay] = { role: 'long', why: 'Long run on your preferred day' };
+        L = prefs.longDay;
+      } else {
+        var fb = fallbackLongRunDays(prefs.longDay);
+        for (var i = 0; i < fb.length; i++) {
+          if (!A[fb[i]]) {
+            A[fb[i]] = { role: 'long', why: 'Long run moved from ' + FULL[prefs.longDay] };
+            L = fb[i];
+            break;
+          }
+        }
+      }
+    }
+
+    // Recovery the day after the long run.
+    if (L !== null) {
+      var n = (L + 1) % 7;
+      if (!A[n]) A[n] = { role: 'recovery', why: 'Recovery the day after the long run' };
+    }
+
+    // Quality: preferred days first, then any open day that fits
+    // (not next to the long run, 48 hours from other quality days).
+    var placed = [];
+    function canPlace(d) {
+      if (A[d]) return false;
+      if (L !== null && (daysBetween(d, L) === 1 || daysBetween(L, d) === 1)) return false;
+      for (var k = 0; k < placed.length; k++) if (gap(placed[k], d) < 2) return false;
+      return true;
+    }
+    prefs.qualityDays.forEach(function (d) {
+      if (placed.length >= prefs.qualityTarget) return;
+      if (canPlace(d)) { A[d] = { role: 'quality', why: 'Quality on a preferred day' }; placed.push(d); }
+    });
+    [0, 1, 2, 3, 4, 5, 6].filter(function (d) { return prefs.qualityDays.indexOf(d) === -1; }).forEach(function (d) {
+      if (placed.length >= prefs.qualityTarget) return;
+      if (canPlace(d)) { A[d] = { role: 'quality', why: "Quality moved here; the usual day doesn't work this week" }; placed.push(d); }
+    });
+
+    // Fill the rest: easy runs up to the run target, else rest.
+    for (var d = 0; d < 7; d++) {
+      if (A[d]) continue;
+      var runs = A.filter(function (x) { return x && x.role !== 'off' && x.role !== 'rest'; }).length;
+      if (runs >= runsTarget) { A[d] = { role: 'rest', why: 'Rest to match runs this week' }; continue; }
+      var hard = placed.concat(L !== null ? [L] : [prefs.longDay]);
+      var buffer = hard.some(function (h) { return gap(h, d) === 1; });
+      A[d] = { role: 'easy', why: buffer ? 'Easy buffer next to a hard day' : 'Easy aerobic run' };
+    }
+    return { days: A, longDay: L, quality: placed };
+  }
+
+  function mileage(sk, weekly) {
+    var runDays = sk.days.filter(function (x) { return x.role !== 'off' && x.role !== 'rest'; }).length;
+    var longTarget = sk.longDay !== null ? Math.round(weekly * 0.3) : 0;
+    var miles = [0, 0, 0, 0, 0, 0, 0];
+    if (runDays === 0) return { miles: miles, adjustments: [], impossible: false, short: 0, total: 0, longTarget: 0 };
+
+    // computeDayMileageTargets
+    var p = DIST[Math.min(Math.max(runDays, 3), 7)];
+    var remaining = Math.max(0, weekly - longTarget);
+    var sum = 0;
+    Object.keys(p).forEach(function (k) { if (k !== 'long') sum += p[k]; });
+    var t = {};
+    Object.keys(p).forEach(function (k) { t[k] = k === 'long' ? longTarget : round1(remaining * p[k] / sum); });
+
+    // getMileageForRole
+    sk.days.forEach(function (x, i) {
+      if (x.role === 'long') miles[i] = t.long;
+      else if (x.role === 'quality') miles[i] = Math.min(t.quality != null ? t.quality : t.quality2, sk.longDay !== null ? t.long : Infinity);
+      else if (x.role === 'easy') miles[i] = t.easy != null ? t.easy : t.easy2;
+      else if (x.role === 'recovery') miles[i] = t.recovery != null ? t.recovery : round1(weekly * 0.10);
+      else miles[i] = 0;
+    });
+
+    // Easy days stay at or under 80% of the long run (top of the medium-long range).
+    var cap = sk.longDay !== null ? round1(0.8 * longTarget) : Infinity;
+    var capped = [];
+    sk.days.forEach(function (x, i) {
+      if (x.role === 'easy' && miles[i] > cap) { miles[i] = cap; capped.push(i); }
+    });
+
+    // enforceMileageTarget
+    var TOL = 1.0;
+    var total = miles.reduce(function (s, v) { return s + v; }, 0);
+    var rem = weekly - total;
+    var adjustments = [];
+    function pass(roles, maxFor, adding) {
+      roles.forEach(function (role) {
+        if (Math.abs(rem) <= TOL) return;
+        for (var i = 0; i < 7; i++) {
+          if (Math.abs(rem) <= TOL) break;
+          if (sk.days[i].role !== role) continue;
+          if (adding) {
+            var room = role === 'easy' ? cap - miles[i] : role === 'quality' && sk.longDay !== null ? miles[sk.longDay] - miles[i] : Infinity;
+            var add = Math.min(rem, maxFor(role), room);
+            if (add <= 0) { if (role === 'easy' && capped.indexOf(i) === -1) capped.push(i); continue; }
+            adjustments.push({ day: i, miles: round1(add) });
+            rem -= add;
+            if (role === 'easy' && add < Math.min(rem + add, maxFor(role)) && capped.indexOf(i) === -1) capped.push(i);
+          } else {
+            var floor = { long: 6, quality: 4, medium_long: 3 }[role] || 2;
+            var maxRemove = Math.max(0, miles[i] - floor);
+            var remove = Math.min(Math.abs(rem), maxRemove);
+            if (remove > 0) { adjustments.push({ day: i, miles: -round1(remove) }); rem += remove; }
+          }
+        }
+      });
+    }
+    if (Math.abs(rem) > TOL) {
+      if (rem > 0) {
+        pass(['easy', 'medium_long'], function (r) { return r === 'easy' ? 3 : 2; }, true);
+        if (Math.abs(rem) > TOL) pass(['quality', 'recovery', 'long'], function (r) { return r === 'quality' ? 2 : r === 'recovery' ? 1.5 : 2; }, true);
+      } else {
+        pass(['easy', 'medium_long'], null, false);
+        if (Math.abs(rem) > TOL) pass(['quality', 'long'], null, false);
+      }
+    }
+    adjustments.forEach(function (a) { miles[a.day] = round1(miles[a.day] + a.miles); });
+    var finalTotal = round1(miles.reduce(function (s, v) { return s + v; }, 0));
+    return { miles: miles, adjustments: adjustments, impossible: Math.abs(rem) > TOL, short: round1(rem), total: finalTotal, longTarget: longTarget, capped: capped, cap: cap };
+  }
+
+  // ---------------------------------------------------------------------------
+  // UI
+  // ---------------------------------------------------------------------------
+  var weekEl = document.getElementById('week');
+  var summaryEl = document.getElementById('week-summary');
+  var changesEl = document.getElementById('changes');
+  var whyEl = document.getElementById('why');
+  var miInput = document.getElementById('mi');
+  var miOut = document.getElementById('mi-out');
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip'));
+  if (!weekEl) return;
+
+  var blocked = [];
+  var weekly = 40;
+
+  function fmt(x) { return (Math.round(x * 10) / 10).toFixed(1).replace(/\.0$/, ''); }
+  function listDays(ds) {
+    var names = ds.slice().sort(function (a, b) { return a - b; }).map(function (d) { return FULL[d]; });
+    if (names.length <= 1) return names.join('');
+    return names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1];
+  }
+
+  function render() {
+    var sk = skeleton(blocked.slice().sort(), PREFS);
+    var ml = mileage(sk, weekly);
+    var base = skeleton([], PREFS);
+    var baseMl = mileage(base, weekly);
+    var maxMiles = Math.max(ml.longTarget + 2, 8, Math.max.apply(null, ml.miles));
+
+    weekEl.innerHTML = '';
+    for (var d = 0; d < 7; d++) {
+      var info = sk.days[d];
+      var isOff = info.role === 'off';
+      var changed = !isOff && (info.role !== base.days[d].role);
+      var wrap = document.createElement('div');
+      wrap.className = 'day';
+
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'day-btn';
+      btn.setAttribute('aria-pressed', isOff ? 'true' : 'false');
+      btn.setAttribute('aria-label', FULL[d] + (isOff ? ": can't run. Tap to make it available." : ': available. Tap if you can\'t run.'));
+      btn.innerHTML = '<span>' + SHORT[d] + '</span><span class="state">' + (isOff ? "can't" : 'open') + '</span>';
+      (function (day) { btn.addEventListener('click', function () { toggle(day); }); })(d);
+
+      var col = document.createElement('div');
+      col.className = 'col' + (isOff ? ' off' : '') + (changed ? ' changed' : '');
+      if (!isOff && info.role !== 'rest') {
+        var m = document.createElement('div');
+        m.className = 'mi';
+        m.textContent = fmt(ml.miles[d]);
+        var bar = document.createElement('div');
+        bar.className = 'bar-v bg-' + info.role;
+        bar.style.height = Math.max(4, Math.round((ml.miles[d] / maxMiles) * 100)) + '%';
+        var inner = document.createElement('div');
+        inner.style.cssText = 'display:flex;flex-direction:column;justify-content:flex-end;height:100%';
+        inner.appendChild(m);
+        inner.appendChild(bar);
+        col.appendChild(inner);
+      }
+
+      var role = document.createElement('div');
+      role.className = 'role r-' + info.role;
+      role.textContent = window.innerWidth < 560 ? ROLE_SHORT[info.role] : ROLE_LABEL[info.role];
+
+      wrap.appendChild(btn);
+      wrap.appendChild(col);
+      wrap.appendChild(role);
+      weekEl.appendChild(wrap);
+    }
+
+    // Summary
+    var runCount = sk.days.filter(function (x) { return x.role !== 'off' && x.role !== 'rest'; }).length;
+    if (runCount === 0) {
+      summaryEl.innerHTML = "<span>Every day is blocked, so there's nothing to schedule.</span>";
+    } else {
+      var parts = ['<span><b>' + runCount + '</b> ' + (runCount === 1 ? 'run' : 'runs') + '</span>',
+        '<span><b>' + fmt(ml.total) + '</b> miles, target ' + weekly + '</span>'];
+      if (sk.longDay !== null) parts.push('<span>Long run <b>' + fmt(ml.miles[sk.longDay]) + '</b> mi on ' + FULL[sk.longDay] + '</span>');
+      parts.push('<span><b>' + sk.quality.length + '</b> quality ' + (sk.quality.length === 1 ? 'session' : 'sessions') + '</span>');
+      summaryEl.innerHTML = parts.join('');
+    }
+
+    // What changed versus an open week
+    var notes = [];
+    if (blocked.length > 0 && runCount > 0) {
+      if (sk.longDay !== base.longDay) {
+        notes.push(sk.longDay === null ? 'No long run this week.' : 'Long run moved from ' + FULL[base.longDay] + ' to ' + FULL[sk.longDay] + '.');
+      }
+      var movedTo = sk.quality.filter(function (d) { return base.quality.indexOf(d) === -1; });
+      var lostFrom = base.quality.filter(function (d) { return sk.quality.indexOf(d) === -1; });
+      if (movedTo.length && lostFrom.length) {
+        notes.push('Quality moved from ' + listDays(lostFrom.slice(0, movedTo.length)) + ' to ' + listDays(movedTo) + '.');
+      }
+      if (sk.quality.length < base.quality.length) {
+        notes.push((base.quality.length - sk.quality.length === 1 ? 'One quality session dropped' : 'Both quality sessions dropped') +
+          ": no open day is 48 hours from the other hard days, and nothing doubles up.");
+      }
+      if (sk.longDay !== null && sk.days[(sk.longDay + 1) % 7].role === 'off') {
+        notes.push('No recovery run after the long run, since ' + FULL[(sk.longDay + 1) % 7] + ' is off.');
+      }
+      if (ml.capped && ml.capped.length) {
+        notes.push(listDays(ml.capped) + (ml.capped.length === 1 ? ' is' : ' are') + ' capped at ' + fmt(ml.cap) + ' miles, 80 percent of the planned ' + fmt(ml.longTarget) + '-mile long run.');
+      }
+      var added = ml.adjustments.filter(function (a) { return a.miles > 0; });
+      if (added.length) {
+        var addTotal = added.reduce(function (s, a) { return s + a.miles; }, 0);
+        notes.push(listDays(added.map(function (a) { return a.day; })) + (added.length === 1 ? ' picks' : ' pick') + ' up ' + fmt(addTotal) + ' extra ' + (addTotal === 1 ? 'mile' : 'miles') + ' to hold the weekly total.');
+      }
+      var cut = ml.adjustments.filter(function (a) { return a.miles < 0; });
+      if (cut.length) {
+        var cutTotal = cut.reduce(function (s, a) { return s - a.miles; }, 0);
+        notes.push(listDays(cut.map(function (a) { return a.day; })) + (cut.length === 1 ? ' gives' : ' give') + ' up ' + fmt(cutTotal) + ' ' + (cutTotal === 1 ? 'mile' : 'miles') + ' to hold the weekly total.');
+      }
+      if (ml.impossible) {
+        notes.push("Can't reach " + weekly + ' miles with ' + runCount + (runCount === 1 ? ' run day' : ' run days') + ': ' + fmt(Math.abs(ml.short)) + ' miles short. Dreamy flags it instead of overloading the runs you have.');
+      }
+      notes.push(runCount + (runCount === 1 ? ' run' : ' runs') + ' this week, versus 7 in an open week.');
+    }
+    changesEl.innerHTML = '';
+    if (notes.length === 0 && runCount > 0) {
+      var li0 = document.createElement('li');
+      li0.className = 'same';
+      li0.textContent = 'Every day is open: seven runs, with quality on Tuesday and Thursday and the long run on Saturday. Tap a day to block it.';
+      changesEl.appendChild(li0);
+    }
+    notes.forEach(function (t) { var li = document.createElement('li'); li.textContent = t; changesEl.appendChild(li); });
+
+    // Per-day reasons
+    whyEl.innerHTML = '';
+    sk.days.forEach(function (x, i) {
+      var li = document.createElement('li');
+      var extra = '';
+      var adj = ml.adjustments.filter(function (a) { return a.day === i; });
+      if (adj.length) { var s = adj.reduce(function (t2, a) { return t2 + a.miles; }, 0); extra = ' (' + (s > 0 ? '+' : '') + fmt(s) + ' mi to hold the weekly total)'; }
+      li.innerHTML = '<b>' + SHORT[i] + '</b> ' + x.why + extra;
+      whyEl.appendChild(li);
+    });
+
+    // Chips reflect the current set
+    var key = blocked.slice().sort().join(',');
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', c.getAttribute('data-preset') === key ? 'true' : 'false'); });
+  }
+
+  function toggle(day) {
+    var i = blocked.indexOf(day);
+    if (i === -1) blocked.push(day); else blocked.splice(i, 1);
+    render();
+  }
+
+  chips.forEach(function (c) {
+    c.addEventListener('click', function () {
+      var p = c.getAttribute('data-preset');
+      blocked = p ? p.split(',').map(Number) : [];
+      render();
+    });
+  });
+
+  if (miInput) {
+    miInput.addEventListener('input', function () {
+      weekly = Number(miInput.value);
+      if (miOut) miOut.textContent = String(weekly);
+      render();
+    });
+  }
+
+  var lastNarrow = window.innerWidth < 560;
+  window.addEventListener('resize', function () {
+    var narrow = window.innerWidth < 560;
+    if (narrow !== lastNarrow) { lastNarrow = narrow; render(); }
+  });
+
+  render();
+})();
+
+</script>
+</body>
+</html>

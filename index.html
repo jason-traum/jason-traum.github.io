@@ -1,0 +1,1150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jason Traum</title>
+<meta name="description" content="Wharton MBA and former asset management quant. Things I've built with Claude Code: Dreamy, 5K 5 Bars, In. and more.">
+<link rel="canonical" href="https://jason-traum.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Jason Traum">
+<meta property="og:description" content="Wharton MBA and former asset management quant. Things I've built with Claude Code: Dreamy, 5K 5 Bars, In. and more.">
+<meta property="og:url" content="https://jason-traum.github.io/">
+<meta property="og:image" content="https://jason-traum.github.io/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Jason Traum, Wharton MBA, Class of 2028, with the projects Dreamy, 5K 5 Bars, In. and Walldrobe.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#F6F7F2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#12140F" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231C2016'/%3E%3Crect x='17' y='17' width='9' height='9' fill='%23C8DB3C'/%3E%3Crect x='6' y='6' width='9' height='9' fill='none' stroke='%23F6F7F2' stroke-width='2'/%3E%3C/svg%3E">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Jason Traum","url":"https://jason-traum.github.io/","email":"mailto:jtraum@wharton.upenn.edu","alumniOf":{"@type":"CollegeOrUniversity","name":"Brown University"},"affiliation":{"@type":"CollegeOrUniversity","name":"The Wharton School, University of Pennsylvania"},"sameAs":["https://github.com/jason-traum"]}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Libre+Franklin:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap">
+<style>
+/* Chartbook: the page reads like one of my Morgan Stanley research reports, numbered exhibits with a takeaway title and a source line,
+   drawn in the chart palette I made there (MS Blue, Blue Razz, Jade, Amethyst, Carrot, Honey). */
+:root {
+  --paper: #FFFFFF;
+  --surface: #F2F4F7;
+  --ink: #14212E;
+  --ink-2: #435061;
+  --muted: #5E6A78;
+  --rule: #D9DEE4;
+  --rule-strong: #14212E;
+  --olive: #275C90;          /* MS Blue: links, focus, the report band */
+  --signal: #39A174;         /* Jade: live marker */
+  --signal-ink: #FFFFFF;
+  --frame: #1D232B;
+  --mat: #EEF0F2;
+  --shot-border: #D3D9E0;
+  --c-msblue: #275C90;
+  --c-razz: #2F8CEB;
+  --c-jade: #39A174;
+  --c-amethyst: #7A63CF;
+  --c-carrot: #CF612F;
+  --c-honey: #C98800;
+  --display: "Libre Franklin", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --body: "Libre Franklin", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0F1620; --surface: #17212D; --ink: #E7ECF1; --ink-2: #B9C3CE; --muted: #8C98A6;
+    --rule: #26313E; --rule-strong: #B9C3CE; --olive: #7FAEE0; --signal: #5CC495; --signal-ink: #0F1620;
+    --frame: #06090D; --mat: #E6E9EC; --shot-border: #26313E;
+    --c-msblue: #6FA0D6; --c-razz: #5AAEFF; --c-jade: #5CC495; --c-amethyst: #A593EC; --c-carrot: #E8834F; --c-honey: #E8AE2E;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0F1620; --surface: #17212D; --ink: #E7ECF1; --ink-2: #B9C3CE; --muted: #8C98A6;
+  --rule: #26313E; --rule-strong: #B9C3CE; --olive: #7FAEE0; --signal: #5CC495; --signal-ink: #0F1620;
+  --frame: #06090D; --mat: #E6E9EC; --shot-border: #26313E;
+  --c-msblue: #6FA0D6; --c-razz: #5AAEFF; --c-jade: #5CC495; --c-amethyst: #A593EC; --c-carrot: #E8834F; --c-honey: #E8AE2E;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 17px;
+  line-height: 1.6;
+}
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+h1, h2, h3 { margin: 0; text-wrap: balance; }
+p { margin: 0; }
+
+a {
+  color: var(--ink);
+  text-decoration-line: underline;
+  text-decoration-color: var(--olive);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+a:hover { color: var(--olive); text-decoration-thickness: 2px; }
+:focus-visible { outline: 2px solid var(--olive); outline-offset: 3px; border-radius: 2px; }
+::selection { background: var(--signal); color: var(--signal-ink); }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+.skip { position: absolute; left: -9999px; top: 8px; }
+.skip:focus { left: 16px; background: var(--paper); padding: 6px 10px; z-index: 10; }
+
+.page { max-width: 1120px; margin: 0 auto; padding-inline: 16px; }
+@media (min-width: 720px) { .page { padding-inline: 32px; } }
+@media (min-width: 1100px) { .page { padding-inline: 48px; } }
+
+.mono { font-family: var(--mono); }
+.label {
+  font-family: var(--body);
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.3;
+  color: var(--ink-2);
+}
+.note { font-size: 13.5px; line-height: 1.5; color: var(--muted); }
+
+/* Top bar */
+.topbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px 20px;
+  padding-block: 20px 12px;
+  border-bottom: 1px solid var(--rule);
+}
+.toplinks { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; }
+.toplinks a { color: var(--ink-2); text-decoration: none; display: inline-block; padding-block: 12px; margin-block: -12px; }
+.toplinks a:hover { color: var(--olive); text-decoration: underline; }
+
+/* Intro */
+.intro { padding-block: 36px 64px; }
+.name {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(3.1rem, 10.4vw, 7.6rem);
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+}
+.name span { display: inline-block; }
+.intro-grid { display: grid; gap: 28px; margin-top: 36px; }
+@media (min-width: 860px) { .intro-grid { grid-template-columns: 3fr 9fr; gap: 48px; margin-top: 44px; } }
+.facts { margin: 0; display: grid; gap: 14px; align-content: start; }
+.facts div { display: grid; gap: 2px; }
+.facts dt { font-size: 13px; color: var(--muted); }
+.facts dd { margin: 0; font-size: 15px; line-height: 1.4; }
+@media (max-width: 859px) { .facts { grid-template-columns: 1fr 1fr; gap: 14px 20px; } }
+.intro-body { display: grid; gap: 14px; }
+.lede {
+  font-size: clamp(1.3rem, 2.4vw, 1.7rem);
+  line-height: 1.34;
+  letter-spacing: -0.01em;
+  max-width: 30em;
+}
+.intro-body p:not(.lede) { max-width: 37em; color: var(--ink-2); }
+.contact-line {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px;
+  margin-top: 10px; font-size: 15px;
+}
+.email { user-select: all; overflow-wrap: anywhere; }
+button.copy {
+  font: 600 13.5px/1 var(--body);
+  padding: 8px 12px;
+  min-height: 40px;
+  border: 1px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  border-radius: 6px;
+  cursor: pointer;
+}
+button.copy:hover { background: var(--ink); color: var(--paper); }
+@media (pointer: coarse) { button.copy, button.swap { min-height: 44px; } }
+
+/* Sections */
+.section { padding-block: 56px; border-top: 1px solid var(--rule); scroll-margin-top: 12px; }
+.sec-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 6px 16px; margin-bottom: 22px; }
+
+/* Project index table */
+.holdings { width: 100%; border-collapse: collapse; font-size: 15.5px; line-height: 1.45; }
+.holdings thead th {
+  text-align: left;
+  font-weight: 600; font-size: 13px; color: var(--muted);
+  padding: 0 18px 10px 0;
+  border-bottom: 1.5px solid var(--rule-strong);
+}
+.holdings thead th:last-child { text-align: right; padding-right: 0; }
+.holdings td { padding: 13px 18px 13px 0; border-bottom: 1px solid var(--rule); vertical-align: baseline; }
+.holdings td.p { font-weight: 600; white-space: nowrap; }
+.holdings td.p a { text-decoration: none; }
+.holdings td.p a:hover { text-decoration: underline; }
+.holdings td.w { color: var(--ink-2); }
+.holdings td.s { font-size: 14px; color: var(--ink-2); white-space: nowrap; }
+.holdings td.d { font-family: var(--mono); font-size: 13px; color: var(--ink-2); white-space: nowrap; }
+.holdings td.d { text-align: right; padding-right: 0; font-variant-numeric: tabular-nums; }
+.mk { display: inline-block; width: 9px; height: 9px; margin-right: 9px; vertical-align: 0; border: 1.5px solid var(--olive); }
+.mk-live { background: var(--signal); }
+.mk-use { background: var(--olive); }
+.mk-paused { background: linear-gradient(90deg, var(--olive) 50%, transparent 50%); }
+.mk-concept { border-color: var(--muted); }
+@media (max-width: 699px) {
+  .holdings thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .holdings, .holdings tbody { display: block; }
+  .holdings tbody { border-top: 1.5px solid var(--rule-strong); }
+  .holdings tr { display: grid; grid-template-columns: 1fr auto; gap: 3px 12px; padding: 13px 0; border-bottom: 1px solid var(--rule); }
+  .holdings td { display: block; padding: 0; border: 0; }
+  .holdings td.p { grid-column: 1; grid-row: 1; }
+  .holdings td.s { grid-column: 2; grid-row: 1; text-align: right; }
+  .holdings td.w { grid-column: 1 / -1; font-size: 15px; }
+  .holdings td.d { grid-column: 1 / -1; text-align: left; font-size: 12px; color: var(--muted); }
+}
+
+/* Project entries */
+.project { padding-block: 60px; border-top: 1px solid var(--rule); scroll-margin-top: 12px; }
+.p-head { display: grid; gap: 8px; margin-bottom: 26px; }
+.p-name {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(2.1rem, 4.8vw, 3.2rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.p-tag { font-size: clamp(1.05rem, 1.7vw, 1.22rem); line-height: 1.4; color: var(--ink-2); max-width: 34em; }
+.p-grid { display: grid; gap: 26px; }
+@media (min-width: 860px) { .p-grid { grid-template-columns: 3fr 9fr; gap: 48px; } }
+.p-meta dl { margin: 0; display: grid; gap: 13px; align-content: start; }
+.p-meta dt { font-size: 13px; color: var(--muted); }
+.p-meta dd { margin: 2px 0 0; font-size: 14.5px; line-height: 1.45; overflow-wrap: anywhere; }
+@media (max-width: 859px) { .p-meta dl { grid-template-columns: 1fr 1fr; gap: 13px 20px; } }
+.p-body { display: grid; gap: 14px; align-content: start; min-width: 0; }
+.p-body > p { max-width: 38em; }
+.deep-link {
+  display: inline-flex; align-items: center; gap: 10px;
+  justify-self: start;
+  margin-top: 4px;
+  padding: 11px 15px;
+  border: 1px solid var(--ink);
+  border-radius: 6px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.deep-link:hover { background: var(--ink); color: var(--paper); text-decoration: none; }
+
+/* Screenshots */
+.shots { margin: 14px 0 0; display: grid; gap: 18px; justify-items: center; }
+.shots figure { margin: 0; width: 100%; max-width: 300px; }
+.shots img { display: block; width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--shot-border); background: var(--surface); }
+.shots figcaption { margin-top: 8px; font-size: 13.5px; line-height: 1.45; color: var(--muted); }
+@media (min-width: 560px) {
+  .shots { grid-template-columns: repeat(var(--n, 2), minmax(0, 1fr)); justify-items: stretch; align-items: start; max-width: calc(var(--n, 2) * 270px); }
+  .shots figure { max-width: none; }
+}
+
+/* Wharton OS wiring */
+.wiring {
+  margin: 4px 0 0; padding: 16px 18px;
+  background: var(--surface); border-radius: 12px;
+  display: grid; grid-template-columns: max-content 1fr; gap: 7px 20px;
+  font-family: var(--mono); font-size: 13px; line-height: 1.5;
+  max-width: 42em;
+}
+.wiring dt { color: var(--olive); font-weight: 500; }
+.wiring dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 480px) { .wiring { grid-template-columns: 1fr; gap: 2px; } .wiring dd { margin-bottom: 8px; } }
+
+/* Walldrobe wall */
+.wall-fig { margin: 14px 0 0; max-width: 720px; }
+.wall {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+@media (max-width: 559px) { .wall { aspect-ratio: 5 / 4; } }
+.centerline { position: absolute; left: 5%; right: 5%; top: 50%; border-top: 1px dashed var(--muted); opacity: 0.8; }
+.wall-key {
+  position: absolute; left: 14px; top: 12px;
+  display: inline-flex; align-items: center; gap: 8px;
+  font: 500 12px/1 var(--body); color: var(--muted); white-space: nowrap;
+}
+.wall-key i { width: 18px; border-top: 1px dashed var(--muted); display: inline-block; }
+.frames { position: relative; display: flex; align-items: center; justify-content: center; width: 82%; }
+.frame {
+  position: relative;
+  background: var(--frame);
+  padding: clamp(3px, 0.7vw, 6px);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 0 10px 22px -12px rgba(0, 0, 0, 0.45);
+}
+.mat { background: var(--mat); padding: 12%; }
+.art-box { position: relative; aspect-ratio: var(--ar, 3 / 4); overflow: hidden; }
+.f1 { width: 25%; --ar: 3 / 4; }
+.f2 { width: 34%; --ar: 4 / 5; }
+.f3 { width: 22%; --ar: 1 / 1; }
+.gap { align-self: stretch; width: 5%; position: relative; }
+.gap::before {
+  content: ""; position: absolute; left: 12%; right: 12%; top: 50%;
+  border-top: 1px solid var(--muted);
+}
+.gap span {
+  position: absolute; top: calc(50% + 7px); left: 50%; transform: translateX(-50%);
+  font: 500 11.5px/1 var(--body); color: var(--muted); white-space: nowrap;
+}
+@media (max-width: 559px) { .gap span { display: none; } }
+.art { position: absolute; inset: 0; opacity: 0; transition: opacity 0.7s ease; }
+.art.on { opacity: 1; }
+.a-sun { background: radial-gradient(circle at 50% 44%, #D6E05E 0 25%, transparent 25.6%), #5E6A2B; }
+.a-bands { background: linear-gradient(to bottom, #D9A441 0 34%, #EFEDE4 34% 67%, #5E6F96 67%); }
+.a-arch {
+  background:
+    radial-gradient(circle at 50% 58%, #EFEDE4 0 24%, transparent 24.6%),
+    linear-gradient(#EFEDE4, #EFEDE4) 50% 100% / 48% 42% no-repeat,
+    #1F241A;
+}
+.a-dots { background: radial-gradient(circle, #1F241A 0 15%, transparent 16%) 0 0 / 33.34% 33.34%, #EFEDE4; }
+.a-split {
+  background:
+    linear-gradient(#D9A441, #D9A441) 72% 72% / 17% 17% no-repeat,
+    linear-gradient(135deg, #5E6F96 0 50%, #EFEDE4 50%);
+}
+.a-stripes { background: repeating-linear-gradient(90deg, #9DB39A 0 13%, #EFEDE4 13% 21%); }
+.a-field { background: linear-gradient(to bottom, #B8573F 0 58%, #2A2F24 58%); }
+.swap-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin-top: 12px; }
+button.swap {
+  font: 600 14px/1 var(--body);
+  min-height: 40px;
+  padding: 11px 15px;
+  border-radius: 6px;
+  border: 1px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+}
+button.swap:hover { background: var(--ink); color: var(--paper); }
+
+/* Smaller builds */
+.builds { list-style: none; padding: 0; margin: 0; }
+.builds li { display: grid; gap: 6px 48px; padding-block: 20px; border-top: 1px solid var(--rule); }
+.builds li:first-child { border-top: 0; padding-top: 0; }
+@media (min-width: 860px) { .builds li { grid-template-columns: 3fr 9fr; } }
+.builds h3 { font-size: 18px; font-weight: 600; line-height: 1.3; }
+.builds .when { display: block; margin-top: 3px; font-size: 13.5px; font-weight: 400; color: var(--muted); }
+.builds p { max-width: 38em; color: var(--ink-2); }
+
+/* Background */
+.career { width: 100%; border-collapse: collapse; font-size: 15.5px; line-height: 1.45; }
+.career th { text-align: left; font-weight: 400; }
+.career td, .career th { padding: 12px 18px 12px 0; border-bottom: 1px solid var(--rule); vertical-align: baseline; }
+.career .yr { font-family: var(--mono); font-size: 13px; color: var(--muted); white-space: nowrap; width: 1%; font-variant-numeric: tabular-nums; }
+.career .org { font-weight: 600; }
+.career .role { color: var(--ink-2); padding-right: 0; }
+.career tbody tr:first-child td, .career tbody tr:first-child th { border-top: 1.5px solid var(--rule-strong); }
+.career-sub { margin-top: 34px; }
+@media (max-width: 699px) {
+  .career, .career tbody { display: block; }
+  .career tr { display: grid; grid-template-columns: 1fr; gap: 2px; padding: 12px 0; border-bottom: 1px solid var(--rule); }
+  .career tbody tr:first-child { border-top: 1.5px solid var(--rule-strong); }
+  .career td, .career th, .career tbody tr:first-child td, .career tbody tr:first-child th { display: block; padding: 0; border: 0; width: auto; }
+}
+.highlights { margin: 26px 0 0; padding: 0; list-style: none; display: grid; gap: 12px; max-width: 46em; }
+.highlights li { position: relative; padding-left: 20px; color: var(--ink-2); }
+.highlights li::before { content: ""; position: absolute; left: 0; top: 0.68em; width: 8px; height: 1.5px; background: var(--olive); }
+
+.outside { display: grid; gap: 22px; align-items: start; }
+.outside-text { display: grid; gap: 14px; max-width: 46em; }
+.photo-strip { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; max-width: 720px; }
+.photo-strip figure { margin: 0; flex: var(--ar) 1 calc(var(--ar) * 150px); min-width: 0; }
+.photo-strip img { display: block; width: 100%; height: auto; }
+.photo-strip figcaption, .wd-concept figcaption { font-size: 13px; color: var(--muted); margin-top: 6px; }
+.wd-concept { margin: 28px 0 0; }
+.wd-concept img { display: block; width: 100%; height: auto; }
+.intro-side { display: grid; gap: 22px; align-content: start; }
+.portrait { display: block; width: 136px; height: auto; }
+@media (max-width: 859px) { .portrait { width: 104px; } }
+.outside p { color: var(--ink-2); }
+
+/* Contact */
+.contact-big {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px;
+  font-family: var(--display); font-weight: 700;
+  font-size: clamp(1.2rem, 4.6vw, 2.6rem); line-height: 1.15; letter-spacing: -0.02em;
+}
+.contact-big .email { overflow-wrap: anywhere; }
+.contact-list { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 15px; }
+.contact-list a, .contact-line a { display: inline-block; padding-block: 11px; margin-block: -11px; }
+
+.colophon {
+  padding-block: 26px 40px;
+  border-top: 1px solid var(--rule);
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 20px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .art { transition: none; }
+  html { scroll-behavior: auto; }
+}
+
+/* Palette before/after and testing sheet. Chart colors are print colors, so the panels stay light in both themes. */
+.palette-fig { margin: 16px 0 6px; max-width: 900px; display: grid; gap: 10px; }
+.pal-pair { display: grid; gap: 12px; }
+@media (min-width: 620px) { .pal-pair { grid-template-columns: 1fr 1fr; } }
+.pal { background: #FBFBF8; border: 1px solid var(--rule); border-radius: 10px; padding: 12px 12px 10px; color: #1C2016; }
+.pal-h { font-size: 13.5px; font-weight: 600; margin-bottom: 6px; }
+.pal svg { display: block; width: 100%; height: auto; }
+.pal .grid line { stroke: #E3E5DC; stroke-width: 1; }
+.pal .lines path { fill: none; stroke-width: 1.3; stroke-linejoin: round; }
+.sw { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12.5px; color: #454B3D; }
+.sw li { display: inline-flex; align-items: center; gap: 5px; }
+.sw i { width: 14px; height: 14px; border-radius: 3px; display: inline-block; }
+.pal-sheet { margin-top: 8px; }
+.pal-sheet img { display: block; width: 100%; height: auto; border: 1px solid var(--shot-border); border-radius: 8px; background: #fff; }
+.palette-fig figcaption { font-size: 13.5px; line-height: 1.45; color: var(--muted); max-width: 46em; }
+.highlights .sw li { padding-left: 0; color: #454B3D; }
+.highlights .sw li::before { content: none; }
+
+.pubs { margin-top: 22px; max-width: 46em; color: var(--ink-2); }
+
+/* ---------- Chartbook layer ---------- */
+body { border-top: 10px solid var(--c-msblue); }
+.name { font-weight: 900; letter-spacing: -0.04em; line-height: 0.9; font-size: clamp(3rem, 10vw, 7.4rem); }
+.name span { display: inline; }
+.p-name { font-weight: 900; letter-spacing: -0.03em; }
+.contact-big { font-weight: 800; }
+.exh { font-size: 13.5px; font-weight: 700; color: var(--c, var(--olive)); letter-spacing: 0; }
+.ext { font-size: clamp(1.25rem, 2.4vw, 1.6rem); font-weight: 800; letter-spacing: -0.015em; line-height: 1.2; max-width: 30em; margin: 4px 0 0; text-wrap: balance; }
+.src { font-size: 13px; color: var(--muted); border-top: 1px solid var(--rule); padding-top: 7px; margin-top: 10px; max-width: 52em; }
+.exhibit { padding-block: 56px; border-top: 1px solid var(--rule); }
+.exhibit > header { margin-bottom: 20px; }
+
+/* Project colors from the palette */
+#dreamy { --c: var(--c-msblue); } #fivek { --c: var(--c-carrot); } #in { --c: var(--c-jade); }
+#wharton-os { --c: var(--c-amethyst); } #walldrobe { --c: var(--c-honey); }
+.project { border-top: 1px solid var(--rule); position: relative; }
+.project::before { content: ""; position: absolute; left: 0; top: -1px; width: 88px; height: 5px; background: var(--c, var(--olive)); }
+.p-head .exh { order: -1; }
+.holdings td.p .sw2 { display: inline-block; width: 10px; height: 10px; margin-right: 9px; background: var(--c); vertical-align: 0; }
+.deep-link { border-color: var(--c, var(--ink)); }
+
+/* Exhibit 1: the build log */
+.log-wrap { overflow-x: auto; }
+.log { width: 100%; max-width: 860px; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.log th { font-weight: 500; font-size: 12.5px; color: var(--muted); text-align: left; padding: 0 8px 0 0; white-space: nowrap; width: 58px; }
+.log thead th { text-align: center; width: auto; padding-bottom: 4px; }
+.log thead th:last-child, .log td.t { text-align: right; }
+.log td { height: 28px; text-align: center; border-bottom: 1px solid var(--rule); padding: 0; }
+.log td i { display: inline-block; border-radius: 50%; vertical-align: middle; }
+.log td.t { font-weight: 700; font-size: 15px; width: 64px; }
+.log tr.pause td { height: 36px; font-size: 13.5px; color: var(--muted); text-align: left; padding-left: 10px; background: var(--surface); }
+.d-dreamy { background: var(--c-msblue); } .d-in { background: var(--c-jade); } .d-5k { background: var(--c-carrot); }
+.log-key { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13.5px; color: var(--ink-2); margin-bottom: 10px; }
+.log-key i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: 0; }
+.log td i.race, .log-key i.race { width: 14px; height: 14px; border-radius: 50%; background: transparent; border: 2.5px solid var(--c-honey); box-sizing: border-box; }
+.d-wd { background: var(--c-honey); } .d-other { background: var(--c-amethyst); } .d-ink { background: var(--ink-2); }
+.log td i.chat, .log-key i.chat { width: 8px; height: 8px; border-radius: 1px; }
+.log-key.k2 { margin-top: -4px; color: var(--muted); }
+.log td { height: 24px; }
+.log td.t2 { text-align: right; width: 52px; font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
+@media (max-width: 480px) {
+  .log th { width: 46px; font-size: 11.5px; }
+  .log thead th { font-size: 11px; }
+  .log td.t { width: 42px; font-size: 13.5px; }
+  .log td.t2 { width: 34px; font-size: 12.5px; }
+}
+.log { table-layout: fixed; }
+.log thead th:first-child { width: 58px; }
+.log thead th:last-child { width: 70px; }
+@media (max-width: 480px) {
+  .log thead th:first-child { width: 44px; }
+  .log thead th:last-child { width: 50px; }
+}
+
+/* skills */
+:root { --k-msblue: #1B436D; --k-razz: #1F72D0; --k-jade: #23774F; --k-amethyst: #6450B8; --k-carrot: #B04A1C; --k-honey: #8A5E00; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --k-msblue: #A9C3E2; --k-razz: #4FA8FF; --k-jade: #5CC495; --k-amethyst: #A593EC; --k-carrot: #E8834F; --k-honey: #E8AE2E; } }
+:root[data-theme="dark"] { --k-msblue: #A9C3E2; --k-razz: #4FA8FF; --k-jade: #5CC495; --k-amethyst: #A593EC; --k-carrot: #E8834F; --k-honey: #E8AE2E; }
+.kcloud { position: relative; }
+.kgroup { list-style: none; margin: 0 0 10px; padding: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 14px; }
+.kgroup li::before { content: none; }
+.kw { appearance: none; background: none; border: 0; padding: 0; margin: 0; font: inherit; color: var(--k); cursor: pointer; line-height: 1; white-space: nowrap; letter-spacing: -0.01em; border-radius: 3px; }
+.kw1 { font-size: 14px; font-weight: 500; } .kw2 { font-size: 17px; font-weight: 600; } .kw3 { font-size: 22px; font-weight: 700; }
+.kw4 { font-size: 29px; font-weight: 800; letter-spacing: -0.02em; } .kw5 { font-size: 38px; font-weight: 900; letter-spacing: -0.025em; }
+.kw[aria-pressed="true"] { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.16em; }
+.kw:focus-visible { outline: 2px solid var(--k); outline-offset: 2px; }
+.kcloud.placed .kgroup { display: contents; }
+.kcloud.placed .kgroup li { display: contents; }
+.kcloud.placed .kw { position: absolute; left: 0; top: 0; }
+.kcloud.placed { transition: opacity .25s; }
+.kcloud[data-filter] .kw { opacity: .16; }
+.kcloud[data-filter="quant"] [data-cat="quant"], .kcloud[data-filter="eng"] [data-cat="eng"], .kcloud[data-filter="product"] [data-cat="product"],
+.kcloud[data-filter="comm"] [data-cat="comm"], .kcloud[data-filter="lead"] [data-cat="lead"], .kcloud[data-filter="me"] [data-cat="me"] { opacity: 1; }
+.kaxis { margin-top: 18px; }
+.kchips { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; }
+.kchip { appearance: none; background: none; border: 0; border-top: 3px solid var(--k); padding: 7px 2px 4px; font: inherit; font-size: 13.5px; font-weight: 600; color: var(--ink-2); text-align: left; cursor: pointer; min-height: 40px; line-height: 1.25; }
+.kchip i { display: none; }
+.kchip[aria-pressed="true"] { color: var(--k); }
+.kchip:hover { color: var(--k); }
+.kchip:focus-visible { outline: 2px solid var(--k); outline-offset: 2px; }
+.kends { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--muted); margin: 2px 0 0; }
+.kdetail { margin-top: 18px; padding: 12px 0 14px; border-top: 1px solid var(--rule); min-height: 118px; position: sticky; bottom: 0; z-index: 2; background: var(--paper); }
+.kdetail > * { max-width: 46em; }
+.kdetail .kmeta { margin: 0; font-size: 13.5px; font-weight: 700; color: var(--k); }
+.kdetail .kword { margin: 2px 0 4px; font-size: 1.35rem; font-weight: 800; letter-spacing: -0.015em; line-height: 1.2; }
+.kdetail .kproof { margin: 0; color: var(--ink-2); }
+.skills .src { margin-top: 14px; }
+.kview { display: none; justify-content: flex-end; margin: -8px 0 6px; }
+.kswitch { appearance: none; background: none; font: inherit; font-size: 13.5px; font-weight: 600; color: var(--ink); border: 1px solid var(--rule-strong); border-radius: 6px; padding: 8px 12px; min-height: 40px; cursor: pointer; }
+.kswitch:hover { background: var(--ink); color: var(--paper); }
+.kswitch:focus-visible { outline: 2px solid var(--olive); outline-offset: 2px; }
+.skills.kjs .kview { display: flex; }
+.skills:not(.kjs) .kcloudview { display: none; }
+.skills.kjs .klist { display: none; }
+.skills.kjs.klisting .klist { display: block; }
+.skills.kjs.klisting .kcloudview { display: none; }
+.klist { border-top: 1px solid var(--rule); }
+.klg { display: grid; gap: 6px 40px; padding: 16px 0; border-bottom: 1px solid var(--rule); }
+@media (min-width: 860px) { .klg { grid-template-columns: 3fr 9fr; } }
+.klg h3 { margin: 0; font-size: 1rem; font-weight: 800; color: var(--k); display: flex; align-items: baseline; gap: 9px; }
+.klg h3 i { width: 10px; height: 10px; background: var(--k); display: inline-block; flex: none; }
+.klg dl { margin: 0; display: grid; grid-template-columns: max-content 1fr; gap: 7px 20px; font-size: 15px; }
+.klg dt { font-weight: 700; }
+.klg dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 559px) { .klg dl { grid-template-columns: 1fr; gap: 2px; } .klg dd { margin-bottom: 8px; } }
+@media (max-width: 699px) {
+  .kchips { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 14px; }
+  .kcloudview { display: flex; flex-direction: column; }
+  .kaxis { order: -1; margin: 0 0 16px; }
+  .kcloud { order: 0; }
+  .kdetail { order: 1; }
+  .kends { display: none; }
+  .kw1 { font-size: 12.5px; } .kw2 { font-size: 14px; } .kw3 { font-size: 17px; } .kw4 { font-size: 21px; } .kw5 { font-size: 26px; }
+  .kdetail { min-height: 0; }
+  .kdetail .kword { font-size: 1.15rem; }
+  .kdetail .kproof { font-size: 15px; line-height: 1.45; }
+}
+@media (pointer: coarse) { .kchip, .kswitch { min-height: 44px; } }
+@media (prefers-reduced-motion: reduce) { .kcloud.placed { transition: none; } }
+/* /skills */
+
+</style>
+</head>
+<body>
+<a class="skip" href="#work">Skip to projects</a>
+<div class="page">
+  <header class="topbar">
+    <p class="label">Updated September 2026</p>
+    <nav class="toplinks" aria-label="Sections">
+      <a href="#work">Projects</a>
+      <a href="dreamy.html">How I built Dreamy</a>
+      <a href="#background">Background</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="intro" aria-labelledby="name">
+      <h1 class="name" id="name"><span>Jason</span> <span>Traum</span></h1>
+      <div class="intro-grid">
+        <div class="intro-side">
+        <img class="portrait" src="img/portrait.webp" width="480" height="480" alt="Jason Traum">
+        <dl class="facts">
+          <div><dt>Now</dt><dd>Wharton MBA, Class of 2028</dd></div>
+          <div><dt>Major</dt><dd>AI for Business</dd></div>
+          <div><dt>Before</dt><dd>Morgan Stanley, Guggenheim, Goldman Sachs</dd></div>
+          <div><dt>Based</dt><dd>Philadelphia and New York</dd></div>
+        </dl>
+        </div>
+        <div class="intro-body">
+          <p class="lede">I spent six years in asset management at Guggenheim and Morgan Stanley doing quant and macro research. Earlier this year I put a few hundred hours outside of work into building things I wanted to exist, mostly with Claude Code.</p>
+          <p>At Morgan Stanley I became the guy people came to for help getting GenAI to do what they needed. I've spent a lot of hours in these tools, but the part I'm actually good at is helping people change how they work.</p>
+          <p>Now I'm at Wharton, meeting people, building all the time, all that jawn. I'm learning a lot about AI, business innovation and technology, from my classmates and from my classes. I'm exploring opportunities with AI startups in New York, in product, strategy or deployment.</p>
+          <div class="contact-line">
+            <a class="email" id="email-top" href="mailto:jtraum@wharton.upenn.edu">jtraum@wharton.upenn.edu</a>
+            <button class="copy" type="button" data-copy="jtraum@wharton.upenn.edu" data-target="email-top">Copy email</button>
+            <a href="https://github.com/jason-traum">GitHub</a>
+            <a href="https://www.linkedin.com/in/jason-traum-284018134">LinkedIn</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!--skills--><section class="exhibit skills" id="skills" aria-labelledby="skills-h" style="--c: var(--c-razz)"><header><p class="exh">Exhibit 1</p><h2 class="ext" id="skills-h">My hard skills come from six years in asset management and a year of building with AI. Most of the soft ones come from teaching people at work and pacing a run club.</h2></header><div class="kview"><button type="button" class="kswitch" aria-pressed="false">Show as a list</button></div><div class="kcloudview"><div class="kcloud" id="kcloud" aria-label="Skills, grouped from harder to softer"><ul class="kgroup" data-cat="quant" aria-label="Quant and markets" style="--k: var(--k-msblue)"><li><button type="button" class="kw kw5" tabindex="-1" data-i="0" data-cat="quant" aria-pressed="false">Portfolio construction</button></li><li><button type="button" class="kw kw4" tabindex="-1" data-i="1" data-cat="quant" aria-pressed="false">Quantitative research</button></li><li><button type="button" class="kw kw4" tabindex="-1" data-i="2" data-cat="quant" aria-pressed="false">Asset allocation</button></li><li><button type="button" class="kw kw3" tabindex="-1" data-i="3" data-cat="quant" aria-pressed="false">Factor models</button></li><li><button type="button" class="kw kw3" tabindex="-1" data-i="4" data-cat="quant" aria-pressed="false">Regime models</button></li><li><button type="button" class="kw kw3" tabindex="-1" data-i="5" data-cat="quant" aria-pressed="false">Applied math</button></li><li><button type="button" class="kw kw2" tabindex="-1" data-i="6" data-cat="quant" aria-pressed="false">Capital market assumptions</button></li><li><button type="button" class="kw kw2" tabindex="-1" data-i="7" data-cat="quant" aria-pressed="false">Monte Carlo</button></li><li><button type="button" class="kw kw2" tabindex="-1" data-i="8" data-cat="quant" aria-pressed="false">Performance attribution</button></li><li><button type="button" class="kw kw2" tabindex="-1" data-i="9" data-cat="quant" aria-pressed="false">Cross-asset strategy</button></li><li><button type="button" class="kw kw1" tabindex="-1" data-i="10" data-cat="quant" aria-pressed="false">Backtesting</button></li><li><button type="button" class="kw kw1" tabindex="-1" data-i="11" data-cat="quant" aria-pressed="false">Fixed income</button></li><li><button type="button" class="kw kw1" tabindex="-1" data-i="12" data-cat="quant" aria-pressed="false">Market risk</button></li><li><button type="button" class="kw kw1" tabindex="-1" data-i="13" data-cat="quant" aria-pressed="false">Series 7, 63, 65</button></li></ul><ul class="kgroup" data-cat="eng" aria-label="AI and engineering" style="--k: var(--k-razz)"><li><button type="button" class="kw kw5" tabindex="0" data-i="14" data-cat="eng" aria-pressed="true">Generative AI</button></li><li><button type="button" class="kw kw4" tabindex="-1" data-i="15" data-cat="eng" aria-pressed="false">Claude Code</button></li><li><button type="button" class="kw kw4" tabindex="-1" data-i="16" data-cat="eng" aria-pressed="false">AI agents</button></li><li><button type="button" class="kw kw4" tabindex="-1" data-i="17" data-cat="eng" aria-pressed="false">Automation</button></li><li><button type="button" class="kw kw3" tabindex="-1" data-i="18" data-cat="eng" aria-pressed="false">Algorithm design</button></li><li><button type="button" class="kw kw3" tabindex="-1" data-i="19" data-cat="eng" aria-pressed="false">System design</button></li><li><button type="button" class="kw kw3" tabindex="-1" data-i="20" data-cat="eng" aria-pressed="false">Python</button></li><li><button type="button" class="kw kw3" tabindex="-1" data-i="21" data-cat="eng" aria-pressed="false">Excel and VBA</button></li><li><button type="button" class="kw kw2" tabindex="-1" data-i="22" data-cat="eng" aria-pressed="false">Data pipelines</button></li><li><button type="button" class="kw kw2" tabindex="-1" data-i="23" data-cat="eng" aria-pressed="false">LLM evaluation</button></li><li><button type="button" class="kw kw2" tabindex="-1" data-i="24" data-cat="eng" aria-pressed="false">TypeScript</button></li><li><button type="button" class="kw kw2" tabindex="-1" data-i="25" data-cat="eng" aria-pressed="false">Validation</button></li><li><button type="button" class="kw kw2" tabindex="-1" data-i="26" data-cat="eng" aria-pressed="false">SQL</button></li><li><button type="button" class="kw kw1" tabindex="-1" data-i="27" data-cat="eng" aria-pressed="false">Supabase</button></li><li><button type="button" class="kw kw1" tabindex="-1" data-i="28" data-cat="eng" aria-pressed="false">Strava API</button></li><li><button type="button" class="kw kw1" tabindex="-1" data-i="29" data-cat="eng" aria-pressed="false">GitHub</button></li></ul><ul class="kgroup" data-cat="product" aria-label="Product and venture" style="--k: var(--k-jade)"><li><button type="button" class="kw kw5" tabindex="-1" data-i="30" data-cat="product" aria-pressed="false">Building from scratch</button></li><li><button type="button" class="kw kw4" tabindex="-1" data-i="31" data-cat="product" aria-pressed="false">Product strategy</button></li><li><button type="button" class="kw kw3" tabindex="-1" data-i="32" data-cat="product" aria-pressed="false">Customer discovery</button></li><li><button type="button" class="kw kw3" tabindex="-1" data-i="33" data-cat="product" aria-pressed="false">Business models</button></li><li><button type="button" class="kw kw3" tabindex="-1" data-i="34" data-cat="product" aria-pressed="false">UX design</button></li><li><button type="button" class="kw kw3" tabindex="-1" data-i="35" data-cat="product" aria-pressed="false">Product specs</button></li><li><button type="button" class="kw kw2" tabindex="-1" data-i="36" data-cat="product" aria-pressed="false">Beta testing</button></li><li><button type="button" class="kw kw2" tabindex="-1" data-i="37" data-cat="product" aria-pressed="false">Pricing</button></li><li><button type="button" class="kw kw2" tabindex="-1" data-i="38" data-cat="product" aria-pressed="false">Experiment design</button></li><li><button type="button" class="kw kw2" tabindex="-1" data-i="39" data-cat="product" aria-pressed="false">Prototyping</button></li><li><button type="button" class="kw kw3" tabindex="-1" data-i="40" data-cat="product" aria-pressed="false">Opportunity recognition</button></li><li><button type="button" class="kw kw1" tabindex="-1" data-i="41" data-cat="product" aria-pressed="false">Mechanism design</button></li><li><button type="button" class="kw kw1" tabindex="-1" data-i="42" data-cat="product" aria-pressed="false">Training science</button></li></ul><ul class="kgroup" data-cat="comm" aria-label="Communication" style="--k: var(--k-amethyst)"><li><button type="button" class="kw kw5" tabindex="-1" data-i="43" data-cat="comm" aria-pressed="false">Data visualization</button></li><li><button type="button" class="kw kw4" tabindex="-1" data-i="44" data-cat="comm" aria-pressed="false">Market commentary</button></li><li><button type="button" class="kw kw3" tabindex="-1" data-i="45" data-cat="comm" aria-pressed="false">Research writing</button></li><li><button type="button" class="kw kw3" tabindex="-1" data-i="46" data-cat="comm" aria-pressed="false">Teaching</button></li><li><button type="button" class="kw kw3" tabindex="-1" data-i="47" data-cat="comm" aria-pressed="false">Research synthesis</button></li><li><button type="button" class="kw kw2" tabindex="-1" data-i="48" data-cat="comm" aria-pressed="false">Editing</button></li><li><button type="button" class="kw kw2" tabindex="-1" data-i="49" data-cat="comm" aria-pressed="false">Presenting</button></li><li><button type="button" class="kw kw2" tabindex="-1" data-i="50" data-cat="comm" aria-pressed="false">Pitching</button></li><li><button type="button" class="kw kw2" tabindex="-1" data-i="51" data-cat="comm" aria-pressed="false">Chart design</button></li></ul><ul class="kgroup" data-cat="lead" aria-label="Leadership and community" style="--k: var(--k-carrot)"><li><button type="button" class="kw kw5" tabindex="-1" data-i="52" data-cat="lead" aria-pressed="false">Community building</button></li><li><button type="button" class="kw kw4" tabindex="-1" data-i="53" data-cat="lead" aria-pressed="false">Event planning</button></li><li><button type="button" class="kw kw3" tabindex="-1" data-i="54" data-cat="lead" aria-pressed="false">Change management</button></li><li><button type="button" class="kw kw3" tabindex="-1" data-i="55" data-cat="lead" aria-pressed="false">Coaching</button></li><li><button type="button" class="kw kw2" tabindex="-1" data-i="56" data-cat="lead" aria-pressed="false">Team building</button></li><li><button type="button" class="kw kw1" tabindex="-1" data-i="57" data-cat="lead" aria-pressed="false">Mentoring</button></li><li><button type="button" class="kw kw3" tabindex="-1" data-i="58" data-cat="lead" aria-pressed="false">Club boards</button></li><li><button type="button" class="kw kw3" tabindex="-1" data-i="59" data-cat="lead" aria-pressed="false">Building consensus</button></li><li><button type="button" class="kw kw2" tabindex="-1" data-i="60" data-cat="lead" aria-pressed="false">Route design</button></li><li><button type="button" class="kw kw2" tabindex="-1" data-i="61" data-cat="lead" aria-pressed="false">Fundraising</button></li></ul><ul class="kgroup" data-cat="me" aria-label="Character and drive" style="--k: var(--k-honey)"><li><button type="button" class="kw kw5" tabindex="-1" data-i="62" data-cat="me" aria-pressed="false">Endurance</button></li><li><button type="button" class="kw kw4" tabindex="-1" data-i="63" data-cat="me" aria-pressed="false">Curiosity</button></li><li><button type="button" class="kw kw4" tabindex="-1" data-i="64" data-cat="me" aria-pressed="false">Collaboration</button></li><li><button type="button" class="kw kw3" tabindex="-1" data-i="65" data-cat="me" aria-pressed="false">Staying calm</button></li><li><button type="button" class="kw kw3" tabindex="-1" data-i="66" data-cat="me" aria-pressed="false">Creative thinking</button></li><li><button type="button" class="kw kw2" tabindex="-1" data-i="67" data-cat="me" aria-pressed="false">Candor</button></li><li><button type="button" class="kw kw3" tabindex="-1" data-i="68" data-cat="me" aria-pressed="false">Follow-through</button></li><li><button type="button" class="kw kw2" tabindex="-1" data-i="69" data-cat="me" aria-pressed="false">Oil painting</button></li><li><button type="button" class="kw kw2" tabindex="-1" data-i="70" data-cat="me" aria-pressed="false">Rugby</button></li><li><button type="button" class="kw kw2" tabindex="-1" data-i="71" data-cat="me" aria-pressed="false">Triathlon</button></li><li><button type="button" class="kw kw2" tabindex="-1" data-i="72" data-cat="me" aria-pressed="false">Ultra pacing</button></li><li><button type="button" class="kw kw2" tabindex="-1" data-i="73" data-cat="me" aria-pressed="false">Consistency</button></li><li><button type="button" class="kw kw1" tabindex="-1" data-i="74" data-cat="me" aria-pressed="false">Skiing</button></li></ul></div><div class="kaxis" role="group" aria-label="Highlight a group"><div class="kchips"><button type="button" class="kchip" data-cat="quant" aria-pressed="false" style="--k: var(--k-msblue)"><i></i>Quant and markets</button><button type="button" class="kchip" data-cat="eng" aria-pressed="false" style="--k: var(--k-razz)"><i></i>AI and engineering</button><button type="button" class="kchip" data-cat="product" aria-pressed="false" style="--k: var(--k-jade)"><i></i>Product and venture</button><button type="button" class="kchip" data-cat="comm" aria-pressed="false" style="--k: var(--k-amethyst)"><i></i>Communication</button><button type="button" class="kchip" data-cat="lead" aria-pressed="false" style="--k: var(--k-carrot)"><i></i>Leadership and community</button><button type="button" class="kchip" data-cat="me" aria-pressed="false" style="--k: var(--k-honey)"><i></i>Character and drive</button></div><p class="kends" aria-hidden="true"><span>Harder skills</span><span>Softer skills</span></p></div><div class="kdetail" id="kdetail" aria-live="polite" style="--k: var(--k-razz)"><p class="kmeta">AI and engineering</p><p class="kword">Generative AI</p><p class="kproof">I led my team&#x27;s move to GenAI at Morgan Stanley for research, brainstorming and drafting. The time it saved went into deeper work. <a href="#background">Before Wharton</a></p></div></div><div class="klist" id="klist"><div class="klg" data-cat="quant" style="--k: var(--k-msblue)"><h3><i></i>Quant and markets</h3><dl><dt>Portfolio construction</dt><dd data-i="0">Six years building model portfolios at Guggenheim and Morgan Stanley, including 30+ OCIO models behind $70B. <a href="#background">Before Wharton</a></dd><dt>Quantitative research</dt><dd data-i="1">Asset management research and factor models, and the quant frameworks behind Morgan Stanley&#x27;s model allocations. <a href="#background">Before Wharton</a></dd><dt>Asset allocation</dt><dd data-i="2">I worked on how much of each asset class advisors&#x27; clients should hold, including a public report on sizing crypto in a portfolio. <a href="#background">Before Wharton</a></dd><dt>Factor models</dt><dd data-i="3">I rebuilt our trade analytics so sector weights, style tilts and factor exposures updated instantly across 30+ model portfolios.</dd><dt>Regime models</dt><dd data-i="4">I co-designed a stock-bond regime indicator, tested out of sample, that several teams used in their research. <a href="#background">Before Wharton</a></dd><dt>Applied math</dt><dd data-i="5">B.S. in Applied Math-Economics from Brown, 3.94 GPA. GMAT Focus 775, roughly the top 4 of 10,000 test takers. 94th percentile in Quantitative Analysis on the CareerLeader assessment. <a href="#background">Before Wharton</a></dd><dt>Capital market assumptions</dt><dd data-i="6">Contributor on Morgan Stanley&#x27;s 2025 capital market assumptions report. <a href="#background">Before Wharton</a></dd><dt>Monte Carlo</dt><dd data-i="7">At Guggenheim I ran Monte Carlo simulations on fixed income model portfolios and presented the trade-offs to portfolio managers.</dd><dt>Performance attribution</dt><dd data-i="8">My style scores showed every active manager in our models was underweight the Magnificent 7. That bet was behind over half of one quarter&#x27;s underperformance.</dd><dt>Cross-asset strategy</dt><dd data-i="9">My last title at Morgan Stanley was Investment Strategist, Portfolio Construction and Cross-Asset Strategy. <a href="#background">Before Wharton</a></dd><dt>Backtesting</dt><dd data-i="10">I wrote a tool at Guggenheim to rerun historical analytics for backtests.</dd><dt>Fixed income</dt><dd data-i="11">Fixed income model portfolios at Guggenheim, and a tactical fixed income framework at Morgan Stanley.</dd><dt>Market risk</dt><dd data-i="12">Summer analyst in market risk at Goldman Sachs in 2019. I got a return offer. <a href="#background">Before Wharton</a></dd><dt>Series 7, 63, 65</dt><dd data-i="13">I passed all three.</dd></dl></div><div class="klg" data-cat="eng" style="--k: var(--k-razz)"><h3><i></i>AI and engineering</h3><dl><dt>Generative AI</dt><dd data-i="14">I led my team&#x27;s move to GenAI at Morgan Stanley for research, brainstorming and drafting. The time it saved went into deeper work. <a href="#background">Before Wharton</a></dd><dt>Claude Code</dt><dd data-i="15">I built Dreamy, In., 5K 5 Bars and this site with it. Dreamy alone is 1,985 commits. <a href="#log">the build log</a></dd><dt>AI agents</dt><dd data-i="16">I built eight internal agents at Morgan Stanley, including a house-style writing assistant about 20 people used. <a href="#background">Before Wharton</a></dd><dt>Automation</dt><dd data-i="17">I automated a thousand-slide monthly analytics package pulling 4,000+ data fields. Turnaround went from 10 days to 3, and it&#x27;s still running. <a href="#background">Before Wharton</a></dd><dt>Algorithm design</dt><dd data-i="18">I started Dreamy as an LLM plan generator, then rebuilt it as an old-fashioned algorithm to cut cost and give the same plan for the same data. <a href="dreamy.html">How I built Dreamy</a></dd><dt>System design</dt><dd data-i="19">I decided how Dreamy&#x27;s training engine, Strava sync and AI explanations fit together. <a href="dreamy.html">How I built Dreamy</a></dd><dt>Python</dt><dd data-i="20">Dreamy is built in TypeScript and Python.</dd><dt>Excel and VBA</dt><dd data-i="21">The thousand-slide analytics package ran on VBA, pulling from Bloomberg, FactSet and internal systems.</dd><dt>Data pipelines</dt><dd data-i="22">At Guggenheim I automated our monthly analytics end to end, from data pulls to reporting, and errors dropped over 95%.</dd><dt>LLM evaluation</dt><dd data-i="23">I had LLMs grade Dreamy&#x27;s training plans against the research and reviewed every round myself. <a href="dreamy.html">How I built Dreamy</a></dd><dt>TypeScript</dt><dd data-i="24">Dreamy&#x27;s app layer is TypeScript on Next.js, and its coaching explanations run on the Anthropic API.</dd><dt>Validation</dt><dd data-i="25">I ran our new analytics next to the old process for three months until every number matched, and our regime indicator was tested out of sample.</dd><dt>SQL</dt><dd data-i="26">Dreamy keeps every synced run and plan in Postgres.</dd><dt>Supabase</dt><dd data-i="27">In. uses it for sign-in, the database and notifications. <a href="#in">In.</a></dd><dt>Strava API</dt><dd data-i="28">Dreamy pulls in every run from Strava and analyzes it.</dd><dt>GitHub</dt><dd data-i="29">My projects are on GitHub, including this site and the rules I give Claude Code. <a href="https://github.com/jason-traum">GitHub</a></dd></dl></div><div class="klg" data-cat="product" style="--k: var(--k-jade)"><h3><i></i>Product and venture</h3><dl><dt>Building from scratch</dt><dd data-i="30">I took Dreamy from an idea to a beta with real runners while working full time, and built In. from idea to live app in one day. <a href="#dreamy">Dreamy</a></dd><dt>Product strategy</dt><dd data-i="31">I built Dreamy around busy people. When you miss a run, it rebuilds the week so training stays on track for race day. <a href="dreamy.html">How I built Dreamy</a></dd><dt>Customer discovery</dt><dd data-i="32">I offered prints in my New York building for anyone to borrow, and 15 neighbors messaged me. That was early interest. A paid swap test is next. <a href="#walldrobe">Walldrobe</a></dd><dt>Business models</dt><dd data-i="33">Walldrobe charges once to design your wall, keeps print swaps cheap, and every rental payment on an original counts toward buying it. <a href="#walldrobe">Walldrobe</a></dd><dt>UX design</dt><dd data-i="34">I wrote In.&#x27;s design rules and checked every screen at real phone width. <a href="#in">In.</a></dd><dt>Product specs</dt><dd data-i="35">I wrote Dreamy&#x27;s spec before any code, and kept it current as the product changed. <a href="dreamy.html">How I built Dreamy</a></dd><dt>Opportunity recognition</dt><dd data-i="40">98th percentile in Opportunity Recognition on the CareerLeader assessment. I had Dreamy rebuilding the week around missed runs before the big running apps did it. <a href="#dreamy">Dreamy</a></dd><dt>Beta testing</dt><dd data-i="36">I ran Dreamy&#x27;s beta with 15 runners through full race cycles and collected feedback every training block. 14 of the 15 rated it above the coach or app they used before. <a href="dreamy.html">How I built Dreamy</a></dd><dt>Pricing</dt><dd data-i="37">I set Walldrobe&#x27;s pricing and threw out a rate from a seed deck that was way too high for renters. <a href="#walldrobe">Walldrobe</a></dd><dt>Experiment design</dt><dd data-i="38">I designed a deposit-based price test and a keep, swap or return test for Walldrobe. <a href="#walldrobe">Walldrobe</a></dd><dt>Prototyping</dt><dd data-i="39">I built 5K 5 Bars in about a day for a real Run &amp; Tri Club event. <a href="#fivek">5K 5 Bars</a></dd><dt>Mechanism design</dt><dd data-i="41">The first version of In. matched runners using Nash bargaining. I kept the live version simple so people actually use it, and I&#x27;ll build the matching once I see how they use it. <a href="#in">In.</a></dd><dt>Training science</dt><dd data-i="42">Dreamy&#x27;s rules come from sports science research and coaching books I pulled together into one reference. <a href="dreamy.html">How I built Dreamy</a></dd></dl></div><div class="klg" data-cat="comm" style="--k: var(--k-amethyst)"><h3><i></i>Communication</h3><dl><dt>Data visualization</dt><dd data-i="43">I made my Morgan Stanley department&#x27;s chart palette after advisors couldn&#x27;t tell the lines apart on printouts and office screens. <a href="#background">Before Wharton</a></dd><dt>Market commentary</dt><dd data-i="44">I wrote the daily market note for about 25,000 financial advisors. <a href="#background">Before Wharton</a></dd><dt>Research writing</dt><dd data-i="45">Contributor on three public Global Investment Committee reports, including one on how much crypto to hold. <a href="#background">Before Wharton</a></dd><dt>Teaching</dt><dd data-i="46">I turned the stats waiver material into a study guide for my Wharton class, and I taught coworkers how to use GenAI in their own work.</dd><dt>Research synthesis</dt><dd data-i="47">I built Dreamy&#x27;s rulebook from sports science papers, coaching books and my own notes, pulled together with deep research across several models. <a href="dreamy.html">How I built Dreamy</a></dd><dt>Editing</dt><dd data-i="48">I overhauled our research format and cut its length about 30%.</dd><dt>Presenting</dt><dd data-i="49">At Guggenheim I presented portfolio recommendations to portfolio managers.</dd><dt>Pitching</dt><dd data-i="50">I built Walldrobe&#x27;s class pitch and cut the script from about 600 words to 300. <a href="#walldrobe">Walldrobe</a></dd><dt>Chart design</dt><dd data-i="51">Chartbooks were a big part of my job at Morgan Stanley, and I built an agent to automate part of making them.</dd></dl></div><div class="klg" data-cat="lead" style="--k: var(--k-carrot)"><h3><i></i>Leadership and community</h3><dl><dt>Community building</dt><dd data-i="52">I paced group runs for a New York running club for three years and ran a lot of its communications. <a href="#outside">Outside work</a></dd><dt>Event planning</dt><dd data-i="53">I&#x27;m organizing a 5K 5 Bars for the Run &amp; Tri Club and Beer Club, and threw my New York running club&#x27;s NYC Half after-party three years running. <a href="#fivek">5K 5 Bars</a></dd><dt>Change management</dt><dd data-i="54">When I automated our analytics package, the code took a few weeks. Then I sat with people one at a time until they trusted it. <a href="#background">Before Wharton</a></dd><dt>Coaching</dt><dd data-i="55">I paced group workouts and long runs for three years, and I wrote my dad&#x27;s half marathon plan. <a href="#outside">Outside work</a></dd><dt>Club boards</dt><dd data-i="58">I&#x27;m Director of Marketing and Community for the Wharton AI &amp; Analytics Club and VP of Social and Community for the Run &amp; Tri Club. <a href="#outside">Outside work</a></dd><dt>Building consensus</dt><dd data-i="59">Marketing, our COO&#x27;s team and my team argued about chart colors for a long time. I made a palette and everyone signed off. <a href="#background">Before Wharton</a></dd><dt>Team building</dt><dd data-i="56">Rugby at Brown, three years leading pace groups in New York, and two club boards at Wharton. I do well on teams. <a href="#outside">Outside work</a></dd><dt>Route design</dt><dd data-i="60">I designed the route for my New York club&#x27;s NYC Marathon shakeout, about 800 runners through Manhattan. <a href="#outside">Outside work</a></dd><dt>Fundraising</dt><dd data-i="61">I raised $11,000 for youth mental health and for visually impaired children.</dd><dt>Mentoring</dt><dd data-i="57">I was a peer advisor and an orientation leader at Brown.</dd></dl></div><div class="klg" data-cat="me" style="--k: var(--k-honey)"><h3><i></i>Character and drive</h3><dl><dt>Endurance</dt><dd data-i="62">3:10 marathon. I built most of Dreamy while training for the Jersey City Marathon. <a href="#log">the build log</a></dd><dt>Curiosity</dt><dd data-i="63">Openness 4.5 out of 5 on the Big Five I took at Wharton, against a class average of 3.85. I did an absurd amount of research before building Dreamy. <a href="dreamy.html">How I built Dreamy</a></dd><dt>Collaboration</dt><dd data-i="64">Agreeableness 4.5 out of 5 on the same Big Five. The stock-bond indicator and our tactical fixed income framework were both co-designed with other teams.</dd><dt>Staying calm</dt><dd data-i="65">Emotional reactivity 2.25 out of 5, the lowest on my Wharton learning team.</dd><dt>Creative thinking</dt><dd data-i="66">98th percentile in Creative Thinking on the CareerLeader assessment. I also paint. <a href="#outside">Outside work</a></dd><dt>Follow-through</dt><dd data-i="68">1,985 commits on Dreamy from January to April, on nights and weekends while I worked full time. <a href="#log">the build log</a></dd><dt>Candor</dt><dd data-i="67">Claude Code wrote the code for everything I built this year. I owned the product, the research and the model. <a href="dreamy.html">How I built Dreamy</a></dd><dt>Oil painting</dt><dd data-i="69">My paintings have been in galleries in Tribeca and Soho. <a href="#outside">Outside work</a></dd><dt>Rugby</dt><dd data-i="70">I played at Brown. It was the best part of college. <a href="#outside">Outside work</a></dd><dt>Triathlon</dt><dd data-i="71">I raced a half Ironman with a squad from my run club.</dd><dt>Ultra pacing</dt><dd data-i="72">I&#x27;ve paced runners through ultramarathons.</dd><dt>Consistency</dt><dd data-i="73">I run every day, because I can&#x27;t ski every day.</dd><dt>Skiing</dt><dd data-i="74">East Coast skier. I like the ice.</dd></dl></div></div><p class="src">Words run from harder skills on the left to softer ones on the right (top to bottom on a phone). Bigger words are the ones I'd lead with; smaller ones are specific methods and tools. Point at or tap any word to see where it comes from. Sources: my resume, the projects on this page, and the Big Five and CareerLeader assessments I took at Wharton.</p></section><!--/skills--><!--log--><section class="exhibit" id="log" aria-labelledby="log-h" style="--c: var(--c-msblue)"><header><p class="exh">Exhibit 2</p><h2 class="ext" id="log-h">Most of Dreamy got built in February and March, while I was working full time and training for the Jersey City Marathon.</h2></header><div class="log-key"><span><i class="d-dreamy"></i>Dreamy</span><span><i class="d-in"></i>In.</span><span><i class="d-5k"></i>5K 5 Bars</span><span><i class="d-wd"></i>Walldrobe</span><span><i class="d-other"></i>Other things I built</span><span><i class="race"></i>Jersey City Marathon, Apr 19</span></div><div class="log-key k2"><span><i class="d-ink"></i>Circle: a day I wrote code</span><span><i class="chat d-ink"></i>Square: a day of research or planning, no code</span></div><div class="log-wrap"><table class="log"><thead><tr><th></th><th scope="col">M</th><th scope="col">T</th><th scope="col">W</th><th scope="col">T</th><th scope="col">F</th><th scope="col">S</th><th scope="col">S</th><th scope="col">Commits</th></tr></thead><tbody><tr><th scope="row">Jan 5</th><td></td><td></td><td></td><td><i class="chat d-other" title="2026-01-08: research or planning on something else"></i></td><td></td><td></td><td></td><td class="t"></td></tr><tr><th scope="row">Jan 12</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="t"></td></tr><tr><th scope="row">Jan 19</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="t"></td></tr><tr><th scope="row">Jan 26</th><td></td><td><i class="chat d-dreamy" title="2026-01-27: research or planning on Dreamy"></i></td><td><i class="d-dreamy" style="width:9px;height:9px" title="2026-01-28: 7 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:14px;height:14px" title="2026-01-29: 32 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:8px;height:8px" title="2026-01-30: 3 commits to Dreamy"></i></td><td></td><td></td><td class="t">42</td></tr><tr><th scope="row">Feb 2</th><td></td><td><i class="d-dreamy" style="width:15px;height:15px" title="2026-02-03: 40 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:13px;height:13px" title="2026-02-04: 26 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:9px;height:9px" title="2026-02-05: 7 commits to Dreamy"></i></td><td></td><td></td><td><i class="chat d-other" title="2026-02-08: research or planning on something else"></i></td><td class="t">73</td></tr><tr><th scope="row">Feb 9</th><td><i class="d-dreamy" style="width:9px;height:9px" title="2026-02-09: 7 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:13px;height:13px" title="2026-02-10: 22 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:12px;height:12px" title="2026-02-11: 20 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:11px;height:11px" title="2026-02-12: 16 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:13px;height:13px" title="2026-02-13: 22 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:14px;height:14px" title="2026-02-14: 33 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:19px;height:19px" title="2026-02-15: 82 commits to Dreamy"></i></td><td class="t">202</td></tr><tr><th scope="row">Feb 16</th><td><i class="d-dreamy" style="width:13px;height:13px" title="2026-02-16: 26 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:16px;height:16px" title="2026-02-17: 51 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:15px;height:15px" title="2026-02-18: 43 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:12px;height:12px" title="2026-02-19: 19 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:15px;height:15px" title="2026-02-20: 42 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:20px;height:20px" title="2026-02-21: 92 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:20px;height:20px" title="2026-02-22: 100 commits to Dreamy"></i></td><td class="t">373</td></tr><tr><th scope="row">Feb 23</th><td><i class="d-dreamy" style="width:17px;height:17px" title="2026-02-23: 52 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:16px;height:16px" title="2026-02-24: 46 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:15px;height:15px" title="2026-02-25: 43 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:7px;height:7px" title="2026-02-26: 2 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:16px;height:16px" title="2026-02-27: 45 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:15px;height:15px" title="2026-02-28: 38 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:20px;height:20px" title="2026-03-01: 83 commits to Dreamy"></i></td><td class="t">309</td></tr><tr><th scope="row">Mar 2</th><td><i class="d-dreamy" style="width:19px;height:19px" title="2026-03-02: 76 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:13px;height:13px" title="2026-03-03: 22 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:16px;height:16px" title="2026-03-04: 46 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:18px;height:18px" title="2026-03-05: 62 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:20px;height:20px" title="2026-03-06: 90 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:18px;height:18px" title="2026-03-07: 67 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:15px;height:15px" title="2026-03-08: 39 commits to Dreamy"></i></td><td class="t">402</td></tr><tr><th scope="row">Mar 9</th><td><i class="d-dreamy" style="width:16px;height:16px" title="2026-03-09: 46 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:16px;height:16px" title="2026-03-10: 49 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:14px;height:14px" title="2026-03-11: 33 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:16px;height:16px" title="2026-03-12: 46 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:14px;height:14px" title="2026-03-13: 32 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:12px;height:12px" title="2026-03-14: 20 commits to Dreamy"></i></td><td></td><td class="t">226</td></tr><tr><th scope="row">Mar 16</th><td><i class="d-dreamy" style="width:13px;height:13px" title="2026-03-16: 23 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:12px;height:12px" title="2026-03-17: 18 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:7px;height:7px" title="2026-03-18: 1 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:15px;height:15px" title="2026-03-19: 39 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:15px;height:15px" title="2026-03-20: 38 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:14px;height:14px" title="2026-03-21: 34 commits to Dreamy"></i></td><td></td><td class="t">153</td></tr><tr><th scope="row">Mar 23</th><td><i class="d-dreamy" style="width:12px;height:12px" title="2026-03-23: 21 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:9px;height:9px" title="2026-03-24: 6 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:10px;height:10px" title="2026-03-25: 8 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:9px;height:9px" title="2026-03-26: 6 commits to Dreamy"></i></td><td></td><td></td><td><i class="d-dreamy" style="width:11px;height:11px" title="2026-03-29: 14 commits to Dreamy"></i></td><td class="t">55</td></tr><tr><th scope="row">Mar 30</th><td><i class="d-dreamy" style="width:11px;height:11px" title="2026-03-30: 12 commits to Dreamy"></i></td><td></td><td><i class="chat d-other" title="2026-04-01: research or planning on something else"></i></td><td><i class="d-dreamy" style="width:9px;height:9px" title="2026-04-02: 6 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:7px;height:7px" title="2026-04-03: 1 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:8px;height:8px" title="2026-04-04: 4 commits to Dreamy"></i></td><td></td><td class="t">23</td></tr><tr><th scope="row">Apr 6</th><td></td><td><i class="d-dreamy" style="width:13px;height:13px" title="2026-04-07: 25 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:14px;height:14px" title="2026-04-08: 33 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:10px;height:10px" title="2026-04-09: 10 commits to Dreamy"></i></td><td><i class="d-dreamy" style="width:12px;height:12px" title="2026-04-10: 20 commits to Dreamy"></i></td><td></td><td><i class="d-dreamy" style="width:14px;height:14px" title="2026-04-12: 30 commits to Dreamy"></i></td><td class="t">118</td></tr><tr><th scope="row">Apr 13</th><td><i class="d-dreamy" style="width:9px;height:9px" title="2026-04-13: 7 commits to Dreamy"></i></td><td></td><td><i class="chat d-other" title="2026-04-15: research or planning on something else"></i></td><td></td><td></td><td></td><td><i class="race" title="Jersey City Marathon, April 19"></i><span class="sr-only">Jersey City Marathon, April 19</span></td><td class="t">7</td></tr><tr><th scope="row">Apr 20</th><td><i class="d-dreamy" style="width:7px;height:7px" title="2026-04-20: 2 commits to Dreamy"></i></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="t">2</td></tr><tr><th scope="row">Apr 27</th><td></td><td></td><td></td><td></td><td><i class="chat d-other" title="2026-05-01: research or planning on something else"></i></td><td></td><td></td><td class="t"></td></tr><tr><th scope="row">May 4</th><td></td><td></td><td></td><td><i class="chat d-other" title="2026-05-07: research or planning on something else"></i></td><td></td><td></td><td></td><td class="t"></td></tr><tr><th scope="row">May 11</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="t"></td></tr><tr><th scope="row">May 18</th><td></td><td><i class="chat d-other" title="2026-05-19: research or planning on something else"></i></td><td><i class="chat d-other" title="2026-05-20: research or planning on something else"></i></td><td></td><td></td><td></td><td></td><td class="t"></td></tr><tr><th scope="row">May 25</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="t"></td></tr><tr><th scope="row">Jun 1</th><td><i class="chat d-other" title="2026-06-01: research or planning on something else"></i></td><td></td><td></td><td><i class="chat d-other" title="2026-06-04: research or planning on something else"></i></td><td></td><td></td><td></td><td class="t"></td></tr><tr><th scope="row">Jun 8</th><td></td><td></td><td><i class="chat d-other" title="2026-06-10: research or planning on something else"></i></td><td></td><td></td><td></td><td></td><td class="t"></td></tr><tr><th scope="row">Jun 15</th><td><i class="chat d-other" title="2026-06-15: research or planning on something else"></i></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="t"></td></tr><tr><th scope="row">Jun 22</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="t"></td></tr><tr><th scope="row">Jun 29</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="t"></td></tr><tr><th scope="row">Jul 6</th><td><i class="chat d-other" title="2026-07-06: research or planning on something else"></i></td><td></td><td><i class="chat d-other" title="2026-07-08: research or planning on something else"></i></td><td><i class="chat d-in" title="2026-07-09: research or planning on In."></i></td><td></td><td></td><td></td><td class="t"></td></tr><tr><th scope="row">Jul 13</th><td><i class="chat d-other" title="2026-07-13: research or planning on something else"></i></td><td></td><td><i class="chat d-other" title="2026-07-15: research or planning on something else"></i></td><td></td><td></td><td></td><td></td><td class="t"></td></tr><tr><th scope="row">Jul 20</th><td></td><td></td><td></td><td></td><td><i class="chat d-dreamy" title="2026-07-24: research or planning on Dreamy"></i></td><td></td><td></td><td class="t"></td></tr><tr><th scope="row">Jul 27</th><td></td><td></td><td></td><td><i class="chat d-in" title="2026-07-30: research or planning on In."></i></td><td></td><td></td><td></td><td class="t"></td></tr><tr><th scope="row">Aug 3</th><td><i class="chat d-other" title="2026-08-03: research or planning on something else"></i></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="t"></td></tr><tr><th scope="row">Aug 10</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="t"></td></tr><tr><th scope="row">Aug 17</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="t"></td></tr><tr><th scope="row">Aug 24</th><td></td><td><i class="chat d-wd" title="2026-08-25: research or planning on Walldrobe"></i></td><td></td><td></td><td></td><td></td><td></td><td class="t"></td></tr><tr><th scope="row">Aug 31</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="t"></td></tr><tr><th scope="row">Sep 7</th><td><i class="chat d-wd" title="2026-09-07: research or planning on Walldrobe"></i></td><td><i class="chat d-wd" title="2026-09-08: research or planning on Walldrobe"></i></td><td><i class="chat d-other" title="2026-09-09: research or planning on something else"></i></td><td><i class="chat d-wd" title="2026-09-10: research or planning on Walldrobe"></i></td><td></td><td></td><td></td><td class="t"></td></tr><tr><th scope="row">Sep 14</th><td></td><td></td><td></td><td><i class="chat d-other" title="2026-09-17: research or planning on something else"></i></td><td></td><td></td><td></td><td class="t"></td></tr><tr><th scope="row">Sep 21</th><td><i class="chat d-other" title="2026-09-21: research or planning on something else"></i></td><td><i class="chat d-wd" title="2026-09-22: research or planning on Walldrobe"></i></td><td></td><td><i class="chat d-other" title="2026-09-24: research or planning on something else"></i></td><td></td><td><i class="chat d-other" title="2026-09-26: research or planning on something else"></i></td><td><i class="d-in" style="width:11px;height:11px" title="2026-09-27: 12 commits to In."></i></td><td class="t">12</td></tr><tr><th scope="row">Sep 28</th><td><i class="d-5k" style="width:10px;height:10px" title="2026-09-28: 11 commits to 5K 5 Bars"></i></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="t">11</td></tr></tbody></table></div><p class="src">Circles are days I committed code, sized by how many commits. Squares are days I did research or planning with Claude but wrote no code, like the In. concept work over the summer and Walldrobe this fall. I plan in other apps too, so there were more of those days than this shows. Sources: GitHub history for Dreamy, In. and 5K 5 Bars; my Claude chat history. January 5 to September 28, 2026.</p></section><!--/log-->
+    <section class="exhibit" id="work" aria-labelledby="work-h">
+      <header style="margin-bottom:18px"><p class="exh">Exhibit 3</p><h2 class="ext" id="work-h">Everything I've built so far, and where each one stands</h2></header>
+      <table class="holdings" role="table">
+        <thead role="rowgroup">
+          <tr role="row">
+            <th role="columnheader" scope="col">Project</th>
+            <th role="columnheader" scope="col">What it is</th>
+            <th role="columnheader" scope="col">Status</th>
+            <th role="columnheader" scope="col">Started</th>
+          </tr>
+        </thead>
+        <tbody role="rowgroup">
+          <tr role="row">
+            <td role="cell" class="p" style="--c: var(--c-msblue)"><i class="sw2" aria-hidden="true"></i><a href="#dreamy">Dreamy</a></td>
+            <td role="cell" class="w">AI running coach that plans around the days you can't run</td>
+            <td role="cell" class="s"><span class="mk mk-use" aria-hidden="true"></span>Beta done; I still use it</td>
+            <td role="cell" class="d">Jan 2026</td>
+          </tr>
+          <tr role="row">
+            <td role="cell" class="p" style="--c: var(--c-carrot)"><i class="sw2" aria-hidden="true"></i><a href="#fivek">5K 5 Bars</a></td>
+            <td role="cell" class="w">Race-day app for our run club's bar crawl</td>
+            <td role="cell" class="s"><span class="mk mk-live" aria-hidden="true"></span>Live</td>
+            <td role="cell" class="d">Sep 2026</td>
+          </tr>
+          <tr role="row">
+            <td role="cell" class="p" style="--c: var(--c-jade)"><i class="sw2" aria-hidden="true"></i><a href="#in">In.</a></td>
+            <td role="cell" class="w">Plan tomorrow's run with other Wharton and Penn grad runners</td>
+            <td role="cell" class="s"><span class="mk mk-live" aria-hidden="true"></span>Live</td>
+            <td role="cell" class="d">Sep 2026</td>
+          </tr>
+          <tr role="row">
+            <td role="cell" class="p" style="--c: var(--c-amethyst)"><i class="sw2" aria-hidden="true"></i><a href="#wharton-os">Wharton OS</a></td>
+            <td role="cell" class="w">Claude Code setup that keeps track of school for me</td>
+            <td role="cell" class="s"><span class="mk mk-use" aria-hidden="true"></span>In use</td>
+            <td role="cell" class="d">Sep 2026</td>
+          </tr>
+          <tr role="row">
+            <td role="cell" class="p" style="--c: var(--c-honey)"><i class="sw2" aria-hidden="true"></i><a href="#walldrobe">Walldrobe</a></td>
+            <td role="cell" class="w">Rent the Runway, for art</td>
+            <td role="cell" class="s"><span class="mk mk-concept" aria-hidden="true"></span>Class venture</td>
+            <td role="cell" class="d">Sep 2026</td>
+          </tr>
+          <tr role="row">
+            <td role="cell" class="p"><a href="#heat">Heat Adjusted Pace</a></td>
+            <td role="cell" class="w">Adjusts your goal pace for heat and humidity</td>
+            <td role="cell" class="s"><span class="mk mk-live" aria-hidden="true"></span>Live</td>
+            <td role="cell" class="d">2024</td>
+          </tr>
+          <tr role="row">
+            <td role="cell" class="p"><a href="#road">Road to 13.1</a></td>
+            <td role="cell" class="w">Half marathon plan for my dad</td>
+            <td role="cell" class="s"><span class="mk mk-concept" aria-hidden="true"></span>Private</td>
+            <td role="cell" class="d">Sep 2026</td>
+          </tr>
+          <tr role="row">
+            <td role="cell" class="p"><a href="#guide">Stats waiver guide</a></td>
+            <td role="cell" class="w">Study guide I made for my class</td>
+            <td role="cell" class="s"><span class="mk mk-use" aria-hidden="true"></span>Shared</td>
+            <td role="cell" class="d">Aug 2026</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="src">Status as of September 28, 2026.</p>
+    </section>
+
+    
+
+    <article class="project" id="dreamy" aria-labelledby="dreamy-h">
+      <header class="p-head">
+        <p class="exh">Exhibit 4</p>
+        <h2 class="p-name" id="dreamy-h">Dreamy</h2>
+        <p class="p-tag">An AI running coach that plans around the days you can't run</p>
+      </header>
+      <div class="p-grid">
+        <div class="p-meta">
+          <dl>
+            <div><dt>Status</dt><dd>Beta ran Feb to Apr 2026. I still tinker with it and use it to make training plans</dd></div>
+            <div><dt>Built</dt><dd>Jan to Apr 2026, while working full time</dd></div>
+            <div><dt>Built with</dt><dd>Claude Code, TypeScript, Next.js, Postgres, Anthropic API</dd></div>
+            <div><dt>Beta</dt><dd>15 runners through full race cycles. 14 of the 15 rated it above the coach or app they used before.</dd></div>
+            <div><dt>Link</dt><dd><a href="https://www.getdreamy.run">getdreamy.run</a> (invite-only)</dd></div>
+          </dl>
+        </div>
+        <div class="p-body">
+          <p>I built Dreamy because every option for a training plan was bad in some way. A coach is expensive, and a plan from a running book hasn't changed in decades. AI plans were the worst of all. You could adjust them, but they weren't backed by any science, you had to be really good at prompting to get something usable, and they didn't sync with anything or look at your actual runs.</p>
+          <p>With Dreamy, the plan comes from rules taken from the research, it syncs with Strava and analyzes every run, and the same data always gives you the same plan. The biggest difference is that it works around your schedule. You tell it which days you can't run and it rebuilds the week around them, so you might run seven days one week and four the next. It adapts when you miss a workout or a race moves, and it explains every change.</p>
+          <p>I did an absurd amount of research for it. I used AI to find every marathon plan and sports science paper I could, and gave it a ton of direction from my own marathon training. I started with an LLM writing the plans, but that got expensive and unreliable, so I switched to an old-fashioned rules engine. Then I ran real runners' histories through it, had LLMs grade the plans against the research and suggest changes, and reviewed every round myself.</p>
+          <p>Claude Code wrote all of the code. My part was the product, the research and the model. I built it from January to April while working full time and got a group of runners from my run club using it. I still tinker with it and use it to make training plans.</p>
+          <a class="deep-link" href="dreamy.html">How I built Dreamy, with a working demo of the week builder</a>
+          <div class="shots" style="--n:3">
+            <figure>
+              <img src="img/dreamy-today.webp" width="600" height="857" alt="Dreamy's Today screen: a greeting, a countdown to the United NYC Half with carb-loading advice, and today's easy run." loading="lazy" decoding="async">
+              <figcaption>Today, three days before a half marathon</figcaption>
+            </figure>
+            <figure>
+              <img src="img/dreamy-week.webp" width="600" height="857" alt="Dreamy's This Week screen listing each day's workout, with a note that one swap turned Wednesday's tempo run into a rest day." loading="lazy" decoding="async">
+              <figcaption>A week after I swapped Wednesday's tempo for rest</figcaption>
+            </figure>
+            <figure>
+              <img src="img/dreamy-forecast.webp" width="600" height="857" alt="Dreamy's half marathon forecast: a blended estimate of 1:31:04, a range of 1:27:53 to 1:34:30, and each model's estimate and weight." loading="lazy" decoding="async">
+              <figcaption>My half marathon forecast, with every model's estimate</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="project" id="fivek" aria-labelledby="fivek-h">
+      <header class="p-head">
+        <p class="exh">Exhibit 5</p>
+        <h2 class="p-name" id="fivek-h">5K 5 Bars</h2>
+        <p class="p-tag">Race-day app for our run club's bar crawl</p>
+      </header>
+      <div class="p-grid">
+        <div class="p-meta">
+          <dl>
+            <div><dt>Status</dt><dd>Live; race date not set</dd></div>
+            <div><dt>Built</dt><dd>Sep 2026, in one day</dd></div>
+            <div><dt>Built with</dt><dd>Claude Code, Supabase, MapLibre, GitHub Pages</dd></div>
+            <div><dt>Link</dt><dd><a href="https://jason-traum.github.io/wrtc-5k5bars/?demo">Try the demo</a></dd></div>
+          </dl>
+        </div>
+        <div class="p-body">
+          <p>I'm organizing a 5K 5 Bars for the Run &amp; Tri Club with the Beer Club: about a kilometer of running between each of five bars, from Rittenhouse Square to Morgan's Pier. I wanted a way to know who actually made it to each bar, so I built an app for race day.</p>
+          <p>You join with your bib number and first name. When you walk into a bar you tap I'm at the bar, and it checks your phone's location. When you head out you tap Leaving. The leaderboard ranks everyone on running pace only, so time at the bars never counts and drinking fast doesn't help you. If someone forgets a tap, that leg just doesn't count. It never guesses a time.</p>
+          <p>People are using it a few drinks in, in a loud bar, so the race screen only shows the next bar, one big button and when the group is leaving. The stats wait for the finish screen. It only reads your location when you tap, and it saves how far you were from the bar, never where you were.</p>
+          <p>Before building I wrote down who uses it and when, what every screen shows in every situation, the look, and a log of every decision. Claude Code reads those before it changes anything, which is why it came together in a day.</p>
+          <div class="shots" style="--n:3">
+            <figure>
+              <img src="img/5k-race.webp" width="600" height="962" alt="5K 5 Bars race screen: the progress strip at bar 2 of 5, McGillin's Olde Ale House, and a large red I'm at McGillin's button." loading="lazy" decoding="async">
+              <figcaption>On the way to the next bar</figcaption>
+            </figure>
+            <figure>
+              <img src="img/5k-atbar.webp" width="600" height="962" alt="5K 5 Bars at-the-bar screen: group leaves in 30:00 at 7:39 PM, a Leaving McGillin's button, and Already at Indy Beer Garden." loading="lazy" decoding="async">
+              <figcaption>At a bar, counting down to when the group leaves</figcaption>
+            </figure>
+            <figure>
+              <img src="img/5k-finished.webp" width="600" height="962" alt="5K 5 Bars finish card: 6th of 15, 8:44 per mile, 26:18 running, and a bar showing time running versus time at bars." loading="lazy" decoding="async">
+              <figcaption>The finish screen, from the demo</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="project" id="in" aria-labelledby="in-h">
+      <header class="p-head">
+        <p class="exh">Exhibit 6</p>
+        <h2 class="p-name" id="in-h">In.</h2>
+        <p class="p-tag">Plan tomorrow's run with other Wharton and Penn grad runners</p>
+      </header>
+      <div class="p-grid">
+        <div class="p-meta">
+          <dl>
+            <div><dt>Status</dt><dd>Live</dd></div>
+            <div><dt>Built</dt><dd>Sep 2026, in one day</dd></div>
+            <div><dt>Built with</dt><dd>Claude, Preact, Supabase, GitHub Pages</dd></div>
+            <div><dt>Link</dt><dd><a href="https://jason-traum.github.io/in/">jason-traum.github.io/in</a></dd></div>
+          </dl>
+        </div>
+        <div class="p-body">
+          <p>I built In. so Wharton and Penn grad students can find someone to run with. You post a run the night before with the time, the pace and where it starts, and people tap I'm in or Maybe. It shows who's going and what time to leave your place, and every run has its own chat.</p>
+          <p>A proposed run only happens if the host confirms it by 10 PM. You pick whether friends, friends of friends or all of Wharton can see it, and nobody sees where you live, just where the run starts. Until 20 real people sign up, famous Philly names like Ben Franklin and Jalen Hurts fill out the runs, tagged as bots.</p>
+          <p>I built it with Claude in one day, from the idea to a live app with sign-in, a database and notifications. I'm sharing it with the Run &amp; Tri Club board first.</p>
+          <p>The first version of In. matched runners using Nash bargaining. I kept this one simple on purpose, so people start using it without much to think about. I have more ideas, but I want to see what I learn from how people use this before I build out the matching.</p>
+          <div class="shots" style="--n:2">
+            <figure>
+              <img src="img/in-board.webp" width="720" height="942" alt="The In. board on an iPhone: a run I'm hosting Saturday at 9:00 AM, 9:00 per mile for 5 miles, leave by 8:50 AM and home by 9:50 AM, above the Friends, Friends of friends and All Wharton selector." loading="lazy" decoding="async">
+              <figcaption>The board, with a run I'm hosting</figcaption>
+            </figure>
+            <figure>
+              <img src="img/in-run.webp" width="720" height="665" alt="A confirmed run's details in In.: 6:15 AM Morning Miles, 9:00 per mile for 8 miles, with I'm in, Maybe and Not going buttons." loading="lazy" decoding="async">
+              <figcaption>A run you can join</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="project" id="wharton-os" aria-labelledby="wos-h">
+      <header class="p-head">
+        <p class="exh">Exhibit 7</p>
+        <h2 class="p-name" id="wos-h">Wharton OS</h2>
+        <p class="p-tag">Claude Code setup that keeps track of school for me</p>
+      </header>
+      <div class="p-grid">
+        <div class="p-meta">
+          <dl>
+            <div><dt>Status</dt><dd>In use</dd></div>
+            <div><dt>Built</dt><dd>Sep 2026</dd></div>
+            <div><dt>Built with</dt><dd>Claude Code agents, skills and hooks; Gmail, Google Calendar, Canvas</dd></div>
+            <div><dt>Link</dt><dd>Private</dd></div>
+          </dl>
+        </div>
+        <div class="p-body">
+          <p>Wharton has five course sites, two inboxes, two calendars and a lot of club email. I set up Claude Code to keep track of all of it, and every morning it writes me a brief of what's due and what's coming up.</p>
+          <p>Each agent reads one thing and reports back, and only the main session can write to my calendar or task list. A hook blocks anything that would send or delete until I say yes in the chat, and every deadline has to link back to where it came from.</p>
+          <dl class="wiring" aria-label="Agents">
+            <dt>inbox</dt><dd>Sorts both Gmail accounts and pulls out deadlines. Read-only.</dd>
+            <dt>calendar</dt><dd>Finds conflicts across classes, trips and clubs.</dd>
+            <dt>classes</dt><dd>Pulls Canvas and keeps one ledger per course.</dd>
+            <dt>career</dt><dd>Tracks recruiting follow-ups and preps coffee chats.</dd>
+            <dt>research</dt><dd>One-off deep dives, with sources.</dd>
+          </dl>
+        </div>
+      </div>
+    </article>
+
+    <article class="project" id="walldrobe" aria-labelledby="wd-h">
+      <header class="p-head">
+        <p class="exh">Exhibit 8</p>
+        <h2 class="p-name" id="wd-h">Walldrobe</h2>
+        <p class="p-tag">Rent the Runway, for art</p>
+      </header>
+      <div class="p-grid">
+        <div class="p-meta">
+          <dl>
+            <div><dt>Status</dt><dd>Class venture</dd></div>
+            <div><dt>Started</dt><dd>Sep 2026</dd></div>
+            <div><dt>Stage</dt><dd>Pitch done; first interest test done</dd></div>
+          </dl>
+        </div>
+        <div class="p-body">
+          <p>I bought a print in 2022 that I love. It has hung in three apartments and never looked right. My wall in New York took two years and a lot of mistakes to get right, and almost every mistake was size and spacing, not taste.</p>
+          <p>With Walldrobe you scan your apartment, mark the art you already own, and swipe through prints to show what you like. We design each wall and send framed prints with a template for hanging them. After that the frames stay up and you swap the prints whenever you want. You can also rent an original from a local artist, and every payment counts toward buying it.</p>
+          <p>To test it, I offered prints in my New York building for anyone to borrow, and 15 neighbors messaged me. Next is a paid swap test and signing our first Philadelphia artist.</p>
+          <figure class="wall-fig">
+            <div class="wall" role="img" aria-label="Drawing: three framed prints of different sizes hung with their centers on one line, three inches apart.">
+              <div class="centerline" aria-hidden="true"></div>
+              <div class="wall-key" aria-hidden="true"><i></i>57 in. centerline</div>
+              <div class="frames" aria-hidden="true">
+                <div class="frame f1"><div class="mat"><div class="art-box"><div class="art a-sun on"></div><div class="art"></div></div></div></div>
+                <div class="gap"><span>3 in.</span></div>
+                <div class="frame f2"><div class="mat"><div class="art-box"><div class="art a-bands on"></div><div class="art"></div></div></div></div>
+                <div class="gap"><span>3 in.</span></div>
+                <div class="frame f3"><div class="mat"><div class="art-box"><div class="art a-dots on"></div><div class="art"></div></div></div></div>
+              </div>
+            </div>
+            <figcaption class="swap-row">
+              <button class="swap" type="button" id="swap">Swap a print</button>
+              <span class="note">Swap a print without moving the frames.</span>
+              <span class="sr-only" aria-live="polite" id="swap-status"></span>
+            </figcaption>
+          </figure>
+          <figure class="wd-concept"><img src="img/walldrobe-concept.webp" width="1400" height="1050" alt="Concept image of a living room with a finished gallery wall of framed prints above a couch" loading="lazy" decoding="async"><figcaption>What a finished wall could look like. A concept image made with AI.</figcaption></figure>
+        </div>
+      </div>
+    </article>
+
+    <section class="section" id="more" aria-labelledby="more-h">
+      <div class="sec-head"><h2 class="label" id="more-h">Smaller things</h2></div>
+      <ul class="builds">
+        <li id="heat">
+          <h3>Heat Adjusted Pace <span class="when">2024 &middot; <a href="https://jason-traum.github.io/running-pace-adjuster/">live</a></span></h3>
+          <p>My first web app, from before I was using Claude Code. You put in the pace you'd run in perfect weather, and it adjusts it for heat, humidity, time of day, hydration and how much you've been training in the heat, using the weather where you are.</p>
+        </li>
+        <li id="road">
+          <h3>Road to 13.1 <span class="when">Sep 2026</span></h3>
+          <p>An 11-week run/walk plan for my dad's first half marathon in December, with a heat and humidity check for training in Florida and a week-by-week view he can check off.</p>
+        </li>
+        <li id="guide">
+          <h3>Stats waiver guide <span class="when">Aug 2026</span></h3>
+          <p>I put the lecture notes and practice problems for Wharton's stats waiver exam into Claude, made a study guide, and dropped it in the class group chat. It took me maybe twenty minutes. A classmate I hadn't met messaged me to say it got him through the exam.</p>
+        </li>
+      </ul>
+    </section>
+
+    <section class="section" id="background" aria-labelledby="bg-h">
+      <div class="sec-head"><h2 class="label" id="bg-h">Before Wharton</h2></div>
+      <table class="career">
+        <tbody>
+          <tr><td class="yr">2023&ndash;2026</td><th scope="row" class="org">Morgan Stanley, Global Investment Office</th><td class="role">Investment Strategist, Portfolio Construction &amp; Cross-Asset Strategy</td></tr>
+          <tr><td class="yr">2022&ndash;2023</td><th scope="row" class="org">Morgan Stanley, Outsourced CIO</th><td class="role">Portfolio Construction Strategist</td></tr>
+          <tr><td class="yr">2020&ndash;2022</td><th scope="row" class="org">Guggenheim Partners</th><td class="role">Investment Analyst, Portfolio Construction Group</td></tr>
+          <tr><td class="yr">2019</td><th scope="row" class="org">Goldman Sachs</th><td class="role">Summer Analyst, Market Risk</td></tr>
+        </tbody>
+      </table>
+      <ul class="highlights">
+        <li>I led the automation of a thousand-slide monthly analytics package, with more than 4,000 data fields from Bloomberg, FactSet and team workbooks that were all built differently. The code took a few weeks. Then I spent about three months running it next to the old process until the numbers matched, and sitting with people one at a time, converting their workbooks with them, until they trusted it. Turnaround went from 10 days to 3, and it&rsquo;s still running.</li>
+        <li>I built AI agents my team ended up using, to automate a really manual part of making our chartbook and to come up with chart ideas from news, market moves and advisor feedback.</li>
+        <li>I wrote the daily market note for our financial advisors, and helped build a stock-bond indicator that several teams used in their research.</li>
+        <li>Marketing, our COO's team and my team went back and forth on chart colors for a long time after advisors said they couldn't tell the lines apart on printouts and office screens. I stepped in, made a palette I knew would work, and everyone signed off. It was kind of my first time leading people, and I became the unofficial color czar.<!--palette--><figure class="palette-fig"><div class="pal-pair"><div class="pal"><p class="pal-h">Before: the six colors we were given</p><svg viewBox="0 0 320 170" role="img" aria-label="Before: the six colors we were given: six thin lines on one chart"><g class="grid"><line x1="8" x2="312" y1="40" y2="40"/><line x1="8" x2="312" y1="85" y2="85"/><line x1="8" x2="312" y1="130" y2="130"/></g><g class="lines"><path d="M8.0,114.1L12.4,112.5L16.8,108.3L21.2,110.4L25.6,116.1L30.0,116.4L34.4,114.3L38.8,109.7L43.2,114.8L47.7,120.3L52.1,117.3L56.5,115.3L60.9,108.8L65.3,104.6L69.7,105.1L74.1,106.2L78.5,95.3L82.9,96.5L87.3,99.9L91.7,104.7L96.1,104.3L100.5,103.7L104.9,105.1L109.3,105.4L113.7,104.2L118.1,101.3L122.6,96.6L127.0,95.8L131.4,103.4L135.8,100.4L140.2,106.4L144.6,107.1L149.0,113.4L153.4,113.4L157.8,116.7L162.2,115.8L166.6,101.8L171.0,102.0L175.4,98.4L179.8,104.0L184.2,105.2L188.6,102.4L193.0,102.8L197.4,101.3L201.9,100.8L206.3,105.1L210.7,102.7L215.1,106.1L219.5,98.2L223.9,100.3L228.3,97.4L232.7,97.4L237.1,93.4L241.5,95.9L245.9,91.7L250.3,92.2L254.7,86.8L259.1,84.2L263.5,83.6L267.9,86.9L272.3,83.6L276.8,81.7L281.2,74.7L285.6,76.3L290.0,73.9L294.4,71.8L298.8,70.6L303.2,69.7L307.6,68.9L312.0,71.4" stroke="#187ABA"/><path d="M8.0,101.3L12.4,102.9L16.8,100.4L21.2,94.0L25.6,89.9L30.0,85.4L34.4,82.1L38.8,79.1L43.2,78.3L47.7,75.1L52.1,67.5L56.5,68.9L60.9,71.9L65.3,63.5L69.7,62.5L74.1,58.4L78.5,54.7L82.9,59.5L87.3,49.1L91.7,41.6L96.1,40.9L100.5,37.7L104.9,37.1L109.3,40.9L113.7,41.3L118.1,39.8L122.6,35.0L127.0,32.0L131.4,31.8L135.8,26.0L140.2,29.2L144.6,25.9L149.0,21.1L153.4,22.4L157.8,30.0L162.2,33.8L166.6,32.8L171.0,30.6L175.4,24.0L179.8,28.3L184.2,28.3L188.6,25.5L193.0,26.2L197.4,36.2L201.9,32.8L206.3,23.0L210.7,18.7L215.1,22.6L219.5,24.4L223.9,23.4L228.3,13.3L232.7,13.3L237.1,13.3L241.5,13.3L245.9,13.7L250.3,13.3L254.7,16.2L259.1,18.2L263.5,15.2L267.9,13.3L272.3,13.3L276.8,13.3L281.2,21.0L285.6,24.1L290.0,26.7L294.4,28.9L298.8,26.4L303.2,27.9L307.6,24.5L312.0,24.2" stroke="#002B51"/><path d="M8.0,86.4L12.4,85.9L16.8,84.1L21.2,80.4L25.6,82.5L30.0,83.5L34.4,89.3L38.8,82.4L43.2,76.3L47.7,77.0L52.1,79.1L56.5,84.3L60.9,83.6L65.3,82.7L69.7,73.4L74.1,72.4L78.5,75.7L82.9,86.1L87.3,80.1L91.7,79.3L96.1,86.1L100.5,85.4L104.9,92.2L109.3,77.4L113.7,72.7L118.1,70.2L122.6,71.0L127.0,80.1L131.4,80.6L135.8,87.2L140.2,84.7L144.6,93.8L149.0,97.6L153.4,92.4L157.8,85.5L162.2,90.5L166.6,97.0L171.0,93.3L175.4,89.6L179.8,93.8L184.2,96.8L188.6,99.7L193.0,104.8L197.4,107.7L201.9,102.3L206.3,99.4L210.7,90.7L215.1,91.0L219.5,91.6L223.9,95.8L228.3,96.3L232.7,101.9L237.1,109.5L241.5,106.5L245.9,100.4L250.3,96.8L254.7,91.2L259.1,90.1L263.5,93.1L267.9,92.8L272.3,94.4L276.8,99.1L281.2,106.3L285.6,112.6L290.0,112.6L294.4,112.0L298.8,114.0L303.2,107.9L307.6,107.1L312.0,104.7" stroke="#074B53"/><path d="M8.0,67.9L12.4,71.4L16.8,79.7L21.2,76.5L25.6,79.5L30.0,73.9L34.4,72.5L38.8,68.2L43.2,64.9L47.7,73.8L52.1,70.7L56.5,73.6L60.9,76.8L65.3,78.6L69.7,75.4L74.1,71.6L78.5,67.3L82.9,74.4L87.3,76.9L91.7,87.0L96.1,87.4L100.5,84.9L104.9,88.1L109.3,87.1L113.7,86.1L118.1,81.8L122.6,85.3L127.0,88.8L131.4,92.0L135.8,84.6L140.2,80.0L144.6,80.5L149.0,79.5L153.4,79.1L157.8,78.2L162.2,79.1L166.6,80.5L171.0,85.8L175.4,88.6L179.8,81.5L184.2,79.3L188.6,79.0L193.0,79.9L197.4,79.6L201.9,78.1L206.3,80.9L210.7,80.0L215.1,79.0L219.5,82.2L223.9,85.6L228.3,89.8L232.7,94.3L237.1,90.5L241.5,100.6L245.9,101.7L250.3,104.3L254.7,106.9L259.1,106.5L263.5,101.7L267.9,101.4L272.3,102.0L276.8,104.6L281.2,105.1L285.6,101.3L290.0,102.9L294.4,107.8L298.8,113.2L303.2,117.9L307.6,123.8L312.0,119.1" stroke="#4B2595"/><path d="M8.0,59.6L12.4,60.6L16.8,54.4L21.2,57.2L25.6,54.0L30.0,50.6L34.4,57.2L38.8,63.8L43.2,67.7L47.7,63.9L52.1,58.4L56.5,63.6L60.9,59.1L65.3,60.7L69.7,62.4L74.1,64.8L78.5,66.1L82.9,73.9L87.3,78.1L91.7,83.4L96.1,81.3L100.5,72.4L104.9,60.8L109.3,62.2L113.7,69.5L118.1,71.3L122.6,75.3L127.0,66.8L131.4,64.4L135.8,67.5L140.2,63.5L144.6,61.3L149.0,68.2L153.4,70.4L157.8,71.4L162.2,71.4L166.6,70.8L171.0,72.2L175.4,71.4L179.8,73.9L184.2,77.7L188.6,71.3L193.0,69.8L197.4,67.9L201.9,74.7L206.3,75.4L210.7,71.9L215.1,77.4L219.5,72.7L223.9,74.4L228.3,72.7L232.7,73.2L237.1,72.3L241.5,67.2L245.9,68.9L250.3,62.3L254.7,65.6L259.1,69.5L263.5,66.5L267.9,71.0L272.3,72.6L276.8,68.8L281.2,63.6L285.6,71.2L290.0,69.0L294.4,61.0L298.8,55.9L303.2,57.0L307.6,59.5L312.0,60.8" stroke="#266B3A"/><path d="M8.0,54.1L12.4,55.2L16.8,56.0L21.2,56.6L25.6,51.6L30.0,52.5L34.4,58.7L38.8,54.3L43.2,58.8L47.7,60.7L52.1,61.3L56.5,62.8L60.9,67.0L65.3,68.1L69.7,58.8L74.1,61.4L78.5,62.0L82.9,57.2L87.3,54.0L91.7,50.8L96.1,47.1L100.5,55.5L104.9,59.1L109.3,58.6L113.7,56.5L118.1,51.0L122.6,49.0L127.0,50.0L131.4,49.8L135.8,50.7L140.2,49.7L144.6,46.8L149.0,48.3L153.4,51.7L157.8,55.3L162.2,50.7L166.6,45.2L171.0,41.0L175.4,37.4L179.8,33.9L184.2,33.9L188.6,31.0L193.0,35.5L197.4,36.4L201.9,39.5L206.3,36.4L210.7,38.9L215.1,39.3L219.5,37.6L223.9,31.9L228.3,35.2L232.7,39.2L237.1,35.7L241.5,40.4L245.9,38.5L250.3,40.9L254.7,41.4L259.1,49.1L263.5,46.1L267.9,48.2L272.3,52.0L276.8,43.2L281.2,40.2L285.6,25.3L290.0,23.6L294.4,25.0L298.8,24.6L303.2,17.8L307.6,17.9L312.0,16.0" stroke="#2A7072"/></g></svg><ul class="sw"><li><i style="background:#187ABA"></i>Medium Blue</li><li><i style="background:#002B51"></i>Dark Blue</li><li><i style="background:#074B53"></i>Ocean S1</li><li><i style="background:#4B2595"></i>Purple S1</li><li><i style="background:#266B3A"></i>Jade S2</li><li><i style="background:#2A7072"></i>Aqua S2</li></ul></div><div class="pal"><p class="pal-h">After, with the names I gave them</p><svg viewBox="0 0 320 170" role="img" aria-label="After, with the names I gave them: six thin lines on one chart"><g class="grid"><line x1="8" x2="312" y1="40" y2="40"/><line x1="8" x2="312" y1="85" y2="85"/><line x1="8" x2="312" y1="130" y2="130"/></g><g class="lines"><path d="M8.0,114.1L12.4,112.5L16.8,108.3L21.2,110.4L25.6,116.1L30.0,116.4L34.4,114.3L38.8,109.7L43.2,114.8L47.7,120.3L52.1,117.3L56.5,115.3L60.9,108.8L65.3,104.6L69.7,105.1L74.1,106.2L78.5,95.3L82.9,96.5L87.3,99.9L91.7,104.7L96.1,104.3L100.5,103.7L104.9,105.1L109.3,105.4L113.7,104.2L118.1,101.3L122.6,96.6L127.0,95.8L131.4,103.4L135.8,100.4L140.2,106.4L144.6,107.1L149.0,113.4L153.4,113.4L157.8,116.7L162.2,115.8L166.6,101.8L171.0,102.0L175.4,98.4L179.8,104.0L184.2,105.2L188.6,102.4L193.0,102.8L197.4,101.3L201.9,100.8L206.3,105.1L210.7,102.7L215.1,106.1L219.5,98.2L223.9,100.3L228.3,97.4L232.7,97.4L237.1,93.4L241.5,95.9L245.9,91.7L250.3,92.2L254.7,86.8L259.1,84.2L263.5,83.6L267.9,86.9L272.3,83.6L276.8,81.7L281.2,74.7L285.6,76.3L290.0,73.9L294.4,71.8L298.8,70.6L303.2,69.7L307.6,68.9L312.0,71.4" stroke="#275C90"/><path d="M8.0,101.3L12.4,102.9L16.8,100.4L21.2,94.0L25.6,89.9L30.0,85.4L34.4,82.1L38.8,79.1L43.2,78.3L47.7,75.1L52.1,67.5L56.5,68.9L60.9,71.9L65.3,63.5L69.7,62.5L74.1,58.4L78.5,54.7L82.9,59.5L87.3,49.1L91.7,41.6L96.1,40.9L100.5,37.7L104.9,37.1L109.3,40.9L113.7,41.3L118.1,39.8L122.6,35.0L127.0,32.0L131.4,31.8L135.8,26.0L140.2,29.2L144.6,25.9L149.0,21.1L153.4,22.4L157.8,30.0L162.2,33.8L166.6,32.8L171.0,30.6L175.4,24.0L179.8,28.3L184.2,28.3L188.6,25.5L193.0,26.2L197.4,36.2L201.9,32.8L206.3,23.0L210.7,18.7L215.1,22.6L219.5,24.4L223.9,23.4L228.3,13.3L232.7,13.3L237.1,13.3L241.5,13.3L245.9,13.7L250.3,13.3L254.7,16.2L259.1,18.2L263.5,15.2L267.9,13.3L272.3,13.3L276.8,13.3L281.2,21.0L285.6,24.1L290.0,26.7L294.4,28.9L298.8,26.4L303.2,27.9L307.6,24.5L312.0,24.2" stroke="#3296FE"/><path d="M8.0,86.4L12.4,85.9L16.8,84.1L21.2,80.4L25.6,82.5L30.0,83.5L34.4,89.3L38.8,82.4L43.2,76.3L47.7,77.0L52.1,79.1L56.5,84.3L60.9,83.6L65.3,82.7L69.7,73.4L74.1,72.4L78.5,75.7L82.9,86.1L87.3,80.1L91.7,79.3L96.1,86.1L100.5,85.4L104.9,92.2L109.3,77.4L113.7,72.7L118.1,70.2L122.6,71.0L127.0,80.1L131.4,80.6L135.8,87.2L140.2,84.7L144.6,93.8L149.0,97.6L153.4,92.4L157.8,85.5L162.2,90.5L166.6,97.0L171.0,93.3L175.4,89.6L179.8,93.8L184.2,96.8L188.6,99.7L193.0,104.8L197.4,107.7L201.9,102.3L206.3,99.4L210.7,90.7L215.1,91.0L219.5,91.6L223.9,95.8L228.3,96.3L232.7,101.9L237.1,109.5L241.5,106.5L245.9,100.4L250.3,96.8L254.7,91.2L259.1,90.1L263.5,93.1L267.9,92.8L272.3,94.4L276.8,99.1L281.2,106.3L285.6,112.6L290.0,112.6L294.4,112.0L298.8,114.0L303.2,107.9L307.6,107.1L312.0,104.7" stroke="#39A174"/><path d="M8.0,67.9L12.4,71.4L16.8,79.7L21.2,76.5L25.6,79.5L30.0,73.9L34.4,72.5L38.8,68.2L43.2,64.9L47.7,73.8L52.1,70.7L56.5,73.6L60.9,76.8L65.3,78.6L69.7,75.4L74.1,71.6L78.5,67.3L82.9,74.4L87.3,76.9L91.7,87.0L96.1,87.4L100.5,84.9L104.9,88.1L109.3,87.1L113.7,86.1L118.1,81.8L122.6,85.3L127.0,88.8L131.4,92.0L135.8,84.6L140.2,80.0L144.6,80.5L149.0,79.5L153.4,79.1L157.8,78.2L162.2,79.1L166.6,80.5L171.0,85.8L175.4,88.6L179.8,81.5L184.2,79.3L188.6,79.0L193.0,79.9L197.4,79.6L201.9,78.1L206.3,80.9L210.7,80.0L215.1,79.0L219.5,82.2L223.9,85.6L228.3,89.8L232.7,94.3L237.1,90.5L241.5,100.6L245.9,101.7L250.3,104.3L254.7,106.9L259.1,106.5L263.5,101.7L267.9,101.4L272.3,102.0L276.8,104.6L281.2,105.1L285.6,101.3L290.0,102.9L294.4,107.8L298.8,113.2L303.2,117.9L307.6,123.8L312.0,119.1" stroke="#8771D7"/><path d="M8.0,59.6L12.4,60.6L16.8,54.4L21.2,57.2L25.6,54.0L30.0,50.6L34.4,57.2L38.8,63.8L43.2,67.7L47.7,63.9L52.1,58.4L56.5,63.6L60.9,59.1L65.3,60.7L69.7,62.4L74.1,64.8L78.5,66.1L82.9,73.9L87.3,78.1L91.7,83.4L96.1,81.3L100.5,72.4L104.9,60.8L109.3,62.2L113.7,69.5L118.1,71.3L122.6,75.3L127.0,66.8L131.4,64.4L135.8,67.5L140.2,63.5L144.6,61.3L149.0,68.2L153.4,70.4L157.8,71.4L162.2,71.4L166.6,70.8L171.0,72.2L175.4,71.4L179.8,73.9L184.2,77.7L188.6,71.3L193.0,69.8L197.4,67.9L201.9,74.7L206.3,75.4L210.7,71.9L215.1,77.4L219.5,72.7L223.9,74.4L228.3,72.7L232.7,73.2L237.1,72.3L241.5,67.2L245.9,68.9L250.3,62.3L254.7,65.6L259.1,69.5L263.5,66.5L267.9,71.0L272.3,72.6L276.8,68.8L281.2,63.6L285.6,71.2L290.0,69.0L294.4,61.0L298.8,55.9L303.2,57.0L307.6,59.5L312.0,60.8" stroke="#CF612F"/><path d="M8.0,54.1L12.4,55.2L16.8,56.0L21.2,56.6L25.6,51.6L30.0,52.5L34.4,58.7L38.8,54.3L43.2,58.8L47.7,60.7L52.1,61.3L56.5,62.8L60.9,67.0L65.3,68.1L69.7,58.8L74.1,61.4L78.5,62.0L82.9,57.2L87.3,54.0L91.7,50.8L96.1,47.1L100.5,55.5L104.9,59.1L109.3,58.6L113.7,56.5L118.1,51.0L122.6,49.0L127.0,50.0L131.4,49.8L135.8,50.7L140.2,49.7L144.6,46.8L149.0,48.3L153.4,51.7L157.8,55.3L162.2,50.7L166.6,45.2L171.0,41.0L175.4,37.4L179.8,33.9L184.2,33.9L188.6,31.0L193.0,35.5L197.4,36.4L201.9,39.5L206.3,36.4L210.7,38.9L215.1,39.3L219.5,37.6L223.9,31.9L228.3,35.2L232.7,39.2L237.1,35.7L241.5,40.4L245.9,38.5L250.3,40.9L254.7,41.4L259.1,49.1L263.5,46.1L267.9,48.2L272.3,52.0L276.8,43.2L281.2,40.2L285.6,25.3L290.0,23.6L294.4,25.0L298.8,24.6L303.2,17.8L307.6,17.9L312.0,16.0" stroke="#DA9408"/></g></svg><ul class="sw"><li><i style="background:#275C90"></i>MS Blue</li><li><i style="background:#3296FE"></i>Blue Razz</li><li><i style="background:#39A174"></i>Jade</li><li><i style="background:#8771D7"></i>Amethyst</li><li><i style="background:#CF612F"></i>Carrot</li><li><i style="background:#DA9408"></i>Honey</li></ul></div></div><figcaption>Redrawn with made-up lines, since I never saved the originals. The brand colors looked okay on their own, but once you printed a chart or opened it on an office monitor, the thin lines were really hard to tell apart. Five of the six are dark shades. <a href="https://www.richardmehl.com/slideshow">The brand palette</a> is public.</figcaption><a class="pal-sheet" href="img/palette-work.webp"><img src="img/palette-work.webp" width="2400" height="1124" alt="My color testing sheet: line, bar, pie and heatmap charts drawn in each candidate palette, the six named colors, and a table comparing hue, saturation and lightness across palettes." loading="lazy" decoding="async"></a><figcaption>My actual testing sheet. I ran every palette through the charts we really made, with fake numbers, and compared hue, saturation and lightness before anyone signed off. Tap to open it full size.</figcaption></figure><!--/palette--></li>
+      </ul>
+      <p class="pubs">Some of the research I worked on that's public, as a contributor to Morgan Stanley's Global Investment Committee:
+        <a href="https://www.morganstanley.com/assets/pdfs/2d9493c3-822f-4f18-8c28-ba3ad25e8473.pdf">capital market assumptions</a> (March 2025),
+        <a href="https://advisor.morganstanley.com/the-ternion-planning-team/documents/field/t/te/ternion-planning-team/GIC_Special_Report_-_Persistence_Pays_Off.pdf">staying invested through drawdowns</a> (September 2025), and
+        <a href="https://advisor.morganstanley.com/seven-brz-group/documents/field/s/se/seven-brz-group/MSSBNA20251001576762_(1).pdf">how much crypto to hold in a portfolio</a> (October 2025).</p>
+      <table class="career career-sub">
+        <tbody>
+          <tr><td class="yr">2026&ndash;2028</td><th scope="row" class="org">The Wharton School</th><td class="role">MBA, AI for Business major. GMAT Focus 775, roughly the top 4 of 10,000 test takers</td></tr>
+          <tr><td class="yr">2020</td><th scope="row" class="org">Brown University</th><td class="role">B.S., Applied Mathematics-Economics</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section" id="outside" aria-labelledby="out-h">
+      <div class="sec-head"><h2 class="label" id="out-h">Outside work</h2></div>
+      <div class="outside">
+        <div class="outside-text">
+        <p>I paint, and my work has been in galleries in Tribeca and Soho. I paced group runs for a New York running club for three years and designed the route for its NYC Marathon shakeout, about 800 runners. I played rugby at Brown, and it was the best part of college.</p>
+        <p>At Wharton I'm on the boards of the AI &amp; Analytics Club, for marketing and community, and the Run &amp; Tri Club, for social and community.</p>
+        </div>
+      </div>
+          <div class="photo-strip" aria-label="Some of my paintings">
+        <figure style="--ar: 1.384"><img src="img/art-selfportrait.webp" width="1100" height="795" alt="A portrait I painted: a young man's face over a grid of colored squares, warm on the left and blue on the right" loading="lazy" decoding="async"><figcaption>Portrait</figcaption></figure>
+        <figure style="--ar: 0.747"><img src="img/art-portrait-a.webp" width="747" height="1000" alt="A portrait I painted of a friend, in reds and purples over a diamond pattern" loading="lazy" decoding="async"><figcaption>Portrait of a friend</figcaption></figure>
+        <figure style="--ar: 0.773"><img src="img/art-portrait-b.webp" width="773" height="1000" alt="A portrait I painted of a friend, in blues and violets over a diamond pattern" loading="lazy" decoding="async"><figcaption>Portrait of a friend</figcaption></figure>
+        <figure style="--ar: 0.733"><img src="img/art-stilllife.webp" width="733" height="1000" alt="A still life I painted of a pear, a pepper, an apple, an orange and a lemon on white cloth" loading="lazy" decoding="async"><figcaption>Still life</figcaption></figure>
+      </div>
+      <div class="photo-strip" aria-label="Photos">
+        <figure style="--ar: 1.333"><img src="img/art-studio.webp" width="1100" height="825" alt="Me at a drafting table working on a painting, with three finished portraits on the wall behind me" loading="lazy" decoding="async"><figcaption>Working on a portrait</figcaption></figure>
+        <figure style="--ar: 0.757"><img src="img/run-group.webp" width="757" height="1000" alt="A selfie on a group run in New York, with three friends running behind me" loading="lazy" decoding="async"><figcaption>A group run in New York</figcaption></figure>
+        <figure style="--ar: 1.5"><img src="img/outside-lake.webp" width="960" height="640" alt="Me standing on the rocks at Lake Louise" loading="lazy" decoding="async"><figcaption>Lake Louise</figcaption></figure>
+      </div>
+    </section>
+
+    <section class="section" id="contact" aria-labelledby="contact-h">
+      <div class="sec-head"><h2 class="label" id="contact-h">Contact</h2></div>
+      <div class="contact-big">
+        <a class="email" id="email-bottom" href="mailto:jtraum@wharton.upenn.edu">jtraum@<wbr>wharton.upenn.edu</a>
+        <button class="copy" type="button" data-copy="jtraum@wharton.upenn.edu" data-target="email-bottom">Copy email</button>
+      </div>
+      <div class="contact-list">
+        <a href="https://github.com/jason-traum">github.com/jason-traum</a>
+        <a href="https://www.linkedin.com/in/jason-traum-284018134">LinkedIn</a>
+        <a href="dreamy.html">How I built Dreamy</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="colophon">
+    <p class="note">Built with Claude Code.</p>
+    <p class="note">Updated September 2026</p>
+  </footer>
+</div>
+
+<script>
+(function () {
+  // Copy-email buttons: clipboard first, text selection as a fallback.
+  document.querySelectorAll('button.copy').forEach(function (btn) {
+    var original = btn.textContent;
+    btn.addEventListener('click', function () {
+      var text = btn.getAttribute('data-copy');
+      var done = function (label) {
+        btn.textContent = label;
+        window.setTimeout(function () { btn.textContent = original; }, 2200);
+      };
+      var selectFallback = function () {
+        var el = document.getElementById(btn.getAttribute('data-target'));
+        if (el && window.getSelection) {
+          var range = document.createRange();
+          range.selectNodeContents(el);
+          var sel = window.getSelection();
+          sel.removeAllRanges();
+          sel.addRange(range);
+        }
+        done('Selected. Press Cmd+C');
+      };
+      try {
+        navigator.clipboard.writeText(text).then(function () { done('Copied'); }, selectFallback);
+      } catch (e) {
+        selectFallback();
+      }
+    });
+  });
+
+  // Walldrobe: the frames stay, the prints rotate.
+  var swapBtn = document.getElementById('swap');
+  var status = document.getElementById('swap-status');
+  var frames = Array.prototype.slice.call(document.querySelectorAll('.wall .frame'));
+  if (!swapBtn || frames.length === 0) return;
+
+  var ARTS = ['a-sun', 'a-bands', 'a-dots', 'a-arch', 'a-split', 'a-stripes', 'a-field'];
+  var showing = ['a-sun', 'a-bands', 'a-dots'];
+  var order = [1, 0, 2];
+  var turn = 0;
+  var names = ['left', 'middle', 'right'];
+
+  swapBtn.addEventListener('click', function () {
+    var slot = order[turn % order.length];
+    turn += 1;
+    var next = null;
+    for (var i = 1; i <= ARTS.length; i++) {
+      var candidate = ARTS[(ARTS.indexOf(showing[slot]) + i) % ARTS.length];
+      if (showing.indexOf(candidate) === -1) { next = candidate; break; }
+    }
+    if (!next) return;
+    var box = frames[slot].querySelector('.art-box');
+    var layers = box.querySelectorAll('.art');
+    var on = box.querySelector('.art.on');
+    var off = layers[0] === on ? layers[1] : layers[0];
+    off.className = 'art ' + next;
+    // Force a style flush so the fade runs.
+    void off.offsetWidth;
+    off.classList.add('on');
+    on.classList.remove('on');
+    showing[slot] = next;
+    if (status) status.textContent = 'Swapped the print in the ' + names[slot] + ' frame.';
+  });
+
+  // skills
+  // Exhibit 1: lay the words out from hard (left, or top on a phone) to soft skills. Deterministic spiral packing.
+  (function () {
+    var box = document.getElementById('kcloud');
+    if (!box) return;
+    var detail = document.getElementById('kdetail');
+    var chips = document.querySelectorAll('.kchip');
+    var chipRow = document.querySelector('.kchips');
+    var CATS = ['quant', 'eng', 'product', 'comm', 'lead', 'me'];
+    var words = Array.prototype.slice.call(box.querySelectorAll('.kw'));
+    var rects = [];
+    var lastW = 0;
+
+    function hash(s) { var h = 2166136261; for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return (h >>> 0) / 4294967295; }
+
+    function layout() {
+      var W = box.clientWidth;
+      if (!W) return;
+      lastW = W;
+      box.classList.add('placed');
+      var vertical = W < 700;
+      var PX = vertical ? 4 : 7, PY = vertical ? 2 : 4;
+      var items = words.map(function (el) {
+        return { el: el, w: el.offsetWidth + PX * 2, h: el.offsetHeight + PY * 2, c: CATS.indexOf(el.getAttribute('data-cat')), wt: +el.className.match(/kw(\d)/)[1], s: hash(el.textContent) };
+      });
+      // Band for each group: columns on a wide screen, rows sized by word area on a phone.
+      var bands = [], n = CATS.length;
+      if (vertical) {
+        var y = 0;
+        for (var c = 0; c < n; c++) {
+          var area = 0;
+          items.forEach(function (it) { if (it.c === c) area += it.w * it.h; });
+          var hgt = area / (W * 0.7);
+          bands.push({ lo: y, hi: y + hgt });
+          y += hgt;
+        }
+      } else {
+        // Column widths follow how much each group holds, so every column ends up about the same height.
+        var areas = CATS.map(function (_, c) { var a = 0; items.forEach(function (it) { if (it.c === c) a += it.w * it.h; }); return a; });
+        var tot = areas.reduce(function (a, b) { return a + b; }, 0), x0 = 0;
+        areas.forEach(function (a) { var bw = W * a / tot; bands.push({ lo: x0, hi: x0 + bw }); x0 += bw; });
+      }
+      chipRow.style.gridTemplateColumns = vertical ? '' : bands.map(function (b) { return (b.hi - b.lo).toFixed(1) + 'fr'; }).join(' ');
+      var order = items.slice().sort(function (a, b) { return (b.wt - a.wt) || (a.s - b.s); });
+      var placed = [];
+      function spiral(it, tx, ty, ex, ey, lo, hi, slack, against) {
+        var phase = it.s * Math.PI * 2, span = hi - lo;
+        for (var t = 0; t < 12000; t++) {
+          var r = t * 0.9, a = t * 0.21 + phase;
+          var cx = tx + r * Math.cos(a) * ex, cy = ty + r * Math.sin(a) * ey;
+          var x = cx - it.w / 2, yy = cy - it.h / 2;
+          if (x < 0 || x + it.w > W) continue;
+          if (lo !== null && (cx < lo - span * slack || cx > hi + span * slack)) continue;
+          var hit = false;
+          for (var j = 0; j < against.length; j++) {
+            var p = against[j];
+            if (x < p.x + p.w && x + it.w > p.x && yy < p.y + p.h && yy + it.h > p.y) { hit = true; break; }
+          }
+          if (!hit) return { x: x, y: yy };
+        }
+        return null;
+      }
+      if (vertical) {
+        // Phone: each group is its own small cloud, stacked from hard (top) to soft (bottom).
+        var yCur = 0;
+        for (var g = 0; g < n; g++) {
+          var mine = [];
+          order.forEach(function (it) {
+            if (it.c !== g) return;
+            var pos = spiral(it, W / 2, 0, 1.7, 0.42, null, null, 0, mine);
+            mine.push({ x: pos.x, y: pos.y, w: it.w, h: it.h, it: it });
+          });
+          var gTop = Math.min.apply(null, mine.map(function (p) { return p.y; }));
+          var gBot = Math.max.apply(null, mine.map(function (p) { return p.y + p.h; }));
+          mine.forEach(function (p) { p.y += yCur - gTop; placed.push(p); });
+          yCur += gBot - gTop + 6;
+        }
+      } else {
+        order.forEach(function (it) {
+          var b = bands[it.c];
+          var pos = spiral(it, (b.lo + b.hi) / 2, 0, 0.55, 1, b.lo, b.hi, 0.15, placed) || spiral(it, (b.lo + b.hi) / 2, 0, 0.55, 1, b.lo, b.hi, 1.2, placed);
+          placed.push({ x: pos.x, y: pos.y, w: it.w, h: it.h, it: it });
+        });
+      }
+      var minY = Math.min.apply(null, placed.map(function (p) { return p.y; }));
+      var maxY = Math.max.apply(null, placed.map(function (p) { return p.y + p.h; }));
+      rects = [];
+      placed.forEach(function (p) {
+        p.it.el.style.transform = 'translate(' + Math.round(p.x + PX) + 'px,' + Math.round(p.y - minY + PY) + 'px)';
+        rects.push({ el: p.it.el, x: p.x, y: p.y - minY, w: p.w, h: p.h });
+      });
+      box.style.height = Math.ceil(maxY - minY) + 'px';
+    }
+
+    var sec = box.closest('.skills');
+    sec.classList.add('kjs');
+
+    function select(el, focus) {
+      var dd = sec.querySelector('.klist dd[data-i="' + el.getAttribute('data-i') + '"]');
+      if (!dd) return;
+      words.forEach(function (w) { w.setAttribute('aria-pressed', w === el ? 'true' : 'false'); w.tabIndex = w === el ? 0 : -1; });
+      var grp = dd.closest('.klg');
+      detail.style.setProperty('--k', grp.style.getPropertyValue('--k'));
+      var meta = document.createElement('p'); meta.className = 'kmeta'; meta.textContent = grp.querySelector('h3').textContent;
+      var word = document.createElement('p'); word.className = 'kword'; word.textContent = el.textContent;
+      var proof = document.createElement('p'); proof.className = 'kproof'; proof.innerHTML = dd.innerHTML;
+      detail.replaceChildren(meta, word, proof);
+      if (focus) el.focus();
+    }
+
+    var sw = sec.querySelector('.kswitch');
+    sw.addEventListener('click', function () {
+      var listing = sec.classList.toggle('klisting');
+      sw.setAttribute('aria-pressed', listing ? 'true' : 'false');
+      sw.textContent = listing ? 'Show as a cloud' : 'Show as a list';
+      if (!listing) layout();
+    });
+
+    var fine = window.matchMedia('(hover: hover) and (pointer: fine)');
+    words.forEach(function (el) {
+      el.addEventListener('click', function () { select(el); });
+      el.addEventListener('mouseenter', function () { if (fine.matches) select(el); });
+    });
+    // A tap near a small word still counts: pick the closest word within 22px.
+    box.addEventListener('click', function (e) {
+      if (e.target.classList.contains('kw') || !rects.length) return;
+      var r = box.getBoundingClientRect(), px = e.clientX - r.left, py = e.clientY - r.top, best = null, bd = 22;
+      rects.forEach(function (q) {
+        var dx = Math.max(q.x - px, 0, px - (q.x + q.w)), dy = Math.max(q.y - py, 0, py - (q.y + q.h)), dd = Math.sqrt(dx * dx + dy * dy);
+        if (dd < bd) { bd = dd; best = q.el; }
+      });
+      if (best) select(best);
+    });
+    // Arrow keys move between words, so the cloud is one stop in the tab order.
+    box.addEventListener('keydown', function (e) {
+      var i = words.indexOf(document.activeElement);
+      if (i < 0) return;
+      var k = e.key, j = -1;
+      if (k === 'ArrowRight' || k === 'ArrowDown') j = (i + 1) % words.length;
+      else if (k === 'ArrowLeft' || k === 'ArrowUp') j = (i - 1 + words.length) % words.length;
+      else if (k === 'Home') j = 0;
+      else if (k === 'End') j = words.length - 1;
+      if (j >= 0) { e.preventDefault(); select(words[j], true); }
+    });
+    Array.prototype.forEach.call(chips, function (chip) {
+      chip.addEventListener('click', function () {
+        var cat = chip.getAttribute('data-cat');
+        var on = box.getAttribute('data-filter') !== cat;
+        if (on) box.setAttribute('data-filter', cat); else box.removeAttribute('data-filter');
+        Array.prototype.forEach.call(chips, function (c) { c.setAttribute('aria-pressed', on && c === chip ? 'true' : 'false'); });
+        if (on) select(box.querySelector('.kw[data-cat="' + cat + '"]'));
+      });
+    });
+
+    layout();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
+    var tmr;
+    window.addEventListener('resize', function () {
+      clearTimeout(tmr);
+      tmr = setTimeout(function () { if (box.clientWidth !== lastW) layout(); }, 150);
+    });
+  })();
+// /skills
+})();
+
+</script>
+</body>
+</html>
