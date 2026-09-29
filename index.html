@@ -539,6 +539,17 @@ body { border-top: 10px solid var(--c-msblue); }
 .work-note { max-width: 40em; margin: 10px 0 0; color: var(--ink-2); line-height: 1.55; }
 
 .work-intro { max-width: 40em; margin: 0 0 22px; color: var(--ink-2); line-height: 1.6; }
+.dd-fig { margin: 4px 0 26px; max-width: 720px; display: grid; gap: 8px; }
+.dd-card { background: #FBFBF8; border: 1px solid var(--rule); border-radius: 10px; padding: 12px 14px 12px; color: #1C2016; }
+.dd-card svg { display: block; width: 100%; height: auto; }
+.dd-card .grid line { stroke: #E3E5DC; stroke-width: 1; }
+.dd-card text { font-size: 14px; fill: #5B6152; font-variant-numeric: tabular-nums; }
+.dd-t { border-collapse: collapse; margin-top: 8px; font-size: 13px; font-variant-numeric: tabular-nums; color: #1C2016; }
+.dd-t th, .dd-t td { padding: 4px 14px 4px 0; text-align: left; font-weight: 500; }
+.dd-t thead th { font-weight: 600; white-space: nowrap; }
+.dd-t td { text-align: right; }
+.dd-t i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; margin-right: 5px; vertical-align: -1px; }
+.dd-fig figcaption { font-size: 13.5px; line-height: 1.45; color: var(--muted); max-width: 46em; }
 
 </style>
 </head>
@@ -658,7 +669,7 @@ body { border-top: 10px solid var(--c-msblue); }
           </dl>
         </div>
         <div class="p-body">
-          <p>I built Dreamy because every option for a training plan was bad in some way. A coach is expensive, and a plan from a running book hasn't changed in decades. AI plans were the worst of all. You could adjust them, but they weren't backed by any science, you had to be really good at prompting to get something usable, and they didn't sync with anything or look at your actual runs.</p>
+          <p>Dreamy started with my second marathon. While I was training for London in 2024, my work doubled and my back was acting up, and every plan I tried fell apart as soon as life got in the way. So I read Daniels, Canova and Lydiard and wrote a long prompt that turned ChatGPT into my coach. When my back made an interval day too risky, it gave me a steadier tempo instead and rebalanced the rest of the week. I ran 3:10 in London, an 11-minute PR, and shared the prompt with people from my run club. But a prompt only goes so far. Nothing checked it against the research, you had to be really good at prompting to get something usable, and it didn&rsquo;t sync with anything or look at your actual runs.</p>
           <p>With Dreamy, the plan comes from rules taken from the research, it syncs with Strava and analyzes every run, and the same data always gives you the same plan. The biggest difference is that it works around your schedule. You tell it which days you can't run and it rebuilds the week around them, so you might run seven days one week and four the next. It adapts when you miss a workout or a race moves, and it explains every change and the science behind it, so over time you learn to coach yourself.</p>
           <p>I did an absurd amount of research for it. I used AI to find every marathon plan and sports science paper I could, and gave it a ton of direction from my own marathon training. I started with an LLM writing the plans, but that got expensive and unreliable, so I switched to a rules-based engine. Then I ran real runners' histories through it, had LLMs grade the plans against the research and suggest changes, and reviewed every round myself.</p>
           <p>Claude Code wrote all of the code. My part was the product, the research and the model. I built it from January to April while working full time and got a group of runners from my run club using it. I still tinker with it and use it to make training plans.</p>
@@ -694,6 +705,7 @@ body { border-top: 10px solid var(--c-msblue); }
           <tr><td class="yr">2019</td><th scope="row" class="org">Goldman Sachs</th><td class="role">Summer Analyst, Market Risk</td></tr>
         </tbody>
       </table>
+      
       <ul class="highlights">
         <li>At Morgan Stanley I led my team&rsquo;s move to GenAI for research, brainstorming and drafting. People came to me to learn how to get it to do what they wanted, and the time it saved went into deeper work, not fewer hours.</li>
         <li>I built about eight internal AI agents, mostly for my team. One automated a really manual part of making our chartbook, one came up with chart ideas from news, market moves and advisor feedback, and one was a house-style writing assistant that up to about 20 people used.</li>
