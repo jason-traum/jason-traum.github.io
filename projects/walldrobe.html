@@ -763,7 +763,7 @@ body { border-top: 10px solid var(--c-msblue); }
   var swapBtn = document.getElementById('swap');
   var status = document.getElementById('swap-status');
   var frames = Array.prototype.slice.call(document.querySelectorAll('.wall .frame'));
-  if (!swapBtn || frames.length === 0) return;
+  if (swapBtn && frames.length) (function () {
 
   var ARTS = ['a-sun', 'a-bands', 'a-dots', 'a-arch', 'a-split', 'a-stripes', 'a-field'];
   var showing = ['a-sun', 'a-bands', 'a-dots'];
@@ -792,10 +792,12 @@ body { border-top: 10px solid var(--c-msblue); }
     showing[slot] = next;
     if (status) status.textContent = 'Swapped the print in the ' + names[slot] + ' frame.';
   });
+  })();
 
   // rail
   // Side rail: the page as one strand of dots in the left margin, one node per section, placed where the section sits.
   (function () {
+    if (!document.getElementById('skills')) return; // main page only
     var wide = window.matchMedia('(min-width: 600px)');
     var still = window.matchMedia('(prefers-reduced-motion: reduce)');
     var NAMES = { skills: 'Skills', work: 'Projects', dreamy: 'Dreamy', background: 'Background', log: 'Build log', drinkdock: 'DrinkDock', fivek: '5K 5 Bars', 'in': 'In.', 'wharton-os': 'Wharton OS', walldrobe: 'Walldrobe', more: 'First web app', outside: 'Outside work', contact: 'Contact' };
