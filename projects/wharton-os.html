@@ -427,37 +427,27 @@ body { border-top: 10px solid var(--c-msblue); }
 .deep-link { border-color: var(--c, var(--ink)); }
 
 /* Exhibit 1: the build log */
-.log-wrap { overflow-x: auto; }
-.log { width: 100%; max-width: 860px; border-collapse: collapse; font-variant-numeric: tabular-nums; }
-.log th { font-weight: 500; font-size: 12.5px; color: var(--muted); text-align: left; padding: 0 8px 0 0; white-space: nowrap; width: 58px; }
-.log thead th { text-align: center; width: auto; padding-bottom: 4px; }
-.log thead th:last-child, .log td.t { text-align: right; }
-.log td { height: 28px; text-align: center; border-bottom: 1px solid var(--rule); padding: 0; }
-.log td i { display: inline-block; border-radius: 50%; vertical-align: middle; }
-.log td.t { font-weight: 700; font-size: 15px; width: 64px; }
-.log tr.pause td { height: 36px; font-size: 13.5px; color: var(--muted); text-align: left; padding-left: 10px; background: var(--surface); }
-.d-dreamy { background: var(--c-msblue); } .d-in { background: var(--c-jade); } .d-5k { background: var(--c-carrot); }
+.log-wrap { display: grid; grid-template-columns: minmax(0, 21fr) minmax(0, 18fr); gap: 20px; }
+@media (max-width: 859px) { .log-wrap { grid-template-columns: minmax(0, 1fr); gap: 14px; } }
+.log { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.log th { font-weight: 500; font-size: 11.5px; color: var(--muted); padding: 0; white-space: nowrap; overflow: visible; }
+.log thead th { text-align: left; height: 18px; vertical-align: bottom; }
+.log thead th:first-child, .log tbody th { width: 30px; text-align: left; }
+.log td { padding: 0; position: relative; }
+.log td::before { content: ''; display: block; padding-top: 100%; }
+.log td i { position: absolute; inset: 0; margin: auto; width: calc(var(--s, 0.4) * 100%); height: auto; aspect-ratio: 1; border-radius: 50%; }
+.log tbody th { font-size: 11px; line-height: 1; }
 .log-key { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13.5px; color: var(--ink-2); margin-bottom: 10px; }
 .log-key i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: 0; }
-.log td i.race, .log-key i.race { width: 14px; height: 14px; border-radius: 50%; background: transparent; border: 2.5px solid var(--c-honey); box-sizing: border-box; }
+
+.d-dreamy { background: var(--c-msblue); } .d-in { background: var(--c-jade); } .d-5k { background: var(--c-carrot); }
 .d-dd { background: var(--c-rose); } .d-wd { background: var(--c-honey); } .d-other { background: var(--c-amethyst); } .d-ink { background: var(--ink-2); }
-.log td i.chat, .log-key i.chat { width: 8px; height: 8px; border-radius: 1px; }
+
+.log td i.race, .log-key i.race { width: 70%; aspect-ratio: 1; border-radius: 50%; background: transparent; border: 2px solid var(--c-honey); box-sizing: border-box; }
+.log-key i.race { width: 12px; height: 12px; }
+.log td i.chat, .log-key i.chat { width: 34%; border-radius: 1px; }
+.log-key i.chat { width: 8px; height: 8px; }
 .log-key.k2 { margin-top: -4px; color: var(--muted); }
-.log td { height: 24px; }
-.log td.t2 { text-align: right; width: 52px; font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
-@media (max-width: 480px) {
-  .log th { width: 46px; font-size: 11.5px; }
-  .log thead th { font-size: 11px; }
-  .log td.t { width: 42px; font-size: 13.5px; }
-  .log td.t2 { width: 34px; font-size: 12.5px; }
-}
-.log { table-layout: fixed; }
-.log thead th:first-child { width: 58px; }
-.log thead th:last-child { width: 70px; }
-@media (max-width: 480px) {
-  .log thead th:first-child { width: 44px; }
-  .log thead th:last-child { width: 50px; }
-}
 
 /* skills */
 :root { --k-msblue: #1B436D; --k-razz: #1F72D0; --k-jade: #23774F; --k-amethyst: #6450B8; --k-carrot: #B04A1C; --k-honey: #8A5E00; }
@@ -662,6 +652,21 @@ body { border-top: 10px solid var(--c-msblue); }
 .feat-frame iframe { display: block; width: 100%; border: 1px solid var(--shot-border); border-radius: 12px; background: #0F1620; }
 .feat-frame.phone iframe { max-width: 420px; }
 /* /project pages */
+
+/* dreamy beta line */
+.beta-line { margin: 18px 0 6px; padding: 14px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); font-size: 1.15rem; line-height: 1.45; color: var(--ink); max-width: 36em; }
+.beta-line strong { font-weight: 700; color: var(--c-msblue); }
+
+/* dreamy preview with a turning two-color border (Dreamy violet and my blue) */
+@property --ang { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+.dreamy-try { margin: 26px 0 8px; }
+.dreamy-try .glow { position: relative; padding: 2px; border-radius: 18px; background: conic-gradient(from var(--ang), #a78bfa, #4FA8FF 25%, #a78bfa 50%, #4FA8FF 75%, #a78bfa); animation: dd-spin 6s linear infinite; }
+.dreamy-try .glow::before { content: ''; position: absolute; inset: -6px; border-radius: 24px; background: inherit; filter: blur(18px); opacity: .35; z-index: -1; }
+.dreamy-try .glow-in { border-radius: 16px; background: #0a0a0f; overflow: hidden; }
+.dreamy-try iframe { display: block; width: 100%; border: 0; background: #0a0a0f; }
+.dreamy-try figcaption { margin-top: 10px; font-size: 13.5px; color: var(--muted); }
+@keyframes dd-spin { to { --ang: 360deg; } }
+@media (prefers-reduced-motion: reduce) { .dreamy-try .glow { animation: none; } }
 
 </style>
 </head>
@@ -1245,7 +1250,7 @@ body { border-top: 10px solid var(--c-msblue); }
 // Embedded demos on project pages grow to fit their content (same origin only).
 (function () {
   document.querySelectorAll('iframe[data-autoh]').forEach(function (f) {
-    function fit() { try { var d = f.contentDocument; if (d && d.documentElement) f.style.height = Math.ceil(d.documentElement.scrollHeight) + 'px'; } catch (e) { /* cross-origin: keep fixed height */ } }
+    function fit() { try { var d = f.contentDocument; if (d && d.body) f.style.height = Math.ceil(d.body.getBoundingClientRect().height + (parseFloat(getComputedStyle(d.body).marginTop) || 0) + (parseFloat(getComputedStyle(d.body).marginBottom) || 0)) + 'px'; } catch (e) { /* cross-origin: keep fixed height */ } }
     f.addEventListener('load', function () {
       fit();
       try { new ResizeObserver(fit).observe(f.contentDocument.body); } catch (e) { /* ignore */ }
