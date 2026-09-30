@@ -322,7 +322,7 @@
       set("nights", String(n)); set("price", money(pr, true)); set("cans", String(c)); set("move", Math.round(mv * 100) + "%");
       set("walk", String(w)); set("share", Math.round(sh * 100) + "%");
       $('[data-r="nights"]', root).textContent = Math.abs(nightsMo - Math.round(nightsMo)) < 0.05 ? String(Math.round(nightsMo)) : nightsMo.toFixed(1);
-      set("moved", String(moved)); set("kept", String(kept)); set("mdrinks", String(mdrinks)); set("msales", money(mdrinks * pr, true));
+      set("moved", String(moved)); set("kept", String(kept)); set("mdrinks", String(mdrinks)); set("msales", money(mdrinks * pr, true)); set("mmonth", money(Math.round(mdrinks * pr * nightsMo)));
       set("month", money(Math.round(month))); set("cogs", "-" + money(Math.round(cogs))); set("fees", "-" + money(Math.round(fees))); set("contrib", money(Math.round(contrib)));
       var cost = costIn && costIn.value !== "" ? Math.max(0, +costIn.value) : null;
       if (costRows) costRows.hidden = cost === null;
