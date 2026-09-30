@@ -477,7 +477,7 @@ body { border-top: 10px solid var(--c-msblue); }
 .kcloud.placed .kgroup { display: contents; }
 .kcloud.placed .kgroup li { display: contents; }
 .kcloud.placed .kw { position: absolute; left: 0; top: 0; transform-origin: center; will-change: transform; }
-.kcloud.placed { transition: opacity .25s; }
+.kcloud.placed { transition: opacity .25s; overflow: clip; overflow-clip-margin: 8px; }
 .kcloud[data-filter] .kw { opacity: .16; }
 .kcloud[data-filter="quant"] [data-cat="quant"], .kcloud[data-filter="eng"] [data-cat="eng"], .kcloud[data-filter="product"] [data-cat="product"],
 .kcloud[data-filter="comm"] [data-cat="comm"], .kcloud[data-filter="lead"] [data-cat="lead"], .kcloud[data-filter="me"] [data-cat="me"] { opacity: 1; }
@@ -613,8 +613,8 @@ body { border-top: 10px solid var(--c-msblue); }
 
 /* rail */
 .rail { display: none; }
-@media (min-width: 1240px) {
-  .rail { display: block; position: fixed; left: 0; top: 0; bottom: 0; width: calc((100vw - 1120px) / 2); pointer-events: none; z-index: 5; }
+@media (min-width: 600px) {
+  .rail { display: block; position: fixed; left: 0; top: 0; bottom: 0; width: max(56px, calc((100vw - 1120px) / 2)); pointer-events: none; z-index: 5; }
   .rail canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
   .rail ol { list-style: none; margin: 0; padding: 0; }
   .rail.off a { pointer-events: none; visibility: hidden; }
@@ -632,7 +632,8 @@ body { border-top: 10px solid var(--c-msblue); }
   .rail.tight a[aria-current="true"] .rl { opacity: 0; }
   .rail.tight a:hover .rl, .rail.tight a:focus-visible .rl, .rail.tight a.flash .rl { opacity: 1; }
 }
-@media (min-width: 1240px) and (prefers-reduced-motion: reduce) { .rail a .rl { transition: none; } }
+@media (min-width: 600px) and (max-width: 1231px) { .page { padding-left: 64px; } }
+@media (min-width: 600px) and (prefers-reduced-motion: reduce) { .rail a .rl { transition: none; } }
 /* /rail */
 
 </style>
@@ -1194,7 +1195,7 @@ body { border-top: 10px solid var(--c-msblue); }
   // rail
   // Side rail: the page as one strand of dots in the left margin, one node per section, placed where the section sits.
   (function () {
-    var wide = window.matchMedia('(min-width: 1240px)');
+    var wide = window.matchMedia('(min-width: 600px)');
     var still = window.matchMedia('(prefers-reduced-motion: reduce)');
     var NAMES = { skills: 'Skills', work: 'Projects', dreamy: 'Dreamy', background: 'Background', log: 'Build log', drinkdock: 'DrinkDock', fivek: '5K 5 Bars', 'in': 'In.', 'wharton-os': 'Wharton OS', walldrobe: 'Walldrobe', more: 'First web app', outside: 'Outside work', contact: 'Contact' };
     var PAL = { skills: '--c-razz', work: '--ink-2', background: '--ink-2', log: '--ink-2', more: '--ink-2', outside: '--ink-2', contact: '--ink-2' };
@@ -1286,6 +1287,7 @@ body { border-top: 10px solid var(--c-msblue); }
         ctx.fillStyle = on ? n.col : cs.getPropertyValue('--paper').trim() || '#0F1620'; ctx.fill();
         ctx.lineWidth = 1.5; ctx.strokeStyle = on ? n.col : hexA(n.col, 0.7); ctx.stroke();
         if (i === cur && n.a.getAttribute('aria-current') !== 'true' && rail.classList.contains('tight')) {
+          nodes.forEach(function (o) { if (o !== n) { o.a.classList.remove('flash'); clearTimeout(o.ft); } });
           n.a.classList.add('flash'); clearTimeout(n.ft); n.ft = setTimeout(function () { n.a.classList.remove('flash'); }, 1600);
         }
         n.a.setAttribute('aria-current', i === cur ? 'true' : 'false');
