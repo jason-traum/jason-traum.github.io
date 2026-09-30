@@ -1322,16 +1322,18 @@ body { border-top: 10px solid var(--c-msblue); }
     });
     var N = pts.length;
     var still = window.matchMedia('(prefers-reduced-motion: reduce)');
-    var W = 0, H = 0, dpr = 1, bins = 28, cols = [], mx = null, my = null, raf = 0, onScreen = false, t0 = performance.now(), seen = 0;
+    var W = 0, H = 0, dpr = 1, bins = 28, cols = [], lcols = [], energy = 0, lastSY = scrollY, mx = null, my = null, raf = 0, onScreen = false, t0 = performance.now(), seen = 0;
 
     function hex(c) { c = c.trim(); if (c[0] !== '#') return [120, 160, 220]; if (c.length === 4) c = '#' + c[1] + c[1] + c[2] + c[2] + c[3] + c[3]; return [parseInt(c.slice(1, 3), 16), parseInt(c.slice(3, 5), 16), parseInt(c.slice(5, 7), 16)]; }
     function palette() {
       var cs = getComputedStyle(document.documentElement);
       var stops = ['--c-msblue', '--c-razz', '--c-jade', '--c-razz', '--c-amethyst'].map(function (n) { return hex(cs.getPropertyValue(n) || '#6FA0D6'); });
-      cols = [];
+      cols = []; lcols = [];
       for (var b = 0; b < bins; b++) {
         var f = b / (bins - 1) * (stops.length - 1), i = Math.min(stops.length - 2, Math.floor(f)), t = f - i, a = stops[i], c = stops[i + 1];
-        cols.push('rgb(' + [0, 1, 2].map(function (j) { return Math.round(a[j] + (c[j] - a[j]) * t); }).join(',') + ')');
+        var rgb = [0, 1, 2].map(function (j) { return Math.round(a[j] + (c[j] - a[j]) * t); });
+        cols.push('rgb(' + rgb.join(',') + ')');
+        lcols.push('rgb(' + rgb.map(function (v) { return Math.round(v + (255 - v) * 0.55); }).join(',') + ')');
       }
     }
     // Full bleed every time: the canvas runs edge to edge of the window. The pattern is scaled to the width
@@ -1354,6 +1356,11 @@ body { border-top: 10px solid var(--c-msblue); }
       var rad = Math.max(0.9, 1.25 * S);
       var reveal = moving ? Math.min(1, (now - seen) / 1300) : 1;
       ctx.clearRect(0, 0, W, H);
+      // Scrolling past stirs the strands; the stir fades out on its own.
+      var sy = scrollY; energy = Math.min(1, energy * 0.94 + Math.abs(sy - lastSY) * 0.004); lastSY = sy;
+      // Two pulses of light run along the strands, left to right, like signal down a fiber.
+      var P = 4.6, sig = Math.max(40, W * 0.05), pulses = [0, 0.5].map(function (o) { return ((t / P + o) % 1) * W * 1.4 - W * 0.2; });
+      var hl = [];
       var paths = [];
       for (var b = 0; b < bins; b++) paths.push([]);
       for (var i = 0; i < N; i++) {
@@ -1363,8 +1370,9 @@ body { border-top: 10px solid var(--c-msblue); }
         var q = bx / W;
         if (moving) {
           // Ripple along the strands, stronger where they braid (right side).
-          var wob = Math.sin(p.u * 9 - t * 1.1 + p.ph) * 2.2 * p.u * p.u;
-          var tx = 0, ty = wob;
+          var wob = Math.sin(p.u * 9 - t * 1.6 + p.ph) * (1 + 4 * p.u * p.u) * (1 + 2.5 * energy);
+          var g0 = bx - pulses[0], g1 = bx - pulses[1], pf = Math.max(Math.exp(-g0 * g0 / (2 * sig * sig)), Math.exp(-g1 * g1 / (2 * sig * sig)));
+          var tx = 0, ty = wob - pf * 5 * (0.3 + p.u);
           if (mx !== null) {
             var ddx = bx - mx, ddy = by - my, d2 = ddx * ddx + ddy * ddy;
             if (d2 < R2 * 4) { var d = Math.sqrt(d2) || 1, f = Math.exp(-d2 / R2); tx += ddx / d * push * f; ty += ddy / d * push * f; }
@@ -1372,9 +1380,11 @@ body { border-top: 10px solid var(--c-msblue); }
           p.vx = (p.vx + (tx - p.dx) * 0.09) * 0.78; p.vy = (p.vy + (ty - p.dy) * 0.09) * 0.78;
           p.dx += p.vx; p.dy += p.vy;
           if (Math.abs(p.vx) + Math.abs(p.vy) > 0.02) busy = true;
-        }
+        } else { var pf = 0; }
         if (q > reveal * 1.08) continue;
-        paths[Math.min(bins - 1, Math.floor(p.u * bins))].push(bx + p.dx, by + p.dy);
+        var bi = Math.min(bins - 1, Math.floor(p.u * bins));
+        paths[bi].push(bx + p.dx, by + p.dy);
+        if (moving && pf > 0.08) hl.push(bx + p.dx, by + p.dy, pf, bi);
       }
       for (b = 0; b < bins; b++) {
         var a = paths[b]; if (!a.length) continue;
@@ -1382,6 +1392,11 @@ body { border-top: 10px solid var(--c-msblue); }
         for (var j = 0; j < a.length; j += 2) { ctx.moveTo(a[j] + rad, a[j + 1]); ctx.arc(a[j], a[j + 1], rad, 0, 6.283); }
         ctx.fill();
       }
+      for (j = 0; j < hl.length; j += 4) {
+        ctx.globalAlpha = hl[j + 2] * 0.9; ctx.fillStyle = lcols[hl[j + 3]];
+        ctx.beginPath(); ctx.arc(hl[j], hl[j + 1], rad * (1 + 0.9 * hl[j + 2]), 0, 6.283); ctx.fill();
+      }
+      ctx.globalAlpha = 1;
       if (moving && (onScreen || busy)) raf = requestAnimationFrame(draw);
     }
     function kick() { if (!raf) raf = requestAnimationFrame(draw); }
