@@ -1,0 +1,1789 @@
+<!doctype html><html lang="en" data-theme="dark"><head><meta charset="utf-8"><title>DrinkDock Market Sim</title>
+<meta name="description" content="Monte Carlo market sim for DrinkDock, an age-verified vending machine for canned drinks: bars, sports venues, airports, hotels and an event-rental fleet, in Philadelphia, Pennsylvania and the US.">
+<link rel="icon" href="../drinkdock/favicon.svg" type="image/svg+xml"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#0d0e0f;color:#f4f4f1}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#eceff0; --surface:#fcfcfb; --surface-2:#f2f4f4; --ink:#101316; --ink-2:#474e55; --muted:#737a80; --line:#dde1e2; --axis:#c2c7ca;
+  --accent:#2a78d6; --accent-ink:#1c5cab; --accent-wash:rgba(42,120,214,.09); --on-accent:#ffffff;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100; --dot-off:#b1b6ba; --band:rgba(208,59,59,.09);
+  --good:#0ca30c; --good-ink:#006300; --good-wash:rgba(12,163,12,.10); --warn:#fab219; --warn-ink:#7d5000; --warn-wash:rgba(250,178,25,.16); --bad:#d03b3b; --bad-ink:#a82828; --bad-wash:rgba(208,59,59,.09);
+  --shadow:0 1px 2px rgba(16,19,22,.05),0 6px 20px rgba(16,19,22,.06);
+  --radius:10px;
+  --f-display:"Barlow Condensed","Arial Narrow","Helvetica Neue",system-ui,sans-serif;
+  --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0d0e0f; --surface:#1a1a19; --surface-2:#232422; --ink:#f4f4f1; --ink-2:#c3c2b7; --muted:#96948d; --line:#2d2d2b; --axis:#3d3d3a;
+    --accent:#3987e5; --accent-ink:#86b6ef; --accent-wash:rgba(57,135,229,.15); --on-accent:#0d0e0f;
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --dot-off:#4e5154; --band:rgba(230,103,103,.13);
+    --good-ink:#3fc23f; --good-wash:rgba(12,163,12,.16); --warn-ink:#fab219; --warn-wash:rgba(250,178,25,.13); --bad-ink:#e66767; --bad-wash:rgba(230,103,103,.14);
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 20px rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0d0e0f; --surface:#1a1a19; --surface-2:#232422; --ink:#f4f4f1; --ink-2:#c3c2b7; --muted:#96948d; --line:#2d2d2b; --axis:#3d3d3a;
+  --accent:#3987e5; --accent-ink:#86b6ef; --accent-wash:rgba(57,135,229,.15); --on-accent:#0d0e0f;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --dot-off:#4e5154; --band:rgba(230,103,103,.13);
+  --good-ink:#3fc23f; --good-wash:rgba(12,163,12,.16); --warn-ink:#fab219; --warn-wash:rgba(250,178,25,.13); --bad-ink:#e66767; --bad-wash:rgba(230,103,103,.14);
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 20px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 var(--f-ui);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.wrap{max-width:1200px;margin:0 auto;padding-inline:clamp(16px,3vw,32px);padding-block:22px 56px}
+a{color:var(--accent-ink)}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.fine{color:var(--muted);font-size:12.5px;margin:6px 0 0;max-width:72ch}
+.h3{font:600 13px/1.3 var(--f-ui);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);margin:0;text-wrap:balance}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;gap:18px 28px;align-items:flex-end;justify-content:space-between;padding-bottom:18px}
+.eyebrow{margin:0 0 4px;color:var(--muted);font-size:12.5px;letter-spacing:.04em}
+h1{font:700 clamp(38px,6vw,58px)/.92 var(--f-display);letter-spacing:.01em;text-transform:uppercase;margin:0;text-wrap:balance}
+h1 span{color:var(--accent)}
+.lede{margin:10px 0 0;color:var(--ink-2);max-width:64ch;font-size:15px}
+.market{display:flex;flex-direction:column;gap:6px}
+.market .fl{margin:0}
+
+/* segmented controls */
+.pills{display:inline-flex;flex-wrap:wrap;gap:4px;background:var(--surface-2);border:1px solid var(--line);border-radius:9px;padding:3px}
+.pills button{border:0;background:transparent;padding:6px 12px;border-radius:7px;cursor:pointer;color:var(--ink-2);font-weight:500;font-size:14px;white-space:nowrap}
+.pills button:hover{background:var(--accent-wash);color:var(--ink)}
+.pills button[aria-checked="true"]{background:var(--accent);color:var(--on-accent)}
+
+/* tabs */
+.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line);display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;margin-bottom:20px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{flex:0 0 auto;border:0;background:none;padding:12px 12px 10px;cursor:pointer;color:var(--muted);font:600 15px/1 var(--f-display);letter-spacing:.07em;text-transform:uppercase;border-bottom:2px solid transparent}
+.tabs button:hover{color:var(--ink)}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+
+.panel{display:flex;flex-direction:column;gap:16px}
+.busy .chart,.busy .tiles,.busy .tbl{opacity:.55;transition:opacity .15s}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;min-width:0}
+.card-h{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:baseline;justify-content:space-between;margin-bottom:8px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:16px}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+
+.col{display:flex;flex-direction:column;gap:16px;min-width:0}
+/* overview */
+.ov-top{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:16px;align-items:start}
+@media (max-width:900px){.ov-top{grid-template-columns:1fr}}
+.kicker{margin:0 0 6px;color:var(--muted);font-size:13px}
+.hero{font:600 clamp(22px,2.6vw,30px)/1.22 var(--f-ui);letter-spacing:-.01em;margin:0 0 18px;text-wrap:balance;max-width:40ch}
+.hero em{font-style:normal;color:var(--accent-ink)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,170px),1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.tile{background:var(--surface);padding:14px 16px;min-width:0}
+.tile .tl{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:0}
+.tile .tv{font:600 28px/1.15 var(--f-ui);margin:4px 0 2px;letter-spacing:-.01em}
+.tile .tv small{font-size:15px;font-weight:500;color:var(--ink-2)}
+.tile .ts{font-size:12.5px;color:var(--ink-2);margin:0}
+.tiles-2{grid-template-columns:repeat(2,minmax(0,1fr));margin-bottom:14px}
+
+/* levers + fields */
+.levers{display:flex;flex-direction:column;gap:12px}
+.lever{display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center}
+.lever label{font-size:13.5px;color:var(--ink-2)}
+.lever output{font-weight:600;font-variant-numeric:tabular-nums;font-size:14px}
+.lever input{grid-column:1/-1;width:100%;accent-color:var(--accent);margin:2px 0 0}
+.fields{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr));gap:10px 16px;margin-top:10px}
+.fld{display:flex;flex-direction:column;gap:4px;min-width:0}
+.fl{font-size:12.5px;color:var(--ink-2);line-height:1.3}
+.fi{display:flex;align-items:center;border:1px solid var(--line);border-radius:7px;background:var(--surface-2);overflow:hidden}
+.fi:focus-within{border-color:var(--accent)}
+.fi input{flex:1;min-width:0;border:0;background:transparent;padding:6px 8px;font-variant-numeric:tabular-nums;outline:none}
+.fi .pre,.fi .suf{color:var(--muted);font-size:13px;padding:0 8px}
+.fi .pre{padding-right:0}
+select{border:1px solid var(--line);border-radius:7px;background:var(--surface-2);padding:7px 8px;width:100%}
+.chk{display:flex;gap:8px;align-items:center;font-size:14px;color:var(--ink-2);cursor:pointer}
+.chk input{accent-color:var(--accent);width:16px;height:16px}
+.btn{border:1px solid var(--accent);background:var(--accent);color:var(--on-accent);padding:8px 14px;border-radius:8px;font-weight:600;cursor:pointer;font-size:14px}
+.btn:hover{filter:brightness(1.06)}
+.btn.ghost{background:transparent;color:var(--accent-ink)}
+.btnrow{display:flex;flex-wrap:wrap;gap:10px}
+.mixsum{font-size:12.5px;margin-top:6px}
+
+/* tables */
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px;font-variant-numeric:tabular-nums}
+.tbl th{font-weight:600;font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);text-align:right;padding:8px 10px;border-bottom:1px solid var(--line);white-space:normal;min-width:72px;vertical-align:bottom;line-height:1.3}
+.tbl th:first-child{min-width:0}
+.tbl td{text-align:right;padding:9px 10px;border-bottom:1px solid var(--line);white-space:nowrap;vertical-align:top}
+.tbl th:first-child,.tbl td:first-child{text-align:left;padding-left:0}
+.tbl td.note,.tbl th.note{text-align:left;white-space:normal;min-width:220px;color:var(--ink-2);font-size:12.5px}
+.tbl tr:last-child td{border-bottom:0}
+.tbl .sub{display:block;color:var(--muted);font-size:12px}
+.tbl tr.total td{font-weight:600;border-top:1px solid var(--axis)}
+.pill{display:inline-flex;align-items:center;gap:5px;padding:1px 8px 1px 6px;border-radius:99px;font-size:12.5px;font-weight:600}
+.pill svg{width:12px;height:12px}
+.pill.good{background:var(--good-wash);color:var(--good-ink)}
+.pill.warn{background:var(--warn-wash);color:var(--warn-ink)}
+.pill.bad{background:var(--bad-wash);color:var(--bad-ink)}
+.neg{color:var(--bad-ink)}
+
+/* findings */
+.finds{margin:10px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px}
+.finds li{display:grid;grid-template-columns:22px 1fr;gap:8px;line-height:1.5;font-size:14.5px}
+.finds li .ic{width:18px;height:18px;margin-top:2px}
+.finds b{font-weight:600}
+.src{margin:10px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:13.5px}
+.prose p{margin:8px 0 0;max-width:70ch;font-size:14.5px}
+.prose ul{margin:8px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:14.5px;max-width:72ch}
+
+/* charts */
+.chart{position:relative;width:100%;min-height:120px}
+.chart svg{display:block;overflow:visible}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12.5px;color:var(--ink-2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i.k{display:inline-block;width:16px;height:2px;border-radius:2px}
+.legend i.dot{display:inline-block;width:9px;height:9px;border-radius:50%}
+.legend i.sq{display:inline-block;width:12px;height:12px;border-radius:2px}
+.k.s1{background:var(--s1)} .k.s2{background:var(--s2)} .k.s3{background:var(--s3)} .k.s4{background:var(--s4)}
+.dot.on{background:var(--s1)} .dot.off{background:var(--dot-off)} .sq.band{background:var(--band);outline:1px solid var(--bad-wash)}
+svg .grid{stroke:var(--line);stroke-width:1}
+svg .axis{stroke:var(--axis);stroke-width:1}
+svg .tk{fill:var(--muted);font-size:11px;font-family:var(--f-ui);font-variant-numeric:tabular-nums}
+svg .rl{fill:var(--ink);font-size:12.5px;font-weight:500;font-family:var(--f-ui)}
+svg .rs{fill:var(--muted);font-size:12px;font-family:var(--f-ui);font-variant-numeric:tabular-nums}
+svg .vl{stroke:var(--ink-2);stroke-width:1}
+svg .vl.soft{stroke:var(--axis)}
+svg .vlab,svg .blab{fill:var(--ink-2);font-size:11px;font-family:var(--f-ui)}
+svg .band{fill:var(--band)}
+svg .ln{fill:none;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+svg .ln.s1{stroke:var(--s1)} svg .ln.s2{stroke:var(--s2)} svg .ln.s3{stroke:var(--s3)} svg .ln.s4{stroke:var(--s4)}
+svg .ed{stroke:var(--surface);stroke-width:2}
+svg .s1f{fill:var(--s1)} svg .s2f{fill:var(--s2)} svg .s3f{fill:var(--s3)} svg .s4f{fill:var(--s4)}
+svg .elab{fill:var(--ink-2);font-size:12px;font-family:var(--f-ui)}
+svg .xh{stroke:var(--ink-2);stroke-width:1}
+svg .don{fill:var(--s1);stroke:var(--surface);stroke-width:1.5}
+svg .doff{fill:var(--dot-off);stroke:var(--surface);stroke-width:1.5}
+svg .dhl{fill:none;stroke:var(--ink);stroke-width:2}
+svg .mk{fill:var(--ink);stroke:var(--surface);stroke-width:2}
+.tip{position:absolute;pointer-events:none;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:8px;padding:8px 10px;font-size:12.5px;min-width:150px;max-width:260px;z-index:5;line-height:1.35}
+.tip .tt{color:var(--muted);font-size:11.5px;margin-bottom:4px}
+.tip .tr{display:grid;grid-template-columns:14px auto 1fr;gap:6px;align-items:center;margin-top:2px}
+.tip .tr i{width:12px;height:2px;border-radius:2px;display:block}
+.tip .tr b{font-weight:600;font-variant-numeric:tabular-nums}
+.tip .tr span{color:var(--ink-2)}
+.tip .tl2{color:var(--ink-2);margin-top:2px}
+.tip .tl2 b{color:var(--ink);font-weight:600}
+details.tv{margin-top:8px}
+details.tv summary{cursor:pointer;color:var(--accent-ink);font-size:12.5px;width:max-content}
+details.tv .tbl{font-size:12.5px;margin-top:6px}
+
+/* horizontal bars */
+.hb{display:flex;flex-direction:column;gap:5px;margin-top:14px}
+.hb-l{display:flex;justify-content:space-between;gap:12px;font-size:13.5px;color:var(--ink-2)}
+.hb-l strong{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+.hb-t{height:12px;background:transparent}
+.hb-b{height:12px;background:var(--s1);border-radius:0 4px 4px 0;min-width:2px}
+.hb-s{font-size:12px;color:var(--muted)}
+
+/* one night */
+.night{display:grid;grid-template-columns:300px minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:900px){.night{grid-template-columns:1fr}}
+.night-ctl{display:flex;flex-direction:column;gap:12px;position:sticky;top:60px}
+@media (max-width:900px){.night-ctl{position:static}}
+.night-out{display:flex;flex-direction:column;gap:16px;min-width:0}
+.annual{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,130px),1fr));gap:12px 18px;margin-top:10px}
+.annual div{font-size:13px;color:var(--ink-2)}
+.annual b{display:block;font-size:18px;color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+@media (max-width:520px){
+  .tile .tv{font-size:24px}
+  .card{padding:14px 14px}
+  .tabs button{padding:12px 9px 10px;font-size:14px}
+}
+</style>
+
+<div class="wrap" id="app">
+  <header class="top">
+    <div>
+      <p class="eyebrow">Built by <a href="https://jason-traum.github.io/#drinkdock">Jason Traum</a> for <a href="https://getdrinkdock.com">DrinkDock</a></p>
+      <h1>DrinkDock <span>Market Sim</span></h1>
+      <p class="lede" id="lede">Where a self-serve can kiosk pays off.</p>
+    </div>
+    <div class="market">
+      <span class="fl">Market</span>
+      <div class="pills" id="mkt" role="radiogroup" aria-label="Market"></div>
+    </div>
+  </header>
+
+  <nav class="tabs" id="tabs" role="tablist" aria-label="Sections"></nav>
+
+  <main id="main">
+    <!-- OVERVIEW -->
+    <section id="p-overview" class="panel" role="tabpanel" aria-labelledby="t-overview">
+      <div class="ov-top">
+        <div>
+          <p class="kicker" id="ov-kicker"></p>
+          <h2 class="hero" id="ov-hero">Running the venues…</h2>
+          <div class="tiles" id="ov-tiles"></div>
+        </div>
+        <aside class="card levers" aria-label="Key levers">
+          <h3 class="h3">Key levers</h3>
+          <div id="ov-levers" class="levers"></div>
+          <p class="fine">Every other input sits on the Economics, Reliability and Assumptions tabs.</p>
+        </aside>
+      </div>
+      <div class="card">
+        <div class="card-h"><h3 class="h3">By channel</h3><p class="fine" style="margin:0">Medians across venues that clear the hurdle. A sports site is one busy concession stand.</p></div>
+        <div class="scroll"><table class="tbl" id="ov-channels"></table></div>
+      </div>
+      <div class="grid2">
+        <div class="card"><h3 class="h3">What the sim says</h3><ul class="finds" id="ov-finds"></ul></div>
+        <div class="card"><h3 class="h3">Market size: <span class="mname"></span></h3><p class="fine">DrinkDock revenue per year, bars, sports venues, airports and hotels combined.</p><div id="ov-funnel"></div>
+          <h3 class="h3" style="margin-top:22px">Same sim, three markets</h3><div class="scroll"><table class="tbl" id="ov-markets"></table></div>
+          <p class="fine">US bars count only bars, taverns and nightclubs; restaurants with bars would add many more sites that mostly don't clear the hurdle.</p></div>
+      </div>
+      <div class="card"><h3 class="h3">Claims to check before you lean on them</h3><ul class="finds" id="ov-claims"></ul></div>
+    </section>
+
+    <!-- VENUES -->
+    <section id="p-venues" class="panel" role="tabpanel" aria-labelledby="t-venues" hidden>
+      <div class="card-h" style="margin:0"><div class="pills" id="ven-pills" role="radiogroup" aria-label="Channel"></div><p class="fine" id="ven-note" style="margin:0"></p></div>
+      <div class="card">
+        <div class="card-h"><h3 class="h3">Yearly gain for the venue, after DrinkDock's fees</h3>
+          <div class="legend"><span><i class="dot on"></i>Clears the <span class="hurdle-v"></span> hurdle</span><span><i class="dot off"></i>Doesn't</span></div></div>
+        <div class="chart" id="ven-strip"></div>
+        <p class="fine">Each dot is one simulated venue. The axis stretches small values so losses and big wins fit on one line.</p>
+      </div>
+      <div class="card" id="ven-icp"></div>
+      <div class="card"><h3 class="h3">By venue type</h3><div class="scroll"><table class="tbl" id="ven-table"></table></div></div>
+    </section>
+
+    <!-- ONE NIGHT -->
+    <section id="p-night" class="panel" role="tabpanel" aria-labelledby="t-night" hidden>
+      <div class="night">
+        <div class="card night-ctl">
+          <label class="fld"><span class="fl">Venue type</span><select id="n-seg"></select></label>
+          <p class="fine" id="n-from" style="margin:-4px 0 0"></p>
+          <div class="fld"><span class="fl">Tonight</span><div class="pills" id="n-busy" role="radiogroup" aria-label="How busy tonight is"></div><span class="fine" style="margin:0">Busy is 25% above typical demand, slammed 50%.</span></div>
+          <div id="n-sliders" class="levers"></div>
+          <label class="chk"><input type="checkbox" id="n-jam"> Jam the kiosk for 20 minutes at the rush</label>
+          <button class="btn" id="n-run" type="button">Run another night</button>
+          <p class="fine" style="margin:0">Same guests, same patience, same service times in both runs. Only the kiosk changes.</p>
+        </div>
+        <div class="night-out">
+          <div class="tiles" id="n-tiles"></div>
+          <div class="card">
+            <div class="card-h"><h3 class="h3" id="n-title">People waiting in line</h3><div class="legend" id="n-leg1"></div></div>
+            <div class="chart" id="n-chart1"></div>
+            <details class="tv"><summary>Show as a table</summary><div class="scroll" id="n-tv1"></div></details>
+          </div>
+          <div class="card">
+            <div class="card-h"><h3 class="h3">Walkaways so far</h3><div class="legend" id="n-leg2"></div></div>
+            <div class="chart" id="n-chart2"></div>
+          </div>
+          <div class="card" id="n-annual"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ECONOMICS -->
+    <section id="p-econ" class="panel" role="tabpanel" aria-labelledby="t-econ" hidden>
+      <div class="grid2">
+        <div class="card"><h3 class="h3">Pricing</h3><div class="fields" id="e-pricing"></div>
+          <div class="fld" style="margin-top:12px"><span class="fl">How stadiums and arenas pay</span><div class="pills" id="e-sportsmode" role="radiogroup" aria-label="Stadium pricing"></div></div></div>
+        <div class="card"><h3 class="h3">DrinkDock costs per kiosk</h3><div class="fields" id="e-costs"></div></div>
+      </div>
+      <div class="grid2">
+        <div class="card"><div class="card-h"><h3 class="h3">Venues that clear the hurdle vs. monthly rent</h3></div><div class="legend" id="e-leg1"></div><div class="chart" id="e-rent"></div>
+          <details class="tv"><summary>Show as a table</summary><div class="scroll" id="e-tv1"></div></details></div>
+        <div class="card"><div class="card-h"><h3 class="h3">Venues that clear the hurdle vs. fee per sale</h3></div><div class="legend" id="e-leg2"></div><div class="chart" id="e-fee"></div>
+          <details class="tv"><summary>Show as a table</summary><div class="scroll" id="e-tv2"></div></details></div>
+      </div>
+      <div class="card"><div class="card-h"><h3 class="h3">DrinkDock yearly contribution vs. monthly rent: <span class="mname"></span>, <span class="capv"></span> share</h3></div>
+        <div class="chart" id="e-opt"></div><p class="fine" id="e-opt-note"></p></div>
+      <div class="card"><h3 class="h3">Unit economics per venue that clears the hurdle</h3><div class="scroll"><table class="tbl" id="e-unit"></table></div>
+        <p class="fine">Averages, so the lines add up. Payback counts hardware, install and the sales cost against monthly cash margin. Contribution is after hardware depreciation.</p></div>
+      <div class="grid2">
+        <div class="card"><h3 class="h3">Sales cost and churn</h3><div class="fields" id="e-cac"></div></div>
+        <div class="card"><h3 class="h3">Venue side</h3><div class="fields" id="e-venue"></div></div>
+      </div>
+    </section>
+
+    <!-- RELIABILITY -->
+    <section id="p-rel" class="panel" role="tabpanel" aria-labelledby="t-rel" hidden>
+      <div class="tiles" id="r-tiles"></div>
+      <div class="grid2">
+        <div class="card"><div class="card-h"><h3 class="h3">Venues that clear the hurdle vs. peak-hour uptime</h3></div><div class="legend" id="r-leg"></div><div class="chart" id="r-chart"></div>
+          <p class="fine">Flat lines mean a venue that already gains a lot still signs at lower uptime. Downtime hurts it twice: the kiosk is off at the rush, and guests who got burned stop using it.</p></div>
+        <div class="card"><div class="card-h"><h3 class="h3">DrinkDock lifetime contribution per placement vs. uptime</h3></div><div class="legend" id="r-leg2"></div><div class="chart" id="r-chart2"></div>
+          <p class="fine">Where reliability really bites: venues that see failures cancel sooner, and fewer guests use the kiosk, so fees fall. Average venue that clears the hurdle.</p>
+          <details class="tv"><summary>Show both charts as a table</summary><div class="scroll" id="r-tv"></div></details></div>
+      </div>
+      <div class="grid2">
+        <div class="card"><h3 class="h3">Reliability inputs</h3><div class="fields" id="r-fields"></div>
+          <label class="chk" style="margin-top:12px"><input type="checkbox" id="r-auto"> Add kiosks when one can't keep up (up to the max)</label>
+          <div class="btnrow" style="margin-top:14px"><button class="btn ghost" id="r-jam" type="button">Watch a 20-minute jam on the One night tab</button></div></div>
+        <div class="card prose"><h3 class="h3">The Pennsylvania precedent</h3>
+          <p>The PLCB ran its own wine kiosks in 2010 and 2011, built by Simple Brands of Conshohocken. Buyers inserted a license, a state employee matched their face over video, and a breath sensor blocked anyone at .02 or higher.</p>
+          <p>Only 32 of 100 planned kiosks were installed. The state auditor's review logged about 1,000 malfunctions, Walmart backed out of 23 placements citing mechanical concerns, and the board shut the program in September 2011 after a dispute over more than $1 million in costs.</p>
+          <p>Lesson for DrinkDock: the last company to try this in Pennsylvania failed on reliability and on a contract where the vendor carried the downside.</p></div>
+      </div>
+      <div class="card prose"><h3 class="h3">What "never breaks" has to mean</h3>
+          <ul>
+            <li>Fewer moving parts than the 2010 kiosk: a locked cooler door that opens after ID and payment beats a robotic dispenser.</li>
+            <li>A fallback path: if the ID or face match fails, send the guest to the bartender instead of dead-ending them.</li>
+            <li>Remote monitoring with alerts before the rush, not after, plus a swap-in unit within hours for any bar in the city.</li>
+            <li>Size for the rush: at stadiums one kiosk handles about 100 sales an hour, so an overloaded kiosk loses more guests than it saves (try it on One night).</li>
+            <li>Uptime written into the contract: bars will ask what happens on the Saturday it jams.</li>
+            <li>Never sell to a minor. Boxxtech advertises catching 95% of fake IDs, so about 1 in 20 fakes gets through, and the liquor license at risk is the bar's, not DrinkDock's.</li>
+          </ul></div>
+    </section>
+
+    <!-- RENTALS & HOTELS -->
+    <section id="p-rent" class="panel" role="tabpanel" aria-labelledby="t-rent" hidden>
+      <div class="grid2">
+        <div class="card"><h3 class="h3">Event rental fleet</h3><p class="fine">Tailgates, conferences, festivals. Priced per event day. The host or its caterer holds the liquor license and the inventory; DrinkDock rents the machine.</p><div class="fields" id="v-fields"></div></div>
+        <div class="card"><div class="tiles tiles-2" id="v-tiles"></div><h3 class="h3">Contribution per kiosk vs. event days booked a year</h3><div class="chart" id="v-chart"></div></div>
+      </div>
+      <div class="card"><h3 class="h3">Where rental days could come from</h3><div class="scroll"><table class="tbl" id="v-types"></table></div>
+        <p class="fine">Cans per day are rough guesses for scale. Low-event stadiums (NFL, college football) belong here: a dedicated kiosk sits idle 350 days a year, a fleet kiosk doesn't.</p></div>
+      <div class="grid2">
+        <div class="card"><h3 class="h3">Hotels</h3><p class="fine">Lobby, pool or rooftop. There's usually no line to fix, so the value is new sales in hours and places with no bartender.</p><div class="fields" id="h-fields"></div></div>
+        <div class="card"><div class="tiles tiles-2" id="h-tiles"></div><div class="scroll"><table class="tbl" id="h-mkts"></table></div></div>
+      </div>
+    </section>
+
+    <!-- ASSUMPTIONS -->
+    <section id="p-assume" class="panel" role="tabpanel" aria-labelledby="t-assume" hidden>
+      <div class="grid2">
+        <div class="col">
+          <div class="card"><h3 class="h3">Guest behavior</h3><div class="fields" id="a-behavior"></div></div>
+          <div class="card prose"><h3 class="h3">How the model works</h3>
+            <p>Every venue is a line. Guests arrive at random, each bartender serves one order at a time, and a guest walks away if the wait outlasts their patience. Patience is spread out, so almost nobody leaves in the first minute and most will give it a few. The math is an M/M/n+G queue with Erlang-3 patience; on test cases it matches a brute-force simulation within half a percent.</p>
+            <p>Each venue is solved for its rush, shoulder and quiet hours, once without a kiosk and once with one, then scaled to a year. The kiosk takes can-only orders. Can buyers use it much more when there's a line, and a few cocktail or draft guests switch to a can when the wait is long, which costs the venue margin.</p>
+            <p>A venue signs if its yearly gain after rent, software, fees, restocking and power clears the hurdle. Market size scales the simulated venues to real counts for the market you pick.</p></div>
+        </div>
+        <div class="card"><h3 class="h3">Market: <span class="mname"></span></h3><div id="a-market"></div></div>
+      </div>
+      <div class="card"><h3 class="h3">Venue types</h3><div class="scroll"><table class="tbl" id="a-segs"></table></div>
+        <p class="fine">Each simulated venue draws its own demand, can share, prices, patience and staffing around these typical values. Bars staff to demand, but some run short at the rush. These are my estimates, not sourced figures.</p></div>
+      <div class="card"><h3 class="h3">Sources</h3><ul class="src" id="a-src"></ul></div>
+      <div class="btnrow"><button class="btn" id="a-reroll" type="button">Draw a new set of venues</button><button class="btn ghost" id="a-reset" type="button">Reset every input</button></div>
+    </section>
+  </main>
+</div>
+
+<script>
+/* DrinkDock simulation engine.
+   Queue model: M/M/n+G (Poisson arrivals, exponential service, n servers,
+   Erlang-3 patience) solved with the Baccelli-Hebuterne virtual-wait density.
+   Used for every venue-hour; a discrete-event sim of one night uses the same
+   distributions so the two agree. */
+(function (root) {
+  'use strict';
+
+  /* ---------- random numbers ---------- */
+  function mulberry32(a) {
+    return function () {
+      a |= 0; a = (a + 0x6D2B79F5) | 0;
+      let t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  function randn(r) { let u = 0, v = 0; while (u === 0) u = r(); while (v === 0) v = r(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }
+  function gammaS(r, k) {
+    if (k < 1) return gammaS(r, 1 + k) * Math.pow(r(), 1 / k);
+    const d = k - 1 / 3, c = 1 / Math.sqrt(9 * d);
+    for (;;) {
+      let x, v;
+      do { x = randn(r); v = 1 + c * x; } while (v <= 0);
+      v = v * v * v; const u = r();
+      if (u < 1 - 0.0331 * x * x * x * x) return d * v;
+      if (Math.log(u) < 0.5 * x * x + d * (1 - v + Math.log(v))) return d * v;
+    }
+  }
+  function betaS(r, m, conc) { const x = gammaS(r, m * conc), y = gammaS(r, (1 - m) * conc); return x / (x + y); }
+  function tri(r, a, m, b) { const u = r(), f = (m - a) / (b - a); return u < f ? a + Math.sqrt(u * (b - a) * (m - a)) : b - Math.sqrt((1 - u) * (b - a) * (b - m)); }
+  function expo(r, mean) { return -Math.log(1 - r()) * mean; }
+  const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+
+  /* ---------- channels, venue types, markets ---------- */
+  const CHANNELS = {
+    bars:     { id: 'bars',     name: 'Bars',          unit: 'bar',          sh: 0.50, off: 0.15, shStaff: 0.6, offStaff: 0.3 },
+    sports:   { id: 'sports',   name: 'Sports venues', unit: 'stand',        sh: 0.40, off: 0.12, shStaff: 1.0, offStaff: 1.0 },
+    airports: { id: 'airports', name: 'Airports',      unit: 'airport bar',  sh: 0.55, off: 0.20, shStaff: 0.7, offStaff: 0.5 },
+  };
+  const W = 50; // operating weeks per year for bars
+  // lam: median peak orders/hr; sig: lognormal spread; cap: most bartenders/cashiers that fit;
+  // can: share of orders that are cans only; svc: seconds for any other order; tkt: $ other order;
+  // price: $ per can; cpt: cans per can order; peakH/shH/offH: hours per year; pat: mean patience (min)
+  const SEGMENTS = [
+    { id: 'dive',      ch: 'bars', name: 'Neighborhood bar',   lam: 45,  sig: .35, cap: 3, can: .30, svc: 50,  tkt: 11, price: 5,   cpt: 1.4, peakH: 8 * W,  shH: 14 * W, offH: 40 * W, pat: 7 },
+    { id: 'sportsbar', ch: 'bars', name: 'Sports bar',         lam: 90,  sig: .40, cap: 5, can: .25, svc: 55,  tkt: 14, price: 6.5, cpt: 1.5, peakH: 9 * W,  shH: 16 * W, offH: 40 * W, pat: 7 },
+    { id: 'college',   ch: 'bars', name: 'College bar',        lam: 180, sig: .35, cap: 6, can: .40, svc: 45,  tkt: 10, price: 5,   cpt: 1.6, peakH: 12 * W, shH: 10 * W, offH: 20 * W, pat: 8 },
+    { id: 'club',      ch: 'bars', name: 'Nightclub',          lam: 220, sig: .40, cap: 8, can: .20, svc: 60,  tkt: 22, price: 11,  cpt: 1.5, peakH: 8 * W,  shH: 6 * W,  offH: 4 * W,  pat: 8 },
+    { id: 'cocktail',  ch: 'bars', name: 'Cocktail bar',       lam: 45,  sig: .35, cap: 4, can: .07, svc: 110, tkt: 30, price: 8,   cpt: 1.3, peakH: 8 * W,  shH: 16 * W, offH: 24 * W, pat: 10 },
+    { id: 'music',     ch: 'bars', name: 'Music venue',        lam: 250, sig: .45, cap: 8, can: .45, svc: 50,  tkt: 16, price: 9,   cpt: 1.6, peakH: 6 * W,  shH: 8 * W,  offH: 4 * W,  pat: 6 },
+    { id: 'brewpub',   ch: 'bars', name: 'Brewpub / beer bar', lam: 60,  sig: .35, cap: 4, can: .10, svc: 45,  tkt: 16, price: 8,   cpt: 1.3, peakH: 8 * W,  shH: 16 * W, offH: 30 * W, pat: 8 },
+    { id: 'restbar',   ch: 'bars', name: 'Restaurant bar',     lam: 40,  sig: .40, cap: 3, can: .12, svc: 70,  tkt: 18, price: 7,   cpt: 1.3, peakH: 6 * W,  shH: 16 * W, offH: 30 * W, pat: 8 },
+    // sports: one site = one busy concession stand where a kiosk would sit; ev = event days per year; spots = kiosk spots per venue
+    { id: 'nfl',   ch: 'sports', name: 'NFL stadium',            lam: 240, sig: .30, cap: 4, can: .55, svc: 50, tkt: 24, price: 14, cpt: 1.6, ev: 12,  spots: 24, perEv: [1.25, 1.5, 1.0], pat: 8 },
+    { id: 'mlb',   ch: 'sports', name: 'MLB ballpark',           lam: 150, sig: .30, cap: 3, can: .55, svc: 50, tkt: 22, price: 13, cpt: 1.6, ev: 81,  spots: 16, perEv: [1.0, 2.0, 1.0],  pat: 8 },
+    { id: 'arena', ch: 'sports', name: 'NBA / NHL arena',        lam: 180, sig: .30, cap: 3, can: .50, svc: 50, tkt: 24, price: 14, cpt: 1.6, ev: 150, spots: 12, perEv: [0.75, 1.25, 0.5], pat: 7 },
+    { id: 'ncaa',  ch: 'sports', name: 'College football stadium', lam: 260, sig: .35, cap: 4, can: .60, svc: 50, tkt: 20, price: 11, cpt: 1.6, ev: 7, spots: 12, perEv: [1.25, 1.5, 1.0], pat: 8 },
+    { id: 'mls',   ch: 'sports', name: 'MLS / other stadium',    lam: 150, sig: .30, cap: 3, can: .55, svc: 50, tkt: 20, price: 12, cpt: 1.6, ev: 20,  spots: 8,  perEv: [1.0, 1.5, 0.5],  pat: 8 },
+    { id: 'milb',  ch: 'sports', name: 'Minor league ballpark',  lam: 70,  sig: .35, cap: 2, can: .55, svc: 50, tkt: 16, price: 8,  cpt: 1.6, ev: 70,  spots: 3,  perEv: [1.0, 1.5, 1.0],  pat: 9 },
+    // airports: one site = one airport bar; 360 operating days
+    { id: 'air_l', ch: 'airports', name: 'Large-hub airport bar',  lam: 90, sig: .35, cap: 4, can: .25, svc: 60, tkt: 22, price: 12, cpt: 1.3, peakH: 360 * 4, shH: 360 * 6, offH: 360 * 6, pat: 5 },
+    { id: 'air_m', ch: 'airports', name: 'Medium-hub airport bar', lam: 55, sig: .35, cap: 3, can: .25, svc: 60, tkt: 20, price: 11, cpt: 1.3, peakH: 360 * 3, shH: 360 * 6, offH: 360 * 7, pat: 5 },
+    { id: 'air_s', ch: 'airports', name: 'Small airport bar',      lam: 30, sig: .40, cap: 2, can: .25, svc: 60, tkt: 18, price: 10, cpt: 1.3, peakH: 360 * 2, shH: 360 * 5, offH: 360 * 8, pat: 5 },
+  ];
+  SEGMENTS.forEach(s => { if (s.ev) { s.peakH = s.ev * s.perEv[0]; s.shH = s.ev * s.perEv[1]; s.offH = s.ev * s.perEv[2]; } });
+  const SEG = {}; SEGMENTS.forEach(s => { SEG[s.id] = s; });
+
+  const MARKETS = {
+    phl: { id: 'phl', name: 'Philadelphia', bars: 1240,
+      mix: { dive: .30, sportsbar: .10, college: .04, club: .03, cocktail: .10, music: .03, brewpub: .05, restbar: .35 },
+      venues: { nfl: 1, mlb: 1, arena: 1, ncaa: 0, mls: 1, milb: 0 },
+      airport: { air_l: 30, air_m: 0, air_s: 0 }, hotels: 110,
+      legal: { bars: 1, sports: 1, airports: 1, hotels: 1 } },
+    pa: { id: 'pa', name: 'Pennsylvania', bars: 9800,
+      mix: { dive: .36, sportsbar: .12, college: .03, club: .02, cocktail: .05, music: .02, brewpub: .06, restbar: .34 },
+      venues: { nfl: 2, mlb: 2, arena: 2, ncaa: 1, mls: 1, milb: 6 },
+      airport: { air_l: 30, air_m: 12, air_s: 15 }, hotels: 1800,
+      legal: { bars: 1, sports: 1, airports: 1, hotels: 1 } },
+    us: { id: 'us', name: 'United States', bars: 62600,
+      mix: { dive: .38, sportsbar: .18, college: .04, club: .06, cocktail: .12, music: .04, brewpub: .08, restbar: .10 },
+      venues: { nfl: 30, mlb: 30, arena: 45, ncaa: 134, mls: 30, milb: 120 },
+      airport: { air_l: 1050, air_m: 370, air_s: 600 }, hotels: 54200,
+      legal: { bars: .25, sports: .4, airports: .25, hotels: .25 } },
+  };
+
+  const DEFAULTS = {
+    patienceMult: 1, adoption: 0.70, idleUse: 0.40, tradeDown: 0.03, canSvc: 25, kioskSvc: 35,
+    lostBars: 0.50, lostSports: 0.70, lostAirports: 0.85,
+    uptime: 0.97, trustLoss: 3, churnPerPt: 2, autoKiosks: 1, maxKiosks: 3,
+    rent: 299, fee: 0.25, saas: 79, sportsPricing: 'event', eventRate: 120,
+    hw: 9000, life: 4, install: 600, service: 1200, conn: 25, idCost: 0.12,
+    cacBars: 1500, cacSports: 15000, cacAirports: 2500, cacHotels: 1200,
+    churnBars: 0.20, churnSports: 0.10, churnAirports: 0.12, churnHotels: 0.15,
+    canMargin: 0.72, otherMargin: 0.78, restock: 0.03, otherCost: 40, hurdle: 2000,
+    capture: 0.10,
+    hotelCans: 8, hotelPrice: 9, hotelIncr: 0.5, hotelSuitable: 0.35,
+    evDayRate: 450, evCans: 250, evDays: 45, evLogistics: 175, evInsurance: 800, evHwMult: 1.15, evLife: 3, evPrice: 9, evFleet: 10,
+  };
+  const CAP = { bars: 'Bars', sports: 'Sports', airports: 'Airports', hotels: 'Hotels' };
+
+  /* ---------- M/M/n+G queue, Erlang-3 patience ---------- */
+  const LF = [0];
+  function logFact(n) { while (LF.length <= n) { const k = LF.length; LF.push(LF[k - 1] + Math.log(k)); } return LF[n]; }
+  function lse(a, b) { const m = Math.max(a, b); if (m === -Infinity) return m; return m + Math.log(Math.exp(a - m) + Math.exp(b - m)); }
+  let PHI = new Float64Array(8192), GG = new Float64Array(8192), HH = new Float64Array(8192);
+  function ensure(n) { if (PHI.length < n) { const s = Math.max(n, PHI.length * 2); PHI = new Float64Array(s); GG = new Float64Array(s); HH = new Float64Array(s); } }
+
+  // lam arrivals/hr, mu services/hr per server, n servers, m mean patience in hours
+  function mmnG(lam, mu, n, m) {
+    if (!(lam > 0)) return { pAb: 0, pWait: 0, wq: 0, thru: 0, util: 0 };
+    const a = lam / mu, beta = 3 / m, nmu = n * mu, la = Math.log(a);
+    let mx = -Infinity;
+    for (let j = 0; j < n; j++) { const t = j * la - logFact(j); if (t > mx) mx = t; }
+    let s = 0; for (let j = 0; j < n; j++) s += Math.exp(j * la - logFact(j) - mx);
+    const logS1 = mx + Math.log(s);
+    const logC = n * la - logFact(n - 1) + Math.log(mu);
+    const X = 7 * m;
+    let N = Math.ceil(X * Math.max(100 / X, lam + nmu));
+    if (N % 2) N++;
+    if (N > 60000) N = 60000;
+    const h = X / N;
+    ensure(N + 1);
+    let phiMax = -Infinity;
+    for (let i = 0; i <= N; i++) {
+      const x = i * h, y = beta * x, ey = Math.exp(-y);
+      const Gbar = ey * (1 + y + 0.5 * y * y);
+      const H = (3 - ey * (3 + 2 * y + 0.5 * y * y)) / beta;
+      const phi = lam * H - nmu * x;
+      PHI[i] = phi; GG[i] = 1 - Gbar; HH[i] = H;
+      if (phi > phiMax) phiMax = phi;
+    }
+    let I1 = 0, I2 = 0, I3 = 0;
+    for (let i = 0; i <= N; i++) {
+      const w = (i === 0 || i === N) ? 1 : (i & 1 ? 4 : 2);
+      const e = Math.exp(PHI[i] - phiMax);
+      I1 += w * e; I2 += w * GG[i] * e; I3 += w * HH[i] * e;
+    }
+    I1 *= h / 3; I2 *= h / 3; I3 *= h / 3;
+    const tail = Math.exp(PHI[N] - phiMax) / nmu;
+    I1 += tail; I2 += GG[N] * tail; I3 += HH[N] * tail;
+    const logV = logC + phiMax;
+    const logTot = lse(logS1, logV + Math.log(I1));
+    const pWait = Math.exp(logV + Math.log(I1) - logTot);
+    const pAb = I2 > 0 ? Math.min(1, Math.exp(logV + Math.log(I2) - logTot)) : 0;
+    const wq = I3 > 0 ? Math.exp(logV + Math.log(I3) - logTot) : 0;
+    const thru = lam * (1 - pAb);
+    return { pAb, pWait, wq, thru, util: thru / nmu };
+  }
+
+  /* ---------- venue universe ---------- */
+  function buildUniverse(seed, nPer) {
+    const r = mulberry32(seed >>> 0);
+    const sites = [];
+    for (const seg of SEGMENTS) {
+      const n = nPer[seg.ch];
+      for (let i = 0; i < n; i++) {
+        sites.push({
+          seg: seg.id, ch: seg.ch,
+          lam: seg.lam * Math.exp(seg.sig * randn(r)),
+          can: clamp(betaS(r, seg.can, 30), 0.02, 0.95),
+          svc: seg.svc * Math.exp(0.15 * randn(r)),
+          tkt: seg.tkt * Math.exp(0.15 * randn(r)),
+          price: seg.price * Math.exp(0.12 * randn(r)),
+          pat: seg.pat * Math.exp(0.2 * randn(r)),
+          tu: tri(r, 0.75, 1.0, 1.35),
+          hs: Math.exp(0.25 * randn(r)),
+        });
+      }
+    }
+    return sites;
+  }
+  function buildHotels(seed, n) {
+    const r = mulberry32((seed ^ 0x9e3779b9) >>> 0);
+    const hs = [];
+    for (let i = 0; i < n; i++) hs.push({ cpd: Math.exp(0.7 * randn(r)), price: Math.exp(0.12 * randn(r)) });
+    return hs;
+  }
+
+  function staffFor(s) {
+    const seg = SEG[s.seg];
+    const S0 = s.can * 25 + (1 - s.can) * s.svc; // staffing is set before any kiosk, with a 25s can order
+    return clamp(Math.round(s.lam * S0 / 3600 / s.tu), 1, seg.cap);
+  }
+
+  /* ---------- one venue, one year ---------- */
+  function evalSite(s, P, ov) {
+    ov = ov || {};
+    const seg = SEG[s.seg], ch = CHANNELS[seg.ch], C = CAP[seg.ch];
+    const u = ov.uptime != null ? ov.uptime : P.uptime;
+    const trust = Math.max(0, 1 - P.trustLoss * (1 - u));
+    const adoptMax = clamp((ov.adoption != null ? ov.adoption : P.adoption) * trust, 0, 1);
+    const tdMax = clamp(P.tradeDown * trust, 0, 1);
+    const idle = P.idleUse;
+    const canSvc = P.canSvc, kSvc = P.kioskSvc;
+    const m = s.pat * P.patienceMult / 60;
+    const S0 = s.can * canSvc + (1 - s.can) * s.svc;
+    const c = ov.c || staffFor(s);
+    const canTkt = s.price * seg.cpt;
+    const L = P['lost' + C];
+    const hs = s.hs || 1;
+    const regs = [
+      [s.lam, c, seg.peakH * hs],
+      [s.lam * ch.sh, Math.max(1, Math.ceil(c * ch.shStaff)), seg.shH * hs],
+      [s.lam * ch.off, Math.max(1, Math.ceil(c * ch.offStaff)), seg.offH * hs],
+    ];
+    // baseline (no kiosk) first: who would have had to wait
+    const base = regs.map(r => (r[2] > 0 && r[0] > 0) ? mmnG(r[0], 3600 / S0, r[1], m) : null);
+    // can buyers use the kiosk mostly when there is a line; switchers only when there is a line
+    const shareOf = q => {
+      const pw = q ? q.pWait : 0;
+      const ad = adoptMax * (idle + (1 - idle) * pw), td = tdMax * pw;
+      return { ad, td, k: s.can * ad + (1 - s.can) * td };
+    };
+    let k = 1;
+    if (ov.k) k = ov.k;
+    else if (P.autoKiosks) k = clamp(Math.ceil(s.lam * shareOf(base[0]).k * kSvc / 3600 / 0.8), 1, P.maxKiosks);
+    const mixTkt = s.can * canTkt + (1 - s.can) * s.tkt;
+    const mixGP = s.can * canTkt * P.canMargin + (1 - s.can) * s.tkt * P.otherMargin;
+    let orders = 0, walk0 = 0, walk1 = 0, rev0 = 0, rev1 = 0, gp0 = 0, gp1 = 0, kTx = 0;
+    let peak = null;
+    for (let i = 0; i < 3; i++) {
+      const lam = regs[i][0], cc = regs[i][1], hrs = regs[i][2];
+      const q0 = base[i];
+      if (!q0) continue;
+      const sh = shareOf(q0);
+      const lamCanB = lam * s.can * (1 - sh.ad), lamOthB = lam * (1 - s.can) * (1 - sh.td);
+      const lamB = lamCanB + lamOthB;
+      const SB = lamB > 0 ? (lamCanB * canSvc + lamOthB * s.svc) / lamB : S0;
+      const qB = mmnG(lamB, 3600 / SB, cc, m);
+      const lamK = lam * sh.k;
+      const qK = mmnG(lamK, 3600 / kSvc, k, m);
+      const keep0 = 1 - q0.pAb * L;
+      const r0 = lam * keep0 * mixTkt, g0 = lam * keep0 * mixGP, w0 = lam * q0.pAb;
+      const keepB = 1 - qB.pAb * L, keepK = 1 - qK.pAb * L;
+      const r1w = (lamCanB * canTkt + lamOthB * s.tkt) * keepB + lamK * keepK * canTkt;
+      const g1w = (lamCanB * canTkt * P.canMargin + lamOthB * s.tkt * P.otherMargin) * keepB + lamK * keepK * canTkt * P.canMargin;
+      const w1w = lamB * qB.pAb + lamK * qK.pAb;
+      orders += lam * hrs;
+      walk0 += w0 * hrs; walk1 += (u * w1w + (1 - u) * w0) * hrs;
+      rev0 += r0 * hrs; rev1 += (u * r1w + (1 - u) * r0) * hrs;
+      gp0 += g0 * hrs; gp1 += (u * g1w + (1 - u) * g0) * hrs;
+      kTx += u * lamK * (1 - qK.pAb) * hrs;
+      if (i === 0) peak = { rho: lam * S0 / 3600 / cc, pWait0: q0.pWait, pAb0: q0.pAb, pAbB: qB.pAb, pAbK: qK.pAb, pAb1: (lamB * qB.pAb + lamK * qK.pAb) / lam, wq0: q0.wq * 60, wqB: qB.wq * 60, wqK: qK.wq * 60, lamK, c: cc };
+    }
+    const dGP = gp1 - gp0;
+    const spots = seg.spots || 1;
+    const saasYr = P.saas * 12 / spots;
+    const eventPriced = seg.ch === 'sports' && P.sportsPricing === 'event';
+    const rentYr = eventPriced ? k * Math.min(P.eventRate * seg.ev, P.rent * 12) : k * P.rent * 12;
+    const feeYr = P.fee * kTx;
+    const cans = kTx * seg.cpt;
+    const custOps = k * P.otherCost * 12 + P.restock * cans;
+    const custNet = dGP - rentYr - saasYr - feeYr - custOps;
+    const ddRev = rentYr + saasYr + feeYr;
+    const ddVar = k * (P.service + P.conn * 12) + P.idCost * kTx;
+    const ddDep = k * P.hw / P.life;
+    const ddContrib = ddRev - ddVar - ddDep;
+    const cac = P['cac' + C] / spots;
+    const upfront = k * (P.hw + P.install) + cac;
+    const cash = ddRev - ddVar;
+    const payback = cash > 0 ? upfront / (cash / 12) : Infinity;
+    const churn = Math.min(0.95, P['churn' + C] + P.churnPerPt * (1 - u));
+    const ltv = ddContrib * Math.min(1 / churn, 8);
+    const ltvCac = cac > 0 ? ltv / cac : Infinity;
+    const saved = L * (walk0 - walk1);
+    return {
+      c, k, orders, walk0, walk1, saved, incrShare: kTx > 0 ? Math.max(0, saved) / kTx : 0,
+      rev0, rev1, gp0, gp1, dGP, kTx, cans,
+      rentYr, saasYr, feeYr, custOps, custNet, qualifies: custNet >= P.hurdle,
+      eventPriced, ev: seg.ev || 0,
+      ddRev, ddVar, ddDep, ddContrib, cac, payback, ltv, ltvCac, churn, peak,
+    };
+  }
+
+  function evalHotel(h, P, ov) {
+    ov = ov || {};
+    const u = ov.uptime != null ? ov.uptime : P.uptime;
+    const trust = Math.max(0, 1 - P.trustLoss * (1 - u));
+    const cansYr = P.hotelCans * h.cpd * trust * 365 * u;
+    const price = P.hotelPrice * h.price;
+    const kTx = cansYr / 1.3;
+    const dGP = cansYr * price * P.canMargin * P.hotelIncr;
+    const rentYr = P.rent * 12, saasYr = P.saas * 12, feeYr = P.fee * kTx;
+    const custOps = P.otherCost * 12 + P.restock * cansYr;
+    const custNet = dGP - rentYr - saasYr - feeYr - custOps;
+    const ddRev = rentYr + saasYr + feeYr;
+    const ddVar = P.service + P.conn * 12 + P.idCost * kTx;
+    const ddDep = P.hw / P.life;
+    const ddContrib = ddRev - ddVar - ddDep;
+    const cac = P.cacHotels;
+    const cash = ddRev - ddVar;
+    const churn = Math.min(0.95, P.churnHotels + P.churnPerPt * (1 - u));
+    const ltv = ddContrib * Math.min(1 / churn, 8);
+    return {
+      k: 1, kTx, cans: cansYr, dGP, rentYr, saasYr, feeYr, custOps, custNet, qualifies: custNet >= P.hurdle, monthlyPriced: true,
+      ddRev, ddVar, ddDep, ddContrib, cac, payback: cash > 0 ? (P.hw + P.install + cac) / (cash / 12) : Infinity,
+      ltv, ltvCac: ltv / cac, churn, cansPerDay: P.hotelCans * h.cpd * trust,
+    };
+  }
+
+  function evalEvents(P) {
+    const tx = P.evCans / 1.3;
+    const revDay = P.evDayRate + P.fee * tx;
+    const varDay = P.evLogistics + P.idCost * tx;
+    const fixed = P.service + P.evInsurance + P.conn * 12 + P.hw * P.evHwMult / P.evLife;
+    const perUnitRev = revDay * P.evDays;
+    const perUnitContrib = (revDay - varDay) * P.evDays - fixed;
+    const breakEvenDays = (revDay - varDay) > 0 ? fixed / (revDay - varDay) : Infinity;
+    const cashYr = (revDay - varDay) * P.evDays - P.service - P.evInsurance - P.conn * 12;
+    const upfront = P.hw * P.evHwMult + P.install;
+    const payback = cashYr > 0 ? upfront / (cashYr / 12) : Infinity;
+    const hostGP = P.evCans * P.evPrice * P.canMargin - P.evDayRate - P.fee * tx - P.restock * P.evCans;
+    return { revDay, varDay, fixed, perUnitRev, perUnitContrib, breakEvenDays, payback, hostGP, tx };
+  }
+
+  /* ---------- counts per market ---------- */
+  function segCount(seg, M) {
+    if (seg.ch === 'bars') return M.bars * (M.mix[seg.id] || 0);
+    if (seg.ch === 'sports') return (M.venues[seg.id] || 0) * seg.spots;
+    return M.airport[seg.id] || 0;
+  }
+
+  /* ---------- helpers ---------- */
+  function wQuantile(vals, wts, q) {
+    const idx = vals.map((v, i) => i).filter(i => wts[i] > 0 && isFinite(vals[i]));
+    if (!idx.length) return NaN;
+    idx.sort((a, b) => vals[a] - vals[b]);
+    const tot = idx.reduce((s, i) => s + wts[i], 0);
+    let acc = 0;
+    for (const i of idx) { acc += wts[i]; if (acc >= q * tot) return vals[i]; }
+    return vals[idx[idx.length - 1]];
+  }
+  function median(a) { const b = a.filter(isFinite).sort((x, y) => x - y); if (!b.length) return NaN; const m = b.length >> 1; return b.length & 1 ? b[m] : (b[m - 1] + b[m]) / 2; }
+
+  /* ---------- one night, discrete-event ---------- */
+  const PROFILES = {
+    bars: { start: 20 * 60, H: 360, jamAt: 200, jamLen: 20, label: 'Saturday night',
+      pts: [[0, .30], [60, .50], [120, .80], [180, 1], [240, 1], [300, .70], [360, .35]],
+      marks: [[360, 'Last call 2:00 AM']] },
+    sports: { start: 11 * 60 + 30, H: 270, jamAt: 165, jamLen: 20, label: 'Game day',
+      pts: [[0, .25], [45, .80], [80, 1], [90, .50], [160, .35], [165, 1.2], [190, 1.2], [195, .40], [240, .35], [250, 0], [270, 0]],
+      marks: [[90, 'Kickoff'], [165, 'Halftime'], [250, 'Sales end']] },
+    airports: { start: 6 * 60, H: 960, jamAt: 660, jamLen: 20, label: 'Weekday',
+      pts: [[0, .5], [60, .9], [120, 1], [180, .6], [300, .5], [360, .9], [420, .8], [540, .5], [600, .8], [660, 1], [720, 1], [780, .7], [900, .4], [960, .2]],
+      marks: [] },
+  };
+  function interp(pts, t) {
+    if (t <= pts[0][0]) return pts[0][1];
+    for (let i = 1; i < pts.length; i++) {
+      if (t <= pts[i][0]) { const [x0, y0] = pts[i - 1], [x1, y1] = pts[i]; return y0 + (y1 - y0) * (t - x0) / (x1 - x0); }
+    }
+    return pts[pts.length - 1][1];
+  }
+  function fifo(list, c) {
+    const free = new Float64Array(c);
+    for (const x of list) {
+      let bi = 0; for (let i = 1; i < c; i++) if (free[i] < free[bi]) bi = i;
+      const st = Math.max(x.t, free[bi]);
+      if (st - x.t > x.pat) { x.served = false; x.qEnd = x.t + x.pat; }
+      else { x.served = true; x.qEnd = st; free[bi] = st + x.s; }
+    }
+  }
+  function fifoKiosk(list, k, j0, j1) {
+    const free = new Float64Array(k); const moved = [];
+    for (const x of list) {
+      if (j0 != null && x.t >= j0 && x.t < j1) { x.served = false; x.moved = true; x.qEnd = x.t; moved.push({ t: x.t, pat: x.pat, s: x.sBc, tkt: x.tktK, orig: x }); continue; }
+      let bi = 0; for (let i = 1; i < k; i++) if (free[i] < free[bi]) bi = i;
+      const st = Math.max(x.t, free[bi]);
+      if (j0 != null && x.t < j0 && st >= j0) {
+        if (x.t + x.pat <= j0) { x.served = false; x.qEnd = x.t + x.pat; }
+        else { x.served = false; x.moved = true; x.qEnd = j0; moved.push({ t: j0, pat: x.pat - (j0 - x.t), s: x.sBc, tkt: x.tktK, orig: x }); }
+        continue;
+      }
+      if (st - x.t > x.pat) { x.served = false; x.qEnd = x.t + x.pat; }
+      else { x.served = true; x.qEnd = st; free[bi] = st + x.s; }
+    }
+    return moved;
+  }
+  function series(intervals, H) {
+    const d = new Float64Array(H + 2);
+    for (const [a, b] of intervals) {
+      const i = Math.ceil(a), j = Math.ceil(b);
+      if (i > H || j <= i) continue;
+      d[i] += 1; d[Math.min(j, H + 1)] -= 1;
+    }
+    const out = new Array(H + 1); let acc = 0;
+    for (let i = 0; i <= H; i++) { acc += d[i]; out[i] = acc; }
+    return out;
+  }
+  function cumAt(times, H) {
+    const d = new Float64Array(H + 2);
+    for (const t of times) { const i = Math.ceil(t); if (i <= H) d[i] += 1; }
+    const out = new Array(H + 1); let acc = 0;
+    for (let i = 0; i <= H; i++) { acc += d[i]; out[i] = acc; }
+    return out;
+  }
+  // s: {seg, lam, can, svc, tkt, price, pat}; o: {c, k, adoption, jam, seed}
+  function simulateNight(s, P, o) {
+    const seg = SEG[s.seg], prof = PROFILES[seg.ch], C = CAP[seg.ch];
+    const r = mulberry32((o.seed || 1) >>> 0);
+    const maxM = Math.max.apply(null, prof.pts.map(p => p[1]));
+    const rateMax = s.lam / 60 * maxM;
+    const mPat = s.pat * P.patienceMult;
+    const canTkt = s.price * seg.cpt;
+    const L = P['lost' + C];
+    const cust = [];
+    let t = 0;
+    for (;;) {
+      t += expo(r, 1 / rateMax);
+      if (t >= prof.H) break;
+      const mult = interp(prof.pts, t);
+      const acc = r() * maxM < mult;
+      const isCan = r() < s.can;
+      const pat = expo(r, mPat / 3) + expo(r, mPat / 3) + expo(r, mPat / 3);
+      const sB = expo(r, (isCan ? P.canSvc : s.svc) / 60);
+      const sBc = expo(r, P.canSvc / 60);
+      const sK = expo(r, P.kioskSvc / 60);
+      const uR = r();
+      if (acc) cust.push({ t, isCan, pat, sB, sBc, sK, uR });
+    }
+    // scenario A: no kiosk
+    const A = cust.map(x => ({ t: x.t, pat: x.pat, s: x.sB, tkt: x.isCan ? canTkt : s.tkt }));
+    fifo(A, o.c);
+    // scenario B: kiosk
+    const adopt = o.adoption, td = P.tradeDown, idle = P.idleUse;
+    const toK = [], toB = [];
+    for (let i = 0; i < cust.length; i++) {
+      const x = cust[i], a = A[i];
+      const waited = !a.served || (a.qEnd - a.t) > 1e-9;
+      const goK = x.isCan ? x.uR < adopt * (waited ? 1 : idle) : (waited && x.uR < td);
+      if (goK) toK.push({ t: x.t, pat: x.pat, s: x.sK, sBc: x.sBc, tktK: canTkt });
+      else toB.push({ t: x.t, pat: x.pat, s: x.sB, tkt: x.isCan ? canTkt : s.tkt });
+    }
+    const j0 = o.jam ? prof.jamAt : null, j1 = o.jam ? prof.jamAt + prof.jamLen : null;
+    const moved = fifoKiosk(toK, o.k, j0, j1);
+    const barB = toB.concat(moved).sort((a, b) => a.t - b.t);
+    fifo(barB, o.c);
+    const H = prof.H;
+    const qA = series(A.map(x => [x.t, x.qEnd]), H);
+    const qB = series(barB.map(x => [x.t, x.qEnd]), H);
+    const qK = series(toK.map(x => [x.t, x.qEnd]), H);
+    const walkA = A.filter(x => !x.served), walkBbar = barB.filter(x => !x.served), walkK = toK.filter(x => !x.served && !x.moved);
+    const cwA = cumAt(walkA.map(x => x.qEnd), H);
+    const cwB = cumAt(walkBbar.map(x => x.qEnd).concat(walkK.map(x => x.qEnd)), H);
+    const revA = A.reduce((a, x) => a + (x.served ? x.tkt : x.tkt * (1 - L)), 0);
+    const revB = barB.reduce((a, x) => a + (x.served ? x.tkt : x.tkt * (1 - L)), 0)
+      + toK.filter(x => !x.moved).reduce((a, x) => a + (x.served ? x.tktK : x.tktK * (1 - L)), 0);
+    const waitsA = A.filter(x => x.served).map(x => x.qEnd - x.t);
+    const waitsB = barB.filter(x => x.served).map(x => x.qEnd - (x.orig ? x.t : x.t));
+    const avg = a => a.length ? a.reduce((p, q) => p + q, 0) / a.length : 0;
+    const p90 = a => { if (!a.length) return 0; const b = a.slice().sort((x, y) => x - y); return b[Math.floor(0.9 * (b.length - 1))]; };
+    return {
+      H, prof, arrivals: cust.length, qA, qB, qK, cwA, cwB,
+      walkA: walkA.length, walkB: walkBbar.length + walkK.length,
+      revA, revB, waitA: avg(waitsA), waitB: avg(waitsB), p90A: p90(waitsA), p90B: p90(waitsB),
+      maxA: Math.max.apply(null, qA), maxB: Math.max.apply(null, qB), maxK: Math.max.apply(null, qK),
+      kioskServed: toK.filter(x => x.served).length, moved: moved.length,
+    };
+  }
+
+  root.DD = {
+    mulberry32, randn, clamp, CHANNELS, SEGMENTS, SEG, MARKETS, DEFAULTS, CAP, PROFILES,
+    mmnG, buildUniverse, buildHotels, evalSite, evalHotel, evalEvents, segCount, staffFor,
+    wQuantile, median, simulateNight, interp,
+  };
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+<script>
+(function () {
+  'use strict';
+  const DD = window.DD;
+  const $ = (s, el) => (el || document).querySelector(s);
+  const $$ = (s, el) => Array.from((el || document).querySelectorAll(s));
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const avg = a => a.length ? a.reduce((x, y) => x + y, 0) / a.length : 0;
+  const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+
+  /* ---------- formatting ---------- */
+  function money(v) {
+    if (!isFinite(v)) return 'n/a';
+    const neg = v < 0, a = Math.abs(v); let s;
+    if (a >= 1e9) s = (a / 1e9).toFixed(a >= 1e10 ? 0 : 1) + 'B';
+    else if (a >= 1e6) s = (a / 1e6).toFixed(a >= 1e7 ? 0 : 1) + 'M';
+    else if (a >= 1e4) s = Math.round(a / 1e3) + 'K';
+    else if (a >= 1e3) s = (a / 1e3).toFixed(1) + 'K';
+    else s = Math.round(a).toString();
+    return (neg ? '−' : '') + '$' + s;
+  }
+  const int = v => isFinite(v) ? Math.round(v).toLocaleString('en-US') : 'n/a';
+  const pct = (v, d) => isFinite(v) ? (v * 100).toFixed(d || 0) + '%' : 'n/a';
+  const months = v => isFinite(v) ? (v < 1 ? 'under 1 mo' : Math.round(v) + ' mo') : 'never';
+  const usd = v => isFinite(v) ? (v < 0 ? '−$' : '$') + Math.round(Math.abs(v)).toLocaleString('en-US') : 'n/a';
+  function tickMoney(v) {
+    if (v === 0) return '$0';
+    const a = Math.abs(v), sg = v < 0 ? '−' : '';
+    if (a >= 1e6) return sg + '$' + (+(a / 1e6).toFixed(1)) + 'M';
+    if (a >= 1e3) return sg + '$' + (+(a / 1e3).toFixed(1)) + 'K';
+    return sg + '$' + Math.round(a);
+  }
+  function approx(v) {
+    if (!isFinite(v)) return 'n/a';
+    if (v >= 1000) return int(Math.round(v / 10) * 10);
+    if (v >= 100) return int(Math.round(v / 10) * 10);
+    if (v >= 1) return int(v);
+    return v > 0 ? 'under 1' : '0';
+  }
+  const cents = v => '$' + (+v).toFixed(2);
+  const inName = m => m.id === 'us' ? 'the United States' : m.name;
+  function joinList(a) { if (a.length <= 1) return a.join(''); return a.slice(0, -1).join(', ') + ' and ' + a[a.length - 1]; }
+
+  const ICON = {
+    good: '<svg class="ic" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    bad: '<svg class="ic" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+    warn: '<svg class="ic" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2.2l6.3 11.3H1.7z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8 6.6v3.1M8 11.7v.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
+    info: '<svg class="ic" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 7.2v4M8 4.8v.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
+  };
+  const ICON_COLOR = { good: 'var(--good-ink)', bad: 'var(--bad-ink)', warn: 'var(--warn-ink)', info: 'var(--accent-ink)' };
+  function li(kind, html) { return `<li><span style="color:${ICON_COLOR[kind]}">${ICON[kind]}</span><span>${html}</span></li>`; }
+  function statusPill(share) {
+    const k = share >= 0.3 ? 'good' : share >= 0.1 ? 'warn' : 'bad';
+    const word = share >= 0.3 ? 'Fit' : share >= 0.1 ? 'Some' : 'Rare';
+    return `<span class="pill ${k}">${ICON[k === 'good' ? 'good' : k === 'warn' ? 'warn' : 'bad'].replace('class="ic"', '')}${pct(share)}<span class="vh" style="position:absolute;left:-9999px">${word}</span></span>`;
+  }
+
+  /* ---------- state ---------- */
+  const SEED0 = 20260924;
+  const N_PER = { bars: 220, sports: 140, airports: 140 };
+  const QCH = ['bars', 'sports', 'airports'];
+  const CH_CLS = { bars: 's1', sports: 's2', airports: 's3', hotels: 's4' };
+  const TABS = [['overview', 'Overview'], ['venues', 'Venues'], ['night', 'One night'], ['econ', 'Economics'], ['rel', 'Reliability'], ['rent', 'Rentals & hotels'], ['assume', 'Assumptions']];
+  const PLURAL = { dive: 'neighborhood bars', sportsbar: 'sports bars', college: 'college bars', club: 'nightclubs', cocktail: 'cocktail bars', music: 'music venues', brewpub: 'brewpubs', restbar: 'restaurant bars', nfl: 'NFL stadium stands', mlb: 'ballpark stands', arena: 'arena stands', ncaa: 'college football stands', mls: 'MLS stadium stands', milb: 'minor league park stands', air_l: 'large-hub airport bars', air_m: 'medium-hub airport bars', air_s: 'small airport bars', hotels: 'hotels' };
+  const STAFF = { bars: ['bartender', 'bartenders'], sports: ['cashier', 'cashiers'], airports: ['bartender', 'bartenders'] };
+  const staffWord = (ch, n) => STAFF[ch][n === 1 ? 0 : 1];
+  const S = {
+    P: Object.assign({}, DD.DEFAULTS),
+    M: JSON.parse(JSON.stringify(DD.MARKETS)),
+    mkt: 'phl', seed: SEED0, tab: 'overview', venCh: 'bars', rel: null, dirty: {},
+    N: null,
+  };
+  function store(k, v) { try { localStorage.setItem('dd-sim-' + k, v); } catch (e) { /* storage unavailable */ } }
+  function load(k) { try { return localStorage.getItem('dd-sim-' + k); } catch (e) { return null; } }
+
+  let U = [], R = [], HS = [], HR = [], IDX = {}, AGG = null;
+
+  /* ---------- compute ---------- */
+  function build() {
+    U = DD.buildUniverse(S.seed, N_PER);
+    HS = DD.buildHotels(S.seed, 400);
+    IDX = {};
+    U.forEach((s, i) => { (IDX[s.seg] = IDX[s.seg] || []).push(i); });
+  }
+  function normM(M) {
+    const c = JSON.parse(JSON.stringify(M));
+    const sum = Object.values(c.mix).reduce((a, b) => a + (+b || 0), 0) || 1;
+    Object.keys(c.mix).forEach(k => { c.mix[k] = (+c.mix[k] || 0) / sum; });
+    return c;
+  }
+  function weights(M) {
+    const w = new Float64Array(U.length);
+    for (const g of DD.SEGMENTS) { const ids = IDX[g.id], cnt = DD.segCount(g, M); for (const i of ids) w[i] = cnt / ids.length; }
+    return w;
+  }
+  function wq(ids, f, w, q) { return DD.wQuantile(ids.map(i => f(R[i], i)), ids.map(i => w[i]), q == null ? 0.5 : q); }
+  function wmean(ids, f, w) { let a = 0, b = 0; for (const i of ids) { const v = f(R[i], i); if (!isFinite(v)) continue; a += w[i] * v; b += w[i]; } return b ? a / b : NaN; }
+
+  function computeAll() { const P = S.P; R = U.map(s => DD.evalSite(s, P)); HR = HS.map(h => DD.evalHotel(h, P)); S.rel = null; }
+  function computeHotels() { HR = HS.map(h => DD.evalHotel(h, S.P)); S.rel = null; }
+
+  function aggregate() {
+    const P = S.P, M = normM(S.M[S.mkt]), w = weights(M);
+    const seg = {};
+    for (const g of DD.SEGMENTS) {
+      const ids = IDX[g.id], cnt = DD.segCount(g, M), q = ids.filter(i => R[i].qualifies);
+      seg[g.id] = {
+        g, cnt, ids, q, qShare: q.length / ids.length,
+        rho: DD.median(ids.map(i => R[i].peak.rho)),
+        ab0: DD.median(ids.map(i => R[i].peak.pAb0)), ab1: DD.median(ids.map(i => R[i].peak.pAb1)),
+        net: DD.median(ids.map(i => R[i].custNet)), netQ: q.length ? DD.median(q.map(i => R[i].custNet)) : NaN,
+        incr: DD.median(ids.map(i => R[i].incrShare)),
+        revAll: avg(ids.map(i => R[i].ddRev)), revQ: q.length ? avg(q.map(i => R[i].ddRev)) : 0,
+        conAll: avg(ids.map(i => R[i].ddContrib)), conQ: q.length ? avg(q.map(i => R[i].ddContrib)) : 0,
+        kQ: q.length ? avg(q.map(i => R[i].k)) : 0, k: avg(ids.map(i => R[i].k)),
+      };
+    }
+    const ch = {};
+    for (const c of QCH) {
+      const gs = DD.SEGMENTS.filter(g => g.ch === c), legal = +M.legal[c];
+      let sites = 0, qual = 0, tam = 0, ltam = 0, sam = 0, somC = 0, kio = 0;
+      gs.forEach(g => { const s = seg[g.id]; sites += s.cnt; qual += s.cnt * s.qShare; tam += s.cnt * s.revAll; ltam += s.cnt * legal * s.revAll; sam += s.cnt * legal * s.qShare * s.revQ; somC += s.cnt * legal * s.qShare * s.conQ * P.capture; kio += s.cnt * legal * s.qShare * s.kQ; });
+      const ids = []; gs.forEach(g => ids.push(...IDX[g.id]));
+      const qids = ids.filter(i => R[i].qualifies && w[i] > 0);
+      ch[c] = {
+        id: c, name: DD.CHANNELS[c].name, sites, legal, qual, qualLegal: qual * legal, share: sites ? qual / sites : NaN,
+        tam, ltam, sam, som: sam * P.capture, somC, kiosks: kio, ids, qids,
+        netQ: wq(qids, r => r.custNet, w), revQ: wq(qids, r => r.ddRev, w), conQ: wq(qids, r => r.ddContrib, w),
+        payQ: wq(qids, r => r.payback, w), incrQ: wq(qids, r => r.incrShare, w), ab0Q: wq(qids, r => r.peak.pAb0, w),
+        feeShareQ: wq(qids, r => r.dGP > 0 ? r.feeYr / r.dGP : NaN, w),
+      };
+    }
+    {
+      const cnt = M.hotels * P.hotelSuitable, legal = +M.legal.hotels, n = HR.length, q = HR.filter(r => r.qualifies), sh = q.length / n;
+      const med = (a, f) => DD.median(a.map(f));
+      ch.hotels = {
+        id: 'hotels', name: 'Hotels', sites: cnt, legal, qual: cnt * sh, qualLegal: cnt * legal * sh, share: sh,
+        tam: cnt * avg(HR.map(r => r.ddRev)), ltam: cnt * legal * avg(HR.map(r => r.ddRev)),
+        sam: cnt * legal * sh * (q.length ? avg(q.map(r => r.ddRev)) : 0),
+        somC: cnt * legal * sh * (q.length ? avg(q.map(r => r.ddContrib)) : 0) * P.capture,
+        netQ: med(q, r => r.custNet), revQ: med(q, r => r.ddRev), conQ: med(q, r => r.ddContrib), payQ: med(q, r => r.payback),
+        kiosks: cnt * legal * sh,
+      };
+      ch.hotels.som = ch.hotels.sam * P.capture;
+    }
+    const tot = { sites: 0, qual: 0, qualLegal: 0, tam: 0, ltam: 0, sam: 0, som: 0, somC: 0 };
+    ['bars', 'sports', 'airports', 'hotels'].forEach(c => { const x = ch[c]; for (const k in tot) tot[k] += x[k] || 0; });
+    // payback across every qualifying placement
+    const vals = [], wts = [];
+    QCH.forEach(c => ch[c].qids.forEach(i => { vals.push(R[i].payback); wts.push(w[i] * ch[c].legal); }));
+    HR.forEach(r => { if (r.qualifies) { vals.push(r.payback); wts.push(ch.hotels.sites * ch.hotels.legal / HR.length); } });
+    tot.payQ = DD.wQuantile(vals, wts, 0.5);
+    AGG = { seg, ch, tot, w, M, ev: DD.evalEvents(P) };
+    AGG.icp = {}; QCH.forEach(c => { AGG.icp[c] = icpRule(c); });
+    AGG.be = breakEven();
+  }
+
+  function icpRule(c) {
+    const w = AGG.w, x = AGG.ch[c];
+    const ids = x.ids.filter(i => w[i] > 0), q = ids.filter(i => R[i].qualifies);
+    if (q.length < 8) return null;
+    const qw = q.map(i => w[i]);
+    const lam10 = DD.wQuantile(q.map(i => U[i].lam), qw, 0.1);
+    const can10 = DD.wQuantile(q.map(i => U[i].can), qw, 0.1);
+    const rho10 = DD.wQuantile(q.map(i => R[i].peak.rho), qw, 0.1);
+    const lamT = Math.max(10, Math.floor(lam10 / 10) * 10), canT = Math.floor(can10 * 20) / 20, rhoT = Math.floor(rho10 * 20) / 20;
+    const pass = ids.filter(i => U[i].lam >= lamT && U[i].can >= canT && R[i].peak.rho >= rhoT);
+    const W = a => a.reduce((s, i) => s + w[i], 0);
+    const hit = W(pass.filter(i => R[i].qualifies));
+    return {
+      lamT, canT, rhoT, prec: W(pass) ? hit / W(pass) : NaN, base: W(q) / W(ids), recall: W(q) ? hit / W(q) : NaN,
+      medLam: DD.wQuantile(q.map(i => U[i].lam), qw, 0.5), medCan: DD.wQuantile(q.map(i => U[i].can), qw, 0.5),
+      medRho: DD.wQuantile(q.map(i => R[i].peak.rho), qw, 0.5), medC: DD.wQuantile(q.map(i => R[i].c), qw, 0.5),
+      medAb: DD.wQuantile(q.map(i => R[i].peak.pAb0), qw, 0.5), medK: DD.wQuantile(q.map(i => R[i].k), qw, 0.5),
+    };
+  }
+  function breakEven() {
+    const q = AGG.ch.bars.qids; if (q.length < 3) return null;
+    const arr = q.map(i => [R[i].custNet, AGG.w[i], i]).sort((a, b) => a[0] - b[0]);
+    const tot = arr.reduce((s, a) => s + a[1], 0); let acc = 0, pick = arr[0][2];
+    for (const a of arr) { acc += a[1]; if (acc >= tot / 2) { pick = a[2]; break; } }
+    const s = U[pick], P = S.P;
+    const netAt = u => DD.evalSite(s, P, { uptime: u }).custNet;
+    const n0 = netAt(P.uptime), n1 = netAt(Math.max(0, P.uptime - 0.01));
+    let be = null;
+    if (netAt(1) < 0) be = Infinity;
+    else { for (let u = 0.99; u >= 0.5 - 1e-9; u -= 0.01) { if (netAt(u) < 0) { be = u + 0.01; break; } } if (be == null) be = 0.5; }
+    return { i: pick, net: n0, perPoint: n0 - n1, be };
+  }
+
+  /* ---------- charts ---------- */
+  function niceTicks(lo, hi, n) {
+    if (!(hi > lo)) hi = lo + 1;
+    const step0 = (hi - lo) / Math.max(1, n), mag = Math.pow(10, Math.floor(Math.log10(step0))), e = step0 / mag;
+    const step = (e >= 7.5 ? 10 : e >= 3.5 ? 5 : e >= 1.5 ? 2 : 1) * mag;
+    const a = Math.floor(lo / step + 1e-9) * step, b = Math.ceil(hi / step - 1e-9) * step, out = [];
+    for (let v = a; v <= b + step * 1e-6; v += step) out.push(+v.toFixed(10));
+    return out;
+  }
+  function placeTip(tip, el, px, py) {
+    tip.hidden = false;
+    const W = el.clientWidth, tw = tip.offsetWidth, th = tip.offsetHeight;
+    let x = px + 14; if (x + tw > W) x = px - tw - 14; if (x < 0) x = Math.max(0, W - tw);
+    let y = py - th - 12; if (y < 0) y = py + 16;
+    tip.style.left = x + 'px'; tip.style.top = y + 'px';
+  }
+  function tipLine(tip, label, value) {
+    const d = document.createElement('div'); d.className = 'tl2';
+    d.append(document.createTextNode(label + ' '));
+    const b = document.createElement('b'); b.textContent = value; d.appendChild(b); tip.appendChild(d);
+  }
+  function legendHTML(items, kind) { return items.map(it => `<span><i class="${kind || 'k'} ${it.cls}"></i>${esc(it.name)}</span>`).join(''); }
+
+  function lineChart(el, cfg) {
+    const W = Math.max(260, el.clientWidth || 600), H = cfg.height || 240, narrow = W < 540;
+    const series = cfg.series;
+    const wantEnd = cfg.endLabels && !narrow && series.length > 1;
+    const m = { l: cfg.ml || 46, r: wantEnd ? (cfg.endW || 96) : 14, t: 16, b: 30 };
+    const iw = W - m.l - m.r, ih = H - m.t - m.b;
+    const xs = cfg.x, x0 = cfg.xMin != null ? cfg.xMin : xs[0], x1 = cfg.xMax != null ? cfg.xMax : xs[xs.length - 1];
+    let yMax = cfg.yMax != null ? cfg.yMax : Math.max(1e-9, ...series.map(s => Math.max(0, ...s.values.filter(isFinite))));
+    let yMin = cfg.yMin != null ? cfg.yMin : Math.min(0, ...series.map(s => Math.min(0, ...s.values.filter(isFinite))));
+    const yt = niceTicks(yMin, yMax, narrow ? 4 : 5); yMin = yt[0]; yMax = yt[yt.length - 1];
+    const X = v => m.l + (v - x0) / ((x1 - x0) || 1) * iw;
+    const Y = v => m.t + ih - (v - yMin) / ((yMax - yMin) || 1) * ih;
+    let g = '';
+    (cfg.bands || []).forEach(b => { g += `<rect class="band" x="${X(b.x0).toFixed(1)}" y="${m.t}" width="${Math.max(1, X(b.x1) - X(b.x0)).toFixed(1)}" height="${ih}"/>`; if (b.label) g += `<text class="blab" x="${(X(b.x0) + 4).toFixed(1)}" y="${m.t + ih - 6}">${esc(b.label)}</text>`; });
+    yt.forEach(v => { const y = Y(v).toFixed(1); g += `<line class="grid" x1="${m.l}" x2="${m.l + iw}" y1="${y}" y2="${y}"/><text class="tk" x="${m.l - 8}" y="${(+y + 4).toFixed(1)}" text-anchor="end">${esc(cfg.yFmt(v))}</text>`; });
+    const y0 = Y(Math.max(yMin, 0)).toFixed(1);
+    g += `<line class="axis" x1="${m.l}" x2="${m.l + iw}" y1="${y0}" y2="${y0}"/>`;
+    let xt = cfg.xTicks || niceTicks(x0, x1, narrow ? 4 : 6).filter(v => v >= x0 - 1e-9 && v <= x1 + 1e-9);
+    if (narrow && xt.length > 5) xt = xt.filter((v, i) => i % 2 === 0);
+    xt.forEach(v => { g += `<text class="tk" x="${X(v).toFixed(1)}" y="${m.t + ih + 19}" text-anchor="middle">${esc(cfg.xFmt(v))}</text>`; });
+    (cfg.vlines || []).forEach((v, i) => {
+      const x = X(v.x);
+      g += `<line class="vl${v.soft ? ' soft' : ''}" x1="${x.toFixed(1)}" x2="${x.toFixed(1)}" y1="${m.t}" y2="${m.t + ih}"/>`;
+      if (v.label && !(narrow && v.hideNarrow)) { const end = x > m.l + iw * 0.78; g += `<text class="vlab" x="${(end ? x - 4 : x + 4).toFixed(1)}" y="${m.t + 11 + (i % 2) * 13}" text-anchor="${end ? 'end' : 'start'}">${esc(v.label)}</text>`; }
+    });
+    const ends = [];
+    series.forEach(s => {
+      let d = ''; s.values.forEach((v, i) => { if (!isFinite(v)) return; d += (d ? 'L' : 'M') + X(xs[i]).toFixed(1) + ',' + Y(v).toFixed(1); });
+      g += `<path class="ln ${s.cls}" d="${d}"/>`;
+      for (let i = s.values.length - 1; i >= 0; i--) if (isFinite(s.values[i])) { ends.push({ s, x: X(xs[i]), y: Y(s.values[i]) }); break; }
+    });
+    ends.forEach(e => { g += `<circle class="ed ${e.s.cls}f" cx="${e.x.toFixed(1)}" cy="${e.y.toFixed(1)}" r="4"/>`; });
+    (cfg.markers || []).forEach(mk => {
+      const x = X(mk.x), y = Y(mk.y), right = x < m.l + iw * 0.65;
+      g += `<circle class="mk" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="5"/>`;
+      if (mk.label) g += `<text class="vlab" x="${(x + (right ? 9 : -9)).toFixed(1)}" y="${(y - 9).toFixed(1)}" text-anchor="${right ? 'start' : 'end'}">${esc(mk.label)}</text>`;
+    });
+    if (wantEnd) {
+      const ys = ends.map(e => e.y).sort((a, b) => a - b); let ok = true;
+      for (let i = 1; i < ys.length; i++) if (ys[i] - ys[i - 1] < 14) ok = false;
+      if (ok) ends.forEach(e => { g += `<text class="elab" x="${(e.x + 9).toFixed(1)}" y="${(e.y + 4).toFixed(1)}">${esc(e.s.short || e.s.name)}</text>`; });
+    }
+    g += `<line class="xh" x1="0" x2="0" y1="${m.t}" y2="${m.t + ih}" visibility="hidden"/><rect class="hit" x="${m.l}" y="${m.t}" width="${iw}" height="${ih}" fill="transparent"/>`;
+    el.innerHTML = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(cfg.aria || '')}">${g}</svg><div class="tip" hidden></div>`;
+    const svg = el.firstChild, tip = el.lastChild, xh = svg.querySelector('.xh'), hit = svg.querySelector('.hit');
+    const move = ev => {
+      const r = svg.getBoundingClientRect(), px = ev.clientX - r.left, py = ev.clientY - r.top;
+      const xv = x0 + (px - m.l) / iw * (x1 - x0);
+      let bi = 0, bd = Infinity; for (let i = 0; i < xs.length; i++) { const d = Math.abs(xs[i] - xv); if (d < bd) { bd = d; bi = i; } }
+      const cx = X(xs[bi]); xh.setAttribute('x1', cx); xh.setAttribute('x2', cx); xh.setAttribute('visibility', 'visible');
+      tip.textContent = '';
+      const t = document.createElement('div'); t.className = 'tt'; t.textContent = cfg.tipTitle ? cfg.tipTitle(xs[bi], bi) : cfg.xFmt(xs[bi]); tip.appendChild(t);
+      series.forEach(s => {
+        const row = document.createElement('div'); row.className = 'tr';
+        const k = document.createElement('i'); k.style.background = 'var(--' + s.cls + ')';
+        const b = document.createElement('b'); b.textContent = (cfg.tipFmt || cfg.yFmt)(s.values[bi]);
+        const sp = document.createElement('span'); sp.textContent = s.name;
+        row.append(k, b, sp); tip.appendChild(row);
+      });
+      placeTip(tip, el, cx, py);
+    };
+    hit.addEventListener('pointermove', move); hit.addEventListener('pointerdown', move);
+    hit.addEventListener('pointerleave', () => { tip.hidden = true; xh.setAttribute('visibility', 'hidden'); });
+  }
+
+  function dotStrip(el, cfg) {
+    const W = Math.max(260, el.clientWidth || 600), rows = cfg.rows, rowH = 52, top = 4, axH = 28;
+    const plotH = rows.length * rowH, H = top + plotH + axH, m = { l: 6, r: 10 }, iw = W - m.l - m.r;
+    const all = []; rows.forEach(r => r.dots.forEach(d => all.push(d.v))); all.sort((a, b) => a - b);
+    const q = p => all.length ? all[Math.floor(p * (all.length - 1))] : 0;
+    const lo = Math.min(q(0.01), -2000), hi = Math.max(q(0.99), cfg.hurdle * 3, 10000);
+    const T = v => Math.asinh(v / 2000);
+    const X = v => m.l + (T(clamp(v, lo, hi)) - T(lo)) / (T(hi) - T(lo)) * iw;
+    const cand = [-500000, -200000, -100000, -50000, -20000, -10000, -5000, -2000, 2000, 5000, 10000, 20000, 50000, 100000, 200000, 500000, 1000000].filter(v => v >= lo && v <= hi);
+    const ticks = [0];
+    cand.forEach(v => { if (ticks.every(t => Math.abs(X(v) - X(t)) >= 48)) ticks.push(v); });
+    let g = '';
+    ticks.forEach(v => { const x = X(v).toFixed(1); g += `<line class="${v === 0 ? 'axis' : 'grid'}" x1="${x}" x2="${x}" y1="${top}" y2="${top + plotH}"/><text class="tk" x="${x}" y="${top + plotH + 18}" text-anchor="middle">${esc(tickMoney(v))}</text>`; });
+    rows.forEach((r, k) => {
+      const y0 = top + k * rowH;
+      if (k) g += `<line class="grid" x1="${m.l}" x2="${W - m.r}" y1="${y0}" y2="${y0}"/>`;
+      g += `<text class="rl" x="${m.l}" y="${y0 + 16}">${esc(r.label)}</text><text class="rs" x="${W - m.r}" y="${y0 + 16}" text-anchor="end">${esc(r.sub)}</text>`;
+      const cy = y0 + 35;
+      r.dots.forEach((d, j) => { d.cx = X(d.v); d.cy = cy + (((j * 7919) % 13) - 6) * 1.0; g += `<circle class="${d.on ? 'don' : 'doff'}" cx="${d.cx.toFixed(1)}" cy="${d.cy.toFixed(1)}" r="4"/>`; });
+    });
+    const hx = X(cfg.hurdle).toFixed(1);
+    g += `<line class="vl" x1="${hx}" x2="${hx}" y1="${top}" y2="${top + plotH}"/>`;
+    g += `<circle class="dhl" r="7" cx="0" cy="0" visibility="hidden"/><rect class="hit" x="0" y="0" width="${W}" height="${top + plotH}" fill="transparent"/>`;
+    el.innerHTML = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(cfg.aria || '')}">${g}</svg><div class="tip" hidden></div>`;
+    const svg = el.firstChild, tip = el.lastChild, hl = svg.querySelector('.dhl'), hit = svg.querySelector('.hit');
+    const hide = () => { tip.hidden = true; hl.setAttribute('visibility', 'hidden'); };
+    const move = ev => {
+      const r = svg.getBoundingClientRect(), px = ev.clientX - r.left, py = ev.clientY - r.top;
+      const k = Math.floor((py - top) / rowH); if (k < 0 || k >= rows.length) return hide();
+      let best = null, bd = 1e9; rows[k].dots.forEach(d => { const dd = Math.abs(d.cx - px) + Math.abs(d.cy - py) * 0.3; if (dd < bd) { bd = dd; best = d; } });
+      if (!best || bd > 36) return hide();
+      hl.setAttribute('cx', best.cx); hl.setAttribute('cy', best.cy); hl.setAttribute('visibility', 'visible');
+      tip.textContent = ''; cfg.tip(tip, best, rows[k]); placeTip(tip, el, best.cx, best.cy);
+    };
+    hit.addEventListener('pointermove', move); hit.addEventListener('pointerdown', move); hit.addEventListener('pointerleave', hide);
+  }
+
+  function hbars(el, items, fmt) {
+    const max = Math.max(1e-9, ...items.map(i => i.v));
+    el.innerHTML = items.map(it => `<div class="hb"><div class="hb-l"><span>${esc(it.label)}</span><strong>${esc(fmt(it.v))}</strong></div><div class="hb-t"><div class="hb-b" style="width:${(100 * Math.max(0, it.v) / max).toFixed(2)}%"></div></div>${it.sub ? `<div class="hb-s">${esc(it.sub)}</div>` : ''}</div>`).join('');
+  }
+  function tableHTML(head, rows) { return `<table class="tbl"><thead><tr>${head.map(h => `<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${rows.map(r => `<tr>${r.map(c => `<td>${esc(c)}</td>`).join('')}</tr>`).join('')}</tbody></table>`; }
+
+  /* ---------- inputs ---------- */
+  const F = {
+    pricing: [
+      { k: 'rent', l: 'Monthly rent per kiosk', pre: '$', step: 5, min: 0, max: 5000 },
+      { k: 'fee', l: 'Fee per kiosk sale', pre: '$', step: 0.01, min: 0, max: 5 },
+      { k: 'saas', l: 'Software per venue, monthly', pre: '$', step: 1, min: 0, max: 1000 },
+      { k: 'eventRate', l: 'Stadium price per kiosk per event day', pre: '$', step: 5, min: 0, max: 2000 },
+    ],
+    costs: [
+      { k: 'hw', l: 'Kiosk hardware', pre: '$', step: 100, min: 500, max: 100000 },
+      { k: 'life', l: 'Hardware life', suf: 'yrs', step: 0.5, min: 1, max: 15 },
+      { k: 'install', l: 'Delivery and install', pre: '$', step: 50, min: 0, max: 10000 },
+      { k: 'service', l: 'Service and parts, yearly', pre: '$', step: 50, min: 0, max: 20000 },
+      { k: 'conn', l: 'Connectivity and cloud, monthly', pre: '$', step: 1, min: 0, max: 1000 },
+      { k: 'idCost', l: 'ID and face check per sale', pre: '$', step: 0.01, min: 0, max: 5 },
+    ],
+    cac: [
+      { k: 'cacBars', l: 'Sales cost per bar', pre: '$', step: 100, min: 0, max: 100000 },
+      { k: 'cacSports', l: 'Sales cost per stadium or arena', pre: '$', step: 500, min: 0, max: 500000 },
+      { k: 'cacAirports', l: 'Sales cost per airport bar', pre: '$', step: 100, min: 0, max: 100000 },
+      { k: 'cacHotels', l: 'Sales cost per hotel', pre: '$', step: 100, min: 0, max: 100000 },
+      { k: 'churnBars', l: 'Yearly churn, bars', suf: '%', frac: 1, step: 1, min: 1, max: 100 },
+      { k: 'churnSports', l: 'Yearly churn, sports venues', suf: '%', frac: 1, step: 1, min: 1, max: 100 },
+      { k: 'churnAirports', l: 'Yearly churn, airports', suf: '%', frac: 1, step: 1, min: 1, max: 100 },
+      { k: 'churnHotels', l: 'Yearly churn, hotels', suf: '%', frac: 1, step: 1, min: 1, max: 100 },
+    ],
+    venue: [
+      { k: 'canMargin', l: 'Gross margin on cans', suf: '%', frac: 1, step: 1, min: 0, max: 100 },
+      { k: 'otherMargin', l: 'Gross margin on other drinks', suf: '%', frac: 1, step: 1, min: 0, max: 100 },
+      { k: 'restock', l: 'Restocking labor per can', pre: '$', step: 0.01, min: 0, max: 2 },
+      { k: 'otherCost', l: 'Power and floor space, monthly', pre: '$', step: 5, min: 0, max: 1000 },
+      { k: 'hurdle', l: 'Yearly gain a venue needs to sign', pre: '$', step: 100, min: 0, max: 100000 },
+    ],
+    rel: [
+      { k: 'uptime', l: 'Peak-hour uptime', suf: '%', frac: 1, step: 0.5, min: 50, max: 100 },
+      { k: 'trustLoss', l: 'Kiosk users lost per point of downtime', suf: '%', step: 0.5, min: 0, max: 30 },
+      { k: 'kioskSvc', l: 'Kiosk time per sale (ID, face match, pay)', suf: 'sec', step: 1, min: 5, max: 300 },
+      { k: 'maxKiosks', l: 'Most kiosks per venue', step: 1, min: 1, max: 6 },
+      { k: 'churnPerPt', l: 'Venue churn added per point of downtime', suf: 'pts', step: 0.5, min: 0, max: 20 },
+    ],
+    behavior: [
+      { k: 'adoption', l: 'Can buyers who use the kiosk when there is a line', suf: '%', frac: 1, step: 1, min: 0, max: 100 },
+      { k: 'idleUse', l: 'Kiosk use when there is no line, relative to that', suf: '%', frac: 1, step: 1, min: 0, max: 100 },
+      { k: 'tradeDown', l: 'Cocktail and draft guests who switch to a can when there is a line', suf: '%', frac: 1, step: 0.5, min: 0, max: 50 },
+      { k: 'patienceMult', l: 'Guest patience vs. typical', suf: '×', step: 0.05, min: 0.2, max: 5 },
+      { k: 'canSvc', l: 'Bartender time for a can-only order', suf: 'sec', step: 1, min: 5, max: 120 },
+      { k: 'lostBars', l: 'Walkaways who never come back: bars', suf: '%', frac: 1, step: 1, min: 0, max: 100 },
+      { k: 'lostSports', l: 'Walkaways who never come back: stadiums', suf: '%', frac: 1, step: 1, min: 0, max: 100 },
+      { k: 'lostAirports', l: 'Walkaways who never come back: airports', suf: '%', frac: 1, step: 1, min: 0, max: 100 },
+    ],
+    hotels: [
+      { k: 'hotelCans', l: 'Cans a day at a typical hotel kiosk', step: 1, min: 0, max: 500 },
+      { k: 'hotelPrice', l: 'Price per can', pre: '$', step: 0.5, min: 0, max: 50 },
+      { k: 'hotelIncr', l: 'Kiosk sales that are new sales', suf: '%', frac: 1, step: 1, min: 0, max: 100 },
+      { k: 'hotelSuitable', l: 'Hotels with the license and foot traffic', suf: '%', frac: 1, step: 1, min: 0, max: 100 },
+    ],
+    events: [
+      { k: 'evDayRate', l: 'Rental price per event day', pre: '$', step: 5, min: 0, max: 10000 },
+      { k: 'evCans', l: 'Cans sold per event day', step: 5, min: 0, max: 10000 },
+      { k: 'evDays', l: 'Event days booked per kiosk a year', step: 1, min: 0, max: 365 },
+      { k: 'evLogistics', l: 'Delivery, setup and pickup per event', pre: '$', step: 5, min: 0, max: 5000 },
+      { k: 'evInsurance', l: 'Insurance and storage per kiosk, yearly', pre: '$', step: 50, min: 0, max: 50000 },
+      { k: 'evHwMult', l: 'Rugged kiosk cost vs. a bar kiosk', suf: '×', step: 0.05, min: 0.5, max: 5 },
+      { k: 'evLife', l: 'Hardware life in rental use', suf: 'yrs', step: 0.5, min: 1, max: 15 },
+      { k: 'evPrice', l: 'Price per can at events', pre: '$', step: 0.5, min: 0, max: 50 },
+      { k: 'evFleet', l: 'Kiosks in the fleet', step: 1, min: 1, max: 10000 },
+    ],
+    market: [{ k: 'capture', l: 'Share of qualifying venues DrinkDock signs', suf: '%', frac: 1, step: 1, min: 0, max: 100 }],
+  };
+  const FIELD = {}; Object.values(F).forEach(list => list.forEach(f => { FIELD[f.k] = f; }));
+  const HOTEL_KEYS = new Set(['hotelCans', 'hotelPrice', 'hotelIncr']);
+  const AGG_KEYS = new Set(['capture', 'hotelSuitable']);
+  const EV_KEYS = new Set(F.events.map(f => f.k));
+  const shown = f => f.frac ? +(S.P[f.k] * 100).toFixed(4) : +(+S.P[f.k]).toFixed(4);
+  function fieldHTML(f) {
+    return `<label class="fld" for="f-${f.k}"><span class="fl">${esc(f.l)}</span><span class="fi">${f.pre ? `<span class="pre">${esc(f.pre)}</span>` : ''}<input id="f-${f.k}" data-k="${f.k}" type="number" inputmode="decimal" step="${f.step}" min="${f.min}" max="${f.max}" value="${shown(f)}">${f.suf ? `<span class="suf">${esc(f.suf)}</span>` : ''}</span></label>`;
+  }
+  function mountFields(id, list) { const el = $('#' + id); el.innerHTML = list.map(fieldHTML).join(''); }
+  function syncInputs(k) {
+    const f = FIELD[k]; const el = document.getElementById('f-' + k);
+    if (f && el && document.activeElement !== el) el.value = shown(f);
+    const lv = document.getElementById('lv-' + k); if (lv) { lv.value = S.P[k]; const o = document.getElementById('lvo-' + k); if (o) o.textContent = LEVERS.find(x => x.k === k).fmt(S.P[k]); }
+  }
+  function readField(el) {
+    const f = FIELD[el.dataset.k]; let v = parseFloat(el.value); if (!isFinite(v)) return;
+    v = clamp(v, f.min, f.max); if (f.frac) v /= 100;
+    if (f.k === 'maxKiosks') v = Math.round(v);
+    if (S.P[f.k] !== v) setParam(f.k, v);
+  }
+  let fieldTimer = null;
+  document.addEventListener('input', e => { const el = e.target; if (el.matches && el.matches('input[type=number][data-k]')) { clearTimeout(fieldTimer); fieldTimer = setTimeout(() => readField(el), 450); } });
+  document.addEventListener('change', e => { const el = e.target; if (el.matches && el.matches('input[type=number][data-k]')) { clearTimeout(fieldTimer); readField(el); } });
+
+  const LEVERS = [
+    { k: 'rent', l: 'Monthly rent per kiosk', min: 0, max: 800, step: 5, fmt: v => '$' + Math.round(v) + '/mo' },
+    { k: 'fee', l: 'Fee per kiosk sale', min: 0, max: 1, step: 0.01, fmt: v => cents(v) },
+    { k: 'adoption', l: 'Can buyers who use the kiosk when there is a line', min: 0.2, max: 1, step: 0.05, fmt: v => pct(v) },
+    { k: 'uptime', l: 'Peak-hour uptime', min: 0.8, max: 1, step: 0.005, fmt: v => pct(v, 1) },
+    { k: 'patienceMult', l: 'Guest patience vs. typical', min: 0.5, max: 2, step: 0.05, fmt: v => (+v).toFixed(2) + '×' },
+  ];
+  function mountLevers() {
+    $('#ov-levers').innerHTML = LEVERS.map(l => `<div class="lever"><label for="lv-${l.k}">${esc(l.l)}</label><output id="lvo-${l.k}" for="lv-${l.k}">${esc(l.fmt(S.P[l.k]))}</output><input type="range" id="lv-${l.k}" min="${l.min}" max="${l.max}" step="${l.step}" value="${S.P[l.k]}"></div>`).join('');
+    LEVERS.forEach(l => {
+      const el = $('#lv-' + l.k);
+      el.addEventListener('input', () => { const v = +el.value; $('#lvo-' + l.k).textContent = l.fmt(v); setParam(l.k, v); });
+    });
+  }
+
+  /* ---------- scheduling ---------- */
+  const RANK = { none: 0, events: 1, agg: 2, hotels: 3, all: 4 };
+  let pend = 'none', timer = null;
+  function setParam(k, v) {
+    S.P[k] = v; syncInputs(k);
+    const kind = EV_KEYS.has(k) ? 'events' : AGG_KEYS.has(k) ? 'agg' : HOTEL_KEYS.has(k) ? 'hotels' : 'all';
+    schedule(kind);
+  }
+  function schedule(kind) {
+    if (RANK[kind] > RANK[pend]) pend = kind;
+    clearTimeout(timer);
+    if (pend === 'all') $('#main').classList.add('busy');
+    timer = setTimeout(run, pend === 'all' ? 140 : 60);
+  }
+  function run() {
+    const k = pend; pend = 'none';
+    if (k === 'all') computeAll(); else if (k === 'hotels') computeHotels();
+    if (k === 'all' || k === 'hotels') S.rel = null;
+    aggregate();
+    TABS.forEach(t => { S.dirty[t[0]] = true; });
+    renderTab(S.tab);
+    $('#main').classList.remove('busy');
+  }
+
+  /* ---------- header, tabs ---------- */
+  function renderHeader() {
+    $('#mkt').innerHTML = Object.values(S.M).map(m => `<button type="button" role="radio" aria-checked="${m.id === S.mkt}" data-mkt="${m.id}">${esc(m.name)}</button>`).join('');
+    $$('.mname').forEach(el => { el.textContent = S.M[S.mkt].name; });
+    $$('.capv').forEach(el => { el.textContent = pct(S.P.capture); });
+    $$('.hurdle-v').forEach(el => { el.textContent = usd(S.P.hurdle); });
+    $('#lede').textContent = `Where a self-serve can kiosk pays off. ${int(U.length + HS.length)} simulated venues (bars, stadium and arena stands, airport bars, hotels), each run with and without a kiosk, plus an event-rental fleet.`;
+  }
+  function mountTabs() {
+    $('#tabs').innerHTML = TABS.map(([id, name]) => `<button type="button" role="tab" id="t-${id}" aria-controls="p-${id}" aria-selected="${id === S.tab}">${esc(name)}</button>`).join('');
+    $('#tabs').addEventListener('click', e => { const b = e.target.closest('button[role=tab]'); if (b) setTab(b.id.slice(2)); });
+    $('#mkt').addEventListener('click', e => { const b = e.target.closest('button[data-mkt]'); if (!b) return; S.mkt = b.dataset.mkt; store('mkt', S.mkt); S.rel = null; aggregate(); TABS.forEach(t => { S.dirty[t[0]] = true; }); renderHeader(); renderTab(S.tab); });
+  }
+  function setTab(id) {
+    S.tab = id; store('tab', id);
+    TABS.forEach(([t]) => { $('#p-' + t).hidden = t !== id; $('#t-' + t).setAttribute('aria-selected', t === id); });
+    renderTab(id);
+  }
+  function renderTab(id) {
+    renderHeader();
+    const fn = { overview: renderOverview, venues: renderVenues, night: renderNight, econ: renderEcon, rel: renderRel, rent: renderRent, assume: renderAssume }[id];
+    fn(); S.dirty[id] = false;
+  }
+
+  /* ---------- overview ---------- */
+  function topSegments(n) {
+    const list = DD.SEGMENTS.map(g => ({ id: g.id, v: AGG.seg[g.id].cnt * AGG.seg[g.id].qShare * AGG.M.legal[g.ch] }));
+    list.push({ id: 'hotels', v: AGG.ch.hotels.qualLegal });
+    return list.filter(x => x.v >= 0.5).sort((a, b) => b.v - a.v).slice(0, n).map(x => PLURAL[x.id]);
+  }
+  function renderOverview() {
+    const P = S.P, M = AGG.M, T = AGG.tot, C = AGG.ch;
+    const legalNote = QCH.some(c => M.legal[c] < 1) ? ` Kiosk sales assumed legal for ${pct(M.legal.bars)} of bars.` : '';
+    $('#ov-kicker').textContent = `${M.name} · $${Math.round(P.rent)}/mo per kiosk, ${cents(P.fee)} a sale, $${Math.round(P.saas)}/mo software · a venue signs if it nets ${usd(P.hurdle)} a year.${legalNote}`;
+    const top = topSegments(4);
+    $('#ov-hero').innerHTML = `In ${esc(inName(M))}, about <em>${esc(approx(T.qual))} of ${esc(approx(T.sites))}</em> venues would clear ${esc(usd(P.hurdle))} a year from a DrinkDock kiosk. ${top.length ? 'Most are ' + esc(joinList(top)) + '.' : ''}`;
+    const tiles = [
+      ['Venues that clear the hurdle', approx(T.qual), `${pct(T.qual / T.sites)} of ${approx(T.sites)} sites${T.qualLegal < T.qual - 0.5 ? `; ${approx(T.qualLegal)} where kiosks are legal` : ''}`],
+      ['Serviceable market (SAM)', money(T.sam) + '<small>/yr</small>', 'DrinkDock revenue if every qualifying venue signs'],
+      [`At ${pct(P.capture)} share (SOM)`, money(T.som) + '<small>/yr</small>', `${money(T.somC)}/yr contribution after hardware`],
+      ['Payback per placement', months(T.payQ), 'Hardware, install and sales cost, median'],
+    ];
+    $('#ov-tiles').innerHTML = tiles.map(t => `<div class="tile"><p class="tl">${esc(t[0])}</p><p class="tv">${t[1].includes('<small>') ? t[1].replace(/^([^<]*)/, m => esc(m)) : esc(t[1])}</p><p class="ts">${esc(t[2])}</p></div>`).join('');
+
+    const ev = AGG.ev;
+    const note = { bars: 'PA legality unverified; bartenders lose tips on can orders', sports: 'Aramark (Walk Thru Bru) and Mashgin already speed up beer at big venues', airports: 'Sold through concessionaires and airport authorities; long contracts', hotels: 'Boxxtech already pitches hotel lobbies' };
+    const unit = { bars: 'bars', sports: 'stands', airports: 'airport bars', hotels: 'suitable hotels' };
+    let rows = '';
+    ['bars', 'sports', 'airports', 'hotels'].forEach(c => {
+      const x = C[c];
+      rows += `<tr><td><b>${esc(x.name)}</b><span class="sub">${esc(approx(x.sites))} ${unit[c]}</span></td>
+        <td>${statusPill(x.share)}<span class="sub">≈ ${esc(approx(x.qual))} sites</span></td>
+        <td class="${x.netQ < 0 ? 'neg' : ''}">${esc(money(x.netQ))}</td><td>${esc(money(x.revQ))}</td>
+        <td class="${x.conQ < 0 ? 'neg' : ''}">${esc(money(x.conQ))}</td><td>${esc(months(x.payQ))}</td><td>${esc(money(x.sam))}</td><td class="note">${esc(note[c])}</td></tr>`;
+    });
+    rows += `<tr><td><b>Event rental fleet</b><span class="sub">${esc(int(P.evFleet))} kiosks, ${esc(int(P.evDays))} days each</span></td><td><span class="sub">host keeps</span>${esc(money(ev.hostGP))}/day</td>
+      <td>n/a</td><td>${esc(money(ev.perUnitRev))}</td><td class="${ev.perUnitContrib < 0 ? 'neg' : ''}">${esc(money(ev.perUnitContrib))}</td><td>${esc(months(ev.payback))}</td><td>not sized</td><td class="note">Every event needs a licensed host; booked days decide everything</td></tr>`;
+    rows += `<tr class="total"><td>Total</td><td>≈ ${esc(approx(T.qual))}</td><td></td><td></td><td></td><td>${esc(months(T.payQ))}</td><td>${esc(money(T.sam))}</td><td></td></tr>`;
+    $('#ov-channels').innerHTML = `<thead><tr><th>Channel</th><th>Clear hurdle</th><th>Venue gain/yr</th><th>DrinkDock rev/site</th><th>Contribution/site</th><th>Payback</th><th>SAM/yr</th><th class="note">Watch out</th></tr></thead><tbody>${rows}</tbody>`;
+
+    // findings
+    const fits = [], some = [], rare = [];
+    DD.SEGMENTS.filter(g => g.ch === 'bars').sort((a, b) => AGG.seg[b.id].qShare - AGG.seg[a.id].qShare).forEach(g => {
+      const s = AGG.seg[g.id], t = `${g.name} (${pct(s.qShare)})`;
+      (s.qShare >= 0.3 ? fits : s.qShare >= 0.1 ? some : rare).push(t);
+    });
+    const out = [];
+    out.push(li('good', `<b>Bars that fit:</b> ${esc(joinList(fits) || 'none at these settings')}.${some.length ? ' Case by case: ' + esc(joinList(some)) + '.' : ''} ${rare.length ? 'Almost never: ' + esc(joinList(rare.map(t => t.replace(/ \(.*\)/, '')))) + '.' : ''}`));
+    const ib = AGG.icp.bars;
+    if (ib) out.push(li('info', `<b>Rule of thumb for bars:</b> at least ${esc(int(ib.lamT))} orders an hour at the rush, ${esc(pct(ib.canT))} or more of orders cans only, and rush demand at ${esc(ib.rhoT.toFixed(2))}× or more of what the staff can serve. ${esc(pct(ib.prec))} of bars that pass all three clear the hurdle, vs. ${esc(pct(ib.base))} of all bars.`));
+    const cb = C.bars;
+    if (isFinite(cb.incrQ) && P.fee > 0) out.push(li('warn', `<b>The fee is the weak spot.</b> Only ${esc(pct(cb.incrQ))} of kiosk sales at qualifying bars are sales the bar would have lost; the rest would have happened anyway. The ${esc(cents(P.fee))} fee applies to all of them and takes ${esc(pct(cb.feeShareQ))} of the bar's gross gain.`));
+    const sportsLose = DD.SEGMENTS.filter(g => g.ch === 'sports' && AGG.seg[g.id].conAll < 0).map(g => PLURAL[g.id]);
+    const sportsBest = DD.SEGMENTS.filter(g => g.ch === 'sports').sort((a, b) => AGG.seg[b.id].qShare - AGG.seg[a.id].qShare).slice(0, 2);
+    out.push(li(sportsLose.length ? 'warn' : 'good', `<b>Sports:</b> ${esc(joinList(sportsBest.map(g => `${PLURAL[g.id]} (${pct(AGG.seg[g.id].qShare)})`)))} clear the hurdle most often.${sportsLose.length ? ` DrinkDock loses money on each kiosk at ${esc(joinList(sportsLose))}: too few event days to carry the hardware. Serve those from the rental fleet.` : ''}`));
+    const al = AGG.seg.air_l;
+    out.push(li('info', `<b>Airports:</b> large-hub airport bars clear the hurdle ${esc(pct(al.qShare))} of the time (short patience, $12 cans, 360 days a year). The buyer is the airport concessionaire, so the sale is slow.`));
+    const be = AGG.be;
+    if (be) out.push(li(be.be <= 0.9 ? 'good' : 'warn', `<b>Uptime:</b> the median qualifying bar nets ${esc(money(be.net))} a year at ${esc(pct(P.uptime, 1))} peak uptime, gives up about ${esc(money(be.perPoint))} per point of downtime, and stops paying off ${isFinite(be.be) ? 'below about ' + esc(pct(be.be)) + ' uptime' : 'at any uptime'}.`));
+    out.push(li(ev.perUnitContrib > 0 ? 'good' : 'bad', `<b>Rental fleet:</b> at ${esc(int(P.evDays))} event days a year a rental kiosk contributes ${esc(money(ev.perUnitContrib))} a year and breaks even at ${esc(isFinite(ev.breakEvenDays) ? Math.ceil(ev.breakEvenDays) : 'no')} days.`));
+    $('#ov-finds').innerHTML = out.join('');
+
+    hbars($('#ov-funnel'), [
+      { label: 'Every site signs (TAM)', v: T.tam, sub: `${approx(T.sites)} sites` },
+      { label: 'Where kiosk sales are legal', v: T.ltam, sub: QCH.every(c => M.legal[c] >= 1) && M.legal.hotels >= 1 ? 'Assumes kiosk sales are legal in Pennsylvania' : 'Legal shares are guesses; see Assumptions' },
+      { label: 'Venues that clear the hurdle (SAM)', v: T.sam, sub: `${approx(T.qualLegal)} sites` },
+      { label: `At ${pct(P.capture)} share (SOM)`, v: T.som, sub: `${approx(T.qualLegal * P.capture)} sites, ${money(T.somC)}/yr contribution` },
+    ], v => money(v) + '/yr');
+
+    const mk = Object.values(S.M).map(m0 => {
+      const m = normM(m0); let sites = 0, qual = 0, sam = 0;
+      DD.SEGMENTS.forEach(g => { const sg = AGG.seg[g.id], cnt = DD.segCount(g, m); sites += cnt; qual += cnt * sg.qShare; sam += cnt * (+m.legal[g.ch]) * sg.qShare * sg.revQ; });
+      const hq = HR.filter(r => r.qualifies), hsh = hq.length / HR.length, hc = m.hotels * P.hotelSuitable;
+      sites += hc; qual += hc * hsh; sam += hc * (+m.legal.hotels) * hsh * (hq.length ? avg(hq.map(r => r.ddRev)) : 0);
+      return `<tr${m0.id === S.mkt ? ' style="font-weight:600"' : ''}><td>${esc(m0.name)}</td><td>${esc(approx(sites))}</td><td>${esc(approx(qual))}</td><td>${esc(money(sam))}</td><td>${esc(money(sam * P.capture))}</td></tr>`;
+    }).join('');
+    $('#ov-markets').innerHTML = `<thead><tr><th>Market</th><th>Sites</th><th>Clear hurdle</th><th>SAM/yr</th><th>At ${esc(pct(P.capture))}</th></tr></thead><tbody>${mk}</tbody>`;
+    const abQ = C.bars.ab0Q;
+    $('#ov-claims').innerHTML = [
+      li('warn', `<b>Is it legal in Pennsylvania?</b> I couldn't confirm that it is. The only PA precedent is the PLCB's own wine kiosks, which the state ran itself with a remote ID check and a breath test and shut down in 2011. Have a licensee ask the PLCB for an advisory opinion before building; those bind the enforcement bureau.`),
+      li('warn', `<b>How many guests leave the line?</b> At the rush, the median qualifying bar in the sim loses ${esc(pct(abQ))} of orders to walkaways. A Mashgin survey found over 80% of MLB fans have abandoned a concession line at some point, which measures something different from how many leave on a given night.`),
+      li('info', `<b>Competition is already in the building.</b> Boxxtech sells ID-verified can vending (Progressive Field, Super Bowl demos, hotel lobbies). Aramark's Walk Thru Bru self-serve beer markets lifted transactions 12% at converted NFL stands and 20% at Acrisure Stadium in Pittsburgh. Mashgin self-checkout runs in 20 of 30 MLB parks.`),
+      li('info', `<b>Draft is 53% of on-premise beer volume</b> (NIQ, 2026), and none of it can go through a can kiosk. After crowding, the share of orders that are cans only moves the result most; count it at five target bars on a Saturday.`),
+    ].join('');
+  }
+
+  /* ---------- venues ---------- */
+  function renderVenues() {
+    const c = S.venCh, P = S.P, M = AGG.M;
+    $('#ven-pills').innerHTML = QCH.map(k => `<button type="button" role="radio" aria-checked="${k === c}" data-ch="${k}">${esc(DD.CHANNELS[k].name)}</button>`).join('');
+    const gs = DD.SEGMENTS.filter(g => g.ch === c).sort((a, b) => AGG.seg[b.id].qShare - AGG.seg[a.id].qShare);
+    const x = AGG.ch[c];
+    const noteBy = {
+      bars: `${approx(x.sites)} licensed bars and restaurants in ${inName(M)}. ${N_PER.bars} simulated per type.`,
+      sports: `A site is one busy concession stand. ${M.name}: ${approx(x.sites)} kiosk spots. ${N_PER.sports} simulated per type.`,
+      airports: `${approx(x.sites)} airport bars in ${inName(M)}. ${N_PER.airports} simulated per type.`,
+    };
+    $('#ven-note').textContent = noteBy[c];
+    const narrow = ($('#ven-strip').clientWidth || 600) < 520;
+    const rows = gs.map(g => {
+      const s = AGG.seg[g.id], step = Math.max(1, Math.ceil(s.ids.length / 110));
+      const dots = s.ids.filter((_, j) => j % step === 0).map(i => ({ v: R[i].custNet, on: R[i].qualifies, i }));
+      return { label: g.name, sub: narrow ? `${pct(s.qShare)} clear` : `${pct(s.qShare)} clear · median ${money(s.net)}`, dots };
+    });
+    dotStrip($('#ven-strip'), {
+      rows, hurdle: P.hurdle, aria: `Yearly venue gain for each simulated ${DD.CHANNELS[c].unit}, by type`,
+      tip: (tip, d) => {
+        const s = U[d.i], r = R[d.i], g = DD.SEG[s.seg];
+        const t = document.createElement('div'); t.className = 'tt'; t.textContent = `${g.name} · ${r.qualifies ? 'clears the hurdle' : 'below the hurdle'}`; tip.appendChild(t);
+        tipLine(tip, 'Venue gain', money(r.custNet) + '/yr');
+        tipLine(tip, 'Rush demand', `${int(s.lam)} orders/hr, ${r.c} ${staffWord(g.ch, r.c)}`);
+        tipLine(tip, 'Load vs. capacity', r.peak.rho.toFixed(2) + '×');
+        tipLine(tip, 'Can-only orders', pct(s.can));
+        tipLine(tip, 'Walkaways at the rush', `${pct(r.peak.pAb0, 1)} → ${pct(r.peak.pAb1, 1)}`);
+        tipLine(tip, 'Kiosk sales', `${int(r.kTx)}/yr on ${r.k} kiosk${r.k > 1 ? 's' : ''}`);
+      },
+    });
+    const ic = AGG.icp[c];
+    const unitWord = { bars: 'bar', sports: 'stand', airports: 'airport bar' }[c];
+    $('#ven-icp').innerHTML = ic ? `<h3 class="h3">Ideal customer, ${esc(DD.CHANNELS[c].name.toLowerCase())}</h3>
+      <div class="annual">
+        <div><b>${esc(int(ic.medLam))}/hr</b>orders at the rush (median qualifying ${esc(unitWord)})</div>
+        <div><b>${esc(pct(ic.medCan))}</b>of orders are cans only</div>
+        <div><b>${esc(ic.medRho.toFixed(2))}×</b>rush demand vs. what ${esc(int(ic.medC))} ${esc(staffWord(c, Math.round(ic.medC)))} can serve</div>
+        <div><b>${esc(pct(ic.medAb, 1))}</b>of rush orders walk away today</div>
+      </div>
+      <p class="fine" style="font-size:14px;color:var(--ink-2);max-width:80ch">Screening rule: at least <b>${esc(int(ic.lamT))} orders an hour</b> at the rush, <b>${esc(pct(ic.canT))}+ can-only orders</b>, and demand at <b>${esc(ic.rhoT.toFixed(2))}× capacity or more</b>. ${esc(pct(ic.prec))} of ${esc(unitWord)}s that pass all three clear the hurdle (vs. ${esc(pct(ic.base))} overall), and the rule catches ${esc(pct(ic.recall))} of the ones that do.</p>`
+      : `<h3 class="h3">Ideal customer</h3><p class="fine">Too few ${esc(DD.CHANNELS[c].name.toLowerCase())} clear the hurdle at these settings to describe a profile. Try a lower rent or fee on the Overview.</p>`;
+    let body = '';
+    gs.forEach(g => {
+      const s = AGG.seg[g.id];
+      body += `<tr><td><b>${esc(g.name)}</b></td><td>${esc(approx(s.cnt))}</td><td>${statusPill(s.qShare)}</td><td>${esc(s.rho.toFixed(2))}×</td><td>${esc(pct(s.ab0, 1))} → ${esc(pct(s.ab1, 1))}</td><td class="${s.net < 0 ? 'neg' : ''}">${esc(money(s.net))}</td><td class="${s.netQ < 0 ? 'neg' : ''}">${esc(isFinite(s.netQ) ? money(s.netQ) : 'n/a')}</td><td>${esc(pct(s.incr))}</td><td>${esc(money(s.revAll))}<span class="sub">${esc(s.k.toFixed(1))} kiosk${s.k >= 1.05 ? 's' : ''}</span></td></tr>`;
+    });
+    $('#ven-table').innerHTML = `<thead><tr><th>Type</th><th>Sites</th><th>Clear hurdle</th><th>Rush load</th><th>Walkaways at rush<span class="sub">no kiosk → kiosk</span></th><th>Venue gain<span class="sub">median, all</span></th><th>Venue gain<span class="sub">median, qualifying</span></th><th>Kiosk sales<span class="sub">that are saved sales</span></th><th>DrinkDock rev<span class="sub">per site</span></th></tr></thead><tbody>${body}</tbody>`;
+  }
+
+  /* ---------- one night ---------- */
+  const BUSY = [['typ', 'Typical', 1], ['busy', 'Busy', 1.25], ['slam', 'Slammed', 1.5]];
+  function nightDefaults(segId) {
+    const g = DD.SEG[segId], sg = AGG.seg[segId];
+    let base = { seg: segId, lam: g.lam, can: g.can, svc: g.svc, tkt: g.tkt, price: g.price, pat: g.pat, tu: 1, hs: 1 }, c, k, from;
+    if (sg && sg.q.length >= 5) {
+      const q = sg.q.slice().sort((a, b) => R[a].custNet - R[b].custNet), i = q[Math.floor(q.length / 2)], u = U[i];
+      base = Object.assign({}, base, { lam: Math.round(u.lam / 5) * 5, can: Math.round(u.can * 100) / 100, pat: Math.round(u.pat * 2) / 2 });
+      c = R[i].c; k = R[i].k; from = `Starts from the median ${g.name.toLowerCase()} that clears the hurdle.`;
+    } else {
+      c = DD.staffFor(base); k = DD.evalSite(base, Object.assign({}, S.P, { patienceMult: 1 }), { c }).k;
+      from = `Starts from a typical ${g.name.toLowerCase()}; few of them clear the hurdle.`;
+    }
+    return { seg: segId, busy: S.N ? S.N.busy : 'busy', lam: base.lam, c, can: base.can, pat: base.pat, k, adopt: S.P.adoption, jam: S.N ? S.N.jam : false, seed: S.N ? S.N.seed : 11, from };
+  }
+  const NSL = [
+    { k: 'lam', l: 'Typical rush demand', min: 10, max: 600, step: 5, fmt: v => int(v) + ' orders/hr' },
+    { k: 'c', l: 'Staff pouring at the rush', min: 1, max: 10, step: 1, fmt: v => int(v) },
+    { k: 'can', l: 'Orders that are cans only', min: 0, max: 0.9, step: 0.01, fmt: v => pct(v) },
+    { k: 'pat', l: 'Typical guest patience', min: 1, max: 20, step: 0.5, fmt: v => (+v).toFixed(1) + ' min' },
+    { k: 'k', l: 'Kiosks', min: 1, max: 4, step: 1, fmt: v => int(v) },
+    { k: 'adopt', l: 'Can buyers who use it when there is a line', min: 0, max: 1, step: 0.05, fmt: v => pct(v) },
+  ];
+  let nightMounted = false;
+  function mountNight() {
+    const sel = $('#n-seg');
+    sel.innerHTML = QCH.map(c => `<optgroup label="${esc(DD.CHANNELS[c].name)}">${DD.SEGMENTS.filter(g => g.ch === c).map(g => `<option value="${g.id}">${esc(g.name)}</option>`).join('')}</optgroup>`).join('');
+    sel.value = S.N.seg;
+    sel.addEventListener('change', () => { S.N = nightDefaults(sel.value); syncNightControls(); runNight(); });
+    $('#n-busy').addEventListener('click', e => { const b = e.target.closest('button[data-b]'); if (!b) return; S.N.busy = b.dataset.b; syncNightControls(); runNight(); });
+    $('#n-sliders').innerHTML = NSL.map(l => `<div class="lever"><label for="ns-${l.k}">${esc(l.l)}</label><output id="nso-${l.k}" for="ns-${l.k}"></output><input type="range" id="ns-${l.k}" min="${l.min}" max="${l.max}" step="${l.step}"></div>`).join('');
+    NSL.forEach(l => { const el = $('#ns-' + l.k); el.addEventListener('input', () => { S.N[l.k] = +el.value; $('#nso-' + l.k).textContent = l.fmt(+el.value); runNightSoon(); }); });
+    $('#n-jam').addEventListener('change', e => { S.N.jam = e.target.checked; runNight(); });
+    $('#n-run').addEventListener('click', () => { S.N.seed = (S.N.seed * 16807 + 12345) % 2147483647; runNight(); });
+    nightMounted = true;
+  }
+  function syncNightControls() {
+    $('#n-seg').value = S.N.seg;
+    $('#n-busy').innerHTML = BUSY.map(([id, name]) => `<button type="button" role="radio" data-b="${id}" aria-checked="${id === S.N.busy}">${esc(name)}</button>`).join('');
+    NSL.forEach(l => { const el = $('#ns-' + l.k); el.value = S.N[l.k]; $('#nso-' + l.k).textContent = l.fmt(S.N[l.k]); });
+    const ch = DD.SEG[S.N.seg].ch; $('label[for="ns-c"]').textContent = ch === 'sports' ? 'Cashiers at the stand' : 'Bartenders at the rush';
+    $('#n-jam').checked = !!S.N.jam;
+    $('#n-from').textContent = S.N.from || '';
+  }
+  let nightTimer = null;
+  function runNightSoon() { clearTimeout(nightTimer); nightTimer = setTimeout(runNight, 70); }
+  function clock(prof, t) {
+    const mins = Math.round(prof.start + t), h24 = Math.floor(mins / 60) % 24, mm = mins % 60;
+    const h = h24 % 12 === 0 ? 12 : h24 % 12; return `${h}${mm ? ':' + String(mm).padStart(2, '0') : ''} ${h24 < 12 ? 'AM' : 'PM'}`;
+  }
+  function smooth(a, w) { const out = new Array(a.length); for (let i = 0; i < a.length; i++) { let s = 0, n = 0; for (let j = i - w; j <= i + w; j++) if (j >= 0 && j < a.length) { s += a[j]; n++; } out[i] = s / n; } return out; }
+  function runNight() {
+    if (S.tab !== 'night') { S.dirty.night = true; return; }
+    const N = S.N, g = DD.SEG[N.seg], mult = BUSY.find(b => b[0] === N.busy)[2];
+    const Pn = Object.assign({}, S.P, { patienceMult: 1 });
+    const site = { seg: N.seg, lam: N.lam * mult, can: N.can, svc: g.svc, tkt: g.tkt, price: g.price, pat: N.pat };
+    const res = DD.simulateNight(site, Pn, { c: N.c, k: N.k, adoption: N.adopt, jam: N.jam, seed: N.seed });
+    const prof = res.prof, H = res.H;
+    const extra = res.revB - res.revA;
+    $('#n-tiles').innerHTML = [
+      ['Walkaways', `${int(res.walkA)} → ${int(res.walkB)}`, '', `of ${int(res.arrivals)} orders, no kiosk → kiosk`],
+      ['Extra revenue', (extra >= 0 ? '+' : '') + money(extra), '', 'Counts guests who come back later'],
+      [g.ch === 'sports' ? 'Average wait at the stand' : 'Average wait at the bar', `${res.waitA.toFixed(1)} → ${res.waitB.toFixed(1)}`, 'min', `Slowest 10%: ${res.p90A.toFixed(1)} → ${res.p90B.toFixed(1)} min`],
+      ['Kiosk sales', int(res.kioskServed), '', N.jam ? `${int(res.moved)} guests pushed back to the line by the jam` : `${pct(res.kioskServed / Math.max(1, res.arrivals))} of all orders`],
+    ].map(t => `<div class="tile"><p class="tl">${esc(t[0])}</p><p class="tv">${esc(t[1])}${t[2] ? ` <small>${esc(t[2])}</small>` : ''}</p><p class="ts">${esc(t[3])}</p></div>`).join('');
+    const xs = []; for (let i = 0; i <= H; i++) xs.push(i);
+    const step = H > 500 ? 120 : 60, first = (60 - (prof.start % 60)) % 60, xt = [];
+    for (let t = first; t <= H; t += step) xt.push(t);
+    const unitLine = g.ch === 'sports' ? 'Stand line' : 'Bar line';
+    const s1 = [
+      { name: `${unitLine}, no kiosk`, short: 'No kiosk', cls: 's2', values: smooth(res.qA, 1) },
+      { name: `${unitLine}, with kiosk`, short: 'With kiosk', cls: 's1', values: smooth(res.qB, 1) },
+      { name: 'Kiosk line', short: 'Kiosk line', cls: 's3', values: smooth(res.qK, 1) },
+    ];
+    $('#n-title').textContent = `People waiting in line: ${prof.label.toLowerCase()}, ${g.name.toLowerCase()}`;
+    $('#n-leg1').innerHTML = legendHTML(s1) + (N.jam ? '<span><i class="sq band"></i>Kiosk jammed</span>' : '');
+    const vlines = (prof.marks || []).map(mk => ({ x: mk[0], label: mk[1], soft: true, hideNarrow: false }));
+    const bands = N.jam ? [{ x0: prof.jamAt, x1: prof.jamAt + prof.jamLen }] : [];
+    lineChart($('#n-chart1'), { x: xs, series: s1, xFmt: t => clock(prof, t), xTicks: xt, yFmt: v => int(v), tipFmt: v => (+v).toFixed(0) + ' people', height: 260, vlines, bands, endLabels: false, aria: 'People waiting over the night with and without a kiosk', tipTitle: t => clock(prof, t) });
+    const s2 = [
+      { name: 'No kiosk', cls: 's2', values: res.cwA },
+      { name: 'With kiosk', cls: 's1', values: res.cwB },
+    ];
+    $('#n-leg2').innerHTML = legendHTML(s2);
+    lineChart($('#n-chart2'), { x: xs, series: s2, xFmt: t => clock(prof, t), xTicks: xt, yFmt: v => int(v), tipFmt: v => int(v) + ' walkaways', height: 200, vlines: vlines.map(v => Object.assign({}, v, { label: null })), bands, endLabels: true, endW: 84, aria: 'Cumulative walkaways over the night', tipTitle: t => clock(prof, t) });
+    const trows = []; for (let t = 0; t <= H; t += 30) trows.push([clock(prof, t), int(res.qA[t]), int(res.qB[t]), int(res.qK[t]), int(res.cwA[t]), int(res.cwB[t])]);
+    $('#n-tv1').innerHTML = tableHTML(['Time', `${unitLine}, no kiosk`, `${unitLine}, kiosk`, 'Kiosk line', 'Walkaways, no kiosk', 'Walkaways, kiosk'], trows);
+    // a year at this venue
+    const annSite = { seg: N.seg, lam: N.lam, can: N.can, svc: g.svc, tkt: g.tkt, price: g.price, pat: N.pat, hs: 1, tu: 1 };
+    const a = DD.evalSite(annSite, Pn, { c: N.c, k: N.k, adoption: N.adopt });
+    $('#n-annual').innerHTML = `<div class="card-h" style="margin:0"><h3 class="h3">A year at this ${esc(g.ch === 'sports' ? 'stand' : 'venue')}, typical demand</h3>${a.qualifies ? `<span class="pill good">${ICON.good.replace('class="ic"', '')}Clears the ${esc(usd(S.P.hurdle))} hurdle</span>` : `<span class="pill bad">${ICON.bad.replace('class="ic"', '')}Below the ${esc(usd(S.P.hurdle))} hurdle</span>`}</div>
+      <div class="annual">
+        <div><b class="${a.custNet < 0 ? 'neg' : ''}">${esc(money(a.custNet))}</b>venue gain after DrinkDock's fees</div>
+        <div><b>${esc(money(a.dGP))}</b>gross margin the kiosk adds</div>
+        <div><b>${esc(int(a.kTx))}</b>kiosk sales a year</div>
+        <div><b>${esc(pct(a.incrShare))}</b>of them are saved sales</div>
+        <div><b>${esc(money(a.ddRev))}</b>DrinkDock revenue</div>
+        <div><b class="${a.ddContrib < 0 ? 'neg' : ''}">${esc(money(a.ddContrib))}</b>DrinkDock contribution</div>
+      </div>
+      <p class="fine">Rush, shoulder and quiet hours for a ${esc(g.name.toLowerCase())}, at today's pricing and ${esc(pct(S.P.uptime, 1))} uptime. The night above uses the "${esc(BUSY.find(b => b[0] === N.busy)[1])}" demand; the year uses typical demand.</p>`;
+  }
+  function renderNight() {
+    if (!S.N) S.N = nightDefaults('college');
+    if (!nightMounted) mountNight();
+    syncNightControls(); runNight();
+  }
+
+  /* ---------- economics ---------- */
+  const RENT_MAX = 2000; const RENT_X = []; for (let r = 0; r <= RENT_MAX; r += 50) RENT_X.push(r);
+  const FEE_X = []; for (let f = 0; f <= 1.0001; f += 0.05) FEE_X.push(+f.toFixed(2));
+  function rentYrAt(i, r) { const x = R[i]; if (x.eventPriced) return x.k * Math.min(S.P.eventRate * x.ev, r * 12); return x.k * r * 12; }
+  function shareCurve(c, fn) {
+    const P = S.P, w = AGG.w;
+    if (c === 'hotels') return fn.map(v => HR.filter(h => fn.isRent ? (h.custNet + h.rentYr - 12 * v >= P.hurdle) : (h.custNet + (P.fee - v) * h.kTx >= P.hurdle)).length / HR.length);
+    const ids = AGG.ch[c].ids.filter(i => w[i] > 0); const W = ids.reduce((s, i) => s + w[i], 0);
+    return fn.map(v => { let a = 0; for (const i of ids) { const r = R[i]; const net = fn.isRent ? r.custNet + r.rentYr - rentYrAt(i, v) : r.custNet + (P.fee - v) * r.kTx; if (net >= P.hurdle) a += w[i]; } return W ? a / W : NaN; });
+  }
+  function mountEcon() {
+    mountFields('e-pricing', F.pricing); mountFields('e-costs', F.costs); mountFields('e-cac', F.cac); mountFields('e-venue', F.venue);
+    $('#e-sportsmode').addEventListener('click', e => { const b = e.target.closest('button[data-m]'); if (!b) return; S.P.sportsPricing = b.dataset.m; schedule('all'); });
+  }
+  let econMounted = false;
+  function renderEcon() {
+    if (!econMounted) { mountEcon(); econMounted = true; }
+    const P = S.P, M = AGG.M;
+    $('#e-sportsmode').innerHTML = [['event', 'Per event day, capped at monthly rent'], ['monthly', 'Monthly rent']].map(([id, n]) => `<button type="button" role="radio" data-m="${id}" aria-checked="${P.sportsPricing === id}">${esc(n)}</button>`).join('');
+    const chans = ['bars', 'sports', 'airports', 'hotels'];
+    const rentX = RENT_X.slice(); rentX.isRent = true;
+    const feeX = FEE_X.slice(); feeX.isRent = false;
+    const sR = chans.map(c => ({ name: c === 'hotels' ? 'Hotels' : DD.CHANNELS[c].name, short: c === 'hotels' ? 'Hotels' : DD.CHANNELS[c].name, cls: CH_CLS[c], values: shareCurve(c, rentX) }));
+    const sF = chans.map(c => ({ name: c === 'hotels' ? 'Hotels' : DD.CHANNELS[c].name, short: c === 'hotels' ? 'Hotels' : DD.CHANNELS[c].name, cls: CH_CLS[c], values: shareCurve(c, feeX) }));
+    $('#e-leg1').innerHTML = legendHTML(sR); $('#e-leg2').innerHTML = legendHTML(sF);
+    lineChart($('#e-rent'), { x: RENT_X, series: sR, xFmt: v => '$' + v, yFmt: v => pct(v), yMax: 1, height: 240, endLabels: true, vlines: [{ x: clamp(P.rent, 0, RENT_MAX), label: 'Now', soft: false }], aria: 'Share of venues clearing the hurdle by monthly rent', tipTitle: v => `$${v}/mo rent` });
+    lineChart($('#e-fee'), { x: FEE_X, series: sF, xFmt: v => cents(v), yFmt: v => pct(v), yMax: 1, height: 240, endLabels: true, vlines: [{ x: clamp(P.fee, 0, 1), label: 'Now' }], aria: 'Share of venues clearing the hurdle by fee per sale', tipTitle: v => `${cents(v)} per sale` });
+    const every = (arr, n) => arr.filter((_, i) => i % n === 0);
+    $('#e-tv1').innerHTML = tableHTML(['Monthly rent', ...sR.map(s => s.name)], every(RENT_X.map((r, i) => ['$' + r, ...sR.map(s => pct(s.values[i]))]), 4));
+    $('#e-tv2').innerHTML = tableHTML(['Fee per sale', ...sF.map(s => s.name)], every(FEE_X.map((f, i) => [cents(f), ...sF.map(s => pct(s.values[i]))]), 2));
+    // contribution vs rent
+    const w = AGG.w, cap = P.capture;
+    const somAt = RENT_X.map(r => {
+      let tot = 0;
+      QCH.forEach(c => { const L = +M.legal[c]; AGG.ch[c].ids.forEach(i => { if (!(w[i] > 0)) return; const x = R[i]; const d = rentYrAt(i, r) - x.rentYr; if (x.custNet - d >= P.hurdle) tot += w[i] * L * (x.ddContrib + d); }); });
+      const hc = AGG.ch.hotels, hw = hc.sites * hc.legal / HR.length;
+      HR.forEach(h => { const d = 12 * r - h.rentYr; if (h.custNet - d >= P.hurdle) tot += hw * (h.ddContrib + d); });
+      return tot * cap;
+    });
+    let bi = 0; somAt.forEach((v, i) => { if (v > somAt[bi]) bi = i; });
+    const nowV = somAt[Math.round(clamp(P.rent, 0, RENT_MAX) / 50)];
+    const atEdge = bi === RENT_X.length - 1;
+    lineChart($('#e-opt'), { x: RENT_X, series: [{ name: 'Contribution', cls: 's1', values: somAt }], xFmt: v => '$' + int(v), yFmt: v => tickMoney(v), height: 230, markers: [{ x: RENT_X[bi], y: somAt[bi], label: `Peak ${money(somAt[bi])} at $${int(RENT_X[bi])}` }], vlines: [{ x: clamp(P.rent, 0, RENT_MAX), label: 'Now', soft: true }], aria: 'DrinkDock yearly contribution by monthly rent', tipTitle: v => `$${int(v)}/mo rent`, tipFmt: v => money(v) + '/yr' });
+    $('#e-opt-note').textContent = `At ${pct(cap)} share in ${inName(M)}, contribution ${atEdge ? 'keeps rising past $' + int(RENT_MAX) + ' a month' : `peaks around $${int(RENT_X[bi])} a month (${money(somAt[bi])}/yr)`} vs. ${money(nowV)}/yr at today's $${Math.round(P.rent)}. Higher rent earns more per venue but fewer venues clear the hurdle; the venues that stay are the crowded ones with big gains. Holds the fee, software price and stadium pricing where they are.`;
+    // unit economics table
+    const cols = chans.map(c => {
+      if (c === 'hotels') {
+        const q = HR.filter(h => h.qualifies); const m = f => q.length ? avg(q.map(f)) : NaN;
+        return { k: m(r => r.k), tx: m(r => r.kTx), rent: m(r => r.rentYr), saas: m(r => r.saasYr), fee: m(r => r.feeYr), rev: m(r => r.ddRev), svc: m(r => r.ddVar - P.idCost * r.kTx), id: m(r => P.idCost * r.kTx), dep: m(r => r.ddDep), con: m(r => r.ddContrib), pay: DD.median(q.map(r => r.payback)), ltv: DD.median(q.map(r => r.ltvCac)) };
+      }
+      const q = AGG.ch[c].qids; const m = f => wmean(q, f, w);
+      return { k: m(r => r.k), tx: m(r => r.kTx), rent: m(r => r.rentYr), saas: m(r => r.saasYr), fee: m(r => r.feeYr), rev: m(r => r.ddRev), svc: m(r => r.ddVar - P.idCost * r.kTx), id: m(r => P.idCost * r.kTx), dep: m(r => r.ddDep), con: m(r => r.ddContrib), pay: wq(q, r => r.payback, w), ltv: wq(q, r => r.ltvCac, w) };
+    });
+    const line = (label, key, fmt, cls) => `<tr${cls ? ` class="${cls}"` : ''}><td>${esc(label)}</td>${cols.map(x => `<td class="${x[key] < 0 ? 'neg' : ''}">${esc(fmt(x[key]))}</td>`).join('')}</tr>`;
+    const neg = v => isFinite(v) ? money(-v) : 'n/a';
+    $('#e-unit').innerHTML = `<thead><tr><th>Per venue, per year</th>${chans.map(c => `<th>${esc(c === 'hotels' ? 'Hotels' : DD.CHANNELS[c].name)}</th>`).join('')}</tr></thead><tbody>
+      ${line('Kiosks', 'k', v => isFinite(v) ? v.toFixed(1) : 'n/a')}${line('Kiosk sales', 'tx', int)}
+      ${line('Rent', 'rent', money)}${line('Software', 'saas', money)}${line('Fees per sale', 'fee', money)}${line('Revenue', 'rev', money, 'total')}
+      ${line('Service, parts, connectivity', 'svc', neg)}${line('ID and face checks', 'id', neg)}${line('Hardware depreciation', 'dep', neg)}
+      ${line('Contribution', 'con', money, 'total')}${line('Payback (median)', 'pay', months)}${line('Lifetime contribution ÷ sales cost (median)', 'ltv', v => isFinite(v) ? v.toFixed(1) + '×' : 'n/a')}</tbody>`;
+  }
+
+  /* ---------- reliability ---------- */
+  const U_LEVELS = [0.8, 0.82, 0.84, 0.86, 0.88, 0.9, 0.92, 0.94, 0.96, 0.98, 1.0];
+  function relCurve() {
+    const P = S.P, M = AGG.M, res = { share: {}, ltv: {} };
+    QCH.forEach(c => {
+      const gs = DD.SEGMENTS.filter(g => g.ch === c);
+      res.share[c] = []; res.ltv[c] = [];
+      U_LEVELS.forEach(u => {
+        let num = 0, den = 0, lv = 0, lw = 0;
+        gs.forEach(g => {
+          const cnt = DD.segCount(g, M); if (!cnt) return;
+          const ids = IDX[g.id].slice(0, 24); let q = 0;
+          ids.forEach(i => { const r = DD.evalSite(U[i], P, { uptime: u }); if (r.qualifies) { q++; lv += cnt / ids.length * r.ltv; lw += cnt / ids.length; } });
+          num += cnt * q / ids.length; den += cnt;
+        });
+        res.share[c].push(den ? num / den : NaN); res.ltv[c].push(lw ? lv / lw : NaN);
+      });
+    });
+    const hs = HS.slice(0, 160);
+    res.share.hotels = []; res.ltv.hotels = [];
+    U_LEVELS.forEach(u => { const rr = hs.map(h => DD.evalHotel(h, P, { uptime: u })).filter(r => r.qualifies); res.share.hotels.push(rr.length / hs.length); res.ltv.hotels.push(rr.length ? avg(rr.map(r => r.ltv)) : NaN); });
+    return res;
+  }
+  let relMounted = false;
+  function renderRel() {
+    if (!relMounted) {
+      mountFields('r-fields', F.rel);
+      $('#r-auto').addEventListener('change', e => { S.P.autoKiosks = e.target.checked ? 1 : 0; schedule('all'); });
+      $('#r-jam').addEventListener('click', () => { if (!S.N) S.N = nightDefaults('college'); S.N.jam = true; setTab('night'); });
+      relMounted = true;
+    }
+    $('#r-auto').checked = !!S.P.autoKiosks;
+    if (!S.rel) S.rel = relCurve();
+    const P = S.P, be = AGG.be, rc = S.rel;
+    const iNow = U_LEVELS.reduce((b, u, i) => Math.abs(u - P.uptime) < Math.abs(U_LEVELS[b] - P.uptime) ? i : b, 0);
+    $('#r-tiles').innerHTML = [
+      ['Venue break-even uptime', be ? (isFinite(be.be) ? pct(be.be) : 'none') : 'n/a', 'Median qualifying bar; below this the kiosk costs it money'],
+      ['One point of downtime', be ? money(be.perPoint) + '/yr' : 'n/a', `What it costs the median qualifying bar at ${pct(P.uptime, 1)} uptime`],
+      ['DrinkDock value per bar', `${money(rc.ltv.bars[5])} → ${money(rc.ltv.bars[10])}`, 'Lifetime contribution at 90% vs. 100% uptime'],
+      ['Churn per point down', `+${(+P.churnPerPt).toFixed(1)} pts`, `Bars churn ${pct(Math.min(0.95, P.churnBars + P.churnPerPt * (1 - P.uptime)))} a year at today's uptime`],
+    ].map(t => `<div class="tile"><p class="tl">${esc(t[0])}</p><p class="tv">${esc(t[1])}</p><p class="ts">${esc(t[2])}</p></div>`).join('');
+    const chans = ['bars', 'sports', 'airports', 'hotels'];
+    const nm = c => c === 'hotels' ? 'Hotels' : DD.CHANNELS[c].name;
+    const ser = chans.map(c => ({ name: nm(c), cls: CH_CLS[c], values: rc.share[c] }));
+    const ser2 = chans.map(c => ({ name: nm(c), cls: CH_CLS[c], values: rc.ltv[c] }));
+    $('#r-leg').innerHTML = legendHTML(ser); $('#r-leg2').innerHTML = legendHTML(ser2);
+    const common = { x: U_LEVELS, xFmt: v => pct(v), height: 240, endLabels: true, vlines: [{ x: clamp(P.uptime, 0.8, 1), label: 'Now' }], xTicks: [0.8, 0.85, 0.9, 0.95, 1] };
+    lineChart($('#r-chart'), Object.assign({}, common, { series: ser, yFmt: v => pct(v), yMax: 1, aria: 'Share of venues clearing the hurdle by peak uptime' }));
+    lineChart($('#r-chart2'), Object.assign({}, common, { series: ser2, yFmt: v => tickMoney(v), tipFmt: v => money(v), aria: 'DrinkDock lifetime contribution per placement by peak uptime' }));
+    $('#r-tv').innerHTML = tableHTML(['Peak uptime', ...ser.map(s => s.name + ', clear'), ...ser2.map(s => s.name + ', lifetime')], U_LEVELS.map((u, i) => [pct(u), ...ser.map(s => pct(s.values[i])), ...ser2.map(s => money(s.values[i]))]));
+    void iNow;
+  }
+
+  /* ---------- rentals & hotels ---------- */
+  let rentMounted = false;
+  function renderRent() {
+    if (!rentMounted) { mountFields('v-fields', F.events); mountFields('h-fields', F.hotels); rentMounted = true; }
+    const P = S.P, ev = AGG.ev;
+    $('#v-tiles').innerHTML = [
+      ['Revenue per kiosk', money(ev.perUnitRev) + '/yr', `${int(P.evDays)} days at $${int(P.evDayRate)} plus fees`],
+      ['Contribution per kiosk', money(ev.perUnitContrib) + '/yr', `Fleet of ${int(P.evFleet)}: ${money(ev.perUnitContrib * P.evFleet)}/yr`],
+      ['Break-even', isFinite(ev.breakEvenDays) ? Math.ceil(ev.breakEvenDays) + ' days' : 'never', 'Event days a kiosk must book each year'],
+      ['Host keeps per day', money(ev.hostGP), `${int(P.evCans)} cans at $${(+P.evPrice).toFixed(2)}, after rental and fees`],
+    ].map(t => `<div class="tile"><p class="tl">${esc(t[0])}</p><p class="tv">${esc(t[1])}</p><p class="ts">${esc(t[2])}</p></div>`).join('');
+    const xs = []; for (let d = 0; d <= 200; d += 5) xs.push(d);
+    const perDay = ev.revDay - ev.varDay;
+    const vals = xs.map(d => perDay * d - ev.fixed);
+    lineChart($('#v-chart'), { x: xs, series: [{ name: 'Contribution per kiosk', cls: 's1', values: vals }], xFmt: v => int(v), yFmt: v => money(v), height: 220, markers: [{ x: clamp(P.evDays, 0, 200), y: perDay * clamp(P.evDays, 0, 200) - ev.fixed, label: `${int(P.evDays)} days` }], vlines: isFinite(ev.breakEvenDays) && ev.breakEvenDays <= 200 ? [{ x: ev.breakEvenDays, label: 'Break-even', soft: true }] : [], aria: 'Rental kiosk contribution by event days booked', tipTitle: v => `${v} event days`, tipFmt: v => money(v) + '/yr' });
+    $('#v-types').innerHTML = `<thead><tr><th>Event</th><th class="note">Example</th><th>Cans per day<span class="sub">rough guess</span></th><th class="note">Who holds the license</th></tr></thead><tbody>
+      <tr><td><b>Tailgates</b></td><td class="note">Eagles and Temple lots at Lincoln Financial Field, Penn State at Beaver Stadium</td><td>300</td><td class="note">Stadium concessionaire or a licensed caterer's hospitality tent</td></tr>
+      <tr><td><b>Conferences and expos</b></td><td class="note">Receptions at the Pennsylvania Convention Center, hotel ballrooms</td><td>150</td><td class="note">Venue caterer</td></tr>
+      <tr><td><b>Festivals and outdoor shows</b></td><td class="note">Summer festivals, beer gardens, outdoor concerts</td><td>600</td><td class="note">Event's catering or special-occasion permit holder</td></tr>
+      <tr><td><b>Campus and corporate events</b></td><td class="note">Alumni weekends, company parties</td><td>100</td><td class="note">Licensed caterer</td></tr>
+      <tr><td><b>Low-event stadium stands</b></td><td class="note">NFL and college football game days, 7 to 12 a year</td><td>250+</td><td class="note">Stadium concessionaire</td></tr></tbody>`;
+    const hc = AGG.ch.hotels, q = HR.filter(h => h.qualifies);
+    $('#h-tiles').innerHTML = [
+      ['Hotels that clear the hurdle', pct(hc.share), `At ${int(P.hotelCans)} cans a day typical`],
+      ['Hotel gain, median qualifying', money(hc.netQ) + '/yr', 'After rent, software and fees'],
+      ['DrinkDock revenue per hotel', money(hc.revQ) + '/yr', 'Median qualifying hotel'],
+      ['Contribution per hotel', money(hc.conQ) + '/yr', 'After hardware depreciation'],
+    ].map(t => `<div class="tile"><p class="tl">${esc(t[0])}</p><p class="tv">${esc(t[1])}</p><p class="ts">${esc(t[2])}</p></div>`).join('');
+    const sh = q.length / HR.length, revQ = q.length ? avg(q.map(r => r.ddRev)) : 0;
+    $('#h-mkts').innerHTML = `<thead><tr><th>Market</th><th>Hotels</th><th>Suitable</th><th>Clear hurdle</th><th>SAM/yr</th></tr></thead><tbody>${Object.values(S.M).map(m => { const suit = m.hotels * P.hotelSuitable; return `<tr><td>${esc(m.name)}</td><td>${esc(int(m.hotels))}</td><td>${esc(approx(suit))}</td><td>${esc(approx(suit * sh))}</td><td>${esc(money(suit * m.legal.hotels * sh * revQ))}</td></tr>`; }).join('')}</tbody>`;
+  }
+
+  /* ---------- assumptions ---------- */
+  let assumeMounted = false, marketFor = null;
+  function renderMarketFields() {
+    const M = S.M[S.mkt], P = S.P;
+    const num = (id, val, step, suf) => `<span class="fi"><input id="${id}" type="number" inputmode="decimal" step="${step}" min="0" value="${val}">${suf ? `<span class="suf">${suf}</span>` : ''}</span>`;
+    const mixSum = Object.values(M.mix).reduce((a, b) => a + (+b || 0), 0);
+    let h = `<div class="fields">
+      <label class="fld" for="m-bars"><span class="fl">Bars and restaurants with a full bar</span>${num('m-bars', M.bars, 10)}</label>
+      <label class="fld" for="m-hotels"><span class="fl">Hotels</span>${num('m-hotels', M.hotels, 10)}</label>
+      ${fieldHTML(F.market[0])}</div>
+      <p class="fl" style="margin:14px 0 0">Bar mix</p><div class="fields">${DD.SEGMENTS.filter(g => g.ch === 'bars').map(g => `<label class="fld" for="m-mix-${g.id}"><span class="fl">${esc(g.name)}</span>${num('m-mix-' + g.id, +(M.mix[g.id] * 100).toFixed(2), 1, '%')}</label>`).join('')}</div>
+      <p class="mixsum ${Math.abs(mixSum - 1) > 0.005 ? 'neg' : 'fine'}">Mix adds to ${pct(mixSum, 1)}${Math.abs(mixSum - 1) > 0.005 ? '; the sim rescales it to 100%' : ''}.</p>
+      <p class="fl" style="margin:14px 0 0">Stadiums and arenas (kiosk spots each)</p><div class="fields">${DD.SEGMENTS.filter(g => g.ch === 'sports').map(g => `<label class="fld" for="m-ven-${g.id}"><span class="fl">${esc(g.name)} (${g.spots})</span>${num('m-ven-' + g.id, M.venues[g.id], 1)}</label>`).join('')}</div>
+      <p class="fl" style="margin:14px 0 0">Airport bars</p><div class="fields">${DD.SEGMENTS.filter(g => g.ch === 'airports').map(g => `<label class="fld" for="m-air-${g.id}"><span class="fl">${esc(g.name)}s</span>${num('m-air-' + g.id, M.airport[g.id], 1)}</label>`).join('')}</div>
+      <p class="fl" style="margin:14px 0 0">Share of sites where kiosk sales are legal</p><div class="fields">${['bars', 'sports', 'airports', 'hotels'].map(c => `<label class="fld" for="m-legal-${c}"><span class="fl">${esc(c === 'hotels' ? 'Hotels' : DD.CHANNELS[c].name)}</span>${num('m-legal-' + c, +(M.legal[c] * 100).toFixed(1), 1, '%')}</label>`).join('')}</div>`;
+    $('#a-market').innerHTML = h;
+  }
+  function onMarketInput(e) {
+    const el = e.target; if (!el.id || !el.id.startsWith('m-')) return;
+    const v = parseFloat(el.value); if (!isFinite(v) || v < 0) return;
+    const M = S.M[S.mkt], id = el.id;
+    if (id === 'm-bars') M.bars = v; else if (id === 'm-hotels') M.hotels = v;
+    else if (id.startsWith('m-mix-')) M.mix[id.slice(6)] = v / 100;
+    else if (id.startsWith('m-ven-')) M.venues[id.slice(6)] = v;
+    else if (id.startsWith('m-air-')) M.airport[id.slice(6)] = v;
+    else if (id.startsWith('m-legal-')) M.legal[id.slice(8)] = clamp(v / 100, 0, 1);
+    S.rel = null; schedule('agg');
+    if (id.startsWith('m-mix-')) { const s = Object.values(M.mix).reduce((a, b) => a + (+b || 0), 0); const p = $('.mixsum'); p.className = 'mixsum ' + (Math.abs(s - 1) > 0.005 ? 'neg' : 'fine'); p.textContent = `Mix adds to ${pct(s, 1)}${Math.abs(s - 1) > 0.005 ? '; the sim rescales it to 100%' : ''}.`; }
+  }
+  const SOURCES = [
+    ['PLCB: about 20,000 licensed producers, retailers and handlers', 'https://www.pa.gov/agencies/lcb'],
+    ['Philadelphia Magazine (2023): about 1,300 active licenses in Philadelphia, 60+ of them supermarkets and gas stations', 'https://www.phillymag.com/foobooz/2023/07/08/neighborhood-bar-liquor-license/'],
+    ['PA Liquor License Co.: 9,800 active and safekeeping restaurant (R) licenses, 2021', 'https://www.paliquorlicenseco.com/2020-pa-liquor-license-information/'],
+    ['Statista: 62,602 US bars, taverns and nightclubs (2017 estimate)', 'https://www.statista.com/statistics/281713/us-bars-taverns-und-nightclubs-industry-establishments/'],
+    ['NBWA: about 400,000 licensed on-premise establishments in the US', 'https://nbwa.org/resources/covid-19s-impact-on-the-beer-industry/'],
+    ['NIQ (2026): draft is 53.1% of on-premise beer volume', 'https://nielseniq.com/global/en/news-center/2026/draft-beer-beats-packaged-in-us-on-premise-as-consumers-chase-better-flavor-and-value/'],
+    ['CBS Philadelphia (2011): PLCB ends its wine kiosk program', 'https://www.cbsnews.com/philadelphia/news/pennsylvania-liquor-control-board-ends-wine-kiosk-program/'],
+    ['Patch: 32 of 100 planned PLCB kiosks installed', 'https://patch.com/pennsylvania/hellertown/liquor-boards-wine-kiosk-launch-questioned'],
+    ['Kiosk Marketplace: auditor general found about 1,000 kiosk malfunctions', 'https://www.kioskmarketplace.com/blogs/why-penns-wine-kiosk-failed-part-1/'],
+    ['PLCB: how licensees request a binding advisory opinion', 'https://www.pa.gov/services/lcb/submit-request-for-an-advisory-opinion-from-the-pennsylvania-liquor-control-board'],
+    ['Tucker Arensberg: PA canned-cocktail permits require ID transaction scans', 'https://tuckerlaw.com/2024/09/23/a-guide-to-selling-ready-to-drink-cocktails-in-pennsylvania/'],
+    ['Wine Industry Advisor: Boxxtech at Progressive Field, $68 a minute at a Super Bowl demo', 'https://wineindustryadvisor.com/2024/06/11/boxxtech-launches-alcohol-vending-machine/'],
+    ['IDScan.net: Boxxtech ID and face match, about 30 seconds a sale', 'https://idscan.net/case-study/age-verification-in-alcohol-vending-machines/'],
+    ['FoodService Director: Walk Thru Bru, +12% transactions, +20% at Acrisure Stadium', 'https://www.foodservicedirector.com/top-50-contract-companies/walk-thru-bru-outlets-brew-increased-beer-sales-for-aramark-at-nfl-stadiums'],
+    ['Mashgin (2025): 80%+ of MLB fans have abandoned a concession line; in 20 of 30 MLB parks', 'https://www.globenewswire.com/news-release/2025/04/08/3057679/0/en/New-Report-Finds-Long-Concession-Lines-at-MLB-Games-Cause-Fans-to-Miss-Crucial-Plays-Vendors-to-Lose-Revenue.html'],
+    ['Oracle (2019): fans call 10 minutes the longest acceptable wait', 'https://www.oracle.com/corporate/pressrelease/concession-wait-times-043019.html'],
+    ['Smart cooler buying guide (2026): $5,000 to $7,500 for units with age verification', 'https://electronics.alibaba.com/buyingguides/smart-cooler-vending-machine-guide-what-to-choose-in-2026'],
+    ['AHLA: 54,200+ US hotel properties', 'https://www.ahla.com/issue/travel-and-tourism'],
+  ];
+  function renderAssume() {
+    if (!assumeMounted) {
+      mountFields('a-behavior', F.behavior);
+      $('#a-market').addEventListener('input', onMarketInput);
+      $('#a-src').innerHTML = SOURCES.map(([t, u]) => `<li><a href="${esc(u)}" target="_blank" rel="noopener">${esc(t)}</a></li>`).join('');
+      $('#a-segs').innerHTML = `<thead><tr><th>Type</th><th>Rush orders/hr<span class="sub">typical</span></th><th>Most staff</th><th>Cans-only orders</th><th>Other order<span class="sub">seconds, ticket</span></th><th>Can price</th><th>Rush hours/yr</th><th>Patience</th></tr></thead><tbody>${DD.SEGMENTS.map(g => `<tr><td><b>${esc(g.name)}</b><span class="sub">${esc(DD.CHANNELS[g.ch].name)}${g.ev ? `, ${g.ev} event days` : ''}</span></td><td>${g.lam}</td><td>${g.cap}</td><td>${pct(g.can)}</td><td>${g.svc}s, $${g.tkt}</td><td>$${g.price.toFixed(2)}</td><td>${int(g.peakH)}</td><td>${g.pat} min</td></tr>`).join('')}</tbody>`;
+      $('#a-reroll').addEventListener('click', () => { S.seed = (S.seed * 48271) % 2147483647; build(); schedule('all'); });
+      $('#a-reset').addEventListener('click', () => {
+        S.P = Object.assign({}, DD.DEFAULTS); S.M = JSON.parse(JSON.stringify(DD.MARKETS)); S.seed = SEED0; build();
+        Object.keys(FIELD).forEach(syncInputs); LEVERS.forEach(l => syncInputs(l.k)); S.N = null;
+        marketFor = null; schedule('all');
+      });
+      assumeMounted = true;
+    }
+    if (marketFor !== S.mkt) { renderMarketFields(); marketFor = S.mkt; }
+  }
+
+  /* ---------- boot ---------- */
+  const savedTab = load('tab'), savedMkt = load('mkt'), hash = (location.hash || '').slice(1);
+  if (savedMkt && S.M[savedMkt]) S.mkt = savedMkt;
+  if (TABS.some(t => t[0] === hash)) S.tab = hash; else if (savedTab && TABS.some(t => t[0] === savedTab)) S.tab = savedTab;
+  build(); computeAll(); aggregate();
+  mountTabs(); mountLevers();
+  $('#ven-pills').addEventListener('click', e => { const b = e.target.closest('button[data-ch]'); if (!b) return; S.venCh = b.dataset.ch; renderVenues(); });
+  setTab(S.tab);
+  let rz = null, lastW = window.innerWidth;
+  window.addEventListener('resize', () => { if (window.innerWidth === lastW) return; lastW = window.innerWidth; clearTimeout(rz); rz = setTimeout(() => renderTab(S.tab), 180); });
+})();
+
+</script>
+
+</body></html>
