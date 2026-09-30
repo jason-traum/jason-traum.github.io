@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DrinkDock 3D viewer</title><base href="https://getdrinkdock.com/"><meta name="robots" content="noindex">
+<link rel="stylesheet" href="https://getdrinkdock.com/assets/css/site.css?v=1790730414">
+<style>html,body{margin:0;background:#0F1620} body{padding:0} .embed-pad{padding:12px} .seg{margin-bottom:12px}</style>
+</head><body>
+<section class="embed-pad"><p class="viewer-hint" style="color:#B9C3CE;margin:0 0 10px;font:14px/1.4 system-ui">Drag to rotate.</p><div class="seg" role="group" aria-label="Choose a machine">
+        <button type="button" data-model="one" aria-pressed="true">One</button>
+        <button type="button" data-model="duo" aria-pressed="false">Duo</button>
+        <button type="button" data-model="compact" aria-pressed="false">Compact</button>
+      </div>
+    </div>
+    <div class="viewer stage" data-viewer>
+      <img class="viewer-poster" src="https://getdrinkdock.com/img/product/one-studio.webp" alt="DrinkDock One vending machine" loading="lazy">
+    </div></section>
+<script type="importmap">{"imports":{"three":"https://getdrinkdock.com/assets/vendor/three.module.min.js","three/addons/":"https://getdrinkdock.com/assets/vendor/addons/"}}</script>
+<script type="module">
+  const host = document.querySelector('[data-viewer]');
+  const btns = [...document.querySelectorAll('.seg button')];
+  let api = null, loading = false, want = 'one';
+  async function load() {
+    if (api || loading) return; loading = true;
+    try {
+      const { mountViewer } = await import('https://getdrinkdock.com/assets/js/viewer.js');
+      const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      api = await mountViewer(host, { model: want, reduced });
+      host.classList.add('live');
+    } catch (e) { console.warn('3D viewer unavailable', e); (document.querySelector('.viewer-hint')||{}).textContent = 'The 3D view isn\u2019t available in this browser. Use the buttons to switch machines.'; }
+  }
+  new IntersectionObserver((es, o) => { if (es[0].isIntersecting) { o.disconnect(); load(); } }, { rootMargin: '200px' }).observe(host);
+  btns.forEach(b => b.addEventListener('click', () => {
+    want = b.dataset.model;
+    btns.forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+    if (api) api.show(want); else host.querySelector('.viewer-poster').src = 'https://getdrinkdock.com/img/product/' + (want === 'one' ? 'one-studio' : want) + '.webp';
+  }));
+  if (matchMedia('(pointer: coarse)').matches) (document.querySelector('.viewer-hint')||{}).textContent = matchMedia('(prefers-reduced-motion: reduce)').matches ? 'Use the buttons to switch machines.' : 'It turns on its own.';
+</script>
+</body></html>
