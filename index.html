@@ -663,14 +663,18 @@ body { border-top: 10px solid var(--c-msblue); }
 
 /* dreamy preview with a turning two-color border (Dreamy violet and my blue) */
 @property --ang { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
-.dreamy-try { margin: 26px 0 8px; }
-.dreamy-try .glow { position: relative; padding: 2px; border-radius: 18px; background: conic-gradient(from var(--ang), #a78bfa, #4FA8FF 25%, #a78bfa 50%, #4FA8FF 75%, #a78bfa); animation: dd-spin 6s linear infinite; }
-.dreamy-try .glow::before { content: ''; position: absolute; inset: -6px; border-radius: 24px; background: inherit; filter: blur(18px); opacity: .35; z-index: -1; }
-.dreamy-try .glow-in { border-radius: 16px; background: #0a0a0f; overflow: hidden; }
-.dreamy-try iframe { display: block; width: 100%; border: 0; background: #0a0a0f; }
-.dreamy-try figcaption { margin-top: 10px; font-size: 13.5px; color: var(--muted); }
+/* Dreamy button: a turning border in Dreamy violet and the site's blue. */
+:root { --dd-violet: #A78BFA; --dd-blue: #4FA8FF; }
+.deep-link.dd-glow { position: relative; margin-top: 10px; border: 2px solid transparent;
+  background: linear-gradient(var(--paper), var(--paper)) padding-box,
+    conic-gradient(from var(--ang), var(--dd-violet), var(--dd-blue) 25%, var(--dd-violet) 50%, var(--dd-blue) 75%, var(--dd-violet)) border-box;
+  animation: dd-spin 5s linear infinite; }
+.deep-link.dd-glow::before { content: ''; position: absolute; inset: -2px; border-radius: 8px; z-index: -1; pointer-events: none;
+  background: conic-gradient(from var(--ang), var(--dd-violet), var(--dd-blue) 25%, var(--dd-violet) 50%, var(--dd-blue) 75%, var(--dd-violet)); filter: blur(12px); opacity: .35; }
+.deep-link.dd-glow:hover { background: linear-gradient(var(--ink), var(--ink)) padding-box,
+    conic-gradient(from var(--ang), var(--dd-violet), var(--dd-blue) 25%, var(--dd-violet) 50%, var(--dd-blue) 75%, var(--dd-violet)) border-box; color: var(--paper); }
 @keyframes dd-spin { to { --ang: 360deg; } }
-@media (prefers-reduced-motion: reduce) { .dreamy-try .glow { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .deep-link.dd-glow { animation: none; } }
 
 </style>
 </head>
@@ -802,10 +806,7 @@ body { border-top: 10px solid var(--c-msblue); }
           <p>I did an absurd amount of research for it. I used AI to find every marathon plan and sports science paper I could, and gave it a ton of direction from my own marathon training. I started with an LLM writing the plans, but that got expensive and unreliable, so I switched to a rules-based engine. Then I ran real runners' histories through it, had LLMs grade the plans against the research and suggest changes, and reviewed every round myself.</p>
           <p>Claude Code wrote all of the code. My part was the product, the research and the model. I built it from January to April while working full time, and I still use it to make training plans.</p>
           <p class="beta-line">15 runners trained on Dreamy through full race cycles, in the app or on plans I made with its engine. <strong>14 of the 15 rated it above the coach or app they used before.</strong></p>
-          <figure class="dreamy-try">
-            <div class="glow"><div class="glow-in"><iframe src="embed/dreamy-builder.html" title="Dreamy week builder demo" loading="lazy" style="height:760px" data-autoh></iframe></div></div>
-            <figcaption>The week builder, running in your browser. Tap the days you can't run. <a href="dreamy.html">How I built Dreamy</a> explains every rule.</figcaption>
-          </figure>
+          <a class="deep-link dd-glow" href="dreamy.html">How I built Dreamy, with a working demo of the week builder</a>
           <div class="shots" style="--n:3">
             <figure>
               <img src="img/dreamy-today.webp" width="600" height="857" alt="Dreamy's Today screen: a greeting, a countdown to the United NYC Half with carb-loading advice, and today's easy run." loading="lazy" decoding="async">

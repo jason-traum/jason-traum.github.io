@@ -659,14 +659,18 @@ body { border-top: 10px solid var(--c-msblue); }
 
 /* dreamy preview with a turning two-color border (Dreamy violet and my blue) */
 @property --ang { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
-.dreamy-try { margin: 26px 0 8px; }
-.dreamy-try .glow { position: relative; padding: 2px; border-radius: 18px; background: conic-gradient(from var(--ang), #a78bfa, #4FA8FF 25%, #a78bfa 50%, #4FA8FF 75%, #a78bfa); animation: dd-spin 6s linear infinite; }
-.dreamy-try .glow::before { content: ''; position: absolute; inset: -6px; border-radius: 24px; background: inherit; filter: blur(18px); opacity: .35; z-index: -1; }
-.dreamy-try .glow-in { border-radius: 16px; background: #0a0a0f; overflow: hidden; }
-.dreamy-try iframe { display: block; width: 100%; border: 0; background: #0a0a0f; }
-.dreamy-try figcaption { margin-top: 10px; font-size: 13.5px; color: var(--muted); }
+/* Dreamy button: a turning border in Dreamy violet and the site's blue. */
+:root { --dd-violet: #A78BFA; --dd-blue: #4FA8FF; }
+.deep-link.dd-glow { position: relative; margin-top: 10px; border: 2px solid transparent;
+  background: linear-gradient(var(--paper), var(--paper)) padding-box,
+    conic-gradient(from var(--ang), var(--dd-violet), var(--dd-blue) 25%, var(--dd-violet) 50%, var(--dd-blue) 75%, var(--dd-violet)) border-box;
+  animation: dd-spin 5s linear infinite; }
+.deep-link.dd-glow::before { content: ''; position: absolute; inset: -2px; border-radius: 8px; z-index: -1; pointer-events: none;
+  background: conic-gradient(from var(--ang), var(--dd-violet), var(--dd-blue) 25%, var(--dd-violet) 50%, var(--dd-blue) 75%, var(--dd-violet)); filter: blur(12px); opacity: .35; }
+.deep-link.dd-glow:hover { background: linear-gradient(var(--ink), var(--ink)) padding-box,
+    conic-gradient(from var(--ang), var(--dd-violet), var(--dd-blue) 25%, var(--dd-violet) 50%, var(--dd-blue) 75%, var(--dd-violet)) border-box; color: var(--paper); }
 @keyframes dd-spin { to { --ang: 360deg; } }
-@media (prefers-reduced-motion: reduce) { .dreamy-try .glow { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .deep-link.dd-glow { animation: none; } }
 
 </style>
 </head>
@@ -703,7 +707,7 @@ body { border-top: 10px solid var(--c-msblue); }
           <p>It started as a class project with three Wharton classmates, and now we're building it as a company. I'm the CTO. I built the website, the guest screen and manager app you can click through on it, and a market sim.</p>
           <p>Before asking anyone to pilot it, I wanted to know where a machine actually pays off. The sim runs 3,420 bars, stadium stands, airport bars and hotels, each with and without a machine. Guests show up at random, bartenders serve one order at a time, and people walk away when the wait outlasts their patience. Then it scales the results to real venue counts for Philadelphia, Pennsylvania and the US.</p>
           <p>The answer was narrower than I expected. About 160 of 1,370 venues in Philadelphia would come out $2,000 a year ahead. Music venues, nightclubs and college bars fit about half the time, and neighborhood, restaurant and cocktail bars almost never do. Most machine sales would have happened at the bar anyway, which makes a fee on every sale the weak spot in our pricing. Pennsylvania's own wine kiosks shut down in 2011 after about 1,000 malfunctions, so the sim also tests how much downtime a bar will put up with.</p>
-          <p>This week we're reaching out to 50 hotels and 30 bars in Philadelphia to line up the first pilot. We don't have a production machine yet, and each venue needs a written opinion from the Pennsylvania Liquor Control Board before we install one. The pilot is how we get both.</p>
+          <p>We reached out to 50 hotels and 30 bars in Philadelphia to line up the first pilot. We don't have a production machine yet, and each venue needs a written opinion from the Pennsylvania Liquor Control Board before we install one. The pilot is how we get both.</p>
           <figure class="wd-concept"><img src="../img/dd-placement.webp" width="1400" height="875" alt="Concept render of a black DrinkDock vending machine with a glass front full of cans, standing at the end of a bar next to the bar stools" loading="lazy" decoding="async"><figcaption>A concept render of a DrinkDock at the end of a bar. Not a real installation.</figcaption></figure>
           <figure class="wd-concept"><a href="https://jason-traum.github.io/drinkdock-sim/"><img src="../img/dd-sim.webp" width="1600" height="774" alt="DrinkDock Market Sim overview for Philadelphia: about 160 of 1,370 venues would clear $2,000 a year, with sliders for rent, fee, adoption, uptime and guest patience" loading="lazy" decoding="async"></a><figcaption>The sim's overview for Philadelphia. <a href="https://jason-traum.github.io/drinkdock-sim/">Open the sim</a> to change the pricing, uptime or market.</figcaption></figure>
         </div>

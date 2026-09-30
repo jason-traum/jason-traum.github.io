@@ -659,14 +659,18 @@ body { border-top: 10px solid var(--c-msblue); }
 
 /* dreamy preview with a turning two-color border (Dreamy violet and my blue) */
 @property --ang { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
-.dreamy-try { margin: 26px 0 8px; }
-.dreamy-try .glow { position: relative; padding: 2px; border-radius: 18px; background: conic-gradient(from var(--ang), #a78bfa, #4FA8FF 25%, #a78bfa 50%, #4FA8FF 75%, #a78bfa); animation: dd-spin 6s linear infinite; }
-.dreamy-try .glow::before { content: ''; position: absolute; inset: -6px; border-radius: 24px; background: inherit; filter: blur(18px); opacity: .35; z-index: -1; }
-.dreamy-try .glow-in { border-radius: 16px; background: #0a0a0f; overflow: hidden; }
-.dreamy-try iframe { display: block; width: 100%; border: 0; background: #0a0a0f; }
-.dreamy-try figcaption { margin-top: 10px; font-size: 13.5px; color: var(--muted); }
+/* Dreamy button: a turning border in Dreamy violet and the site's blue. */
+:root { --dd-violet: #A78BFA; --dd-blue: #4FA8FF; }
+.deep-link.dd-glow { position: relative; margin-top: 10px; border: 2px solid transparent;
+  background: linear-gradient(var(--paper), var(--paper)) padding-box,
+    conic-gradient(from var(--ang), var(--dd-violet), var(--dd-blue) 25%, var(--dd-violet) 50%, var(--dd-blue) 75%, var(--dd-violet)) border-box;
+  animation: dd-spin 5s linear infinite; }
+.deep-link.dd-glow::before { content: ''; position: absolute; inset: -2px; border-radius: 8px; z-index: -1; pointer-events: none;
+  background: conic-gradient(from var(--ang), var(--dd-violet), var(--dd-blue) 25%, var(--dd-violet) 50%, var(--dd-blue) 75%, var(--dd-violet)); filter: blur(12px); opacity: .35; }
+.deep-link.dd-glow:hover { background: linear-gradient(var(--ink), var(--ink)) padding-box,
+    conic-gradient(from var(--ang), var(--dd-violet), var(--dd-blue) 25%, var(--dd-violet) 50%, var(--dd-blue) 75%, var(--dd-violet)) border-box; color: var(--paper); }
 @keyframes dd-spin { to { --ang: 360deg; } }
-@media (prefers-reduced-motion: reduce) { .dreamy-try .glow { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .deep-link.dd-glow { animation: none; } }
 
 </style>
 </head>
