@@ -3,7 +3,8 @@
   "use strict";
 
   // ---- Config -------------------------------------------------------------
-  var LEAD_EMAIL = "drinkdockhq@gmail.com"; // demo requests are emailed here via FormSubmit
+  var LEAD_EMAIL = "drinkdockhq@gmail.com"; // demo requests are emailed here by a small Google Apps Script
+  var LEAD_URL = "https://script.google.com/macros/s/AKfycbycC17Iaop-GvAgjkIJXYFz9dB5OZc51WuDQA8bEH3xsMbaY7ConuQ0M4gXQGptLGjH8g/exec";
   var GOATCOUNTER = ""; // optional: your GoatCounter code, e.g. "drinkdock" for drinkdock.goatcounter.com
 
   var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -523,13 +524,14 @@
       btn.disabled = true; btn.textContent = "Sending…";
       var ctrl = window.AbortController ? new AbortController() : null;
       var timer = setTimeout(function () { if (ctrl) ctrl.abort(); }, 15000);
-      fetch("https://formsubmit.co/ajax/" + LEAD_EMAIL, {
-        method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify(data), signal: ctrl ? ctrl.signal : undefined
-      }).then(function (r) { return r.json(); }).then(function (res) {
+      var payload = new URLSearchParams();
+      Object.keys(data).forEach(function (k) { payload.append(k, data[k]); });
+      // no-cors: the response is opaque, so a resolved request counts as sent
+      fetch(LEAD_URL, {
+        method: "POST", mode: "no-cors", body: payload, signal: ctrl ? ctrl.signal : undefined
+      }).then(function () {
         clearTimeout(timer);
-        if (res && (res.success === true || res.success === "true")) { track("form-sent"); location.href = "thanks.html"; }
-        else throw new Error("not ok");
+        track("form-sent"); location.href = "thanks.html";
       }).catch(function () {
         clearTimeout(timer);
         btn.disabled = false; btn.textContent = label;
