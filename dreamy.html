@@ -689,45 +689,8 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
   </footer>
 </div>
 <script>
+/* Dreamy's week builder, shared by the main page and the Dreamy page. */
 (function () {
-  'use strict';
-
-  // ---------------------------------------------------------------------------
-  // Starfield behind the hero. Static, drawn once, seeded so it looks the same
-  // on every load.
-  // ---------------------------------------------------------------------------
-  var canvas = document.getElementById('stars');
-  function drawStars() {
-    if (!canvas || !canvas.getContext) return;
-    var rect = canvas.getBoundingClientRect();
-    var dpr = Math.min(window.devicePixelRatio || 1, 2);
-    canvas.width = Math.round(rect.width * dpr);
-    canvas.height = Math.round(rect.height * dpr);
-    var ctx = canvas.getContext('2d');
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.clearRect(0, 0, rect.width, rect.height);
-    var seed = 20260128;
-    var rand = function () { seed = (seed * 1664525 + 1013904223) % 4294967296; return seed / 4294967296; };
-    var count = Math.round((rect.width * rect.height) / 5200);
-    for (var i = 0; i < count; i++) {
-      var x = rand() * rect.width;
-      var y = rand() * rect.height;
-      var r = rand() < 0.93 ? 0.6 + rand() * 0.6 : 1.1 + rand() * 0.7;
-      var a = 0.12 + rand() * 0.5;
-      var tint = rand();
-      ctx.fillStyle = tint < 0.15 ? 'rgba(196,181,253,' + a + ')' : tint < 0.2 ? 'rgba(240,160,108,' + a + ')' : 'rgba(237,237,242,' + a + ')';
-      ctx.beginPath();
-      ctx.arc(x, y, r, 0, Math.PI * 2);
-      ctx.fill();
-    }
-  }
-  drawStars();
-  var resizeTimer;
-  window.addEventListener('resize', function () {
-    window.clearTimeout(resizeTimer);
-    resizeTimer = window.setTimeout(drawStars, 150);
-  });
-
   // ---------------------------------------------------------------------------
   // Week builder: a simplified port of Dreamy's week-skeleton.ts
   // (generateWeekSkeleton with respectExplicitTargets, as used when a runner
@@ -898,6 +861,57 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
     var finalTotal = round1(miles.reduce(function (s, v) { return s + v; }, 0));
     return { miles: miles, adjustments: adjustments, impossible: Math.abs(rem) > TOL, short: round1(rem), total: finalTotal, longTarget: longTarget, capped: capped, cap: cap };
   }
+
+  window.DreamyWeek = { SHORT: SHORT, FULL: FULL, ROLE_LABEL: ROLE_LABEL, ROLE_SHORT: ROLE_SHORT, PREFS: PREFS, DIST: DIST, round1: round1, daysBetween: daysBetween, gap: gap, fallbackLongRunDays: fallbackLongRunDays, runsFor: runsFor, skeleton: skeleton, mileage: mileage };
+})();
+(function () {
+  'use strict';
+
+  // ---------------------------------------------------------------------------
+  // Starfield behind the hero. Static, drawn once, seeded so it looks the same
+  // on every load.
+  // ---------------------------------------------------------------------------
+  var canvas = document.getElementById('stars');
+  function drawStars() {
+    if (!canvas || !canvas.getContext) return;
+    var rect = canvas.getBoundingClientRect();
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(rect.width * dpr);
+    canvas.height = Math.round(rect.height * dpr);
+    var ctx = canvas.getContext('2d');
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, rect.width, rect.height);
+    var seed = 20260128;
+    var rand = function () { seed = (seed * 1664525 + 1013904223) % 4294967296; return seed / 4294967296; };
+    var count = Math.round((rect.width * rect.height) / 5200);
+    for (var i = 0; i < count; i++) {
+      var x = rand() * rect.width;
+      var y = rand() * rect.height;
+      var r = rand() < 0.93 ? 0.6 + rand() * 0.6 : 1.1 + rand() * 0.7;
+      var a = 0.12 + rand() * 0.5;
+      var tint = rand();
+      ctx.fillStyle = tint < 0.15 ? 'rgba(196,181,253,' + a + ')' : tint < 0.2 ? 'rgba(240,160,108,' + a + ')' : 'rgba(237,237,242,' + a + ')';
+      ctx.beginPath();
+      ctx.arc(x, y, r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+  drawStars();
+  var resizeTimer;
+  window.addEventListener('resize', function () {
+    window.clearTimeout(resizeTimer);
+    resizeTimer = window.setTimeout(drawStars, 150);
+  });
+
+  var W = window.DreamyWeek;
+  var SHORT = W.SHORT;
+  var FULL = W.FULL;
+  var ROLE_LABEL = W.ROLE_LABEL;
+  var ROLE_SHORT = W.ROLE_SHORT;
+  var PREFS = W.PREFS;
+  var runsFor = W.runsFor;
+  var skeleton = W.skeleton;
+  var mileage = W.mileage;
 
   // ---------------------------------------------------------------------------
   // UI
