@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>5K 5 Bars | Jason Traum</title>
-<meta name="description" content="Race-day app for our run club's bar crawl">
-<link rel="canonical" href="https://jason-traum.github.io/projects/5k-5-bars.html">
-<meta property="og:type" content="website">
-<meta property="og:title" content="5K 5 Bars | Jason Traum">
-<meta property="og:description" content="Race-day app for our run club's bar crawl">
-<meta property="og:url" content="https://jason-traum.github.io/projects/5k-5-bars.html">
+<title>How I use AI | Jason Traum</title>
+<meta name="description" content="Examples from Morgan Stanley, my own apps and Wharton">
+<link rel="canonical" href="https://jason-traum.github.io/ai.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How I use AI | Jason Traum">
+<meta property="og:description" content="Examples from Morgan Stanley, my own apps and Wharton">
+<meta property="og:url" content="https://jason-traum.github.io/ai.html">
 <meta property="og:image" content="https://jason-traum.github.io/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#141619">
@@ -729,73 +729,229 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .cv-more { font-size: 14.5px; color: var(--muted); margin: 0 0 30px; max-width: 46em; }
 .lede b { font-weight: 700; color: var(--ink); }
 
+/* How I use AI: ledgers of what the AI did and what I did. */
+.pg main { padding-top: 8px; }
+.pg .p-head { margin-top: 36px; }
+.ai-intro { display: grid; gap: 14px; max-width: 42em; margin-bottom: 34px; }
+.ai-intro .lede { font-size: clamp(1.15rem, 2vw, 1.4rem); line-height: 1.45; color: var(--ink); }
+.ai-intro p { color: var(--ink-2); }
+.ai-h2 { font-size: clamp(1.25rem, 2.4vw, 1.6rem); font-weight: 800; letter-spacing: -0.015em; margin: 0 0 14px; }
+.habits { margin: 0 0 20px; padding-left: 1.4em; display: grid; gap: 10px; max-width: 44em; color: var(--ink-2); }
+.habits li::marker { color: var(--c-msblue); font-weight: 800; font-variant-numeric: tabular-nums; }
+.habits b { color: var(--ink); font-weight: 700; }
+.ai-prose { display: grid; gap: 14px; max-width: 42em; color: var(--ink-2); }
+.ai-prose + .table-wrap, .table-wrap + .ai-prose { margin-top: 22px; }
+.table-wrap { width: 100%; }
+.ledger { width: 100%; border-collapse: collapse; font-size: 15px; line-height: 1.5; }
+.ledger thead th { text-align: left; font-size: 13px; font-weight: 600; color: var(--muted); padding: 0 18px 8px 0; border-bottom: 1px solid var(--rule-strong); }
+.ledger tbody th, .ledger tbody td { text-align: left; vertical-align: top; padding: 14px 18px 14px 0; border-bottom: 1px solid var(--rule); }
+.ledger { table-layout: fixed; }
+.ledger thead th:nth-child(1) { width: 24%; } .ledger thead th:nth-child(2) { width: 32%; }
+.ledger.two thead th:nth-child(1), .ledger.two thead th:nth-child(2) { width: 50%; }
+.ledger.three thead th:nth-child(1) { width: 40%; } .ledger.three thead th:nth-child(2) { width: 46%; } .ledger.three thead th:nth-child(3) { width: 14%; }
+.ledger tbody th { width: 24%; font-weight: 700; color: var(--ink); }
+.ledger tbody td { color: var(--ink-2); }
+.ledger tbody td:last-child { color: var(--ink); }
+.ledger.two tbody td:first-child { width: 50%; color: var(--ink-2); }
+.ledger.three tbody td:first-child { width: 42%; color: var(--ink); font-weight: 600; }
+.ledger.three tbody td:last-child { width: 14%; color: var(--muted); white-space: nowrap; }
+.ledger .when { display: block; margin-top: 3px; font-size: 13px; font-weight: 500; color: var(--muted); font-variant-numeric: tabular-nums; }
+.ledger th a { color: var(--ink); }
+@media (max-width: 760px) {
+  .ledger thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .ledger, .ledger tbody, .ledger tr, .ledger th, .ledger td { display: block; width: auto !important; }
+  .ledger tr { padding: 14px 0; border-bottom: 1px solid var(--rule); }
+  .ledger tbody th, .ledger tbody td { border: 0; padding: 0; }
+  .ledger tbody td { margin-top: 8px; }
+  .ledger tbody td::before { display: block; font-size: 12.5px; font-weight: 600; color: var(--muted); margin-bottom: 2px; }
+  .ledger:not(.two):not(.three) td:nth-of-type(1)::before { content: "What the AI did"; }
+  .ledger:not(.two):not(.three) td:nth-of-type(2)::before { content: "What I did"; }
+  #dreamy-eval .ledger td:nth-of-type(1)::before { content: "What the reviews caught"; }
+  #dreamy-eval .ledger td:nth-of-type(2)::before { content: "What I changed"; }
+  #overruled .ledger td:nth-of-type(1)::before { content: "What it suggested"; }
+  #overruled .ledger td:nth-of-type(2)::before { content: "What I said"; }
+  .ledger.three td:nth-of-type(1) { margin-top: 0; }
+  .ledger.three td:nth-of-type(2)::before { content: "What went wrong first"; }
+  .ledger.three td:nth-of-type(3)::before { content: "Where"; }
+}
+
+/* colophon */
+.sw-dot { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 8px; vertical-align: -1px; }
+.swatch-table .hexes { font-variant-numeric: tabular-nums; color: var(--ink); }
+.swatch-table .hexes span { color: var(--muted); margin-left: 8px; }
+.ledger.changes thead th:nth-child(1) { width: 18%; } .ledger.changes thead th:nth-child(2) { width: 82%; }
+.ledger.changes tbody th { font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+@media (max-width: 760px) {
+  .swatch-table td:nth-of-type(1)::before { content: "Print, then screen" !important; }
+  .swatch-table td:nth-of-type(2)::before { content: "What it does here" !important; }
+  .ledger.changes td::before { content: none !important; }
+  .ledger.changes td { margin-top: 4px; }
+}
+
 </style>
 </head>
-<body>
+<body class="pg pg-ai">
 <a class="skip" href="#main">Skip to content</a>
 <div class="page">
+  <div class="progress" aria-hidden="true"></div>
   <header class="topbar proj-top">
-    <p class="label"><a href="../">Jason Traum</a></p>
+    <p class="label"><a href="./">Jason Traum</a></p>
     <nav class="toplinks" aria-label="Sections">
-      <a href="../#work">All projects</a>
-      <a href="../ai.html">How I use AI</a>
-      <a href="../#background">Background</a>
-      <a href="../#contact">Contact</a>
+      <a href="./#work">Projects</a>
+      <a href="ai.html">How I use AI</a>
+      <a href="./#background">Background</a>
+      <a href="./#contact">Contact</a>
     </nav>
   </header>
   <main id="main">
-    <article class="project" id="fivek" aria-labelledby="fivek-h">
+    <article class="project" id="ai" aria-labelledby="ai-h">
       <header class="p-head">
-        <h2 class="p-name" id="fivek-h">5K 5 Bars</h2>
-        <p class="p-tag">Race-day app for our run club's bar crawl</p>
+        <h1 class="p-name" id="ai-h">How I use AI</h1>
+        <p class="p-tag">Examples from Morgan Stanley, my own apps and Wharton</p>
       </header>
-      <div class="p-grid">
-        <div class="p-meta">
-          <dl>
-            <div><dt>Status</dt><dd>Built and live; race date TBD</dd></div>
-            <div><dt>Built</dt><dd>Sep 2026</dd></div>
-            <div><dt>Link</dt><dd><a href="https://jason-traum.github.io/wrtc-5k5bars/?demo">Try the demo</a></dd></div>
-          
-            <div><dt>Built with</dt><dd>Claude Code, Supabase, MapLibre, GitHub Pages</dd></div>
-          </dl>
-        </div>
-        <div class="p-body">
-          <p>I'm organizing a 5K 5 Bars for the Run &amp; Tri Club with the Beer Club: about a kilometer of running between each of five bars, from Rittenhouse Square to Morgan's Pier. I wanted a way to know who actually made it to each bar, so I built an app for race day.</p>
-          <p>You join with your bib number and first name. When you walk into a bar you tap I'm at the bar, and it checks your phone's location. When you head out you tap Leaving. The leaderboard ranks everyone on running pace only, so time at the bars never counts and drinking fast doesn't help you. If someone forgets a tap, that leg just doesn't count. It never guesses a time. GPS is often off inside bars, so if the app says you're too far away you can still check in. That check-in counts and is marked as not GPS-checked so the organizer can see it.</p>
-          <p>People will be a few drinks in at a loud bar, so the race screen only shows the next bar, one big button and when the group is leaving. The stats wait for the finish screen. It only reads your location when you tap, and it saves how far you were from the bar, never where you were.</p>
-          <p>Before building I wrote down who uses it and when, what every screen shows in every situation, the look, and a log of every decision. Claude Code reads those before it changes anything. I&rsquo;d been planning it for a while, so once I sat down to build, the first version came together in a day.</p>
-          <div class="shots" style="--n:3">
-            <figure>
-              <img src="../img/5k-race.webp" width="600" height="962" alt="5K 5 Bars race screen: the progress strip at bar 2 of 5, McGillin's Olde Ale House, and a large red I'm at McGillin's button." loading="lazy" decoding="async">
-              <figcaption>Between bars: the next stop and one big button</figcaption>
-            </figure>
-            <figure>
-              <img src="../img/5k-atbar.webp" width="600" height="962" alt="5K 5 Bars at-the-bar screen: group leaves in 30:00 at 7:39 PM, a Leaving McGillin's button, and Already at Indy Beer Garden." loading="lazy" decoding="async">
-              <figcaption>At a bar, a countdown to when the group leaves, so nobody has to keep track</figcaption>
-            </figure>
-            <figure>
-              <img src="../img/5k-finished.webp" width="600" height="962" alt="5K 5 Bars finish card: 6th of 15, 8:44 per mile, 26:18 running, and a bar showing time running versus time at bars." loading="lazy" decoding="async">
-              <figcaption>The finish screen, from the demo</figcaption>
-            </figure>
-          </div>
-        </div>
+      <div class="ai-intro">
+        <p class="lede">I&rsquo;ve been a power user of these tools since ChatGPT came out. At Morgan Stanley I led my team&rsquo;s move to GenAI for research, brainstorming and drafting, and people came to me to figure out how to get it to do what they needed. This year Claude wrote the code for my apps, and I did the product, the research and the model myself.</p>
+        <p>Usually the AI drafts and writes the code. I decide what we&rsquo;re doing, write down the rules it has to follow, and check what comes back before I send or publish anything.</p>
       </div>
+      <h2 class="ai-h2">How I work with it</h2>
+      <ol class="habits">
+        <li><b>The model that writes something doesn&rsquo;t check it.</b> Dreamy&rsquo;s forecast went through seven rounds of review by a second model, and when Claude audited the whole Dreamy codebase, I had Codex audit the audit.</li>
+        <li><b>Hard questions go to more than one model.</b> I sent the same Dreamy research question to Claude, Gemini and ChatGPT, then merged what came back with my own roadmap.</li>
+        <li><b>Every number needs a source.</b> If it can&rsquo;t show me where a number came from, the number comes off. It&rsquo;s written into the rules for this site.</li>
+        <li><b>I test on real data and real people.</b> Dreamy ran on beta runners&rsquo; training histories, Walldrobe on real walls, and DrinkDock on real venues answering our emails.</li>
+        <li><b>Each app has written rules it reads first,</b> and when it makes a mistake I add a rule so it doesn&rsquo;t happen again.</li>
+        <li><b>I approve anything that goes out.</b> It drafts emails and I send them myself, and in my school setup a hook blocks sending and deleting outright.</li>
+      </ol>
     </article>
-<!--deep--><section class="deep" aria-labelledby="deep-h"><h2 class="label" id="deep-h">The details</h2><div class="feat has-fig phone"><div class="feat-text"><h3>Taps that work without signal</h3><p>Signal inside bars is bad, so a tap saves on the phone with the time it actually happened and syncs once the phone has signal again. Under the button it says when it saved, so people know it counted.</p><p>If a retry sends the same tap twice, the database keeps just one.</p></div><figure class="feat-fig phone"><img src="../img/5k-offline.webp" alt="At the bar screen with a No signal note, a Leaving McGillin&#x27;s button, and Saved on this phone at 9:12. Syncs when you have signal." loading="lazy" decoding="async"><figcaption>No signal at the bar, so the tap saved on the phone.</figcaption></figure></div><div class="feat"><div class="feat-text"><h3>The database checks every write</h3><p>Nobody can write to a table directly. Every write goes through a SQL function that checks who is asking, and the only key in the app is the publishable one.</p><p>Before launch I had the security reviewed from scratch, then ran 121 checks against a local stand-in for Supabase, as runners, as organizers, and as phones pretending to be the organizer.</p><pre class="feat-code"><code>revoke all on public.admins, public.event, public.stops,
-  public.runners, public.taps from anon, authenticated;
--- Other runners see when and where you checked in,
--- not how far off your GPS was.
-grant select (id, runner_id, stop, kind, at, verified, source, created_at)
-  on public.taps to authenticated;</code></pre></div></div><div class="feat has-fig phone"><div class="feat-text"><h3>A demo you can open from a link</h3><p>Add ?demo to the link and you get the whole app with 14 sample runners and a simulated location, and nothing is saved. A Preview button jumps to any point in the race and switches your location and signal.</p><p>My screenshot test uses the same controls to go through every screen in light and dark, and fails if anything scrolls sideways or throws an error.</p></div><figure class="feat-fig feat-frame phone"><iframe src="https://jason-traum.github.io/wrtc-5k5bars/?demo" title="5K 5 Bars demo" loading="lazy" allow="screen-wake-lock" style="height:780px"></iframe><figcaption>The live demo. Tap Preview to jump around the race.</figcaption></figure></div><div class="feat has-fig phone"><div class="feat-text"><h3>Everyone starts their own clock</h3><p>My first plan started everyone at the organizer's GO. I changed it the same day, because not everyone leaves at once and a late starter would have looked slow.</p><p>Now GO only opens the start, each runner taps Start when they set off, and Test my location tells you before you go whether your GPS is good enough to check in.</p></div><figure class="feat-fig phone"><img src="../img/5k-ready.webp" alt="Start line screen at Rittenhouse Square with a big Start button, Already at PHS Garden, and a location test that passed." loading="lazy" decoding="async"><figcaption>The start line, with the location test.</figcaption></figure></div><div class="feat has-fig phone"><div class="feat-text"><h3>Setting up the course</h3><p>The organizer places each bar by searching OpenStreetMap, pasting coordinates or standing there, instead of dragging pins.</p><p>Test a check-in tells you whether a tap would count from where you're standing, so you can set each bar's radius while walking the course.</p></div><figure class="feat-fig phone"><img src="../img/5k-organizer.webp" alt="Organizer screen: the start is open, the course as chips for each bar, and a map with numbered stops." loading="lazy" decoding="async"><figcaption>The organizer screen.</figcaption></figure></div></section><!--/deep-->
 
-    <nav class="proj-more" aria-labelledby="more-h">
-      <h2 class="label" id="more-h">More projects</h2>
-      <ul><li><a href="../dreamy.html">Dreamy</a></li><li><a href="walldrobe.html">Walldrobe</a></li><li><a href="drinkdock.html">DrinkDock</a></li><li><a href="in.html">In.</a></li><li><a href="wharton-os.html">Wharton OS</a></li></ul>
-    </nav>
+    <section class="exhibit ai-case" id="dreamy-eval" aria-labelledby="eval-h" style="--c: var(--c-msblue)">
+      <header><h2 class="ext" id="eval-h">How I checked Dreamy&rsquo;s plans and its race forecast</h2></header>
+      <div class="ai-prose">
+        <p>Dreamy&rsquo;s plans come from rules in the code. I started with an LLM writing the plans, but it got expensive, so I switched to an old-fashioned algorithm and kept the LLM for explaining. That also means the same data always gives the same plan.</p>
+        <p>The rules came from research. Claude and I went through every part of the engine against the sports science and decided whether to keep, change or replace each piece. The 10% rule for weekly mileage, for example, doesn&rsquo;t have real evidence behind it. A study of about 5,200 runners tied injury risk to a single run that&rsquo;s much longer than your longest run of the past month, so that&rsquo;s what Dreamy watches for instead.</p>
+        <p>Then I ran real runners&rsquo; training histories through it. I had LLMs grade the plans against the research and suggest rule changes, and I reviewed every round myself. Real profiles caught things a test wouldn&rsquo;t have, like a race goal saved as 71 seconds instead of 71 minutes, and training blocks that got duplicated. 15 runners trained on it through full race cycles, and 14 of them rated it above the coach or app they used before.</p>
+        <p>The race-time forecast blends about ten models. I had ChatGPT, Gemini and Claude Opus review it, then ran seven rounds of code review with Codex. They found real problems.</p>
+      </div>
+      <div class="table-wrap">
+        <table class="ledger two">
+          <thead><tr><th scope="col">What the reviews caught</th><th scope="col">What I changed</th></tr></thead>
+          <tbody>
+            <tr><td>For one beta runner, three models that measure the same thing agreed with each other and outvoted the runner&rsquo;s real race results. The marathon forecast came out 15 to 20 minutes too fast.</td><td>Four fixes that only work together, shipped together. Then a new rule in the repo: don&rsquo;t ship related model fixes one at a time.</td></tr>
+            <tr><td>The forecast&rsquo;s range was about 7 times too narrow, because one step divided by the same total twice.</td><td>Fixed in the first Codex round.</td></tr>
+            <tr><td>Heat was being counted twice for marathons.</td><td>Fixed in the seventh round.</td></tr>
+            <tr><td>My own forecast was stuck on races from 2024, even though my training said I&rsquo;d gotten faster.</td><td>A new model that treats old, slower races as a floor instead of an anchor. It ran at zero weight next to the live one while I checked it.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="ai-prose">
+        <p>I froze new features for the two and a half weeks before my own marathon, so nobody&rsquo;s predictions moved under them. The part I didn&rsquo;t finish was scoring the forecast against enough real race results. I&rsquo;d set 50 predictions with results as the bar for calibrating it, and I stopped working on Dreamy before I got there.</p>
+      </div>
+      <p class="src">Sources: Dreamy&rsquo;s repo (research validation doc, review notes from each model, Codex review commits, lessons file). Beta runners&rsquo; names and data stay private.</p>
+    </section>
+
+    <section class="exhibit" id="ms" aria-labelledby="ms-h" style="--c: var(--c-msblue)">
+      <header><h2 class="ext" id="ms-h"><span class="exn">Exhibit 1.</span> At Morgan Stanley I used it to write and build faster, inside rules I set</h2></header>
+      <div class="table-wrap">
+        <table class="ledger">
+          <thead><tr><th scope="col">What it was</th><th scope="col">What the AI did</th><th scope="col">What I did</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">My team&rsquo;s move to GenAI</th><td>Research, brainstorming and first drafts for the whole team.</td><td>Became the person people came to when they couldn&rsquo;t get it to do what they needed. The time it saved went into deeper work, not fewer hours.</td></tr>
+            <tr><th scope="row">About eight internal agents</th><td>One converted our chartbook, one came up with chart ideas from news and advisor feedback, and one was a house-style writing and proofreading assistant that up to about 20 people used.</td><td>Built them, mostly for my team.</td></tr>
+            <tr><th scope="row">Topics in Portfolio Construction pages<span class="when">2025 to 2026</span></th><td>Drafted each section from my charts.</td><td>Made the charts and gave it the house-style spec to draft from: one bold takeaway, one chart, 80 to 130 words a section, &ldquo;bp&rdquo; not &ldquo;bps&rdquo;, a source and an &ldquo;as of&rdquo; date on everything, and no overstating cause and effect. I set the framing, and when drafts got wordy I pointed it at our past pieces.</td></tr>
+            <tr><th scope="row">A Fed meeting recap for advisors<span class="when">Sep 2025</span></th><td>Checked the Fed&rsquo;s statement and drafted the recap in our format.</td><td>Cut it to about 450 to 600 words, matched it to my chart order, and dropped the section on market-implied rates because I couldn&rsquo;t pull that data myself that day.</td></tr>
+            <tr><th scope="row">Consumer sentiment vs stock returns<span class="when">May 2026</span></th><td>Built the charts and the workbook.</td><td>Picked the method: monthly data, 10-year rolling z-scores so the drop in sentiment after 2008 didn&rsquo;t skew the buckets, and only the top and bottom 20% so I wasn&rsquo;t overclaiming. I caught it when a later version quietly dropped the z-scores.</td></tr>
+            <tr><th scope="row">Last read on a research report<span class="when">May 2026</span></th><td>13 line edits on our stock-bond indicator report, including a header that showed up three times.</td><td>Limited it to line edits, since the structure had already been through review, and made the edits myself.</td></tr>
+            <tr><th scope="row">My chartbook macro</th><td>A code review that found real bugs, like an error handler that could run before a sheet was set and a retry loop that never counted its retries.</td><td>Wrote and ran the macro behind our monthly thousand-slide package, and asked for the review.</td></tr>
+            <tr><th scope="row">Research as a feed<span class="when">2025 to 2026</span></th><td>In April 2026, a working prototype of our research as a scrolling feed of short posts with charts.</td><td>The idea, in 2025, after advisors kept asking for research we&rsquo;d already emailed them. I pitched it internally. It was never adopted.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="src">No internal numbers, client data or colleagues&rsquo; names.</p>
+    </section>
+
+    <section class="exhibit" id="apps" aria-labelledby="apps-h" style="--c: var(--c-razz)">
+      <header><h2 class="ext" id="apps-h"><span class="exn">Exhibit 2.</span> In my own projects Claude writes the code, and I make the product calls</h2></header>
+      <div class="table-wrap">
+        <table class="ledger">
+          <thead><tr><th scope="col">What it was</th><th scope="col">What the AI did</th><th scope="col">What I did</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><a href="dreamy.html">Dreamy</a>: three models, one backlog<span class="when">Feb 2026</span></th><td>The same deep-research question in Claude, Gemini and ChatGPT. Claude&rsquo;s run crashed, so it merged the other two with its list of sources.</td><td>Brought my own 109-item roadmap to merge against. It came back as 136 items, 27 of them new.</td></tr>
+            <tr><th scope="row">Dreamy: pace zones<span class="when">Mar 2026</span></th><td>Built the pace zones.</td><td>Caught it giving a 3:10 marathoner a marathon pace of 8:17 to 7:53 a mile, when it should be about 7:15. It got rebuilt on Daniels&rsquo; tables. Then I kept asking for more until the zone atlas covered 22 systems.</td></tr>
+            <tr><th scope="row">Dreamy: workout colors<span class="when">Feb 2026</span></th><td>Merged color palettes from three models.</td><td>Wrote the spec (ordered by intensity, readable as tiny squares, works light and dark) and vetoed yellow and orange.</td></tr>
+            <tr><th scope="row"><a href="projects/in.html">In.</a> in one day<span class="when">Sep 27, 2026</span></th><td>Three visual directions, the app, the database, sign-in and notifications.</td><td>Every product call: placeholder runners are always labeled and switch off at 20 real users, the walk to the start counts at 20 minutes a mile, and it has to look good on an iPhone because that&rsquo;s where it&rsquo;ll be used 95% of the time. When a redesign lost its shape, I had it make a narrow fix: look first, change only those parts, compare to the reference, then write the approved rules into the code.</td></tr>
+            <tr><th scope="row"><a href="projects/5k-5-bars.html">5K 5 Bars</a><span class="when">Sep 2026</span></th><td>The product brief and design rules before any code, then the app and a database test that signs in as a visitor, a runner and an organizer and runs over 100 checks.</td><td>Signed off on what it can never do: show a guessed number, store anyone&rsquo;s coordinates (it reads location only on a check-in tap and keeps the distance), or change my accounts without asking. I type my own passwords.</td></tr>
+            <tr><th scope="row"><a href="projects/walldrobe.html">Walldrobe</a>: the reset<span class="when">Oct 2026</span></th><td>A redesign with 17 controls above the first wall.</td><td>Called it what it was, AI slop, and restarted from an earlier commit. Features come back one at a time against a limit on controls per screen. Most of the 167 feedback items in its log were my calls.</td></tr>
+            <tr><th scope="row">Walldrobe: rules vs models<span class="when">Sep 30, 2026</span></th><td>Reads the wall photo and scores art for taste.</td><td>Decided layout runs on rules and scoring, and models only handle taste and reading the photo. Same lesson as Dreamy. The photo never leaves your phone.</td></tr>
+            <tr><th scope="row"><a href="projects/drinkdock.html">DrinkDock</a>: market sim<span class="when">Sep 24, 2026</span></th><td>A simulator of about 3,400 venues with queue models, every input editable and sourced.</td><td>Gave it my notes, including &ldquo;must never break&rdquo;. It showed the original pitch&rsquo;s 60% walkaway number was closer to 20% at the rush, and that a Pennsylvania wine-kiosk program shut down after 14 months.</td></tr>
+            <tr><th scope="row">DrinkDock: outreach<span class="when">Sep to Oct 2026</span></th><td>Found public contacts and drafted a personal email to each hotel and bar, saved as drafts.</td><td>Sent every one myself, and handled the replies. Before that I cut personal touches that read as scraped, and stopped a line saying the machine was already legal in Pennsylvania until we could verify it.</td></tr>
+            <tr><th scope="row"><a href="projects/wharton-os.html">Wharton OS</a><span class="when">Oct 2026</span></th><td>Five agents that read my inbox, calendar, classes and recruiting, or do research, and report back.</td><td>Wrote the rules. Hooks block send and delete, and every tool call gets logged so I can check the log instead of trusting the agent&rsquo;s summary. After it left two deadlines off a plan, every plan now starts with a Canvas check.</td></tr>
+            <tr><th scope="row">This site<span class="when">Sep to Oct 2026</span></th><td>The code, and a study of more than 100 personal sites before the redesign.</td><td>Every sentence is mine or checked against my voice file, the build fails on an em dash, and no number goes up without a source. <a href="colophon.html">How it&rsquo;s made</a>.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="exhibit" id="else" aria-labelledby="else-h" style="--c: var(--c-jade)">
+      <header><h2 class="ext" id="else-h"><span class="exn">Exhibit 3.</span> At Wharton and everywhere else, I mostly use it to check things</h2></header>
+      <div class="table-wrap">
+        <table class="ledger">
+          <thead><tr><th scope="col">What it was</th><th scope="col">What the AI did</th><th scope="col">What I did</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">An idea tournament<span class="when">Sep 2026</span></th><td>Generated batches of startup ideas from the course&rsquo;s 13 idea triggers.</td><td>Threw out a whole batch as shallow and kept my own idea, renting art for your walls, which became Walldrobe.</td></tr>
+            <tr><th scope="row">&ldquo;Where did you see that?&rdquo;<span class="when">Jul 2026</span></th><td>Told me a waiver exam was open book.</td><td>Made it find the source. It had pulled the claim from an old chat instead of the official document, and told me to confirm on the school&rsquo;s portal.</td></tr>
+            <tr><th scope="row">My half Ironman relay bike leg<span class="when">Jun 2026</span></th><td>Estimated my bike split before the race. After, it pulled the ride from Strava and found six stops in the time and distance data, which pointed to my bike fit more than my fitness.</td><td>Corrected its guess that my Central Park loops were much easier than the course. The climbing per mile is about the same.</td></tr>
+            <tr><th scope="row">Fantasy football schedule luck<span class="when">Jan 2026</span></th><td>Ran 10,000 simulated seasons.</td><td>Wrote the spec: only real weekly scores, only opponents get shuffled, valid schedules, a fixed bracket. My 13 and 1 team had about 90% title odds and about 2.4 lucky wins.</td></tr>
+            <tr><th scope="row">A chart read from a picture<span class="when">Jul 2026</span></th><td>Read a grid of restaurant chains by eye.</td><td>Spotted a missing location and had it sample pixel colors instead, which found more errors.</td></tr>
+            <tr><th scope="row">Race fueling</th><td>Wrote fueling plans from product labels.</td><td>Caught a wrong sodium number on a gel. After that it checked every label against the source.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="exhibit" id="overruled" aria-labelledby="over-h" style="--c: var(--c-magenta)">
+      <header><h2 class="ext" id="over-h"><span class="exn">Exhibit 4.</span> Some of the times I overruled it</h2></header>
+      <div class="table-wrap">
+        <table class="ledger two">
+          <thead><tr><th scope="col">What it suggested</th><th scope="col">What I said</th></tr></thead>
+          <tbody>
+            <tr><td>Leading my Morgan Stanley resume line with how many agents I built.</td><td>&ldquo;It was more that people came to me to ask how to get AI to do what they wanted.&rdquo; The line leads with adoption now.</td></tr>
+            <tr><td>Renting original art for $60 a month.</td><td>&ldquo;Your math is completely off. $60 is way too much. No one would ever pay that.&rdquo;</td></tr>
+            <tr><td>The first Walldrobe screens.</td><td>&ldquo;Complete AI slop, too many buttons, not intuitive.&rdquo; It got redone, and later restarted from an earlier version.</td></tr>
+            <tr><td>Asking hotels how long their wait times are.</td><td>&ldquo;Let people find their own reason for it.&rdquo; Hotels care more about staffing than lines.</td></tr>
+            <tr><td>A batch of startup ideas built around my hobbies.</td><td>&ldquo;It doesn&rsquo;t seem like you thought deeply about these triggers and found a real problem.&rdquo; It redid them starting from real industry problems.</td></tr>
+            <tr><td>An &ldquo;I&rsquo;m in&rdquo; button in solid green before anyone tapped it.</td><td>&ldquo;I don&rsquo;t like how &lsquo;I&rsquo;m in&rsquo; is green even though I&rsquo;m not selected.&rdquo; Untaken choices are outlined now.</td></tr>
+            <tr><td>A fueling plan that ignored what I actually had.</td><td>&ldquo;Did you even look at what I have? Be specific.&rdquo;</td></tr>
+            <tr><td>Claude said not to rewrite one of Dreamy&rsquo;s forecast models. Claude Code said to.</td><td>I read the code myself and sided with Claude Code.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="exhibit" id="rules" aria-labelledby="rules-h" style="--c: var(--c-amethyst)">
+      <header><h2 class="ext" id="rules-h"><span class="exn">Exhibit 5.</span> Rules I&rsquo;ve written for it, and the mistake behind each one</h2></header>
+      <div class="table-wrap">
+        <table class="ledger three">
+          <thead><tr><th scope="col">The rule</th><th scope="col">What went wrong first</th><th scope="col">Where</th></tr></thead>
+          <tbody>
+            <tr><td>Don&rsquo;t ship related model fixes one at a time.</td><td>Three models outvoted a runner&rsquo;s real races, and no single fix helped.</td><td>Dreamy</td></tr>
+            <tr><td>One way to calculate fitness, one set of 8 pace zones, one date parser, one pace formatter. Never write a second one.</td><td>Fitness was calculated three ways and shown five ways across pages, and paces showed up as &ldquo;8:352&rdquo;.</td><td>Dreamy</td></tr>
+            <tr><td>The same runner can never get different numbers on different pages.</td><td>Same as above.</td><td>Dreamy</td></tr>
+            <tr><td>Never hardcode a number that should be computed. If you can&rsquo;t compute it yet, say so.</td><td>Three training-load numbers shipped as zeros.</td><td>Dreamy</td></tr>
+            <tr><td>After any correction, add the lesson to a file the next session reads first.</td><td>The same date bug got fixed in 14 files and kept coming back.</td><td>Dreamy</td></tr>
+            <tr><td>Every plan starts with a Canvas check for deadlines.</td><td>Two deadlines got left off a weekend plan.</td><td>Wharton OS</td></tr>
+            <tr><td>Saving a plan deletes and rewrites it in one step, or not at all.</td><td>Workouts got duplicated 12 times because the delete and the rewrite weren&rsquo;t done together.</td><td>Dreamy</td></tr>
+            <tr><td>Rules and scoring for layout; models only for taste and photos.</td><td>LLM-written plans in Dreamy got expensive and inconsistent.</td><td>Walldrobe</td></tr>
+            <tr><td>Confirm the page&rsquo;s script actually ran before calling a change done.</td><td>An early return silently stopped every script on this site, with no error.</td><td>This site</td></tr>
+            <tr><td>Every sentence has to sound like me.</td><td>The first version of this site read like AI.</td><td>This site</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
   </main>
   <footer class="colophon">
     <p class="note"><a href="mailto:jtraum@wharton.upenn.edu">jtraum@wharton.upenn.edu</a></p>
-    <p class="note"><a href="../colophon.html">How this site is made</a></p>
+    <p class="note"><a href="colophon.html">How this site is made</a></p>
   </footer>
 </div>
 <script>

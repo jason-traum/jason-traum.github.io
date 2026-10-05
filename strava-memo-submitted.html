@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>5K 5 Bars | Jason Traum</title>
-<meta name="description" content="Race-day app for our run club's bar crawl">
-<link rel="canonical" href="https://jason-traum.github.io/projects/5k-5-bars.html">
-<meta property="og:type" content="website">
-<meta property="og:title" content="5K 5 Bars | Jason Traum">
-<meta property="og:description" content="Race-day app for our run club's bar crawl">
-<meta property="og:url" content="https://jason-traum.github.io/projects/5k-5-bars.html">
+<title>Strava strategy memo, as submitted | Jason Traum</title>
+<meta name="description" content="The 991-word memo I submitted for MGMT 6110, with Exhibit 1. Same argument as the full analysis, cut to the assignment’s 1,000-word limit.">
+<link rel="canonical" href="https://jason-traum.github.io/strava-memo-submitted.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Strava strategy memo, as submitted | Jason Traum">
+<meta property="og:description" content="The 991-word memo I submitted for MGMT 6110, with Exhibit 1. Same argument as the full analysis, cut to the assignment’s 1,000-word limit.">
+<meta property="og:url" content="https://jason-traum.github.io/strava-memo-submitted.html">
 <meta property="og:image" content="https://jason-traum.github.io/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#141619">
@@ -729,73 +729,218 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .cv-more { font-size: 14.5px; color: var(--muted); margin: 0 0 30px; max-width: 46em; }
 .lede b { font-weight: 700; color: var(--ink); }
 
+/* How I use AI: ledgers of what the AI did and what I did. */
+.pg main { padding-top: 8px; }
+.pg .p-head { margin-top: 36px; }
+.ai-intro { display: grid; gap: 14px; max-width: 42em; margin-bottom: 34px; }
+.ai-intro .lede { font-size: clamp(1.15rem, 2vw, 1.4rem); line-height: 1.45; color: var(--ink); }
+.ai-intro p { color: var(--ink-2); }
+.ai-h2 { font-size: clamp(1.25rem, 2.4vw, 1.6rem); font-weight: 800; letter-spacing: -0.015em; margin: 0 0 14px; }
+.habits { margin: 0 0 20px; padding-left: 1.4em; display: grid; gap: 10px; max-width: 44em; color: var(--ink-2); }
+.habits li::marker { color: var(--c-msblue); font-weight: 800; font-variant-numeric: tabular-nums; }
+.habits b { color: var(--ink); font-weight: 700; }
+.ai-prose { display: grid; gap: 14px; max-width: 42em; color: var(--ink-2); }
+.ai-prose + .table-wrap, .table-wrap + .ai-prose { margin-top: 22px; }
+.table-wrap { width: 100%; }
+.ledger { width: 100%; border-collapse: collapse; font-size: 15px; line-height: 1.5; }
+.ledger thead th { text-align: left; font-size: 13px; font-weight: 600; color: var(--muted); padding: 0 18px 8px 0; border-bottom: 1px solid var(--rule-strong); }
+.ledger tbody th, .ledger tbody td { text-align: left; vertical-align: top; padding: 14px 18px 14px 0; border-bottom: 1px solid var(--rule); }
+.ledger { table-layout: fixed; }
+.ledger thead th:nth-child(1) { width: 24%; } .ledger thead th:nth-child(2) { width: 32%; }
+.ledger.two thead th:nth-child(1), .ledger.two thead th:nth-child(2) { width: 50%; }
+.ledger.three thead th:nth-child(1) { width: 40%; } .ledger.three thead th:nth-child(2) { width: 46%; } .ledger.three thead th:nth-child(3) { width: 14%; }
+.ledger tbody th { width: 24%; font-weight: 700; color: var(--ink); }
+.ledger tbody td { color: var(--ink-2); }
+.ledger tbody td:last-child { color: var(--ink); }
+.ledger.two tbody td:first-child { width: 50%; color: var(--ink-2); }
+.ledger.three tbody td:first-child { width: 42%; color: var(--ink); font-weight: 600; }
+.ledger.three tbody td:last-child { width: 14%; color: var(--muted); white-space: nowrap; }
+.ledger .when { display: block; margin-top: 3px; font-size: 13px; font-weight: 500; color: var(--muted); font-variant-numeric: tabular-nums; }
+.ledger th a { color: var(--ink); }
+@media (max-width: 760px) {
+  .ledger thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .ledger, .ledger tbody, .ledger tr, .ledger th, .ledger td { display: block; width: auto !important; }
+  .ledger tr { padding: 14px 0; border-bottom: 1px solid var(--rule); }
+  .ledger tbody th, .ledger tbody td { border: 0; padding: 0; }
+  .ledger tbody td { margin-top: 8px; }
+  .ledger tbody td::before { display: block; font-size: 12.5px; font-weight: 600; color: var(--muted); margin-bottom: 2px; }
+  .ledger:not(.two):not(.three) td:nth-of-type(1)::before { content: "What the AI did"; }
+  .ledger:not(.two):not(.three) td:nth-of-type(2)::before { content: "What I did"; }
+  #dreamy-eval .ledger td:nth-of-type(1)::before { content: "What the reviews caught"; }
+  #dreamy-eval .ledger td:nth-of-type(2)::before { content: "What I changed"; }
+  #overruled .ledger td:nth-of-type(1)::before { content: "What it suggested"; }
+  #overruled .ledger td:nth-of-type(2)::before { content: "What I said"; }
+  .ledger.three td:nth-of-type(1) { margin-top: 0; }
+  .ledger.three td:nth-of-type(2)::before { content: "What went wrong first"; }
+  .ledger.three td:nth-of-type(3)::before { content: "Where"; }
+}
+
+/* colophon */
+.sw-dot { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 8px; vertical-align: -1px; }
+.swatch-table .hexes { font-variant-numeric: tabular-nums; color: var(--ink); }
+.swatch-table .hexes span { color: var(--muted); margin-left: 8px; }
+.ledger.changes thead th:nth-child(1) { width: 18%; } .ledger.changes thead th:nth-child(2) { width: 82%; }
+.ledger.changes tbody th { font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+@media (max-width: 760px) {
+  .swatch-table td:nth-of-type(1)::before { content: "Print, then screen" !important; }
+  .swatch-table td:nth-of-type(2)::before { content: "What it does here" !important; }
+  .ledger.changes td::before { content: none !important; }
+  .ledger.changes td { margin-top: 4px; }
+}
+/* The memo reads like a printed research note: dark text on a light sheet, while the rest of the site stays dark. */
+.memo-page { max-width: 900px; }
+.memo-meta { max-width: 42em; display: grid; gap: 8px; padding: 16px 0 20px; border-top: 1px solid var(--rule); margin-bottom: 18px; color: var(--ink-2); }
+.memo-meta .memo-why { font-size: 15px; color: var(--muted); }
+.memo-sheet { --s-ink: #1B1E23; --s-ink-2: #3E444D; --s-muted: #5D6570; --s-rule: #DADDE2; --s-link: #1F4F80;
+  background: #FAFAF7; color: var(--s-ink-2); border-radius: 10px; padding: clamp(22px, 5vw, 64px); font-size: 17.5px; line-height: 1.68; }
+.memo-sheet > * { max-width: 40em; }
+.memo-sheet > .mapblock, .memo-sheet > .tablewrap, .memo-sheet > section { max-width: none; }
+.memo-sheet p { margin: 0 0 1em; }
+.memo-sheet h2 { color: var(--s-ink); font-size: 1.5rem; font-weight: 800; letter-spacing: -0.015em; line-height: 1.25; margin: 1.8em 0 0.6em; padding-top: 0.9em; border-top: 2px solid var(--s-ink); }
+.memo-sheet > h2:first-child, .memo-summary + h2 { margin-top: 1.2em; }
+.memo-sheet h3 { color: var(--s-ink); font-size: 1.12rem; font-weight: 700; margin: 1.5em 0 0.4em; }
+.memo-sheet h4 { color: var(--s-ink); font-size: 1rem; font-weight: 700; margin: 1.3em 0 0.3em; }
+.memo-sheet b, .memo-sheet strong { color: var(--s-ink); }
+.memo-sheet ul, .memo-sheet ol { padding-left: 1.2em; margin: 0 0 1em; }
+.memo-sheet li { margin-bottom: 0.7em; }
+.memo-sheet a { color: var(--s-link); text-decoration-color: var(--s-link); }
+.memo-summary { background: #fff; border: 1px solid var(--s-rule); border-radius: 8px; padding: 16px 20px; margin-bottom: 1.4em; }
+.memo-summary p { margin: 0; color: var(--s-ink); }
+.memo-sheet .lede { color: var(--s-ink); font-size: 1.08em; }
+.memo-sheet .verdict { background: #F1F3F6; border-radius: 6px; padding: 10px 14px; }
+.memo-sheet .kicker { font-size: 15.5px; color: var(--s-muted); }
+.memo-sheet .zoomhint { font-size: 14px; color: var(--s-muted); }
+.memo-sheet .mapblock figure { margin: 0.6em 0 1em; }
+.memo-sheet .mapblock img { display: block; width: 100%; height: auto; border: 1px solid var(--s-rule); border-radius: 6px; background: #fff; }
+.memo-sheet figcaption { font-size: 14px; line-height: 1.5; color: var(--s-muted); margin-top: 8px; }
+.memo-sheet .tablewrap { overflow-x: auto; margin: 0.6em 0 1.2em; }
+.memo-sheet table { border-collapse: collapse; width: 100%; font-size: 14.5px; line-height: 1.45; }
+.memo-sheet th, .memo-sheet td { text-align: left; vertical-align: top; padding: 7px 12px 7px 0; border-bottom: 1px solid var(--s-rule); }
+.memo-sheet th { color: var(--s-ink); font-size: 13px; font-weight: 700; border-bottom: 1px solid var(--s-ink); }
+.memo-sheet tr.grp td { color: var(--s-ink); font-weight: 800; padding-top: 14px; }
+.memo-sheet td.code { color: var(--s-muted); font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+.memo-sheet td.pair { color: var(--s-ink); font-weight: 600; min-width: 11em; }
+.memo-sheet .memo-foot { margin-top: 2em; padding-top: 1em; border-top: 1px solid var(--s-rule); font-size: 14px; color: var(--s-muted); }
+@media (max-width: 700px) {
+  .memo-sheet { font-size: 16.5px; }
+  .memo-sheet table:not(.acts) thead { display: none; }
+  .memo-sheet table:not(.acts), .memo-sheet table:not(.acts) tbody, .memo-sheet table:not(.acts) tr, .memo-sheet table:not(.acts) td { display: block; }
+  .memo-sheet table:not(.acts) tr { padding: 10px 0; border-bottom: 1px solid var(--s-rule); }
+  .memo-sheet table:not(.acts) td { border: 0; padding: 4px 0; }
+  .memo-sheet td[data-label]::before { content: attr(data-label); display: block; font-size: 12.5px; font-weight: 700; color: var(--s-muted); }
+}
+@media print { body { background: #fff; } .topbar, .colophon, .progress { display: none; } .memo-sheet { padding: 0; background: #fff; } }
+/* figures added for the site */
+.memo-sheet > .mfig { max-width: none; margin: 1.6em 0 1.8em; padding: 16px 0 0; border-top: 1px solid var(--s-ink); }
+.mfig-t { color: var(--s-ink); font-weight: 800; font-size: 1.05rem; line-height: 1.35; letter-spacing: -0.01em; margin: 0 0 14px !important; max-width: 36em; }
+.mfig .exn { color: #275C90; }
+.mfig figcaption { margin-top: 10px; }
+.mbars { display: block; width: 100%; max-width: 680px; height: auto; overflow: visible; }
+.mbars .ml { font: 600 14px var(--body); fill: #1B1E23; }
+.mbars .mv { font: 600 14px var(--body); fill: #3E444D; font-variant-numeric: tabular-nums; }
+.mbars .maxis { stroke: #1B1E23; stroke-width: 1; }
+.mbars g:hover rect { opacity: .85; }
+.vnet { display: grid; grid-template-columns: 1fr 1.15fr 1fr; grid-template-areas: ". top ." "left core right" ". bot ."; gap: 12px; align-items: stretch; position: relative; }
+.vn-top { grid-area: top; } .vn-left { grid-area: left; } .vn-right { grid-area: right; } .vn-bot { grid-area: bot; } .vn-core { grid-area: core; }
+.vn-box, .vn-core { background: #fff; border: 1px solid var(--s-rule); border-radius: 8px; padding: 10px 12px; display: grid; gap: 3px; align-content: start; }
+.vn-core { background: #1B1E23; border-color: #1B1E23; align-content: center; }
+.vn-core .vn-who, .vn-core .vn-names { color: #fff; } .vn-core .vn-names { opacity: .8; }
+.vn-who { margin: 0 !important; color: var(--s-ink); font-weight: 800; font-size: 15px; }
+.vn-names { margin: 0 !important; font-size: 13.5px; line-height: 1.4; color: var(--s-muted); }
+.vn-eff { margin: 4px 0 0 !important; font-size: 13.5px; font-weight: 700; }
+.vn-eff.pos { color: #23774F; } .vn-eff.neg { color: #9B1F56; }
+.vn-core .vn-eff.pos { color: #7DDCAE; }
+@media (max-width: 700px) { .vnet { grid-template-columns: 1fr; grid-template-areas: "core" "top" "right" "left" "bot"; } }
+.tl-key { display: flex; gap: 18px; font-size: 13.5px; font-weight: 700; margin-bottom: 8px; }
+.tl-key span::before { content: ''; display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: 0; }
+.k-s { color: #1B1E23; } .k-s::before { background: #CF612F; } .k-g { color: #1B1E23; } .k-g::before { background: #275C90; }
+.tline { list-style: none; margin: 0 !important; padding: 0 !important; position: relative; }
+.tline::before { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background: var(--s-rule); transform: translateX(-1px); }
+.tline li { position: relative; width: 50%; margin: 0 0 10px !important; display: grid; gap: 2px; font-size: 14.5px; line-height: 1.45; }
+.tline li::after { content: ''; position: absolute; top: 5px; width: 11px; height: 11px; border-radius: 50%; border: 2px solid #FAFAF7; }
+.tline .tl-s { padding-right: 22px; text-align: right; }
+.tline .tl-s::after { right: -7.5px; background: #CF612F; }
+.tline .tl-g { margin-left: 50% !important; padding-left: 22px; }
+.tline .tl-g::after { left: -7.5px; background: #275C90; }
+.tl-when { font-weight: 800; color: var(--s-ink); font-variant-numeric: tabular-nums; font-size: 13.5px; }
+.tl-who { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.tl-what { color: var(--s-ink-2); }
+@media (max-width: 700px) {
+  .tline::before { left: 6px; }
+  .tline li, .tline .tl-s, .tline .tl-g { width: auto; margin-left: 0 !important; padding: 0 0 0 26px; text-align: left; }
+  .tline .tl-s::after, .tline .tl-g::after { left: 0; right: auto; }
+}
+
+.memo-top { display: grid; gap: 22px; align-items: start; margin-bottom: 28px; }
+@media (min-width: 860px) { .memo-top { grid-template-columns: minmax(0, 1fr) 300px; gap: 40px; } }
+.memo-cover { margin: 36px 0 0; }
+.memo-cover img { display: block; width: 100%; max-width: 300px; height: auto; border-radius: 14px; box-shadow: 0 1px 0 rgba(255,255,255,.06), 0 12px 32px rgba(0,0,0,.35); background: #fff; }
+@media (max-width: 859px) { .memo-cover { margin-top: 0; } .memo-cover img { max-width: 260px; } }
+
 </style>
 </head>
-<body>
+<body class="pg pg-strava-memo-submitted">
 <a class="skip" href="#main">Skip to content</a>
 <div class="page">
+  <div class="progress" aria-hidden="true"></div>
   <header class="topbar proj-top">
-    <p class="label"><a href="../">Jason Traum</a></p>
+    <p class="label"><a href="./">Jason Traum</a></p>
     <nav class="toplinks" aria-label="Sections">
-      <a href="../#work">All projects</a>
-      <a href="../ai.html">How I use AI</a>
-      <a href="../#background">Background</a>
-      <a href="../#contact">Contact</a>
+      <a href="./#work">Projects</a>
+      <a href="ai.html">How I use AI</a>
+      <a href="./#background">Background</a>
+      <a href="./#contact">Contact</a>
     </nav>
   </header>
   <main id="main">
-    <article class="project" id="fivek" aria-labelledby="fivek-h">
+    <article class="project memo-page" aria-labelledby="memo-h">
+      <div class="memo-top">
+      <div>
       <header class="p-head">
-        <h2 class="p-name" id="fivek-h">5K 5 Bars</h2>
-        <p class="p-tag">Race-day app for our run club's bar crawl</p>
+        <h1 class="p-name" id="memo-h">Strava strategy memo, as submitted</h1>
+        <p class="p-tag">The 991-word memo I submitted for MGMT 6110, with Exhibit 1. Same argument as the full analysis, cut to the assignment’s 1,000-word limit.</p>
       </header>
-      <div class="p-grid">
-        <div class="p-meta">
-          <dl>
-            <div><dt>Status</dt><dd>Built and live; race date TBD</dd></div>
-            <div><dt>Built</dt><dd>Sep 2026</dd></div>
-            <div><dt>Link</dt><dd><a href="https://jason-traum.github.io/wrtc-5k5bars/?demo">Try the demo</a></dd></div>
-          
-            <div><dt>Built with</dt><dd>Claude Code, Supabase, MapLibre, GitHub Pages</dd></div>
-          </dl>
-        </div>
-        <div class="p-body">
-          <p>I'm organizing a 5K 5 Bars for the Run &amp; Tri Club with the Beer Club: about a kilometer of running between each of five bars, from Rittenhouse Square to Morgan's Pier. I wanted a way to know who actually made it to each bar, so I built an app for race day.</p>
-          <p>You join with your bib number and first name. When you walk into a bar you tap I'm at the bar, and it checks your phone's location. When you head out you tap Leaving. The leaderboard ranks everyone on running pace only, so time at the bars never counts and drinking fast doesn't help you. If someone forgets a tap, that leg just doesn't count. It never guesses a time. GPS is often off inside bars, so if the app says you're too far away you can still check in. That check-in counts and is marked as not GPS-checked so the organizer can see it.</p>
-          <p>People will be a few drinks in at a loud bar, so the race screen only shows the next bar, one big button and when the group is leaving. The stats wait for the finish screen. It only reads your location when you tap, and it saves how far you were from the bar, never where you were.</p>
-          <p>Before building I wrote down who uses it and when, what every screen shows in every situation, the look, and a log of every decision. Claude Code reads those before it changes anything. I&rsquo;d been planning it for a while, so once I sat down to build, the first version came together in a day.</p>
-          <div class="shots" style="--n:3">
-            <figure>
-              <img src="../img/5k-race.webp" width="600" height="962" alt="5K 5 Bars race screen: the progress strip at bar 2 of 5, McGillin's Olde Ale House, and a large red I'm at McGillin's button." loading="lazy" decoding="async">
-              <figcaption>Between bars: the next stop and one big button</figcaption>
-            </figure>
-            <figure>
-              <img src="../img/5k-atbar.webp" width="600" height="962" alt="5K 5 Bars at-the-bar screen: group leaves in 30:00 at 7:39 PM, a Leaving McGillin's button, and Already at Indy Beer Garden." loading="lazy" decoding="async">
-              <figcaption>At a bar, a countdown to when the group leaves, so nobody has to keep track</figcaption>
-            </figure>
-            <figure>
-              <img src="../img/5k-finished.webp" width="600" height="962" alt="5K 5 Bars finish card: 6th of 15, 8:44 per mile, 26:18 running, and a bar showing time running versus time at bars." loading="lazy" decoding="async">
-              <figcaption>The finish screen, from the demo</figcaption>
-            </figure>
-          </div>
-        </div>
+      <div class="memo-meta">
+        <p>The 991-word memo I submitted for MGMT 6110, with Exhibit 1. <a href="strava-memo.html">Read the full analysis</a>.</p>
+      </div>
+      </div>
+      <figure class="memo-cover"><img src="img/strava-cover.webp" width="1100" height="1126" alt="My cover for the memo, made to look like a Strava post: a real run of mine through Philadelphia with the word count, class and section as the stats."></figure>
+      </div>
+      <div class="memo-sheet">
+<h2>Industry Analysis: profitable today, harder each year</h2>
+<p>The industry is US apps that let amateur runners and cyclists record, share, and compare workouts, as of mid-2026. Defined by need, it includes Garmin, the largest sports-watch maker, whose Connect app is building the same social layer.</p>
+<p><b>Company.</b> Strava is Instagram for workouts: the feed, kudos (likes), and segment leaderboards turn a solo workout into something friends see and strangers rank. The workout is the post. Rivals have matched the software; none has the crowd: 195 million registered athletes and leaderboards that rank everyone who has run a given stretch of road. Added value, what disappears without Strava, is narrower: remove Strava and athletes keep their hardware and coaching but lose the one network spanning every brand, shrinking as Garmin Connect closes in. Strava captures value with a $79.99 subscription for the features the crowd makes valuable, and API limits stop outside apps from rebuilding them. It is buying into coaching instead: Runna, The Breakaway, and AI summaries, the layer Garmin and AI assistants are commoditizing. Effect on attractiveness: positive but narrowing.</p>
+<p><b>Customers.</b> Athletes build the product, 14 billion kudos in 2025, and most never pay for it. Switching costs are social, not data: workouts export, followers do not. A 2023 increase to $79.99 drew a backlash and an apology; since then Strava has raised the effective price via the paywall and a $149.99 Runna bundle. Effect: positive, with a price ceiling.</p>
+<p><b>Suppliers.</b> Athletes are also the main supplier, paid in control, not cash: privacy zones, export rights, no AI training on their data. Beneath them sit two commodity suppliers: map data under the routes and heatmaps, and cloud hosting under the feed and leaderboards. Apple’s 15 to 30% cut of in-app subscriptions is the one real tax, and a 2025 court order lets Strava steer buyers to its website. Effect: negative but small.</p>
+<p><b>Complementors.</b> Device makers matter most and threaten most: Garmin, Apple, Coros, and Wahoo build the watches; Strava builds none. Strava is their complementor, not supplier: it makes the watch more valuable the way apps make the phone more valuable, but no watch needs Strava. It governs apps on its data as Nintendo governed developers: leaderboard data cut from the API, no showing an athlete’s data to anyone, paid access since 2026. Strava cannot cap Garmin, which owns the point of data creation, so each tries to commoditize the other: Strava accepts every device to make the watch interchangeable; Garmin added segments, heatmaps, and, in May 2026, a follower model to Connect to make the social layer interchangeable, making Garmin competitor as well as complementor. Garmin’s leverage has a ceiling: five other makers sync to Strava. Effect: negative and worsening.</p>
+<p><b>Competitors.</b> Garmin Connect gives away segments and heatmaps that Strava charges for; its paid tier launched at $69.99, $10 below Strava. Instagram offers a larger audience without the data that makes a post credible. Strava sits between: too thin on analysis for Garmin, too narrow in audience for Instagram, but the feed where the number on the post is verified. Effect: negative.</p>
+<p><b>Overall attractiveness.</b> Free content and a converting paywall set today’s profit; Garmin moving into Strava’s layer sets the direction. Garmin’s fitness segment earned $2.36 billion in 2025 at a 31% operating margin, so the complementor with the sensors can take more of the surplus. The crowd may be worth more strategically than the subscription monetizes: the social graph and years of segment history could attract a device maker, even though owning Strava would weaken the neutrality that makes it valuable.</p>
+<h2>Activity Map and Interactions: defended against apps, exposed to Garmin</h2>
+<p>Exhibit 1 maps six strategic choices and eighteen activities.</p>
+<div class="tablewrap"><table class="pairs">
+<thead><tr><th>Interaction</th><th>X → Y</th><th>Y → X</th><th>Fit &amp; defensibility</th></tr></thead>
+<tbody>
+<tr><td class="pair">A2 and A5: accepting any device, and ranking athletes on segments.</td><td data-label="X → Y">A leaderboard is only a competition if everyone who ran the road is on it; accepting every device makes Strava’s ranking complete, so a Garmin-only board carries less weight even among Garmin owners.</td><td data-label="Y → X">Segments give owners of any device a reason to sync after each workout, so makers build the sync their customers demand.</td><td data-label="Fit &amp; defensibility">Reinforcing, and the hardest pair to copy, because Garmin can build segments, and has, but only for Garmin owners.</td></tr>
+<tr><td class="pair">A11 and A16: charging for depth, and limiting apps to an athlete’s own data.</td><td data-label="X → Y">The paywall sets the API’s scope: whatever moves behind the subscription leaves the API, as full leaderboards did in May 2020, cut from 44,000 apps the same day.</td><td data-label="Y → X">The closed API turned substitutes into add-ons for people who already pay; VeloViewer, an analytics site, reported that over 70% of its payers already subscribed to Strava.</td><td data-label="Fit &amp; defensibility">Reinforcing; the paywall decides what the API withholds, and the API protects the paywall. The cost is developer trust.</td></tr>
+<tr><td class="pair">A10 and A11: keeping the social core free, and charging for depth.</td><td data-label="X → Y">Because uploads, the feed, kudos, and clubs cost nothing, everyone joins, which makes the paid leaderboards complete and the heatmaps dense; free users are the raw material subscribers pay for.</td><td data-label="Y → X">The subscription funds a free tier without advertising, which keeps the feed clean enough to keep posting to.</td><td data-label="Fit &amp; defensibility">Reinforcing, and the pair most exposed if Garmin gives paid features away, since Strava cannot make the free core any freer.</td></tr>
+</tbody></table></div>
+<p><b>Conclusion: implications for defensibility.</b> Rivals copy single activities, not the combination: a network open to every device (A2), complete leaderboards (A5), a free core (A10), and a paywall outside apps cannot rebuild (A11, A16). Garmin and Apple can copy every feature but not the underlying trade-off, device neutrality, since their software sells hardware. That neutrality means Strava cannot punish Garmin without hurting its users; its 2025 patent suit against Garmin lasted 21 days. Well defended against other apps; exposed to the device maker that controls a key point of data creation. My take: the moat is the crowd, not the code. It lasts as long as the crowd stays, and Strava does not own the crowd.</p>
+<section class="mapblock">
+<h2 class="mapsec">Exhibit 1</h2>
+<figure>
+<a href="img/strava-activity-map.webp"><img alt="Exhibit 1, the activity map for the Strava core app. Six strategic choices in dark bubbles, eighteen activities in white bubbles, with the three discussed interactions highlighted in orange." decoding="async" height="1350" loading="lazy" src="img/strava-activity-map.webp" width="1800"/></a>
+<figcaption>Exhibit 1. Activity map, Strava core app. Dark bubbles are strategic choices; light bubbles are activities. Orange lines mark the three interactions in the table above; solid grey lines tie each activity to its choice, and dashed lines are other dependencies between activities.</figcaption>
+</figure>
+</section>
+<p class="zoomhint">On a phone, pinch to zoom the map.</p>
+        <p class="memo-foot">Submitted for MGMT 6110 (Managing the Established Enterprise) at Wharton, Fall 2026. Memo text as submitted. Exhibit 1 updated in October 2026 to correct activity A14. <a href="strava-memo.html">The full analysis</a> has updated facts and the complete reasoning.</p>
       </div>
     </article>
-<!--deep--><section class="deep" aria-labelledby="deep-h"><h2 class="label" id="deep-h">The details</h2><div class="feat has-fig phone"><div class="feat-text"><h3>Taps that work without signal</h3><p>Signal inside bars is bad, so a tap saves on the phone with the time it actually happened and syncs once the phone has signal again. Under the button it says when it saved, so people know it counted.</p><p>If a retry sends the same tap twice, the database keeps just one.</p></div><figure class="feat-fig phone"><img src="../img/5k-offline.webp" alt="At the bar screen with a No signal note, a Leaving McGillin&#x27;s button, and Saved on this phone at 9:12. Syncs when you have signal." loading="lazy" decoding="async"><figcaption>No signal at the bar, so the tap saved on the phone.</figcaption></figure></div><div class="feat"><div class="feat-text"><h3>The database checks every write</h3><p>Nobody can write to a table directly. Every write goes through a SQL function that checks who is asking, and the only key in the app is the publishable one.</p><p>Before launch I had the security reviewed from scratch, then ran 121 checks against a local stand-in for Supabase, as runners, as organizers, and as phones pretending to be the organizer.</p><pre class="feat-code"><code>revoke all on public.admins, public.event, public.stops,
-  public.runners, public.taps from anon, authenticated;
--- Other runners see when and where you checked in,
--- not how far off your GPS was.
-grant select (id, runner_id, stop, kind, at, verified, source, created_at)
-  on public.taps to authenticated;</code></pre></div></div><div class="feat has-fig phone"><div class="feat-text"><h3>A demo you can open from a link</h3><p>Add ?demo to the link and you get the whole app with 14 sample runners and a simulated location, and nothing is saved. A Preview button jumps to any point in the race and switches your location and signal.</p><p>My screenshot test uses the same controls to go through every screen in light and dark, and fails if anything scrolls sideways or throws an error.</p></div><figure class="feat-fig feat-frame phone"><iframe src="https://jason-traum.github.io/wrtc-5k5bars/?demo" title="5K 5 Bars demo" loading="lazy" allow="screen-wake-lock" style="height:780px"></iframe><figcaption>The live demo. Tap Preview to jump around the race.</figcaption></figure></div><div class="feat has-fig phone"><div class="feat-text"><h3>Everyone starts their own clock</h3><p>My first plan started everyone at the organizer's GO. I changed it the same day, because not everyone leaves at once and a late starter would have looked slow.</p><p>Now GO only opens the start, each runner taps Start when they set off, and Test my location tells you before you go whether your GPS is good enough to check in.</p></div><figure class="feat-fig phone"><img src="../img/5k-ready.webp" alt="Start line screen at Rittenhouse Square with a big Start button, Already at PHS Garden, and a location test that passed." loading="lazy" decoding="async"><figcaption>The start line, with the location test.</figcaption></figure></div><div class="feat has-fig phone"><div class="feat-text"><h3>Setting up the course</h3><p>The organizer places each bar by searching OpenStreetMap, pasting coordinates or standing there, instead of dragging pins.</p><p>Test a check-in tells you whether a tap would count from where you're standing, so you can set each bar's radius while walking the course.</p></div><figure class="feat-fig phone"><img src="../img/5k-organizer.webp" alt="Organizer screen: the start is open, the course as chips for each bar, and a map with numbered stops." loading="lazy" decoding="async"><figcaption>The organizer screen.</figcaption></figure></div></section><!--/deep-->
 
-    <nav class="proj-more" aria-labelledby="more-h">
-      <h2 class="label" id="more-h">More projects</h2>
-      <ul><li><a href="../dreamy.html">Dreamy</a></li><li><a href="walldrobe.html">Walldrobe</a></li><li><a href="drinkdock.html">DrinkDock</a></li><li><a href="in.html">In.</a></li><li><a href="wharton-os.html">Wharton OS</a></li></ul>
-    </nav>
   </main>
   <footer class="colophon">
     <p class="note"><a href="mailto:jtraum@wharton.upenn.edu">jtraum@wharton.upenn.edu</a></p>
-    <p class="note"><a href="../colophon.html">How this site is made</a></p>
+    <p class="note"><a href="colophon.html">How this site is made</a></p>
   </footer>
 </div>
 <script>

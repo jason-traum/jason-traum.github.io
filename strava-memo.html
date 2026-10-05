@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>5K 5 Bars | Jason Traum</title>
-<meta name="description" content="Race-day app for our run club's bar crawl">
-<link rel="canonical" href="https://jason-traum.github.io/projects/5k-5-bars.html">
-<meta property="og:type" content="website">
-<meta property="og:title" content="5K 5 Bars | Jason Traum">
-<meta property="og:description" content="Race-day app for our run club's bar crawl">
-<meta property="og:url" content="https://jason-traum.github.io/projects/5k-5-bars.html">
+<title>Strava strategy memo | Jason Traum</title>
+<meta name="description" content="A fitness app with almost no technology advantage, worth billions because it is the only place a workout counts in front of other people.">
+<link rel="canonical" href="https://jason-traum.github.io/strava-memo.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Strava strategy memo | Jason Traum">
+<meta property="og:description" content="A fitness app with almost no technology advantage, worth billions because it is the only place a workout counts in front of other people.">
+<meta property="og:url" content="https://jason-traum.github.io/strava-memo.html">
 <meta property="og:image" content="https://jason-traum.github.io/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#141619">
@@ -729,73 +729,302 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .cv-more { font-size: 14.5px; color: var(--muted); margin: 0 0 30px; max-width: 46em; }
 .lede b { font-weight: 700; color: var(--ink); }
 
+/* How I use AI: ledgers of what the AI did and what I did. */
+.pg main { padding-top: 8px; }
+.pg .p-head { margin-top: 36px; }
+.ai-intro { display: grid; gap: 14px; max-width: 42em; margin-bottom: 34px; }
+.ai-intro .lede { font-size: clamp(1.15rem, 2vw, 1.4rem); line-height: 1.45; color: var(--ink); }
+.ai-intro p { color: var(--ink-2); }
+.ai-h2 { font-size: clamp(1.25rem, 2.4vw, 1.6rem); font-weight: 800; letter-spacing: -0.015em; margin: 0 0 14px; }
+.habits { margin: 0 0 20px; padding-left: 1.4em; display: grid; gap: 10px; max-width: 44em; color: var(--ink-2); }
+.habits li::marker { color: var(--c-msblue); font-weight: 800; font-variant-numeric: tabular-nums; }
+.habits b { color: var(--ink); font-weight: 700; }
+.ai-prose { display: grid; gap: 14px; max-width: 42em; color: var(--ink-2); }
+.ai-prose + .table-wrap, .table-wrap + .ai-prose { margin-top: 22px; }
+.table-wrap { width: 100%; }
+.ledger { width: 100%; border-collapse: collapse; font-size: 15px; line-height: 1.5; }
+.ledger thead th { text-align: left; font-size: 13px; font-weight: 600; color: var(--muted); padding: 0 18px 8px 0; border-bottom: 1px solid var(--rule-strong); }
+.ledger tbody th, .ledger tbody td { text-align: left; vertical-align: top; padding: 14px 18px 14px 0; border-bottom: 1px solid var(--rule); }
+.ledger { table-layout: fixed; }
+.ledger thead th:nth-child(1) { width: 24%; } .ledger thead th:nth-child(2) { width: 32%; }
+.ledger.two thead th:nth-child(1), .ledger.two thead th:nth-child(2) { width: 50%; }
+.ledger.three thead th:nth-child(1) { width: 40%; } .ledger.three thead th:nth-child(2) { width: 46%; } .ledger.three thead th:nth-child(3) { width: 14%; }
+.ledger tbody th { width: 24%; font-weight: 700; color: var(--ink); }
+.ledger tbody td { color: var(--ink-2); }
+.ledger tbody td:last-child { color: var(--ink); }
+.ledger.two tbody td:first-child { width: 50%; color: var(--ink-2); }
+.ledger.three tbody td:first-child { width: 42%; color: var(--ink); font-weight: 600; }
+.ledger.three tbody td:last-child { width: 14%; color: var(--muted); white-space: nowrap; }
+.ledger .when { display: block; margin-top: 3px; font-size: 13px; font-weight: 500; color: var(--muted); font-variant-numeric: tabular-nums; }
+.ledger th a { color: var(--ink); }
+@media (max-width: 760px) {
+  .ledger thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .ledger, .ledger tbody, .ledger tr, .ledger th, .ledger td { display: block; width: auto !important; }
+  .ledger tr { padding: 14px 0; border-bottom: 1px solid var(--rule); }
+  .ledger tbody th, .ledger tbody td { border: 0; padding: 0; }
+  .ledger tbody td { margin-top: 8px; }
+  .ledger tbody td::before { display: block; font-size: 12.5px; font-weight: 600; color: var(--muted); margin-bottom: 2px; }
+  .ledger:not(.two):not(.three) td:nth-of-type(1)::before { content: "What the AI did"; }
+  .ledger:not(.two):not(.three) td:nth-of-type(2)::before { content: "What I did"; }
+  #dreamy-eval .ledger td:nth-of-type(1)::before { content: "What the reviews caught"; }
+  #dreamy-eval .ledger td:nth-of-type(2)::before { content: "What I changed"; }
+  #overruled .ledger td:nth-of-type(1)::before { content: "What it suggested"; }
+  #overruled .ledger td:nth-of-type(2)::before { content: "What I said"; }
+  .ledger.three td:nth-of-type(1) { margin-top: 0; }
+  .ledger.three td:nth-of-type(2)::before { content: "What went wrong first"; }
+  .ledger.three td:nth-of-type(3)::before { content: "Where"; }
+}
+
+/* colophon */
+.sw-dot { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 8px; vertical-align: -1px; }
+.swatch-table .hexes { font-variant-numeric: tabular-nums; color: var(--ink); }
+.swatch-table .hexes span { color: var(--muted); margin-left: 8px; }
+.ledger.changes thead th:nth-child(1) { width: 18%; } .ledger.changes thead th:nth-child(2) { width: 82%; }
+.ledger.changes tbody th { font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+@media (max-width: 760px) {
+  .swatch-table td:nth-of-type(1)::before { content: "Print, then screen" !important; }
+  .swatch-table td:nth-of-type(2)::before { content: "What it does here" !important; }
+  .ledger.changes td::before { content: none !important; }
+  .ledger.changes td { margin-top: 4px; }
+}
+/* The memo reads like a printed research note: dark text on a light sheet, while the rest of the site stays dark. */
+.memo-page { max-width: 900px; }
+.memo-meta { max-width: 42em; display: grid; gap: 8px; padding: 16px 0 20px; border-top: 1px solid var(--rule); margin-bottom: 18px; color: var(--ink-2); }
+.memo-meta .memo-why { font-size: 15px; color: var(--muted); }
+.memo-sheet { --s-ink: #1B1E23; --s-ink-2: #3E444D; --s-muted: #5D6570; --s-rule: #DADDE2; --s-link: #1F4F80;
+  background: #FAFAF7; color: var(--s-ink-2); border-radius: 10px; padding: clamp(22px, 5vw, 64px); font-size: 17.5px; line-height: 1.68; }
+.memo-sheet > * { max-width: 40em; }
+.memo-sheet > .mapblock, .memo-sheet > .tablewrap, .memo-sheet > section { max-width: none; }
+.memo-sheet p { margin: 0 0 1em; }
+.memo-sheet h2 { color: var(--s-ink); font-size: 1.5rem; font-weight: 800; letter-spacing: -0.015em; line-height: 1.25; margin: 1.8em 0 0.6em; padding-top: 0.9em; border-top: 2px solid var(--s-ink); }
+.memo-sheet > h2:first-child, .memo-summary + h2 { margin-top: 1.2em; }
+.memo-sheet h3 { color: var(--s-ink); font-size: 1.12rem; font-weight: 700; margin: 1.5em 0 0.4em; }
+.memo-sheet h4 { color: var(--s-ink); font-size: 1rem; font-weight: 700; margin: 1.3em 0 0.3em; }
+.memo-sheet b, .memo-sheet strong { color: var(--s-ink); }
+.memo-sheet ul, .memo-sheet ol { padding-left: 1.2em; margin: 0 0 1em; }
+.memo-sheet li { margin-bottom: 0.7em; }
+.memo-sheet a { color: var(--s-link); text-decoration-color: var(--s-link); }
+.memo-summary { background: #fff; border: 1px solid var(--s-rule); border-radius: 8px; padding: 16px 20px; margin-bottom: 1.4em; }
+.memo-summary p { margin: 0; color: var(--s-ink); }
+.memo-sheet .lede { color: var(--s-ink); font-size: 1.08em; }
+.memo-sheet .verdict { background: #F1F3F6; border-radius: 6px; padding: 10px 14px; }
+.memo-sheet .kicker { font-size: 15.5px; color: var(--s-muted); }
+.memo-sheet .zoomhint { font-size: 14px; color: var(--s-muted); }
+.memo-sheet .mapblock figure { margin: 0.6em 0 1em; }
+.memo-sheet .mapblock img { display: block; width: 100%; height: auto; border: 1px solid var(--s-rule); border-radius: 6px; background: #fff; }
+.memo-sheet figcaption { font-size: 14px; line-height: 1.5; color: var(--s-muted); margin-top: 8px; }
+.memo-sheet .tablewrap { overflow-x: auto; margin: 0.6em 0 1.2em; }
+.memo-sheet table { border-collapse: collapse; width: 100%; font-size: 14.5px; line-height: 1.45; }
+.memo-sheet th, .memo-sheet td { text-align: left; vertical-align: top; padding: 7px 12px 7px 0; border-bottom: 1px solid var(--s-rule); }
+.memo-sheet th { color: var(--s-ink); font-size: 13px; font-weight: 700; border-bottom: 1px solid var(--s-ink); }
+.memo-sheet tr.grp td { color: var(--s-ink); font-weight: 800; padding-top: 14px; }
+.memo-sheet td.code { color: var(--s-muted); font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+.memo-sheet td.pair { color: var(--s-ink); font-weight: 600; min-width: 11em; }
+.memo-sheet .memo-foot { margin-top: 2em; padding-top: 1em; border-top: 1px solid var(--s-rule); font-size: 14px; color: var(--s-muted); }
+@media (max-width: 700px) {
+  .memo-sheet { font-size: 16.5px; }
+  .memo-sheet table:not(.acts) thead { display: none; }
+  .memo-sheet table:not(.acts), .memo-sheet table:not(.acts) tbody, .memo-sheet table:not(.acts) tr, .memo-sheet table:not(.acts) td { display: block; }
+  .memo-sheet table:not(.acts) tr { padding: 10px 0; border-bottom: 1px solid var(--s-rule); }
+  .memo-sheet table:not(.acts) td { border: 0; padding: 4px 0; }
+  .memo-sheet td[data-label]::before { content: attr(data-label); display: block; font-size: 12.5px; font-weight: 700; color: var(--s-muted); }
+}
+@media print { body { background: #fff; } .topbar, .colophon, .progress { display: none; } .memo-sheet { padding: 0; background: #fff; } }
+/* figures added for the site */
+.memo-sheet > .mfig { max-width: none; margin: 1.6em 0 1.8em; padding: 16px 0 0; border-top: 1px solid var(--s-ink); }
+.mfig-t { color: var(--s-ink); font-weight: 800; font-size: 1.05rem; line-height: 1.35; letter-spacing: -0.01em; margin: 0 0 14px !important; max-width: 36em; }
+.mfig .exn { color: #275C90; }
+.mfig figcaption { margin-top: 10px; }
+.mbars { display: block; width: 100%; max-width: 680px; height: auto; overflow: visible; }
+.mbars .ml { font: 600 14px var(--body); fill: #1B1E23; }
+.mbars .mv { font: 600 14px var(--body); fill: #3E444D; font-variant-numeric: tabular-nums; }
+.mbars .maxis { stroke: #1B1E23; stroke-width: 1; }
+.mbars g:hover rect { opacity: .85; }
+.vnet { display: grid; grid-template-columns: 1fr 1.15fr 1fr; grid-template-areas: ". top ." "left core right" ". bot ."; gap: 12px; align-items: stretch; position: relative; }
+.vn-top { grid-area: top; } .vn-left { grid-area: left; } .vn-right { grid-area: right; } .vn-bot { grid-area: bot; } .vn-core { grid-area: core; }
+.vn-box, .vn-core { background: #fff; border: 1px solid var(--s-rule); border-radius: 8px; padding: 10px 12px; display: grid; gap: 3px; align-content: start; }
+.vn-core { background: #1B1E23; border-color: #1B1E23; align-content: center; }
+.vn-core .vn-who, .vn-core .vn-names { color: #fff; } .vn-core .vn-names { opacity: .8; }
+.vn-who { margin: 0 !important; color: var(--s-ink); font-weight: 800; font-size: 15px; }
+.vn-names { margin: 0 !important; font-size: 13.5px; line-height: 1.4; color: var(--s-muted); }
+.vn-eff { margin: 4px 0 0 !important; font-size: 13.5px; font-weight: 700; }
+.vn-eff.pos { color: #23774F; } .vn-eff.neg { color: #9B1F56; }
+.vn-core .vn-eff.pos { color: #7DDCAE; }
+@media (max-width: 700px) { .vnet { grid-template-columns: 1fr; grid-template-areas: "core" "top" "right" "left" "bot"; } }
+.tl-key { display: flex; gap: 18px; font-size: 13.5px; font-weight: 700; margin-bottom: 8px; }
+.tl-key span::before { content: ''; display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: 0; }
+.k-s { color: #1B1E23; } .k-s::before { background: #CF612F; } .k-g { color: #1B1E23; } .k-g::before { background: #275C90; }
+.tline { list-style: none; margin: 0 !important; padding: 0 !important; position: relative; }
+.tline::before { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background: var(--s-rule); transform: translateX(-1px); }
+.tline li { position: relative; width: 50%; margin: 0 0 10px !important; display: grid; gap: 2px; font-size: 14.5px; line-height: 1.45; }
+.tline li::after { content: ''; position: absolute; top: 5px; width: 11px; height: 11px; border-radius: 50%; border: 2px solid #FAFAF7; }
+.tline .tl-s { padding-right: 22px; text-align: right; }
+.tline .tl-s::after { right: -7.5px; background: #CF612F; }
+.tline .tl-g { margin-left: 50% !important; padding-left: 22px; }
+.tline .tl-g::after { left: -7.5px; background: #275C90; }
+.tl-when { font-weight: 800; color: var(--s-ink); font-variant-numeric: tabular-nums; font-size: 13.5px; }
+.tl-who { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.tl-what { color: var(--s-ink-2); }
+@media (max-width: 700px) {
+  .tline::before { left: 6px; }
+  .tline li, .tline .tl-s, .tline .tl-g { width: auto; margin-left: 0 !important; padding: 0 0 0 26px; text-align: left; }
+  .tline .tl-s::after, .tline .tl-g::after { left: 0; right: auto; }
+}
+
+.memo-top { display: grid; gap: 22px; align-items: start; margin-bottom: 28px; }
+@media (min-width: 860px) { .memo-top { grid-template-columns: minmax(0, 1fr) 300px; gap: 40px; } }
+.memo-cover { margin: 36px 0 0; }
+.memo-cover img { display: block; width: 100%; max-width: 300px; height: auto; border-radius: 14px; box-shadow: 0 1px 0 rgba(255,255,255,.06), 0 12px 32px rgba(0,0,0,.35); background: #fff; }
+@media (max-width: 859px) { .memo-cover { margin-top: 0; } .memo-cover img { max-width: 260px; } }
+
 </style>
 </head>
-<body>
+<body class="pg pg-strava-memo">
 <a class="skip" href="#main">Skip to content</a>
 <div class="page">
+  <div class="progress" aria-hidden="true"></div>
   <header class="topbar proj-top">
-    <p class="label"><a href="../">Jason Traum</a></p>
+    <p class="label"><a href="./">Jason Traum</a></p>
     <nav class="toplinks" aria-label="Sections">
-      <a href="../#work">All projects</a>
-      <a href="../ai.html">How I use AI</a>
-      <a href="../#background">Background</a>
-      <a href="../#contact">Contact</a>
+      <a href="./#work">Projects</a>
+      <a href="ai.html">How I use AI</a>
+      <a href="./#background">Background</a>
+      <a href="./#contact">Contact</a>
     </nav>
   </header>
   <main id="main">
-    <article class="project" id="fivek" aria-labelledby="fivek-h">
+    <article class="project memo-page" aria-labelledby="memo-h">
+      <div class="memo-top">
+      <div>
       <header class="p-head">
-        <h2 class="p-name" id="fivek-h">5K 5 Bars</h2>
-        <p class="p-tag">Race-day app for our run club's bar crawl</p>
+        <h1 class="p-name" id="memo-h">Strava strategy memo</h1>
+        <p class="p-tag">A fitness app with almost no technology advantage, worth billions because it is the only place a workout counts in front of other people.</p>
       </header>
-      <div class="p-grid">
-        <div class="p-meta">
-          <dl>
-            <div><dt>Status</dt><dd>Built and live; race date TBD</dd></div>
-            <div><dt>Built</dt><dd>Sep 2026</dd></div>
-            <div><dt>Link</dt><dd><a href="https://jason-traum.github.io/wrtc-5k5bars/?demo">Try the demo</a></dd></div>
-          
-            <div><dt>Built with</dt><dd>Claude Code, Supabase, MapLibre, GitHub Pages</dd></div>
-          </dl>
-        </div>
-        <div class="p-body">
-          <p>I'm organizing a 5K 5 Bars for the Run &amp; Tri Club with the Beer Club: about a kilometer of running between each of five bars, from Rittenhouse Square to Morgan's Pier. I wanted a way to know who actually made it to each bar, so I built an app for race day.</p>
-          <p>You join with your bib number and first name. When you walk into a bar you tap I'm at the bar, and it checks your phone's location. When you head out you tap Leaving. The leaderboard ranks everyone on running pace only, so time at the bars never counts and drinking fast doesn't help you. If someone forgets a tap, that leg just doesn't count. It never guesses a time. GPS is often off inside bars, so if the app says you're too far away you can still check in. That check-in counts and is marked as not GPS-checked so the organizer can see it.</p>
-          <p>People will be a few drinks in at a loud bar, so the race screen only shows the next bar, one big button and when the group is leaving. The stats wait for the finish screen. It only reads your location when you tap, and it saves how far you were from the bar, never where you were.</p>
-          <p>Before building I wrote down who uses it and when, what every screen shows in every situation, the look, and a log of every decision. Claude Code reads those before it changes anything. I&rsquo;d been planning it for a while, so once I sat down to build, the first version came together in a day.</p>
-          <div class="shots" style="--n:3">
-            <figure>
-              <img src="../img/5k-race.webp" width="600" height="962" alt="5K 5 Bars race screen: the progress strip at bar 2 of 5, McGillin's Olde Ale House, and a large red I'm at McGillin's button." loading="lazy" decoding="async">
-              <figcaption>Between bars: the next stop and one big button</figcaption>
-            </figure>
-            <figure>
-              <img src="../img/5k-atbar.webp" width="600" height="962" alt="5K 5 Bars at-the-bar screen: group leaves in 30:00 at 7:39 PM, a Leaving McGillin's button, and Already at Indy Beer Garden." loading="lazy" decoding="async">
-              <figcaption>At a bar, a countdown to when the group leaves, so nobody has to keep track</figcaption>
-            </figure>
-            <figure>
-              <img src="../img/5k-finished.webp" width="600" height="962" alt="5K 5 Bars finish card: 6th of 15, 8:44 per mile, 26:18 running, and a bar showing time running versus time at bars." loading="lazy" decoding="async">
-              <figcaption>The finish screen, from the demo</figcaption>
-            </figure>
-          </div>
-        </div>
+      <div class="memo-meta">
+        <p>The full analysis, 5,165 words, written for Managing the Established Enterprise (MGMT 6110) at Wharton in fall 2026. <a href="strava-memo-submitted.html">Read the 991-word memo I submitted</a>.</p>
+        <p class="memo-why">I picked Strava because I use it every day and I built a running app that syncs with it.</p>
+      </div>
+      </div>
+      <figure class="memo-cover"><img src="img/strava-cover.webp" width="1100" height="1126" alt="My cover for the memo, made to look like a Strava post: a real run of mine through Philadelphia with the word count, class and section as the stats."></figure>
+      </div>
+      <div class="memo-sheet">
+<div class="memo-summary">
+
+<p><b>Summary. </b>Strava's software is easy to copy, and most of it has been: phones record GPS, and Garmin gives away segments and heatmaps. Nobody has copied the crowd, more than 200 million athletes ranked against each other whatever watch they wear. Device neutrality is the moat, because Garmin and Apple build software to sell their own hardware. It also caps Strava's leverage: Garmin controls where the data is created and is building Strava's social layer into its own app. Strava is profitable today, but holding on to its share of the value gets harder each year, and its bet on coaching apps lands in the layer being commoditized fastest.</p>
+</div>
+<h2>Industry Analysis: profitable today, harder each year</h2>
+<p class="lede">The industry is US apps that let amateur runners and cyclists record, share, and compare workouts, analyzed as of mid-2026.</p>
+<p>Starting from the need rather than the product matters here. Defined by product, Strava competes with fitness-tracking apps. Defined by need, it competes with anything athletes would use to make a workout useful or make it count with other people. The test for membership is whether a player can capture what athletes will pay for that. Garmin, the largest maker of GPS sports watches, passes because its Connect app is building the same social layer; Instagram sits at the boundary as a substitute, offering the audience without the data. Strava's position is to serve the need across every brand of hardware, and that hardware neutrality is Strava's strategic choice, not the boundary of the industry.</p>
+<figure class="mfig" id="fig-1"><p class="mfig-t"><span class="exn">Figure 1.</span> Athletes are the one force working for Strava, and Garmin shows up on two sides of it</p><div class="vnet"><div class="vn-box vn-top"><p class="vn-who">Customers</p><p class="vn-names">Athletes, who also make the content</p><p class="vn-eff pos"><span aria-hidden="true">&#9650;</span> Positive, with a price ceiling</p></div><div class="vn-box vn-left"><p class="vn-who">Competitors</p><p class="vn-names">Garmin Connect, Instagram</p><p class="vn-eff neg"><span aria-hidden="true">&#9660;</span> Negative</p></div><div class="vn-core"><p class="vn-who">Strava</p><p class="vn-names">More than 200 million users, every device brand</p><p class="vn-eff pos"><span aria-hidden="true">&#9650;</span> Positive but narrowing</p></div><div class="vn-box vn-right"><p class="vn-who">Complementors</p><p class="vn-names">Garmin, Apple, Coros, Wahoo</p><p class="vn-eff neg"><span aria-hidden="true">&#9660;</span> Negative and worsening</p></div><div class="vn-box vn-bot"><p class="vn-who">Suppliers</p><p class="vn-names">Athletes again, paid in control instead of cash, plus map data, cloud hosting and app stores</p><p class="vn-eff neg"><span aria-hidden="true">&#9660;</span> Negative but small</p></div></div><figcaption>The memo&rsquo;s Value Net, with its verdict on each force. Up arrows help the industry&rsquo;s attractiveness, down arrows hurt it.</figcaption></figure>
+<h3>Company: Strava</h3>
+<p>Strava is a free app, with a paid tier, that records a run or bike ride from a phone or GPS watch and posts it to a feed that friends follow, the way Instagram posts a photo. Each post shows the route on a map, the pace and distance, and any photos taken along the way. Followers respond with kudos, Strava's word for a like. The app also cuts every popular road and trail into segments, short stretches with a public leaderboard of everyone who has ever recorded them; the fastest man and woman on each are crowned KOM and QOM, king and queen of the mountain. Clubs are groups inside the app, usually a local running or cycling club, with their own feed and events. Strava was founded in 2009, is based in San Francisco, and had more than 200 million users by mid-2026.</p>
+<p>Strava creates value by putting athletes into one social network no matter what watch, bike computer, or phone they record with. Some users treat it as a logbook: upload the run, glance at pace and distance, close the app. For most, it is closer to Instagram than to a training tool: the feed, kudos, followers, and segment leaderboards turn a solo workout into something friends see and strangers rank, and the workout is the post. What sets the product apart is the audience, not the software. Little of what Strava's software does is hard or unique. GPS recording is built into every phone; Garmin Connect, the free app that comes with every Garmin watch, has offered segments and heatmaps (maps shaded by where athletes go most) for years; and Strava shut down FATMAP, a 3D outdoor mapping app it bought in 2023, about 18 months after buying it. What Strava has that no rival has is the crowd: more than 200 million users, a million clubs, and leaderboards that rank everyone who has run or ridden a given stretch of road. Among people who run and want any social element to it, Strava is the default. Other apps get used alongside it, not instead of it.</p>
+<p>Strava sells a signal. The subscription buys little functionality that Garmin does not give away, but a leaderboard rank and a feed post are visible to everyone the athlete wants to impress. The need underneath is to feel rewarded for doing something hard and healthy, and Strava's rise coincided with running and cycling becoming mainstream social activities rather than solitary ones, so timing did much of the work. That is what raises willingness to pay, and it changes what athletes do, the same way Instagram changed where people go on vacation. People pick routes that look good on a map, push harder on stretches they know are ranked, and stop mid-run to take a photo, because the workout will be seen. On Instagram the content is the trip or the dinner; on Strava it is the run, with the travel and social plans attached to it. A 2017 study in <i>Nature Communications</i> found causal evidence of the same effect across roughly 1.1 million runners on a global running network: when friends run more, people run more. Strava does not have to analyze training better than Garmin does. It has to be the place where the effort counts for something.</p>
+<p>The cost side is where the margin comes from. Strava's key input, activity data, is supplied by athletes who are not paid for it, since they would record the run anyway, and device partners deliver it at their own expense. Strava carries real fixed costs in engineering, hosting, and integrations, but its marginal cost of acquiring the content that powers the network is close to zero, which is what makes the gap between what athletes will pay and what the inputs cost so wide.</p>
+<p>Added value, what disappears without Strava, is a narrower question. Take Strava out of the market and athletes still have recording hardware, basic analytics, coaching plans, and AI analysis. What they lose is the one network that spans every brand, and the leaderboards and routes that are complete because of it. This is Facebook's kind of added value: not the software, which anyone can build, but the fact that everyone is already there and checks it out of habit. That is the core of Strava's added value, and it shrinks every time a competitor gets closer to it. Garmin already copied segments and heatmaps, and in May 2026 it began rolling out a follower model in Connect. Strava cannot capture more than it adds, and its next best alternative keeps improving. Strava's response has been to invest in the part of the product that is not its added value. In 2025 it bought Runna, an app that generates a personalized training plan from an athlete's goal race and current fitness, and The Breakaway, the cycling equivalent. It launched Athlete Intelligence, an AI feature whose summaries largely restate numbers already on screen, and opened an AI connector for subscribers. These moves diversify revenue and give the subscription more to point to, but they do not change why athletes open the app. The tech is a commodity; the network is not.</p>
+<p>Strava captures value in three ways. It grows the pie by raising willingness to pay (kudos, ranks, and the convenience of syncing from any device) while paying nothing for its main input. It improves its bargaining position by fragmenting the device makers (it supports all of them and runs its own phone recorder) and by manufacturing scarcity (no rival's leaderboard is as complete). And it shrinks competitors' pie: since 2020 it has limited what outside apps can do with Strava data, which lowers willingness to pay for them, and since 2024 it has banned using that data to train AI models, which raises rivals' input costs. The money comes in at $79.99 a year, or $149.99 bundled with Runna coaching plans, plus sponsored challenges for brands, which started at $20,000 in 2024, with no programmatic ads. Revenue is reportedly under $500 million, growing about 50% a year and profitable, according to The Information. Strava announced in February 2026 that it had confidentially submitted a draft IPO filing; as of early October 2026 it had not filed publicly.</p>
+<p class="verdict"><b>Effect on attractiveness: positive but narrowing.</b> Strava creates a lot of value at very low marginal content cost, but most of its added value sits in a cross-device network that device makers are now trying to replicate.</p>
+<h3>Customers</h3>
+<p>Athletes are the main customer group, and they build the product they pay for. Every upload adds a post to the feed, an entry to a leaderboard, and a line to the heatmaps behind route suggestions. Strava logged 14 billion kudos in 2025, and new clubs nearly quadrupled to a million. None of that costs Strava anything. It then competes for those users' money with a subscription tier holding the features they created the raw material for.</p>
+<p>Individual customers have little leverage, and switching is technically easy but socially costly: workout data is portable, since Strava lets users download everything and most watches sync to several apps at once, but followers, clubs, and years of segment history do not travel. What constrains Strava is aggregate willingness to pay, and the 2023 price test showed where it sits. Raising the annual price from $59.99 to $79.99 was the first increase for all-access subscribers since Strava launched, drew enough backlash that Strava apologized for the rollout, and has not been repeated. Since then Strava has raised the effective price without touching the list price, by moving features behind the existing paywall and bundling Runna at $149.99. The paywall is aggressive by design. A free user runs into locked features constantly (full leaderboards, route building, most of the analytics), and the friction itself converts; plenty of subscribers signed up mainly to make the lock icons go away. Strava also seeds subscriptions through the running community rather than through advertising. New York Road Runners, the nonprofit that organizes the New York City Marathon, runs its virtual races on Strava and gives registrants a free 30- to 60-day Strava trial, and Strava sponsors athlete ambassadors and creators. The point is to be the app someone new to running installs first, before they have tried anything else.</p>
+<figure class="mfig" id="fig-2"><p class="mfig-t"><span class="exn">Figure 2.</span> After the 2023 backlash, Strava raised its price through bundles instead of the list price</p><svg class="mbars" viewBox="0 0 640 174" role="img" aria-label="Strava, before 2023: $59.99; Strava, since 2023: $79.99; Garmin Connect+, 2025: $69.99; Strava with Runna plans: $149.99"><g><title>Strava, before 2023: $59.99</title><text x="178" y="21.0" text-anchor="end" class="ml">Strava, before 2023</text><rect x="190" y="3" width="123.7" height="26" rx="3" fill="#CF612F"/><text x="321.7" y="21.0" class="mv">$59.99</text></g><g><title>Strava, since 2023: $79.99 (first increase since launch; Strava apologized for the rollout)</title><text x="178" y="63.0" text-anchor="end" class="ml">Strava, since 2023</text><rect x="190" y="45" width="165.0" height="26" rx="3" fill="#CF612F"/><text x="363.0" y="63.0" class="mv">$79.99</text></g><g><title>Garmin Connect+, 2025: $69.99 ($10 below Strava, with AI insights)</title><text x="178" y="105.0" text-anchor="end" class="ml">Garmin Connect+, 2025</text><rect x="190" y="87" width="144.4" height="26" rx="3" fill="#275C90"/><text x="342.4" y="105.0" class="mv">$69.99</text></g><g><title>Strava with Runna plans: $149.99 (bundled after the 2025 Runna deal)</title><text x="178" y="147.0" text-anchor="end" class="ml">Strava with Runna plans</text><rect x="190" y="129" width="309.4" height="26" rx="3" fill="#CF612F"/><text x="507.4" y="147.0" class="mv">$149.99</text></g><line x1="190" x2="190" y1="0" y2="174" class="maxis"/></svg><figcaption>Annual prices cited in the memo. Strava in orange, Garmin in blue.</figcaption></figure>
+<p>Brands are the second group. They pay to reach active, affluent people through sponsored challenges and segments, which Strava can promote in the feed, and Strava has kept programmatic ads off the platform. Starbucks and Hoka both ran campaigns in 2026. City planners are the third. More than 4,500 planners and agencies have used Strava Metro, a free dataset of anonymized trips, which buys regulatory goodwill rather than revenue.</p>
+<p class="verdict"><b>Effect on attractiveness: positive, with a price ceiling.</b> Customers supply the content free and convert through the paywall and community trials, but portable data and the failed second price increase cap what the industry can extract from them.</p>
+<h3>Suppliers</h3>
+<p>The supplier that matters is the user base, which sits on two sides of the Value Net at once, as customer and as supplier. Athletes supply the raw data behind segments, heatmaps, route recommendations, and Metro, and they are not paid for it in cash. What they demand instead is control: privacy zones around their homes, the right to export everything, and a ban on their data being used to train AI models, all of which Strava has granted. Their willingness to sell is low, not zero. A new route was created on Strava every 19 seconds in 2025, all of it from activity the company neither paid for nor recorded itself. Device makers deliver that data, so they are suppliers in a narrow sense, but their power is better analyzed as complementors below.</p>
+<p>Beneath the athletes sit two commodity suppliers: map data under the routes and heatmaps, and cloud hosting under the feed and leaderboards. Both come from competitive markets where Strava can switch vendors, so neither can raise prices much. App stores are the one real tax: Apple takes 15 to 30% of subscriptions bought inside an iPhone app. US courts have been dismantling it. A 2025 ruling barred Apple from charging any commission on purchases made through external links. An appeals court later let Apple seek a cost-based fee instead, and the Supreme Court agreed in June 2026 to review the contempt finding; until those are settled, link-out purchases carry no commission. Strava already sells subscriptions, including the Runna bundle, on its own website.</p>
+<p class="verdict"><b>Effect on attractiveness: negative but small.</b> App store fees still apply to in-app purchases, but they are shrinking in the US and the most important input costs nothing.</p>
+<h3>Complementors</h3>
+<p>Device makers are the most important complementors, and the most dangerous. Garmin, Apple, and the smaller specialists Wahoo and Coros build the watches and bike computers that record workouts; Strava builds none. Strava is their complementor, not their supplier: it makes a watch more valuable the way apps make a phone more valuable, but no watch needs Strava to work. Coaching and analytics apps, and now AI assistants, add analysis on top of Strava data. The network effects run in both directions: more devices and apps make Strava worth joining, and more athletes make Strava worth connecting to. Each complementor also wants a share of what it helps create.</p>
+<p>Strava has handled this the way Nintendo handled game developers: by governing its complementors and capping how much value they can capture. In 2020 it cut leaderboard data from its API for non-subscribers. In November 2024 it barred outside apps from showing an athlete's data to anyone else, which hit coaching platforms, and banned using API data to train AI models. In June 2026 it required a paid subscription for standard API access and removed several endpoints, including club data. The reason Strava gave is the standard problem of an ungoverned platform: developer applications up 448% in a year, with zero-code AI apps and scrapers degrading performance for everyone. At the same time it seeded its own first-party complements, buying Runna and The Breakaway in 2025 and launching a subscriber-only AI connector in June 2026.</p>
+<p>Each round shifted value toward Strava and shrank what the ecosystem could build, and developers responded by routing around it. Runalyze, an analytics site, told users they would get more data by connecting their devices directly, and Intervals.icu, a training-analysis tool, began building a path that skips Strava entirely.</p>
+<p>The complementor Strava cannot cap is Garmin, because Garmin owns the point where the data is created. The two are now playing the same game against each other: each is trying to commoditize its complement. Strava wants the watch to be interchangeable, so it accepts every device and runs its own phone recorder, which makes the hardware a commodity and the network the scarce input. Garmin wants the social layer to be interchangeable, so it has built segments, heatmaps, and, since May 2026, a follower model into Connect, which would make the network a commodity and the sensors the scarce input. That makes Garmin a competitor as well as a complementor. Whoever succeeds sharply reduces the other's added value. This is also the Netflix problem in reverse: the studios that supplied Netflix's content learned they could go direct, and Garmin can do the same with the data it feeds to Strava. In July 2025 Garmin told developers they must credit Garmin on any data from its devices, with a November deadline. Strava sued over its segment and heatmap patents on September 30, dismissed the case 21 days later before Garmin had responded, and now labels the data source on every activity. Ray Maker, the fitness-tech reviewer behind DC Rainmaker, told <i>Escape Collective</i>, a cycling news outlet, that if Garmin cut the connection, Strava would go out of business "in a matter of days." In 2026 Garmin paused new applications to its developer program, and in July it bought TrainingPeaks and TrainHeroic, two widely used coaching platforms.</p>
+<figure class="mfig" id="fig-3"><p class="mfig-t"><span class="exn">Figure 3.</span> Six years of Strava and Garmin moving against each other over the same athletes&rsquo; data</p><div class="tl-key"><span class="k-s">Strava</span><span class="k-g">Garmin</span></div><ol class="tline"><li class="tl-s"><span class="tl-when">May 2020</span><span class="tl-who">Strava</span><span class="tl-what">Puts full leaderboards behind the paywall and cuts leaderboard data from its API for about 44,000 outside apps the same day.</span></li><li class="tl-s"><span class="tl-when">2023</span><span class="tl-who">Strava</span><span class="tl-what">Raises the annual price from $59.99 to $79.99, its first increase, and apologizes for the rollout.</span></li><li class="tl-s"><span class="tl-when">Nov 2024</span><span class="tl-who">Strava</span><span class="tl-what">Outside apps may show an athlete only their own data. No training AI models on Strava data.</span></li><li class="tl-g"><span class="tl-when">Mar 2025</span><span class="tl-who">Garmin</span><span class="tl-what">Launches Connect+ at $69.99 a year, $10 below Strava.</span></li><li class="tl-s"><span class="tl-when">2025</span><span class="tl-who">Strava</span><span class="tl-what">Buys Runna and The Breakaway, two coaching apps.</span></li><li class="tl-g"><span class="tl-when">Jul 2025</span><span class="tl-who">Garmin</span><span class="tl-what">Tells developers to credit Garmin on any data from its devices, with a November deadline.</span></li><li class="tl-s"><span class="tl-when">Sep 30, 2025</span><span class="tl-who">Strava</span><span class="tl-what">Sues Garmin over its segment and heatmap patents, then drops the case 21 days later.</span></li><li class="tl-s"><span class="tl-when">Feb 2026</span><span class="tl-who">Strava</span><span class="tl-what">Confidentially submits a draft IPO filing.</span></li><li class="tl-g"><span class="tl-when">2026</span><span class="tl-who">Garmin</span><span class="tl-what">Pauses new applications to its developer program.</span></li><li class="tl-g"><span class="tl-when">May 2026</span><span class="tl-who">Garmin</span><span class="tl-what">Starts rolling out a follower model in Connect, the one piece it was missing.</span></li><li class="tl-s"><span class="tl-when">Jun 2026</span><span class="tl-who">Strava</span><span class="tl-what">Requires a paid subscription for standard API access and launches a subscriber-only AI connector.</span></li><li class="tl-g"><span class="tl-when">Jul 2026</span><span class="tl-who">Garmin</span><span class="tl-what">Buys TrainingPeaks and TrainHeroic, two widely used coaching platforms.</span></li></ol><figcaption>Moves described in the memo, in order.</figcaption></figure>
+<p>That leverage has a ceiling, though, and the ceiling comes from how many alternatives to Garmin exist. Apple sells more smartwatches than any other company; Coros, Polar, and Suunto compete with Garmin for serious runners; Wahoo competes for cyclists; and all of them sync to Strava. Because Strava treats every device the same, it sits as the aggregator over a fragmented set of suppliers. No single maker's decision breaks the network, and any maker that cut the connection would hand its own customers a reason to buy the other brand, which is why the smaller makers list Strava sync as a selling point, and why Samsung agreed in July 2026 to pre-install Strava on its new Galaxy watches. Strava built its brand with athletes rather than with device makers, so the demand for the sync comes from Garmin's own customers, and cutting it would cost Garmin goodwill with the people who buy its watches. Strava also has a direct recording channel: 72% of users recorded workouts directly through its mobile app in 2025, which reduces, without removing, its dependence on device makers.</p>
+<p class="verdict"><b>Effect on attractiveness: negative and worsening.</b> Fragmentation among device makers gives Strava the upper hand over any one of them, but Garmin is large enough to set terms anyway, and the complementors that control the data are now buying the coaching layer.</p>
+<h3>Competitors</h3>
+<p>Because the industry is defined by the need, substitutes and competitors are the same players, and the strongest of them are the companies Strava depends on. Garmin Connect gives Garmin owners segments, heatmaps, and deeper physiological metrics free, because Garmin owns the sensors. Its paid tier, Connect+, launched in March 2025 at $69.99 a year with AI insights, $10 below Strava. In May 2026 Garmin began rolling out a Strava-style follower model in Connect, the one piece it had been missing. Apple's watchOS 26 added Workout Buddy, an AI voice coach. Both are becoming more similar to Strava, and similarity is what cuts added value fastest.</p>
+<p>The analysis layer has also been commoditized. AI training plans were already common by 2025, and connectors from smaller apps such as Tredict let AI assistants read device data without any Strava subscription. Route-planning apps such as Komoot and AllTrails take the navigation use case, though Komoot lost most of its staff after its 2025 sale. The competitor for the part of the need that actually drives usage is Instagram, along with TikTok. Both offer the same currency, attention from friends and strangers, to a far larger audience, and both already carry a large share of running content. What they lack is the workout data that makes the post credible and the leaderboard that makes it competitive. Strava sits between the two: too thin on analysis to be Garmin, too narrow in audience to be Instagram, and valuable because it is the only feed where the number on the post is verified.</p>
+<p class="verdict"><b>Effect on attractiveness: negative.</b> Every feature Strava charges for exists elsewhere, often free. What no competitor has is athletes from every hardware brand ranked against each other, and Garmin is now building toward exactly that.</p>
+<h3>Overall attractiveness</h3>
+<p>Netting the components, the industry is profitable for Strava today and getting harder each year. The positives sit on the company and customer side and they are large: the content is free, the marginal cost of serving another user is close to zero, and the subscription still has room to grow because the paywall converts. The negatives sit on the complementor and competitor side and they are about direction rather than level: Garmin is moving up into Strava's layer, and every analytics feature is being copied. Where the margins sit shows how the value is split today. Garmin's fitness segment earned $2.36 billion in 2025 revenue at a 31% operating margin, several times Strava's total revenue, while monetizing many of the same athletes. Garmin has hardware economics Strava chose not to have, so the comparison does not settle the question on its own, but it shows that the complementor with the sensors has the means to take more of the surplus, from the hardware and, increasingly, from the software layered on top.</p>
+<figure class="mfig" id="fig-4"><p class="mfig-t"><span class="exn">Figure 4.</span> Garmin&rsquo;s fitness segment makes several times Strava&rsquo;s revenue from many of the same athletes</p><svg class="mbars" viewBox="0 0 640 90" role="img" aria-label="Garmin fitness, 2025: $2.36 billion; Strava, reported: $500 million"><g><title>Garmin fitness, 2025: $2.36 billion (31% operating margin)</title><text x="178" y="21.0" text-anchor="end" class="ml">Garmin fitness, 2025</text><rect x="190" y="3" width="299.5" height="26" rx="3" fill="#275C90"/><text x="497.5" y="21.0" class="mv">$2.36 billion</text></g><g><title>Strava, reported: $500 million (reportedly under $500 million, growing about 50% a year)</title><text x="178" y="63.0" text-anchor="end" class="ml">Strava, reported</text><rect x="190" y="45" width="63.5" height="26" rx="3" fill="none" stroke="#CF612F" stroke-width="2" stroke-dasharray="5 4"/><text x="261.5" y="63.0" class="mv">under $500 million</text></g><line x1="190" x2="190" y1="0" y2="90" class="maxis"/></svg><figcaption>Garmin&rsquo;s 2025 fitness segment revenue, at a 31% operating margin; Strava&rsquo;s revenue as reported by The Information, drawn as an upper bound.</figcaption></figure>
+<p>Two further lessons apply. This is a fluid industry whose forces are not settled, the kind that grows fast without being profitable for everyone in it: Strava's revenue is growing around 50% a year while its added value is being copied. And industry structure is made, not born. Strava's prospects rest on staying the one place every device feeds. Its API restrictions raise revenue now and push developers toward device makers, and Garmin is using that opening to build the social and coaching layers itself.</p>
+<p>The crowd may also be worth more than the subscription monetizes. The social graph and years of segment history are an asset in their own right, and running is becoming more of a public, social activity, which makes that asset more valuable each year. That is the kind of asset a device maker might want to own, even though owning Strava would end the neutrality that makes it worth owning.</p>
+<section class="mapblock">
+<h2 class="mapsec">Activity Map and Interactions: defended against apps, exposed to Garmin</h2>
+<p class="kicker">The map covers the Strava app only. Runna and The Breakaway run as separate businesses and are out of scope, except where Runna plans are sold inside the Strava subscription. Dark bubbles are the six choices that define Strava's position; light bubbles are the eighteen day-to-day activities that deliver them, three per choice. Lines between activities mark where one depends on or strengthens another, and the three discussed below are highlighted.</p>
+<figure>
+<a href="img/strava-activity-map.webp"><img alt="Exhibit 1, the activity map for the Strava core app. Six strategic choices in dark bubbles, eighteen activities in white bubbles, with the three discussed interactions highlighted in orange." decoding="async" height="1350" loading="lazy" src="img/strava-activity-map.webp" width="1800"/></a>
+<figcaption>Exhibit 1. Activity map, Strava core app. Dark bubbles are strategic choices; light bubbles are activities. Orange lines mark the three interactions discussed below; solid grey lines tie each activity to its choice, and dashed lines are other dependencies between activities.</figcaption>
+</figure>
+</section>
+<p class="zoomhint">On a phone, pinch to zoom the map. Every activity is also listed below.</p>
+<div class="tablewrap">
+<table class="acts">
+<thead><tr><th>#</th><th>Activity, grouped by strategic choice</th></tr></thead>
+<tbody>
+<tr class="grp"><td colspan="2">Works with any watch or phone</td></tr>
+<tr><td class="code">A1</td><td>Free phone app that records runs and rides</td></tr>
+<tr><td class="code">A2</td><td>Auto-syncs workouts from Garmin, Apple, Wahoo, Coros, and other devices</td></tr>
+<tr><td class="code">A3</td><td>Lets athletes export all of their own data at any time</td></tr>
+<tr class="grp"><td colspan="2">Every workout is a public post</td></tr>
+<tr><td class="code">A4</td><td>Feed where every workout appears as a post, with 'kudos' (likes) and comments</td></tr>
+<tr><td class="code">A5</td><td>Leaderboards for every stretch of road (a 'segment'), ranking everyone who has ever recorded it</td></tr>
+<tr><td class="code">A6</td><td>One-tap share cards to Instagram Stories and messaging apps</td></tr>
+<tr class="grp"><td colspan="2">Local community around the feed</td></tr>
+<tr><td class="code">A7</td><td>Clubs with their own feeds, leaderboards, and events</td></tr>
+<tr><td class="code">A8</td><td>Local Legends: a second ranking for whoever repeats a segment most often</td></tr>
+<tr><td class="code">A9</td><td>Auto-groups athletes who recorded the same workout together</td></tr>
+<tr class="grp"><td colspan="2">Free to join, pay to go deeper</td></tr>
+<tr><td class="code">A10</td><td>Uploads, feed, kudos, and clubs free forever</td></tr>
+<tr><td class="code">A11</td><td>$79.99 a year for full leaderboards, route building, and training analytics</td></tr>
+<tr><td class="code">A12</td><td>Lock icons show free users the paid features throughout the app</td></tr>
+<tr class="grp"><td colspan="2">Grows through the athlete community, not ads</td></tr>
+<tr><td class="code">A13</td><td>Sells brands sponsored challenges and badges instead of running ads in the feed</td></tr>
+<tr><td class="code">A14</td><td>Free Strava trials for virtual-race entrants through organizers such as New York Road Runners</td></tr>
+<tr><td class="code">A15</td><td>Partners with local run clubs to bring their members and group runs onto Strava</td></tr>
+<tr class="grp"><td colspan="2">Keeps the crowd's data inside Strava</td></tr>
+<tr><td class="code">A16</td><td>Outside apps may show an athlete only that athlete's own data</td></tr>
+<tr><td class="code">A17</td><td>Routes and popularity heatmaps built from where everyone runs and rides</td></tr>
+<tr><td class="code">A18</td><td>Bans the use of Strava data to train AI models</td></tr>
+</tbody>
+</table>
+</div>
+<h2>Discussion of Activity Interactions</h2>
+<p class="kicker">Each pair is analyzed in both directions, then classified by the type of fit: consistent (the activities do not contradict each other), reinforcing (each makes the other more valuable), or optimization of effort (investing in one saves money in the other).</p>
+<h4>A2 and A5: accepting uploads from any device, and ranking athletes on segments</h4>
+<ul class="fit">
+<li><b>How A2 affects A5.</b> A leaderboard is only a competition if everyone who ran the road is on it. Accepting data from every watch and bike computer is what makes Strava's ranking the complete one, and it is why a Garmin-only leaderboard carries less weight even among Garmin owners.</li>
+<li><b>How A5 affects A2.</b> Segments give owners of any device a reason to sync to Strava after every workout. In 2020, while cutting other apps off, Strava deliberately kept live segments working on Garmin and Wahoo bike computers, putting its own competition onto competitors' hardware. Demand for the sync comes from the device makers' own customers, so the device makers provide it.</li>
+<li><b>Type of fit.</b> Reinforcing. This pair is also the most protected, because copying it requires a trade-off rivals will not make: Garmin can build segments, and has, but only for Garmin owners.</li>
+</ul>
+<h4>A11 and A16: charging for depth, and limiting outside apps to each athlete's own data</h4>
+<ul class="fit">
+<li><b>How A11 affects A16.</b> The paywall sets the API's scope: whatever moves behind the subscription has to leave the API, or outside apps would give it away. When Strava moved full leaderboards and route building behind the subscription in May 2020, it cut leaderboard data from its API for about 44,000 third-party apps on the same day, keeping an exception for live segments on Garmin and Wahoo computers. The 2024 rule barring apps from showing an athlete's data to anyone else extended the same logic to the social layer.</li>
+<li><b>How A16 affects A11.</b> With the API limited, outside apps became add-ons for people who already pay Strava rather than free alternatives to paying. VeloViewer, a popular analytics site, told its users it could not offer subscription features to non-subscribers without risking its API access, and noted that over 70% of its own paying users already subscribed to Strava. The restrictions turn potential substitutes into a reason to subscribe: they lower athletes' willingness to pay for a rival's version of the paid features.</li>
+<li><b>Type of fit.</b> Reinforcing. The paywall decides what the API withholds, and the closed API protects the paywall. Both are also consistent with the choice not to run feed ads, since the subscription is the monetization. The cost is developer trust, which shows up in apps building direct connections to device makers instead.</li>
+</ul>
+<h4>A10 and A11: keeping the social core free, and charging for depth</h4>
+<ul class="fit">
+<li><b>How A10 affects A11.</b> The free tier is what makes the paid tier worth buying. Because uploads, the feed, kudos, and clubs cost nothing, everyone joins, and everyone joining is what makes the paid leaderboards complete, the route heatmaps dense, and the training comparisons meaningful. A paid feature built on a network of subscribers only would be thin. Free users are not a cost waiting to be converted; they are the raw material of the product the subscribers pay for.</li>
+<li><b>How A11 affects A10.</b> The subscription is what pays for a free tier without advertising. Hosting 200 million users costs real money and most of them never pay, so the $79.99 tier funds the free core, and the choice to monetize through depth rather than through ads is what keeps the feed clean enough that people keep posting to it. The lock icons (A12) sit at the seam: they show free users what depth looks like without taking anything away from the social core.</li>
+<li><b>Type of fit.</b> Reinforcing. The free tier grows the network that makes paid features valuable; paid revenue keeps the free tier free and ad-free. It is also the pair most exposed if Garmin gives the paid features away, because the free core cannot be made any freer.</li>
+</ul>
+<h4>Productive tensions</h4>
+<p>Two pairs pull against each other, and the distinction matters: these are tensions the strategy accepts, not weak fit. A trade-off that costs Strava something is also what makes the position hard for a rival to copy. A2 accepts data from every device while A16 restricts what leaves, so Strava is open on the supply side and closed on the demand side, and Garmin's attribution rules and developer-program pause were the response. A1, Strava's own phone recorder, competes with the device partners that A2 depends on. Both tensions are manageable while athletes prefer Strava's network to any single device maker's, and both become expensive if that changes.</p>
+<h2>Defensibility</h2>
+<p>Strava's moat is the same kind Facebook and Instagram have. The technology stopped being novel years ago; most features on the map have been copied, often for free, and the copies have not moved athletes. The value sits in who is already on the network and in the habit of posting to it, and neither can be copied. An athlete who moves to Garmin Connect's social layer keeps their data and loses everything else: followers, clubs, years of segment history, and the audience the workout was for. Switching is free in data terms and expensive in every term that counts, which is why a competitor with better software (Garmin has it) has not taken the social use case, just as better-built rivals never took Facebook's. So Strava's position is well defended against other apps and badly exposed to the companies that supply its data, and the reason is the same in both cases: the network is the asset that matters. Defensibility comes from fit and from trade-offs that make a position hard to replicate, and trade-offs mean choices about what not to do. Strava has made those choices: no hardware, no feed ads, no favored device. What resists copying is the combination: a network open to every device, leaderboards that are complete because of it, clubs that make the network local, and a paywall that holds because outside apps cannot rebuild the paid features. Garmin and Apple can copy every feature but not the first. Device neutrality is the trade-off they will not make, because their software exists to sell their hardware, and a neutral Garmin Connect would help Coros sell watches.</p>
+<p>The trade-offs cut both ways. No hardware means no sensor data, so Garmin will keep the deeper physiological metrics. No feed ads caps what Strava earns from the large majority of users who never pay. Device neutrality means Strava cannot punish Garmin without hurting its own users, which is why the lawsuit lasted 21 days. Strava's API moves took value directly out of Garmin's ecosystem, and Garmin responded with attribution rules, a pause on new developers, and two coaching acquisitions. With followers now live in Connect, Garmin is moving into the social layer that is Strava's last unique asset. Strava's hedges are its own phone recorder, brand revenue that does not depend on any device maker, and the training apps it bought in 2025.</p>
+<p>What keeps the position intact is not technology, which is replicable and in places behind what competitors give away. It is what keeps Instagram intact after every filter has been copied: the people are already there, and checking is a habit. Athletes treat Strava as the place where a workout counts, and that belief is the moat. My take: the moat is the crowd, not the code. It holds as long as the crowd stays, and Strava does not own the crowd.</p>
+        <p class="memo-foot">Written for MGMT 6110 (Managing the Established Enterprise) at Wharton, Fall 2026. The industry analysis uses the Value Net; the activity map and fit analysis follow Porter’s activity-system approach. Analysis as of mid-2026; facts checked October 2026. Exhibit 1 updated in October 2026 to correct activity A14.</p>
       </div>
     </article>
-<!--deep--><section class="deep" aria-labelledby="deep-h"><h2 class="label" id="deep-h">The details</h2><div class="feat has-fig phone"><div class="feat-text"><h3>Taps that work without signal</h3><p>Signal inside bars is bad, so a tap saves on the phone with the time it actually happened and syncs once the phone has signal again. Under the button it says when it saved, so people know it counted.</p><p>If a retry sends the same tap twice, the database keeps just one.</p></div><figure class="feat-fig phone"><img src="../img/5k-offline.webp" alt="At the bar screen with a No signal note, a Leaving McGillin&#x27;s button, and Saved on this phone at 9:12. Syncs when you have signal." loading="lazy" decoding="async"><figcaption>No signal at the bar, so the tap saved on the phone.</figcaption></figure></div><div class="feat"><div class="feat-text"><h3>The database checks every write</h3><p>Nobody can write to a table directly. Every write goes through a SQL function that checks who is asking, and the only key in the app is the publishable one.</p><p>Before launch I had the security reviewed from scratch, then ran 121 checks against a local stand-in for Supabase, as runners, as organizers, and as phones pretending to be the organizer.</p><pre class="feat-code"><code>revoke all on public.admins, public.event, public.stops,
-  public.runners, public.taps from anon, authenticated;
--- Other runners see when and where you checked in,
--- not how far off your GPS was.
-grant select (id, runner_id, stop, kind, at, verified, source, created_at)
-  on public.taps to authenticated;</code></pre></div></div><div class="feat has-fig phone"><div class="feat-text"><h3>A demo you can open from a link</h3><p>Add ?demo to the link and you get the whole app with 14 sample runners and a simulated location, and nothing is saved. A Preview button jumps to any point in the race and switches your location and signal.</p><p>My screenshot test uses the same controls to go through every screen in light and dark, and fails if anything scrolls sideways or throws an error.</p></div><figure class="feat-fig feat-frame phone"><iframe src="https://jason-traum.github.io/wrtc-5k5bars/?demo" title="5K 5 Bars demo" loading="lazy" allow="screen-wake-lock" style="height:780px"></iframe><figcaption>The live demo. Tap Preview to jump around the race.</figcaption></figure></div><div class="feat has-fig phone"><div class="feat-text"><h3>Everyone starts their own clock</h3><p>My first plan started everyone at the organizer's GO. I changed it the same day, because not everyone leaves at once and a late starter would have looked slow.</p><p>Now GO only opens the start, each runner taps Start when they set off, and Test my location tells you before you go whether your GPS is good enough to check in.</p></div><figure class="feat-fig phone"><img src="../img/5k-ready.webp" alt="Start line screen at Rittenhouse Square with a big Start button, Already at PHS Garden, and a location test that passed." loading="lazy" decoding="async"><figcaption>The start line, with the location test.</figcaption></figure></div><div class="feat has-fig phone"><div class="feat-text"><h3>Setting up the course</h3><p>The organizer places each bar by searching OpenStreetMap, pasting coordinates or standing there, instead of dragging pins.</p><p>Test a check-in tells you whether a tap would count from where you're standing, so you can set each bar's radius while walking the course.</p></div><figure class="feat-fig phone"><img src="../img/5k-organizer.webp" alt="Organizer screen: the start is open, the course as chips for each bar, and a map with numbered stops." loading="lazy" decoding="async"><figcaption>The organizer screen.</figcaption></figure></div></section><!--/deep-->
 
-    <nav class="proj-more" aria-labelledby="more-h">
-      <h2 class="label" id="more-h">More projects</h2>
-      <ul><li><a href="../dreamy.html">Dreamy</a></li><li><a href="walldrobe.html">Walldrobe</a></li><li><a href="drinkdock.html">DrinkDock</a></li><li><a href="in.html">In.</a></li><li><a href="wharton-os.html">Wharton OS</a></li></ul>
-    </nav>
   </main>
   <footer class="colophon">
     <p class="note"><a href="mailto:jtraum@wharton.upenn.edu">jtraum@wharton.upenn.edu</a></p>
-    <p class="note"><a href="../colophon.html">How this site is made</a></p>
+    <p class="note"><a href="colophon.html">How this site is made</a></p>
   </footer>
 </div>
 <script>

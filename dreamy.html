@@ -450,7 +450,6 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
       <p class="intro">For a few weeks in February an LLM was writing parts of the plan. It was expensive and it wasn't reliable, so I moved every training decision into regular code. I wanted LLM costs under $5 a month per runner, and I wanted the same data to always give the same plan. Now the LLM only talks to you about it.</p>
       <div class="pipe" role="list" aria-label="How data flows through Dreamy">
         <div class="stage" role="listitem">
-          <p class="tag">In</p>
           <h3>Your data</h3>
           <ul>
             <li>Strava runs, heart rate streams and laps</li>
@@ -460,7 +459,6 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
           </ul>
         </div>
         <div class="stage" role="listitem">
-          <p class="tag">Per run</p>
           <h3>Run pipeline</h3>
           <ul>
             <li>Classifies the run and detects intervals</li>
@@ -469,7 +467,6 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
           </ul>
         </div>
         <div class="stage core" role="listitem">
-          <p class="tag">State</p>
           <h3>Athlete state</h3>
           <ul>
             <li>Fitness and fatigue, 42 and 7 days</li>
@@ -478,7 +475,6 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
           </ul>
         </div>
         <div class="stage core" role="listitem">
-          <p class="tag">Decide</p>
           <h3>Daily engine</h3>
           <ul>
             <li>Week skeleton and mileage rules</li>
@@ -488,7 +484,6 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
           </ul>
         </div>
         <div class="stage" role="listitem">
-          <p class="tag">Talk</p>
           <h3>LLM coach</h3>
           <ul>
             <li>Claude, routed by question</li>

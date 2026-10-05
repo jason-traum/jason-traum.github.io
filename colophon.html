@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>5K 5 Bars | Jason Traum</title>
-<meta name="description" content="Race-day app for our run club's bar crawl">
-<link rel="canonical" href="https://jason-traum.github.io/projects/5k-5-bars.html">
-<meta property="og:type" content="website">
-<meta property="og:title" content="5K 5 Bars | Jason Traum">
-<meta property="og:description" content="Race-day app for our run club's bar crawl">
-<meta property="og:url" content="https://jason-traum.github.io/projects/5k-5-bars.html">
+<title>How this site is made | Jason Traum</title>
+<meta name="description" content="How this site is made">
+<link rel="canonical" href="https://jason-traum.github.io/colophon.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How this site is made | Jason Traum">
+<meta property="og:description" content="How this site is made">
+<meta property="og:url" content="https://jason-traum.github.io/colophon.html">
 <meta property="og:image" content="https://jason-traum.github.io/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#141619">
@@ -729,73 +729,184 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .cv-more { font-size: 14.5px; color: var(--muted); margin: 0 0 30px; max-width: 46em; }
 .lede b { font-weight: 700; color: var(--ink); }
 
+/* How I use AI: ledgers of what the AI did and what I did. */
+.pg main { padding-top: 8px; }
+.pg .p-head { margin-top: 36px; }
+.ai-intro { display: grid; gap: 14px; max-width: 42em; margin-bottom: 34px; }
+.ai-intro .lede { font-size: clamp(1.15rem, 2vw, 1.4rem); line-height: 1.45; color: var(--ink); }
+.ai-intro p { color: var(--ink-2); }
+.ai-h2 { font-size: clamp(1.25rem, 2.4vw, 1.6rem); font-weight: 800; letter-spacing: -0.015em; margin: 0 0 14px; }
+.habits { margin: 0 0 20px; padding-left: 1.4em; display: grid; gap: 10px; max-width: 44em; color: var(--ink-2); }
+.habits li::marker { color: var(--c-msblue); font-weight: 800; font-variant-numeric: tabular-nums; }
+.habits b { color: var(--ink); font-weight: 700; }
+.ai-prose { display: grid; gap: 14px; max-width: 42em; color: var(--ink-2); }
+.ai-prose + .table-wrap, .table-wrap + .ai-prose { margin-top: 22px; }
+.table-wrap { width: 100%; }
+.ledger { width: 100%; border-collapse: collapse; font-size: 15px; line-height: 1.5; }
+.ledger thead th { text-align: left; font-size: 13px; font-weight: 600; color: var(--muted); padding: 0 18px 8px 0; border-bottom: 1px solid var(--rule-strong); }
+.ledger tbody th, .ledger tbody td { text-align: left; vertical-align: top; padding: 14px 18px 14px 0; border-bottom: 1px solid var(--rule); }
+.ledger { table-layout: fixed; }
+.ledger thead th:nth-child(1) { width: 24%; } .ledger thead th:nth-child(2) { width: 32%; }
+.ledger.two thead th:nth-child(1), .ledger.two thead th:nth-child(2) { width: 50%; }
+.ledger.three thead th:nth-child(1) { width: 40%; } .ledger.three thead th:nth-child(2) { width: 46%; } .ledger.three thead th:nth-child(3) { width: 14%; }
+.ledger tbody th { width: 24%; font-weight: 700; color: var(--ink); }
+.ledger tbody td { color: var(--ink-2); }
+.ledger tbody td:last-child { color: var(--ink); }
+.ledger.two tbody td:first-child { width: 50%; color: var(--ink-2); }
+.ledger.three tbody td:first-child { width: 42%; color: var(--ink); font-weight: 600; }
+.ledger.three tbody td:last-child { width: 14%; color: var(--muted); white-space: nowrap; }
+.ledger .when { display: block; margin-top: 3px; font-size: 13px; font-weight: 500; color: var(--muted); font-variant-numeric: tabular-nums; }
+.ledger th a { color: var(--ink); }
+@media (max-width: 760px) {
+  .ledger thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .ledger, .ledger tbody, .ledger tr, .ledger th, .ledger td { display: block; width: auto !important; }
+  .ledger tr { padding: 14px 0; border-bottom: 1px solid var(--rule); }
+  .ledger tbody th, .ledger tbody td { border: 0; padding: 0; }
+  .ledger tbody td { margin-top: 8px; }
+  .ledger tbody td::before { display: block; font-size: 12.5px; font-weight: 600; color: var(--muted); margin-bottom: 2px; }
+  .ledger:not(.two):not(.three) td:nth-of-type(1)::before { content: "What the AI did"; }
+  .ledger:not(.two):not(.three) td:nth-of-type(2)::before { content: "What I did"; }
+  #dreamy-eval .ledger td:nth-of-type(1)::before { content: "What the reviews caught"; }
+  #dreamy-eval .ledger td:nth-of-type(2)::before { content: "What I changed"; }
+  #overruled .ledger td:nth-of-type(1)::before { content: "What it suggested"; }
+  #overruled .ledger td:nth-of-type(2)::before { content: "What I said"; }
+  .ledger.three td:nth-of-type(1) { margin-top: 0; }
+  .ledger.three td:nth-of-type(2)::before { content: "What went wrong first"; }
+  .ledger.three td:nth-of-type(3)::before { content: "Where"; }
+}
+
+/* colophon */
+.sw-dot { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 8px; vertical-align: -1px; }
+.swatch-table .hexes { font-variant-numeric: tabular-nums; color: var(--ink); }
+.swatch-table .hexes span { color: var(--muted); margin-left: 8px; }
+.ledger.changes thead th:nth-child(1) { width: 18%; } .ledger.changes thead th:nth-child(2) { width: 82%; }
+.ledger.changes tbody th { font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+@media (max-width: 760px) {
+  .swatch-table td:nth-of-type(1)::before { content: "Print, then screen" !important; }
+  .swatch-table td:nth-of-type(2)::before { content: "What it does here" !important; }
+  .ledger.changes td::before { content: none !important; }
+  .ledger.changes td { margin-top: 4px; }
+}
+
 </style>
 </head>
-<body>
+<body class="pg pg-colophon">
 <a class="skip" href="#main">Skip to content</a>
 <div class="page">
+  <div class="progress" aria-hidden="true"></div>
   <header class="topbar proj-top">
-    <p class="label"><a href="../">Jason Traum</a></p>
+    <p class="label"><a href="./">Jason Traum</a></p>
     <nav class="toplinks" aria-label="Sections">
-      <a href="../#work">All projects</a>
-      <a href="../ai.html">How I use AI</a>
-      <a href="../#background">Background</a>
-      <a href="../#contact">Contact</a>
+      <a href="./#work">Projects</a>
+      <a href="ai.html">How I use AI</a>
+      <a href="./#background">Background</a>
+      <a href="./#contact">Contact</a>
     </nav>
   </header>
   <main id="main">
-    <article class="project" id="fivek" aria-labelledby="fivek-h">
+    <article class="project" id="colophon" aria-labelledby="col-h">
       <header class="p-head">
-        <h2 class="p-name" id="fivek-h">5K 5 Bars</h2>
-        <p class="p-tag">Race-day app for our run club's bar crawl</p>
+        <h1 class="p-name" id="col-h">How this site is made</h1>
       </header>
-      <div class="p-grid">
-        <div class="p-meta">
-          <dl>
-            <div><dt>Status</dt><dd>Built and live; race date TBD</dd></div>
-            <div><dt>Built</dt><dd>Sep 2026</dd></div>
-            <div><dt>Link</dt><dd><a href="https://jason-traum.github.io/wrtc-5k5bars/?demo">Try the demo</a></dd></div>
-          
-            <div><dt>Built with</dt><dd>Claude Code, Supabase, MapLibre, GitHub Pages</dd></div>
-          </dl>
-        </div>
-        <div class="p-body">
-          <p>I'm organizing a 5K 5 Bars for the Run &amp; Tri Club with the Beer Club: about a kilometer of running between each of five bars, from Rittenhouse Square to Morgan's Pier. I wanted a way to know who actually made it to each bar, so I built an app for race day.</p>
-          <p>You join with your bib number and first name. When you walk into a bar you tap I'm at the bar, and it checks your phone's location. When you head out you tap Leaving. The leaderboard ranks everyone on running pace only, so time at the bars never counts and drinking fast doesn't help you. If someone forgets a tap, that leg just doesn't count. It never guesses a time. GPS is often off inside bars, so if the app says you're too far away you can still check in. That check-in counts and is marked as not GPS-checked so the organizer can see it.</p>
-          <p>People will be a few drinks in at a loud bar, so the race screen only shows the next bar, one big button and when the group is leaving. The stats wait for the finish screen. It only reads your location when you tap, and it saves how far you were from the bar, never where you were.</p>
-          <p>Before building I wrote down who uses it and when, what every screen shows in every situation, the look, and a log of every decision. Claude Code reads those before it changes anything. I&rsquo;d been planning it for a while, so once I sat down to build, the first version came together in a day.</p>
-          <div class="shots" style="--n:3">
-            <figure>
-              <img src="../img/5k-race.webp" width="600" height="962" alt="5K 5 Bars race screen: the progress strip at bar 2 of 5, McGillin's Olde Ale House, and a large red I'm at McGillin's button." loading="lazy" decoding="async">
-              <figcaption>Between bars: the next stop and one big button</figcaption>
-            </figure>
-            <figure>
-              <img src="../img/5k-atbar.webp" width="600" height="962" alt="5K 5 Bars at-the-bar screen: group leaves in 30:00 at 7:39 PM, a Leaving McGillin's button, and Already at Indy Beer Garden." loading="lazy" decoding="async">
-              <figcaption>At a bar, a countdown to when the group leaves, so nobody has to keep track</figcaption>
-            </figure>
-            <figure>
-              <img src="../img/5k-finished.webp" width="600" height="962" alt="5K 5 Bars finish card: 6th of 15, 8:44 per mile, 26:18 running, and a bar showing time running versus time at bars." loading="lazy" decoding="async">
-              <figcaption>The finish screen, from the demo</figcaption>
-            </figure>
-          </div>
-        </div>
+      <div class="ai-intro">
+        <p class="lede">The site is laid out like the research chartbooks I worked on at Morgan Stanley. Each chart or table is a numbered exhibit with a title that says the takeaway, and a source line underneath.</p>
+        <p>Claude Code wrote the code. I made the calls, and every sentence is in my words or checked against a voice file of things I&rsquo;ve actually said. <a href="ai.html">How I use AI</a> has the longer version of how that split works.</p>
       </div>
     </article>
-<!--deep--><section class="deep" aria-labelledby="deep-h"><h2 class="label" id="deep-h">The details</h2><div class="feat has-fig phone"><div class="feat-text"><h3>Taps that work without signal</h3><p>Signal inside bars is bad, so a tap saves on the phone with the time it actually happened and syncs once the phone has signal again. Under the button it says when it saved, so people know it counted.</p><p>If a retry sends the same tap twice, the database keeps just one.</p></div><figure class="feat-fig phone"><img src="../img/5k-offline.webp" alt="At the bar screen with a No signal note, a Leaving McGillin&#x27;s button, and Saved on this phone at 9:12. Syncs when you have signal." loading="lazy" decoding="async"><figcaption>No signal at the bar, so the tap saved on the phone.</figcaption></figure></div><div class="feat"><div class="feat-text"><h3>The database checks every write</h3><p>Nobody can write to a table directly. Every write goes through a SQL function that checks who is asking, and the only key in the app is the publishable one.</p><p>Before launch I had the security reviewed from scratch, then ran 121 checks against a local stand-in for Supabase, as runners, as organizers, and as phones pretending to be the organizer.</p><pre class="feat-code"><code>revoke all on public.admins, public.event, public.stops,
-  public.runners, public.taps from anon, authenticated;
--- Other runners see when and where you checked in,
--- not how far off your GPS was.
-grant select (id, runner_id, stop, kind, at, verified, source, created_at)
-  on public.taps to authenticated;</code></pre></div></div><div class="feat has-fig phone"><div class="feat-text"><h3>A demo you can open from a link</h3><p>Add ?demo to the link and you get the whole app with 14 sample runners and a simulated location, and nothing is saved. A Preview button jumps to any point in the race and switches your location and signal.</p><p>My screenshot test uses the same controls to go through every screen in light and dark, and fails if anything scrolls sideways or throws an error.</p></div><figure class="feat-fig feat-frame phone"><iframe src="https://jason-traum.github.io/wrtc-5k5bars/?demo" title="5K 5 Bars demo" loading="lazy" allow="screen-wake-lock" style="height:780px"></iframe><figcaption>The live demo. Tap Preview to jump around the race.</figcaption></figure></div><div class="feat has-fig phone"><div class="feat-text"><h3>Everyone starts their own clock</h3><p>My first plan started everyone at the organizer's GO. I changed it the same day, because not everyone leaves at once and a late starter would have looked slow.</p><p>Now GO only opens the start, each runner taps Start when they set off, and Test my location tells you before you go whether your GPS is good enough to check in.</p></div><figure class="feat-fig phone"><img src="../img/5k-ready.webp" alt="Start line screen at Rittenhouse Square with a big Start button, Already at PHS Garden, and a location test that passed." loading="lazy" decoding="async"><figcaption>The start line, with the location test.</figcaption></figure></div><div class="feat has-fig phone"><div class="feat-text"><h3>Setting up the course</h3><p>The organizer places each bar by searching OpenStreetMap, pasting coordinates or standing there, instead of dragging pins.</p><p>Test a check-in tells you whether a tap would count from where you're standing, so you can set each bar's radius while walking the course.</p></div><figure class="feat-fig phone"><img src="../img/5k-organizer.webp" alt="Organizer screen: the start is open, the course as chips for each bar, and a map with numbered stops." loading="lazy" decoding="async"><figcaption>The organizer screen.</figcaption></figure></div></section><!--/deep-->
 
-    <nav class="proj-more" aria-labelledby="more-h">
-      <h2 class="label" id="more-h">More projects</h2>
-      <ul><li><a href="../dreamy.html">Dreamy</a></li><li><a href="walldrobe.html">Walldrobe</a></li><li><a href="drinkdock.html">DrinkDock</a></li><li><a href="in.html">In.</a></li><li><a href="wharton-os.html">Wharton OS</a></li></ul>
-    </nav>
+    <section class="exhibit" id="col-color" aria-labelledby="color-h" style="--c: var(--c-msblue)">
+      <header><h2 class="ext" id="color-h"><span class="exn">Exhibit 1.</span> Every accent color comes from the data visualization palette I built at Morgan Stanley</h2></header>
+      <div class="ai-prose">
+        <p>The firm&rsquo;s approved brand colors were all dark, cool shades with very little contrast between them. They worked for marketing but not for charts, and charts were most of what my team owned. Advisors couldn&rsquo;t tell our lines apart on printouts and office screens, and marketing and operations had been arguing about colors for 18 months. I derived lighter versions of some of the approved colors, hand-picked a few new ones, tweaked them until they worked for our charts, and tested every option on our real charts with fake numbers. My palette became the Wealth Management standard for charts. The full story is <a href="./#palette">on the main page</a>.</p>
+        <p>The left hex is the print color. The site uses a lighter version of each so it reads on the dark background. The background is graphite, #141619, which I picked after comparing three darks side by side. I gave each project and each group of skills its own color, and checked that the ones next to each other are easy to tell apart.</p>
+      </div>
+      <div class="table-wrap">
+        <table class="ledger swatch-table">
+          <thead><tr><th scope="col">Color</th><th scope="col">Print, then screen</th><th scope="col">What it does here</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><i class="sw-dot" style="background:#275C90"></i>MS Blue</th><td class="hexes">#275C90 <span>#6FA0D6</span></td><td>Links, Dreamy, the build log, the reading bar at the top</td></tr>
+            <tr><th scope="row"><i class="sw-dot" style="background:#3296FE"></i>Blue Razz</th><td class="hexes">#3296FE <span>#5AAEFF</span></td><td>The skills section marker. I keep it out of the charts here, since it sits too close to MS Blue.</td></tr>
+            <tr><th scope="row"><i class="sw-dot" style="background:#39A174"></i>Jade</th><td class="hexes">#39A174 <span>#5CC495</span></td><td>Live markers, and In.</td></tr>
+            <tr><th scope="row"><i class="sw-dot" style="background:#8771D7"></i>Amethyst</th><td class="hexes">#8771D7 <span>#A593EC</span></td><td>DrinkDock, and the communication skills</td></tr>
+            <tr><th scope="row"><i class="sw-dot" style="background:#BF2C6E"></i>Magenta</th><td class="hexes">#BF2C6E <span>#E56A9C</span></td><td>Walldrobe, and the leadership skills. Added after the first six.</td></tr>
+            <tr><th scope="row"><i class="sw-dot" style="background:#95949B"></i>Cool Grey</th><td class="hexes">#95949B <span>#A3A5AE</span></td><td>The other things I built, in the build log. Added after the first six.</td></tr>
+            <tr><th scope="row"><i class="sw-dot" style="background:#CF612F"></i>Carrot</th><td class="hexes">#CF612F <span>#E8834F</span></td><td>5K 5 Bars, and the AI and engineering skills</td></tr>
+            <tr><th scope="row"><i class="sw-dot" style="background:#DA9408"></i>Honey</th><td class="hexes">#DA9408 <span>#E8AE2E</span></td><td>Wharton OS, the races in the build log, and the character skills</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="exhibit" id="col-type" aria-labelledby="type-h" style="--c: var(--c-razz)">
+      <header><h2 class="ext" id="type-h">One typeface for almost everything</h2></header>
+      <div class="ai-prose">
+        <p>Libre Franklin does almost everything, from the 900 weight in my name down to the source lines. IBM Plex Mono shows up only in a few small places, like dates in tables and a code sample. Numbers line up in columns wherever they sit in a table. The <a href="dreamy.html">Dreamy page</a> uses Dreamy&rsquo;s own type, Manrope and Inter, so it matches the app screenshots.</p>
+      </div>
+    </section>
+
+    <section class="exhibit" id="col-build" aria-labelledby="build-h" style="--c: var(--c-jade)">
+      <header><h2 class="ext" id="build-h">Plain HTML, built by a few Python scripts and hosted on GitHub Pages</h2></header>
+      <div class="ai-prose">
+        <p>Each page is plain HTML. Small Python scripts write the generated parts into it: the skills cloud, the build log, the palette, the side rail, the project details, and the drawdown chart, which is drawn from the numbers in my own workbook. A build script then puts each page&rsquo;s styles and code inline, gives every lazy-loaded image a placeholder in its own average color, and drops any image no page uses.</p>
+        <p>The build fails if it finds an em dash anywhere. The site is hosted on GitHub Pages. The source and all my working notes live in a separate private repo, and only the built pages get copied to the public one.</p>
+        <p>The build log counts commits per day from each project&rsquo;s GitHub history. A circle is a day with code, colored by the project with the most commits that day and sized by how many. A square is a day I spent researching or planning with no code, counted from my Claude chats. Chat titles get deleted after counting, and only the daily counts are kept. The squares undercount, since I plan in other apps too.</p>
+      </div>
+    </section>
+
+    <section class="exhibit" id="col-checks" aria-labelledby="checks-h" style="--c: var(--c-amethyst)">
+      <header><h2 class="ext" id="checks-h">Nothing goes up until these pass</h2></header>
+      <ol class="habits">
+        <li><b>Screenshots at phone and desktop sizes,</b> taken by Playwright, with no sideways scroll and no console errors.</li>
+        <li><b>Proof the page&rsquo;s script actually ran.</b> I added that after an early return quietly stopped every script on the page with no error.</li>
+        <li><b>A fresh agent reads every changed sentence</b> against my voice file and flags anything that doesn&rsquo;t sound like me.</li>
+        <li><b>No number without a source,</b> from my own documents, the repos or something I said. When two sources disagree, the number stays off.</li>
+        <li><b>I look at it myself</b> before I say push.</li>
+      </ol>
+    </section>
+
+    <section class="exhibit" id="col-voice" aria-labelledby="voice-h" style="--c: var(--c-magenta)">
+      <header><h2 class="ext" id="voice-h">If I wouldn&rsquo;t say it to someone at coffee, it gets rewritten</h2></header>
+      <div class="ai-prose">
+        <p>The first version of this site read like AI, so all of it got rewritten from sentences I&rsquo;d actually said. Those sentences are the reference now. From them came rules like saying what happened in order, using specific numbers and names instead of adjectives, and being honest about what didn&rsquo;t work without opening on it.</p>
+        <p>Never: em dashes, slogans as headings, hype words like leverage, seamless or cutting-edge, sentences that explain the page, or lines written to sound quotable.</p>
+      </div>
+    </section>
+
+    <section class="exhibit" id="col-research" aria-labelledby="res-h" style="--c: var(--c-razz)">
+      <header><h2 class="ext" id="res-h">The October redesign came from studying more than 100 personal sites</h2></header>
+      <div class="ai-prose">
+        <p>Before the October changes, I had Claude study more than 100 personal sites, from product designers and data visualization people to founders and AI researchers, along with the research on first impressions. What I took from it is that the sites people remember pick one idea from the person&rsquo;s own work and show proof of it. So I took out the decoration, moved the projects up, and made my palette the thing that ties the site together.</p>
+        <p>After the changes I ran an outside checker that looks for the patterns that make sites look AI-made, like purple glows, accent stripes and gradients. The only flag left on the main page is that it&rsquo;s dark, which is on purpose.</p>
+      </div>
+    </section>
+
+    <section class="exhibit" id="col-rules" aria-labelledby="priv-h" style="--c: var(--c-jade)">
+      <header><h2 class="ext" id="priv-h">What stays off</h2></header>
+      <div class="ai-prose">
+        <p>No phone number, address or health details, and no one else&rsquo;s name without their OK. Screenshots are real and cropped, never stretched. No links to private Claude chats or artifacts. The apps follow their own rules, like 5K 5 Bars never storing anyone&rsquo;s coordinates.</p>
+      </div>
+    </section>
+
+    <section class="exhibit" id="col-log" aria-labelledby="log2-h" style="--c: var(--c-msblue)">
+      <header><h2 class="ext" id="log2-h">What changed and when</h2></header>
+      <div class="table-wrap">
+        <table class="ledger changes">
+          <thead><tr><th scope="col">Date</th><th scope="col">Change</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Sep 27, 2026</th><td>First direction: a holdings report.</td></tr>
+            <tr><th scope="row">Sep 28, 2026</th><td>All the copy got rewritten from my own sentences. Moved to the chartbook look and added the build log.</td></tr>
+            <tr><th scope="row">Sep 29, 2026</th><td>Went live on GitHub Pages. Added the skills cloud. Switched to dark only.</td></tr>
+            <tr><th scope="row">Oct 4, 2026</th><td>Rebuilt the Walldrobe page and moved Walldrobe second, after Dreamy.</td></tr>
+            <tr><th scope="row">Oct 5, 2026</th><td>The redesign after the research: my background in the first sentence, projects first, the palette band in place of decoration, a graphite background, and two new pages, How I use AI and this one.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
   </main>
   <footer class="colophon">
     <p class="note"><a href="mailto:jtraum@wharton.upenn.edu">jtraum@wharton.upenn.edu</a></p>
-    <p class="note"><a href="../colophon.html">How this site is made</a></p>
+    <p class="note"><a href="colophon.html">How this site is made</a></p>
   </footer>
 </div>
 <script>
