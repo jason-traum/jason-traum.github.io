@@ -672,6 +672,32 @@ body { border-top: 10px solid var(--c-msblue); }
 @keyframes dd-spin { to { --ang: 360deg; } }
 @media (prefers-reduced-motion: reduce) { .deep-link.dd-glow { animation: none; } }
 
+/* walldrobe page */
+.wd-hero { margin: 10px 0 0; }
+.wd-hero img, .wd-wide img { display: block; width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--shot-border); background: var(--surface); }
+.wd-hero figcaption { margin-top: 8px; font-size: 13.5px; color: var(--muted); }
+.wd-phone img { max-width: 280px; padding: 6px; border-radius: 24px; background: var(--surface); }
+.wd-flow { grid-template-columns: minmax(0, 1fr); }
+.wd-steps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 14px; margin-top: 4px; }
+.wd-steps figure { margin: 0; min-width: 0; }
+.wd-dev { padding: 5px; border-radius: 22px; background: var(--surface); border: 1px solid var(--shot-border); }
+.wd-dev img { display: block; width: 100%; height: auto; border-radius: 17px; }
+.wd-steps figcaption { margin-top: 8px; font-size: 14px; font-weight: 600; color: var(--ink); }
+@media (min-width: 700px) { .wd-steps { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 26px 22px; max-width: 840px; } }
+.wd-walls { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; margin-top: 4px; }
+.wd-walls figure { margin: 0; min-width: 0; }
+.wd-walls img { display: block; width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--shot-border); }
+.wd-walls figcaption { margin-top: 8px; font-size: 14px; font-weight: 600; color: var(--ink); }
+@media (min-width: 640px) { .wd-walls { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1000px) { .wd-walls { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.wd-calls-wrap { grid-template-columns: minmax(0, 1fr); }
+.wd-calls { margin: 0; padding-left: 1.4em; display: grid; gap: 14px; max-width: 44em; color: var(--ink-2); }
+.wd-calls li { padding-left: 4px; }
+.wd-calls li::marker { color: var(--c-honey); font-weight: 800; font-variant-numeric: tabular-nums; }
+.wd-calls strong { color: var(--ink); font-weight: 700; }
+@media (min-width: 900px) { .wd-calls { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 40px; max-width: none; } }
+/* /walldrobe page */
+
 </style>
 </head>
 <body>
@@ -725,7 +751,7 @@ body { border-top: 10px solid var(--c-msblue); }
 
     <nav class="proj-more" aria-labelledby="more-h">
       <h2 class="label" id="more-h">More projects</h2>
-      <ul><li><a href="../dreamy.html">Dreamy</a></li><li><a href="drinkdock.html">DrinkDock</a></li><li><a href="5k-5-bars.html">5K 5 Bars</a></li><li><a href="wharton-os.html">Wharton OS</a></li><li><a href="walldrobe.html">Walldrobe</a></li></ul>
+      <ul><li><a href="../dreamy.html">Dreamy</a></li><li><a href="walldrobe.html">Walldrobe</a></li><li><a href="drinkdock.html">DrinkDock</a></li><li><a href="5k-5-bars.html">5K 5 Bars</a></li><li><a href="wharton-os.html">Wharton OS</a></li></ul>
     </nav>
   </main>
   <footer class="colophon">
