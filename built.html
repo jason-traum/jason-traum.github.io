@@ -815,6 +815,9 @@ details.more[open] > summary { margin-bottom: 10px; }
   .reports { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 }
 
+/* "Get in touch" lands with the contact info at the top of the screen, not stuck at the bottom of the page */
+#contact { min-height: calc(100vh - 110px); min-height: calc(100svh - 110px); }
+
 /* route bar: the stops of the site in order. Filled dot = you've been there, ring = you are here. */
 .route-nav { margin: 0; }
 .route-nav ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 0; }
