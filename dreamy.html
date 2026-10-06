@@ -372,6 +372,48 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
 .toc a { color: inherit; opacity: .85; }
 .toc a:hover { opacity: 1; }
 
+/* chapter pager on the Dreamy page uses Dreamy's own tokens */
+.pager { --rule: var(--b2); --muted: var(--t3); --ink-2: var(--t2); --pg-accent: var(--brand); max-width: 1100px; margin-inline: auto; padding-inline: 0; }
+.pager a { color: var(--t1); background: var(--s1); }
+
+/* the story, moved here from the main page on Oct 6 */
+.prose.story { max-width: 70ch; margin-bottom: 32px; }
+.prose.story .beta-line { color: var(--t1); }
+.prose.story .beta-line strong { color: var(--glow); font-weight: 700; }
+
+/* chapter pager */
+.pager { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 12px; margin: 56px 0 8px; }
+.pager a { display: grid; align-content: start; gap: 4px; padding: 16px 18px; border: 1px solid var(--rule); border-top: 4px solid var(--pg-accent, #6FA0D6); border-radius: 12px; text-decoration: none; color: inherit; }
+.pager .pg-next { background: color-mix(in srgb, var(--pg-accent) 10%, transparent); }
+.pager a:hover { border-color: var(--pg-accent, #6FA0D6); }
+.pager a:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+.pg-k { font-size: 13px; color: var(--muted); }
+.pg-t { font-size: 19px; font-weight: 800; letter-spacing: -0.01em; }
+.pg-next { text-align: right; }
+.pg-next .pg-t::after { content: '  \2192'; color: var(--pg-accent, #6FA0D6); }
+.pg-prev .pg-t::before { content: '\2190  '; color: var(--muted); }
+.pg-d { font-size: 14px; color: var(--ink-2, inherit); }
+@media (max-width: 560px) { .pager { grid-template-columns: minmax(0, 1fr); } .pg-next { order: -1; } }
+
+/* route bar: the stops of the site in order. Filled dot = you've been there, ring = you are here. */
+.route-nav { margin: 0; }
+.route-nav ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 0; }
+.route-nav li { position: relative; display: flex; align-items: center; }
+.route-nav li + li::before { content: ''; width: 14px; height: 2px; background: var(--rule, #2A2E33); margin: 0 4px; }
+.route-nav a { display: inline-flex; align-items: center; gap: 7px; padding: 8px 2px; font-size: 14px; color: var(--muted, #9AA5B2); text-decoration: none; white-space: nowrap; }
+.route-nav a:hover { color: var(--ink, #E7ECF1); }
+.route-nav i { width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--pc); box-sizing: border-box; flex: none; }
+.route-nav li.seen i { background: var(--pc); }
+.route-nav li.here a { color: var(--ink, #E7ECF1); font-weight: 700; }
+.route-nav li.here i { background: var(--pc); box-shadow: 0 0 0 3px color-mix(in srgb, var(--pc) 30%, transparent); }
+.route-nav li.here a { text-decoration: underline; text-decoration-color: var(--pc); text-decoration-thickness: 2px; text-underline-offset: 6px; }
+.route-nav a:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; border-radius: 4px; }
+@media (max-width: 759px) {
+  .route-nav li:not(.here) span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .route-nav a { padding: 10px 4px; min-width: 24px; justify-content: center; }
+  .route-nav li + li::before { width: 10px; margin: 0; }
+}
+
 </style>
 </head>
 <body>
@@ -380,13 +422,14 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
     <a class="back" href="./"><span aria-hidden="true">&larr;</span> Jason Traum</a>
     <span class="wordmark" aria-label="Dreamy">dreamy</span>
   </header>
+  <nav class="route-nav" aria-label="Where you are on the site"><ol><li data-stop="start" style="--pc: #5AAEFF"><a href="./"><i aria-hidden="true"></i><span>Start</span></a></li><li class="here" data-stop="built.html" style="--pc: #5CC495"><a href="built.html"><i aria-hidden="true"></i><span>Things I&rsquo;ve built</span></a></li><li data-stop="research.html" style="--pc: #6FA0D6"><a href="research.html"><i aria-hidden="true"></i><span>Research and strategy</span></a></li><li data-stop="ai.html" style="--pc: #A593EC"><a href="ai.html"><i aria-hidden="true"></i><span>How I use AI</span></a></li><li data-stop="background.html" style="--pc: #E56A9C"><a href="background.html"><i aria-hidden="true"></i><span>About me</span></a></li><li data-stop="contact" style="--pc: #A3A5AE"><a href="./#contact"><i aria-hidden="true"></i><span>Get in touch</span></a></li></ol></nav>
 
   <main>
     <section class="hero" aria-labelledby="h1">
       <canvas id="stars" aria-hidden="true"></canvas>
       <h1 id="h1">How I built Dreamy</h1>
       <p class="lead">Dreamy is an AI running coach I built with Claude Code over twelve weeks while I was still working full time at Morgan Stanley. It's for people like me who don't have a reliable 9 to 5, have a busy social life, and still want to run their best marathon. It's technical on purpose: it explains the science behind each workout so you learn to coach yourself, not just follow a plan. It started as a ChatGPT prompt I kept rewriting through my second marathon, and became an app when I wanted more than a prompt could do. Dreamy's plans come from rules taken from the research, it analyzes every run you sync from Strava, and it works around the days you can't run.</p>
-      <p class="hero-meta"><span>Built Jan 28 to Apr 20, 2026</span><span>TypeScript, Next.js, Postgres, Anthropic API</span><span>Beta done; I still use it</span></p>
+      <p class="hero-meta"><span>Built Jan 28 to Apr 20, 2026</span><span>Beta with 15 runners, Feb to Apr 2026</span><span>I still use it</span><span>TypeScript, Next.js, Postgres, Anthropic API</span><span><a href="https://www.getdreamy.run">getdreamy.run</a> (invite-only)</span></p>
       <nav class="toc" aria-label="On this page"><a href="#builder">Try the week builder</a><a href="#week-rules">How the week gets built</a><a href="#engine">The engine</a><a href="#forecast">Race forecasting</a><a href="#research">The research</a><a href="#beta">What I learned from the beta</a><a href="#screens">Screenshots</a></nav>
 
       <div class="builder" id="builder">
@@ -597,6 +640,13 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
 
     <section class="sec" id="build" aria-labelledby="bd-h">
       <h2 id="bd-h">How I built it</h2>
+      <div class="prose story">
+        <p>Dreamy started when I was training for my second marathon. Work got busier, my back was acting up, and every plan I tried fell apart once life got in the way. So I turned to ChatGPT. The models kept giving me bad plans, so I read up on sports science and the top running coaches and kept rewriting my prompt until the answers got good. I ran a PR and shared it with my run club. As the models got better I needed less of the prompt, but I wanted more than a prompt could do. Nothing checked it against the research, you had to be really good at prompting to get something usable, and it didn&rsquo;t sync with anything or look at your actual runs.</p>
+        <p>With Dreamy, the plan comes from rules taken from the research, it syncs with Strava and analyzes every run, and the same data always gives you the same plan. The biggest difference is that it works around your schedule. You tell it which days you can't run and it rebuilds the week around them, so you might run seven days one week and four the next. It adapts when you miss a workout or a race moves, and it explains every change and the science behind it, so over time you learn to coach yourself.</p>
+        <p>I did an absurd amount of research for it. I used AI to find every marathon plan and sports science paper I could, and gave it a ton of direction from my own marathon training. I started with an LLM writing the plans, but that got expensive and unreliable, so I switched to a rules-based engine. Then I ran real runners' histories through it, had LLMs grade the plans against the research and suggest changes, and reviewed every round myself.</p>
+        <p>Claude Code wrote all of the code. My part was the product, the research and the model. I built it from January to April while working full time, and I still use it to make training plans.</p>
+        <p class="beta-line">15 runners trained on Dreamy through full race cycles, in the app or on plans I made with its engine. <strong>14 of the 15 rated it above the coach or app they used before.</strong></p>
+      </div>
       <div class="two">
         <div class="prose">
           <p>Claude Code wrote the code. I decided what the engine should do, did the research behind it, and checked whether its plans actually held up. To tune it I ran real runners' training histories through it, had LLMs grade the plans against the research and suggest rule changes, and reviewed every round myself.</p>
@@ -674,13 +724,14 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
       <h2 id="sc-h">Screenshots</h2>
       <div class="gallery">
         <figure class="shot"><img src="img/dreamy-today.webp" width="600" height="857" alt="Today screen with a race countdown and the day's easy run." loading="lazy" decoding="async"><figcaption>Today, three days before a half marathon</figcaption></figure>
-        <figure class="shot"><img src="img/dreamy-week.webp" width="600" height="857" alt="This Week screen after one swap: Wednesday's tempo became a rest day and Thursday carries the quality session." loading="lazy" decoding="async"><figcaption>A week after one swap</figcaption></figure>
+        <figure class="shot"><img src="img/dreamy-week.webp" width="600" height="857" alt="This Week screen after one swap: Wednesday's tempo became a rest day and Thursday carries the quality session." loading="lazy" decoding="async"><figcaption>A week after I swapped Wednesday&rsquo;s tempo for rest</figcaption></figure>
         <figure class="shot"><img src="img/dreamy-why.webp" width="600" height="982" alt="Why This Felt Hard: high recent volume and a hard run the day before, with a training adaptation profile below." loading="lazy" decoding="async"><figcaption>Why a run felt hard, and what it trained</figcaption></figure>
         <figure class="shot"><img src="img/dreamy-training.webp" width="600" height="927" alt="How Is My Training: the mix is imbalanced, with a suggestion to add about 15 minutes a week of VO2max work." loading="lazy" decoding="async"><figcaption>Training balance, with a specific fix</figcaption></figure>
-        <figure class="shot"><img src="img/dreamy-forecast.webp" width="600" height="857" alt="The race forecast with each model's estimate, VDOT, confidence and weight." loading="lazy" decoding="async"><figcaption>The model explorer</figcaption></figure>
+        <figure class="shot"><img src="img/dreamy-forecast.webp" width="600" height="857" alt="The race forecast with each model's estimate, VDOT, confidence and weight." loading="lazy" decoding="async"><figcaption>My half marathon forecast, with every model&rsquo;s estimate</figcaption></figure>
         <figure class="shot"><img src="img/dreamy-atlas.webp" width="600" height="1055" alt="The Pace Zone Atlas comparing how coaching systems from Lydiard to Garmin define each pace zone." loading="lazy" decoding="async"><figcaption>Pace Zone Atlas: 22 systems, approximate mappings</figcaption></figure>
       </div>
     </section>
+    
   </main>
 
   <footer class="foot">
@@ -1087,6 +1138,17 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
   });
 
   render();
+})();
+
+(function () {
+  var nav = document.querySelector('.route-nav'); if (!nav) return;
+  var here = nav.querySelector('li.here'), key = 'jt-seen', seen = [];
+  try { seen = JSON.parse(localStorage.getItem(key) || '[]'); } catch (e) {}
+  if (here && seen.indexOf(here.getAttribute('data-stop')) < 0) seen.push(here.getAttribute('data-stop'));
+  try { localStorage.setItem(key, JSON.stringify(seen)); } catch (e) {}
+  Array.prototype.forEach.call(nav.querySelectorAll('li'), function (li) {
+    if (seen.indexOf(li.getAttribute('data-stop')) >= 0 && !li.classList.contains('here')) li.classList.add('seen');
+  });
 })();
 
 </script>

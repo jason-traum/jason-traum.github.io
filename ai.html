@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>How I use AI | Jason Traum</title>
-<meta name="description" content="Examples from Morgan Stanley, my own apps and Wharton">
+<meta name="description" content="How I work with it, the times I overruled it, and the rules I&rsquo;ve written for it">
 <link rel="canonical" href="https://jason-traum.github.io/ai.html">
 <meta property="og:type" content="article">
 <meta property="og:title" content="How I use AI | Jason Traum">
-<meta property="og:description" content="Examples from Morgan Stanley, my own apps and Wharton">
+<meta property="og:description" content="How I work with it, the times I overruled it, and the rules I&rsquo;ve written for it">
 <meta property="og:url" content="https://jason-traum.github.io/ai.html">
 <meta property="og:image" content="https://jason-traum.github.io/og.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -52,6 +52,7 @@
   --rule: #2A2E33; --rule-strong: #B9C3CE; --olive: #7FAEE0; --signal: #5CC495; --signal-ink: #141619;
   --frame: #06090D; --mat: #E6E9EC; --shot-border: #2A2E33;
   --c-msblue: #6FA0D6; --c-razz: #5AAEFF; --c-jade: #5CC495; --c-amethyst: #A593EC; --c-carrot: #E8834F; --c-honey: #E8AE2E; --c-magenta: #E56A9C; --c-grey: #A3A5AE;
+  --k-build: #5CC495; --k-res: #6FA0D6;
   --dd-a: #4F8FE0; --dd-b: #D9713C; --dd-grid: #272B31;
   --ex-card: #FFFFFF; --ex-ink: #111111; --ex-grid: #A9A9A9; --ex-a-fill: #29A3A3; --ex-a-line: #145F6B; --ex-a-key: #3BC3A3; --ex-b-fill: #B2CDE4; --ex-b-line: #005AA4;
   color-scheme: dark;
@@ -209,6 +210,7 @@ button.copy:hover { background: var(--ink); color: var(--paper); }
   line-height: 1;
   letter-spacing: -0.02em;
 }
+.p-sum { margin: 10px 0 0; max-width: 38em; color: var(--ink-2); }
 .p-tag { font-size: clamp(1.05rem, 1.7vw, 1.22rem); line-height: 1.4; color: var(--ink-2); max-width: 34em; }
 .p-grid { display: grid; gap: 26px; }
 @media (min-width: 860px) { .p-grid { grid-template-columns: 3fr 9fr; gap: 48px; } }
@@ -707,43 +709,127 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .cv-more { font-size: 14.5px; color: var(--muted); margin: 0 0 30px; max-width: 46em; }
 .lede b { font-weight: 700; color: var(--ink); }
 
-/* Dreamy week builder on the main page (engine in week-engine.js, shared with dreamy.html). Role colors come from the palette: long Jade, quality Amethyst, easy MS Blue, recovery Cool Grey. */
-.wk { --r-long: var(--c-jade); --r-quality: var(--c-amethyst); --r-easy: var(--c-msblue); --r-recovery: var(--c-grey);
-  min-width: 0; max-width: 100%; overflow: hidden; margin: 24px 0 28px; padding: 20px 20px 16px; background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; }
-.wk-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 24px; margin-bottom: 14px; }
-.wk-title { margin: 0; font-size: 19px; font-weight: 800; letter-spacing: -0.01em; color: var(--ink); }
-.wk-top { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--ink-2); flex: 0 1 300px; }
-.wk-top input { flex: 1; min-width: 0; accent-color: var(--c-msblue); }
-.wk-top output { font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; min-width: 2ch; text-align: right; }
-.wk-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
-.wk-chip { -webkit-appearance: none; appearance: none; font: inherit; font-size: 14px; color: var(--ink-2); background: none; border: 1px solid var(--rule); border-radius: 999px; padding: 6px 13px; cursor: pointer; }
-.wk-chip:hover { border-color: var(--ink-2); }
-.wk-chip[aria-pressed="true"] { color: var(--ink); border-color: var(--c-msblue); }
-.wk-chip:focus-visible, .wk-day:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
-.wk-days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
-.wk-day { -webkit-appearance: none; appearance: none; font: inherit; color: inherit; background: var(--paper); border: 1px solid var(--rule); border-radius: 8px; padding: 8px 4px 9px; cursor: pointer; display: block; text-align: center; }
-.wk-day:hover { border-color: var(--ink-2); }
-.wk-plot { display: block; position: relative; height: 132px; }
-.wk-bar { position: absolute; left: 14%; right: 14%; bottom: 0; border-radius: 4px; background: var(--rc, var(--ink-2)); transition: height .25s ease; }
-.wk-mi { position: absolute; left: 0; right: 0; font-size: 14px; font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; transition: bottom .25s ease; }
-.wk-off { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); font-size: 13px; color: var(--muted); }
-.wk-dn { display: block; margin-top: 8px; font-size: 13.5px; font-weight: 700; color: var(--ink); }
-.wk-role { display: block; font-size: 12.5px; font-weight: 600; color: var(--rc, var(--muted)); white-space: nowrap; overflow: hidden; }
-.wk-day.r-long { --rc: var(--r-long); } .wk-day.r-quality { --rc: var(--r-quality); } .wk-day.r-easy { --rc: var(--r-easy); } .wk-day.r-recovery { --rc: var(--r-recovery); }
-.wk-day[aria-pressed="true"] { background: none; border-style: dashed; }
-.wk-day[aria-pressed="true"] .wk-dn { color: var(--muted); text-decoration: line-through; }
-.wk-note { margin: 14px 0 12px; font-size: 15.5px; color: var(--ink); min-height: 1.5em; }
-.wk-rules { list-style: none; margin: 0 0 12px; padding: 12px 0 0; border-top: 1px solid var(--rule); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 22px; font-size: 14px; color: var(--ink-2); }
-.wk-rules li { padding-left: 0; } .wk-rules li::before { content: none; }
-.wk-rules b { color: var(--ink); }
-.wk-k { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 7px; vertical-align: 0; }
-.wk-k.r-long { background: var(--r-long); } .wk-k.r-quality { background: var(--r-quality); } .wk-k.r-easy { background: var(--r-easy); } .wk-k.r-recovery { background: var(--r-recovery); }
-.wk-cap { font-size: 13.5px; color: var(--muted); }
-@media (max-width: 560px) { .wk { padding: 14px 10px 12px; } .wk-days { gap: 3px; } .wk-day { padding-inline: 0; } .wk-plot { height: 108px; } .wk-mi { font-size: 12.5px; } .wk-role { font-size: 11.5px; } .wk-rules { grid-template-columns: minmax(0, 1fr); } .wk-chip { font-size: 13px; padding: 5px 11px; white-space: nowrap; flex: none; } .wk-chips { flex-wrap: nowrap; overflow-x: auto; margin-inline: -10px; padding-inline: 10px; scrollbar-width: none; } }
-@media (prefers-reduced-motion: reduce) { .wk-bar, .wk-mi { transition: none; } }
-
 /* the ending: what I want, then one action */
 .ending { font-size: clamp(20px, 2.4vw, 26px); line-height: 1.4; text-wrap: pretty; color: var(--ink); max-width: 30em; margin: 0 0 22px; letter-spacing: -0.01em; }
+
+/* Exhibit 1, the path: my story down the left, and a picture of each thing I made at the stop where I made it.
+   Only things I made go here; evidence lives on the chapter pages. Color is the kind of work (key under the title). */
+.kinds { display: flex; flex-wrap: wrap; gap: 6px 22px; margin: 12px 0 0; font-size: 14px; line-height: 1.4; color: var(--ink-2); }
+.kinds a { display: inline-flex; align-items: center; gap: 8px; color: var(--ink); text-decoration-color: var(--rule-strong); text-underline-offset: 3px; }
+.kinds i { width: 10px; height: 10px; }
+.path { list-style: none; margin: 30px 0 0; padding: 0; }
+.stop { position: relative; padding: 0 0 36px 40px; display: grid; grid-template-columns: 230px minmax(0, 1fr); column-gap: 28px; row-gap: 14px; align-items: start; }
+.stop:not(.end)::after { content: ''; position: absolute; left: 11px; top: 12px; width: 3px; height: 100%; background: var(--c-msblue); }
+.stop.end { padding-bottom: 4px; }
+.who { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+.sn { display: flex; align-items: center; min-height: 25px; text-decoration: none; color: var(--ink); }
+.sn .dot { position: absolute; left: 0; top: 0; width: 25px; height: 25px; border-radius: 50%; background: var(--paper); border: 3px solid var(--c-msblue); z-index: 1; }
+.stop.end .dot { background: var(--c-msblue); }
+.sn .st { font-size: 18px; font-weight: 800; letter-spacing: -0.01em; line-height: 1.2; text-decoration: underline; text-decoration-color: var(--rule-strong); text-decoration-thickness: 1px; text-underline-offset: 4px; }
+.sn:hover .st { text-decoration-color: var(--c-msblue); }
+.sn:hover .dot { background: var(--c-msblue); }
+.sn:focus-visible, .tiles a:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; border-radius: 4px; }
+.who .yr { font-size: 14px; font-weight: 600; color: var(--muted); font-variant-numeric: tabular-nums; }
+.who .hl { font-size: 14px; line-height: 1.45; color: var(--ink-2); }
+.tiles { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 22px 16px; }
+.tiles a { display: flex; flex-direction: column; gap: 6px; width: 144px; text-decoration: none; color: var(--ink); }
+.tiles img, .tiles .pal { display: block; width: 144px; height: 108px; object-fit: cover; border-radius: 6px; border: 1px solid var(--rule); }
+.tiles .pal { display: flex; gap: 2px; overflow: hidden; background: var(--paper); }
+.tiles .pal b { display: flex; flex-direction: column; }
+.tiles a:hover img, .tiles a:hover .pal { border-color: var(--k); }
+.tiles .cap { display: flex; gap: 7px; align-items: baseline; font-size: 14px; line-height: 1.35; }
+.tiles .cap i { flex: none; width: 9px; height: 9px; background: var(--k); }
+.tiles a:hover .cap { text-decoration: underline; text-decoration-color: var(--k); text-underline-offset: 3px; }
+.tiles .stat { padding-left: 16px; font-size: 13px; line-height: 1.3; color: var(--muted); }
+#path .src { margin-top: 18px; }
+@media (max-width: 759px) {
+  .stop { grid-template-columns: minmax(0, 1fr); padding-bottom: 32px; }
+  .tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px 10px; }
+  .tiles a { width: auto; }
+  .tiles img, .tiles .pal { width: 100%; height: auto; aspect-ratio: 4 / 3; }
+}
+
+/* Read it in order: a book's contents page. Number, chapter, a dotted leader to the arrow, and one line on what's in it. */
+.chapters { padding-block: 56px; border-top: 1px solid var(--rule); }
+.chapters .label { margin: 0 0 16px; }
+.toc { list-style: none; margin: 0; padding: 0; border-top: 1.5px solid var(--rule-strong); }
+.toc li { border-bottom: 1px solid var(--rule); }
+.toc a { display: grid; grid-template-columns: 2.2em auto minmax(28px, 1fr); grid-template-areas: "n t lead" ". d d"; align-items: baseline; gap: 4px 14px; padding: 18px 0 17px; color: var(--ink); text-decoration: none; }
+.toc .n { grid-area: n; font-size: clamp(1.2rem, 2vw, 1.45rem); font-weight: 800; color: var(--pc, var(--c-msblue)); font-variant-numeric: tabular-nums; }
+.toc .t { grid-area: t; font-size: clamp(1.2rem, 2vw, 1.45rem); font-weight: 800; letter-spacing: -0.015em; line-height: 1.2; }
+.toc .lead { grid-area: lead; display: flex; align-items: center; gap: 12px; align-self: center; color: var(--muted); }
+.toc .lead::before { content: ''; flex: 1; border-bottom: 2px dotted var(--rule-strong); opacity: .5; }
+.toc .lead::after { content: '\2192'; font-size: 20px; line-height: 1; }
+.toc .d { grid-area: d; font-size: 15.5px; line-height: 1.45; color: var(--ink-2); max-width: 46em; }
+.toc a:hover .t { text-decoration: underline; text-decoration-color: var(--c-msblue); text-decoration-thickness: 2px; text-underline-offset: 5px; }
+.toc a:hover .lead { color: var(--pc, var(--c-msblue)); }
+.toc a:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; border-radius: 4px; }
+@media (max-width: 559px) { .toc a { grid-template-columns: 1.7em minmax(0, 1fr) auto; gap: 4px 10px; } .toc .lead::before { content: none; } }
+
+/* stop pages: the job, then what I made there, with long stories folded */
+.stop-h { font-size: clamp(1.25rem, 2.4vw, 1.6rem); font-weight: 800; letter-spacing: -0.015em; line-height: 1.2; margin: 0 0 8px; }
+.made-h { font-size: 19px; font-weight: 800; letter-spacing: -0.01em; margin: 40px 0 6px; }
+.made-lead { max-width: 40em; color: var(--ink-2); margin: 0 0 14px; }
+details.more { margin: 14px 0 0; border-top: 1px solid var(--rule); padding-top: 10px; max-width: 46em; }
+details.more > summary { cursor: pointer; font-size: 15px; font-weight: 600; color: var(--olive); padding: 6px 0; list-style-position: inside; }
+details.more > summary:hover { text-decoration: underline; }
+details.more[open] > summary { margin-bottom: 10px; }
+#examples details.more { max-width: none; }
+.tiles.big a { width: 200px; }
+.tiles.big img { width: 200px; height: 150px; }
+@media (max-width: 759px) { .tiles.big a { width: auto; } .tiles.big img { width: 100%; height: auto; } }
+
+/* Things I've built: a picture, then where and when, one line and the status */
+.built-src { margin: 0 0 22px; }
+.built { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 34px 48px; }
+.built a { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 18px; align-items: start; text-decoration: none; color: var(--ink); }
+.built img, .rbig img, .rbig .pal { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 6px; border: 1px solid var(--rule); }
+.b-txt { display: flex; flex-direction: column; gap: 4px; }
+.b-name { font-size: 20px; font-weight: 800; letter-spacing: -0.01em; line-height: 1.2; }
+.built a:hover .b-name, .rbig a:hover .b-name { text-decoration: underline; text-decoration-color: var(--k-build); text-underline-offset: 4px; }
+.b-when { font-size: 13px; font-weight: 600; color: var(--muted); }
+.b-line { font-size: 15px; line-height: 1.45; color: var(--ink-2); }
+.b-stat { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; color: var(--muted); }
+.b-stat i { width: 8px; height: 8px; border-radius: 50%; background: var(--k-build); }
+/* Research and strategy: big pictures, then report covers */
+.rtiles { padding-top: 24px; }
+.rbig { list-style: none; margin: 0 0 8px; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
+.rbig a { display: flex; flex-direction: column; gap: 6px; text-decoration: none; color: var(--ink); }
+.rbig .pal { display: flex; gap: 3px; overflow: hidden; background: var(--paper); }
+.rbig .pal b { display: flex; flex-direction: column; }
+.rbig a:hover img, .rbig a:hover .pal { border-color: var(--k-res); }
+.reports { list-style: none; margin: 0 0 40px; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 20px; }
+.reports a { display: flex; flex-direction: column; gap: 6px; text-decoration: none; color: var(--ink); }
+.cover { display: flex; flex-direction: column; justify-content: flex-end; aspect-ratio: 3 / 4; padding: 14px; box-sizing: border-box; border-radius: 6px; border: 1px solid var(--rule); border-top: 4px solid var(--k-res); background: var(--surface); }
+.cv-t { font-size: 15px; font-weight: 800; line-height: 1.25; letter-spacing: -0.01em; }
+.reports a:hover .cover { border-color: var(--k-res); }
+.rtiles .stop-h { margin-top: 8px; margin-bottom: 18px; }
+@media (max-width: 759px) {
+  .built { grid-template-columns: minmax(0, 1fr); gap: 26px; }
+  .built a { grid-template-columns: 120px minmax(0, 1fr); gap: 14px; }
+  .b-name { font-size: 18px; }
+  .rbig { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .reports { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+}
+
+/* route bar: the stops of the site in order. Filled dot = you've been there, ring = you are here. */
+.route-nav { margin: 0; }
+.route-nav ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 0; }
+.route-nav li { position: relative; display: flex; align-items: center; }
+.route-nav li + li::before { content: ''; width: 14px; height: 2px; background: var(--rule, #2A2E33); margin: 0 4px; }
+.route-nav a { display: inline-flex; align-items: center; gap: 7px; padding: 8px 2px; font-size: 14px; color: var(--muted, #9AA5B2); text-decoration: none; white-space: nowrap; }
+.route-nav a:hover { color: var(--ink, #E7ECF1); }
+.route-nav i { width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--pc); box-sizing: border-box; flex: none; }
+.route-nav li.seen i { background: var(--pc); }
+.route-nav li.here a { color: var(--ink, #E7ECF1); font-weight: 700; }
+.route-nav li.here i { background: var(--pc); box-shadow: 0 0 0 3px color-mix(in srgb, var(--pc) 30%, transparent); }
+.route-nav li.here a { text-decoration: underline; text-decoration-color: var(--pc); text-decoration-thickness: 2px; text-underline-offset: 6px; }
+.route-nav a:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; border-radius: 4px; }
+@media (max-width: 759px) {
+  .route-nav li:not(.here) span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .route-nav a { padding: 10px 4px; min-width: 24px; justify-content: center; }
+  .route-nav li + li::before { width: 10px; margin: 0; }
+}
 
 /* How I use AI: ledgers of what the AI did and what I did. */
 .pg main { padding-top: 8px; }
@@ -804,6 +890,97 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
   .ledger.changes td { margin-top: 4px; }
 }
 
+/* Pivot or Perish: market value by round, folded by default */
+.mv { max-width: 760px; margin: 6px 0 18px; border: 1px solid var(--rule); border-radius: 10px; background: var(--surface); }
+.mv summary { list-style: none; display: flex; align-items: center; flex-wrap: wrap; gap: 6px 14px; padding: 12px 14px; cursor: pointer; }
+.mv summary::-webkit-details-marker { display: none; }
+.mv-spark { flex: none; overflow: visible; } .mv-spark polyline { fill: none; stroke: var(--c-jade); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.mv-sum { font-size: 15px; color: var(--ink-2); } .mv-sum b { color: var(--ink); font-variant-numeric: tabular-nums; }
+.mv-open { margin-left: auto; font-size: 14px; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.mv[open] .mv-open { font-size: 0; } .mv[open] .mv-open::after { content: 'Hide'; font-size: 14px; }
+.mv summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; border-radius: 10px; }
+.sim { padding: 4px 14px 14px; }
+.sim-nav { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+.sim-step { -webkit-appearance: none; appearance: none; width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid var(--c-jade); background: none; color: var(--c-jade); cursor: pointer; display: grid; place-items: center; padding: 0; }
+.sim-step:disabled { opacity: .3; cursor: default; }
+.sim-r { min-width: 7.6em; text-align: center; font-size: 16px; color: var(--ink); }
+.sim-dots { display: flex; gap: 5px; margin-left: auto; }
+.sim-dot { -webkit-appearance: none; appearance: none; width: 11px; height: 11px; padding: 0; border-radius: 50%; border: 0; background: var(--rule); cursor: pointer; }
+.sim-dot[data-i="1"] { border-radius: 2px; }
+.sim-dot[aria-pressed="true"] { background: var(--c-jade); }
+.sim-step:focus-visible, .sim-dot:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.sim-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 18px; align-items: start; }
+.sim-in { margin: 0; display: grid; gap: 5px; font-size: 13px; }
+.sim-in > div { display: grid; grid-template-columns: 7.2em minmax(0, 1fr); align-items: center; gap: 8px; }
+.sim-in dt { color: var(--muted); }
+.sim-in dd { margin: 0; display: flex; align-items: center; gap: 6px; }
+.sim-v { min-width: 5.6em; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.sim-v .up { color: var(--c-jade); font-weight: 700; } .sim-v .down { color: var(--c-magenta); font-weight: 700; }
+.sim-ar { font-size: 11px; margin-left: 2px; }
+.sim-tr { flex: 1; height: 4px; border-radius: 2px; background: var(--rule); min-width: 18px; }
+.sim-tr i { display: block; height: 100%; border-radius: 2px; background: var(--ink-2); transition: width .25s ease; }
+.sim-tr.up i { background: var(--c-jade); } .sim-tr.down i { background: var(--c-magenta); }
+.sim-radar { display: block; width: 100%; max-width: 260px; margin: 0 auto; overflow: visible; }
+.r-bg { fill: var(--paper); stroke: var(--rule); }
+.r-ax { stroke: var(--rule); }
+.r-riv { fill: none; stroke: var(--muted); stroke-width: 1; opacity: .45; }
+.r-fair { fill: none; stroke: var(--ink); stroke-width: 1.5; stroke-dasharray: 4 3; }
+.r-us { fill: var(--c-jade); fill-opacity: .28; stroke: var(--c-jade); stroke-width: 2; stroke-linejoin: round; transition: all .25s ease; }
+.r-lab { font-size: 11px; fill: var(--muted); } .r-val { fill: var(--ink); font-weight: 700; }
+.sim-mini { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 6px; }
+.sim-mini figure { margin: 0; }
+.sim-mini figcaption { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+.sim-mini figcaption b { color: var(--ink); font-variant-numeric: tabular-nums; margin-left: 4px; }
+.sim-mini svg { display: block; width: 100%; height: 56px; overflow: visible; }
+.c-base { stroke: var(--rule); } .c-line { fill: none; stroke: var(--c-jade); stroke-width: 2; vector-effect: non-scaling-stroke; }
+.c-dot { fill: var(--c-jade); stroke: var(--surface); stroke-width: 2; vector-effect: non-scaling-stroke; }
+.c-past { fill: var(--c-jade); opacity: .45; } .c-cur { fill: var(--c-jade); } .c-fut { fill: var(--rule); }
+.c-test { fill: none; stroke: var(--ink); stroke-dasharray: 3 2; vector-effect: non-scaling-stroke; }
+.sim-note { margin: 12px 0 8px; font-size: 14.5px; color: var(--ink); min-height: 2.9em; }
+.sim.is-test .sim-r { font-style: italic; color: var(--ink-2); }
+.sim-key { margin: 0; font-size: 12px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: center; }
+.sim-key i { display: inline-block; width: 14px; height: 0; margin-right: -6px; vertical-align: middle; }
+.sim-key .k-us { height: 8px; background: color-mix(in srgb, var(--c-jade) 40%, transparent); border: 1.5px solid var(--c-jade); }
+.sim-key .k-fair { border-top: 1.5px dashed var(--ink); } .sim-key .k-riv { border-top: 1px solid var(--muted); }
+.sim-key .k-up, .sim-key .k-down { width: 8px; height: 8px; border-radius: 50%; background: var(--c-jade); } .sim-key .k-down { background: var(--c-magenta); }
+@media (max-width: 640px) { .sim-grid { grid-template-columns: minmax(0, 1fr); } .sim-dots { margin-left: 0; width: 100%; } .sim { padding-inline: 10px; } }
+@media (prefers-reduced-motion: reduce) { .sim-tr i, .r-us { transition: none; } }
+@media (max-width: 560px) { .mv-open { margin-left: 0; } }
+
+
+/* chapter pager */
+.pager { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 12px; margin: 56px 0 8px; }
+.pager a { display: grid; align-content: start; gap: 4px; padding: 16px 18px; border: 1px solid var(--rule); border-top: 4px solid var(--pg-accent, #6FA0D6); border-radius: 12px; text-decoration: none; color: inherit; }
+.pager .pg-next { background: color-mix(in srgb, var(--pg-accent) 10%, transparent); }
+.pager a:hover { border-color: var(--pg-accent, #6FA0D6); }
+.pager a:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+.pg-k { font-size: 13px; color: var(--muted); }
+.pg-t { font-size: 19px; font-weight: 800; letter-spacing: -0.01em; }
+.pg-next { text-align: right; }
+.pg-next .pg-t::after { content: '  \2192'; color: var(--pg-accent, #6FA0D6); }
+.pg-prev .pg-t::before { content: '\2190  '; color: var(--muted); }
+.pg-d { font-size: 14px; color: var(--ink-2, inherit); }
+@media (max-width: 560px) { .pager { grid-template-columns: minmax(0, 1fr); } .pg-next { order: -1; } }
+
+/* route bar: the stops of the site in order. Filled dot = you've been there, ring = you are here. */
+.route-nav { margin: 0; }
+.route-nav ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 0; }
+.route-nav li { position: relative; display: flex; align-items: center; }
+.route-nav li + li::before { content: ''; width: 14px; height: 2px; background: var(--rule, #2A2E33); margin: 0 4px; }
+.route-nav a { display: inline-flex; align-items: center; gap: 7px; padding: 8px 2px; font-size: 14px; color: var(--muted, #9AA5B2); text-decoration: none; white-space: nowrap; }
+.route-nav a:hover { color: var(--ink, #E7ECF1); }
+.route-nav i { width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--pc); box-sizing: border-box; flex: none; }
+.route-nav li.seen i { background: var(--pc); }
+.route-nav li.here a { color: var(--ink, #E7ECF1); font-weight: 700; }
+.route-nav li.here i { background: var(--pc); box-shadow: 0 0 0 3px color-mix(in srgb, var(--pc) 30%, transparent); }
+.route-nav li.here a { text-decoration: underline; text-decoration-color: var(--pc); text-decoration-thickness: 2px; text-underline-offset: 6px; }
+.route-nav a:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; border-radius: 4px; }
+@media (max-width: 759px) {
+  .route-nav li:not(.here) span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .route-nav a { padding: 10px 4px; min-width: 24px; justify-content: center; }
+  .route-nav li + li::before { width: 10px; margin: 0; }
+}
+
 </style>
 </head>
 <body class="pg pg-ai">
@@ -812,18 +989,13 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
   <div class="progress" aria-hidden="true"></div>
   <header class="topbar proj-top">
     <p class="label"><a href="./">Jason Traum</a></p>
-    <nav class="toplinks" aria-label="Sections">
-      <a href="./#work">Projects</a>
-      <a href="ai.html">How I use AI</a>
-      <a href="./#background">Background</a>
-      <a href="./#contact">Contact</a>
-    </nav>
+    <nav class="route-nav" aria-label="Where you are on the site"><ol><li data-stop="start" style="--pc: #5AAEFF"><a href="./"><i aria-hidden="true"></i><span>Start</span></a></li><li data-stop="built.html" style="--pc: #5CC495"><a href="built.html"><i aria-hidden="true"></i><span>Things I&rsquo;ve built</span></a></li><li data-stop="research.html" style="--pc: #6FA0D6"><a href="research.html"><i aria-hidden="true"></i><span>Research and strategy</span></a></li><li class="here" data-stop="ai.html" style="--pc: #A593EC"><a href="ai.html" aria-current="page"><i aria-hidden="true"></i><span>How I use AI</span></a></li><li data-stop="background.html" style="--pc: #E56A9C"><a href="background.html"><i aria-hidden="true"></i><span>About me</span></a></li><li data-stop="contact" style="--pc: #A3A5AE"><a href="./#contact"><i aria-hidden="true"></i><span>Get in touch</span></a></li></ol></nav>
   </header>
   <main id="main">
     <article class="project" id="ai" aria-labelledby="ai-h">
       <header class="p-head">
         <h1 class="p-name" id="ai-h">How I use AI</h1>
-        <p class="p-tag">Examples from Morgan Stanley, my own apps and Wharton</p>
+        <p class="p-tag">How I work with it, the times I overruled it, and the rules I&rsquo;ve written for it</p>
       </header>
       <div class="ai-intro">
         <p class="lede">I&rsquo;ve been a power user of these tools since ChatGPT came out. At Morgan Stanley I led my team&rsquo;s move to GenAI for research, brainstorming and drafting, and people came to me to figure out how to get it to do what they needed. This year Claude wrote the code for my apps, and I did the product, the research and the model myself.</p>
@@ -840,7 +1012,48 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
       </ol>
     </article>
 
-    <section class="exhibit ai-case" id="dreamy-eval" aria-labelledby="eval-h" style="--c: var(--c-msblue)">
+    <section class="exhibit" id="overruled" aria-labelledby="over-h" style="--c: var(--c-magenta)">
+      <header><h2 class="ext" id="over-h">Some of the times I overruled it</h2></header>
+      <div class="table-wrap">
+        <table class="ledger two">
+          <thead><tr><th scope="col">What it suggested</th><th scope="col">What I said</th></tr></thead>
+          <tbody>
+            <tr><td>Leading my Morgan Stanley resume line with how many agents I built.</td><td>&ldquo;It was more that people came to me to ask how to get AI to do what they wanted.&rdquo; The line leads with adoption now.</td></tr>
+            <tr><td>Renting original art for $60 a month.</td><td>&ldquo;Your math is completely off. $60 is way too much. No one would ever pay that.&rdquo;</td></tr>
+            <tr><td>The first Walldrobe screens.</td><td>&ldquo;Complete AI slop, too many buttons, not intuitive.&rdquo; It got redone, and later restarted from an earlier version.</td></tr>
+            <tr><td>Asking hotels how long their wait times are.</td><td>&ldquo;Let people find their own reason for it.&rdquo; Hotels care more about staffing than lines.</td></tr>
+            <tr><td>A batch of startup ideas built around my hobbies.</td><td>&ldquo;It doesn&rsquo;t seem like you thought deeply about these triggers and found a real problem.&rdquo; It redid them starting from real industry problems.</td></tr>
+            <tr><td>An &ldquo;I&rsquo;m in&rdquo; button in solid green before anyone tapped it.</td><td>&ldquo;I don&rsquo;t like how &lsquo;I&rsquo;m in&rsquo; is green even though I&rsquo;m not selected.&rdquo; Untaken choices are outlined now.</td></tr>
+            <tr><td>A fueling plan that ignored what I actually had.</td><td>&ldquo;Did you even look at what I have? Be specific.&rdquo;</td></tr>
+            <tr><td>Claude said not to rewrite one of Dreamy&rsquo;s forecast models. Claude Code said to.</td><td>I read the code myself and sided with Claude Code.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="exhibit" id="rules" aria-labelledby="rules-h" style="--c: var(--c-amethyst)">
+      <header><h2 class="ext" id="rules-h">Rules I&rsquo;ve written for it, and the mistake behind each one</h2></header>
+      <div class="table-wrap">
+        <table class="ledger three">
+          <thead><tr><th scope="col">The rule</th><th scope="col">What went wrong first</th><th scope="col">Where</th></tr></thead>
+          <tbody>
+            <tr><td>Don&rsquo;t ship related model fixes one at a time.</td><td>Three models outvoted a runner&rsquo;s real races, and no single fix helped.</td><td>Dreamy</td></tr>
+            <tr><td>One way to calculate fitness, one set of 8 pace zones, one date parser, one pace formatter. Never write a second one.</td><td>Fitness was calculated three ways and shown five ways across pages, and paces showed up as &ldquo;8:352&rdquo;.</td><td>Dreamy</td></tr>
+            <tr><td>The same runner can never get different numbers on different pages.</td><td>Same as above.</td><td>Dreamy</td></tr>
+            <tr><td>Never hardcode a number that should be computed. If you can&rsquo;t compute it yet, say so.</td><td>Three training-load numbers shipped as zeros.</td><td>Dreamy</td></tr>
+            <tr><td>After any correction, add the lesson to a file the next session reads first.</td><td>The same date bug got fixed in 14 files and kept coming back.</td><td>Dreamy</td></tr>
+            <tr><td>Every plan starts with a Canvas check for deadlines.</td><td>Two deadlines got left off a weekend plan.</td><td>Wharton OS</td></tr>
+            <tr><td>Saving a plan deletes and rewrites it in one step, or not at all.</td><td>Workouts got duplicated 12 times because the delete and the rewrite weren&rsquo;t done together.</td><td>Dreamy</td></tr>
+            <tr><td>Rules and scoring for layout; models only for taste and photos.</td><td>LLM-written plans in Dreamy got expensive and inconsistent.</td><td>Walldrobe</td></tr>
+            <tr><td>Confirm the page&rsquo;s script actually ran before calling a change done.</td><td>An early return silently stopped every script on this site, with no error.</td><td>This site</td></tr>
+            <tr><td>Every sentence has to sound like me.</td><td>The first version of this site read like AI.</td><td>This site</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" id="examples" aria-labelledby="ex-h"><h2 class="stop-h" id="ex-h">More examples</h2>
+      <details class="more"><summary>How I checked Dreamy&rsquo;s plans and its race forecast</summary><section class="exhibit ai-case" id="dreamy-eval" aria-labelledby="eval-h" style="--c: var(--c-msblue)">
       <header><h2 class="ext" id="eval-h">How I checked Dreamy&rsquo;s plans and its race forecast</h2></header>
       <div class="ai-prose">
         <p>Dreamy&rsquo;s plans come from rules in the code. I started with an LLM writing the plans, but it got expensive, so I switched to an old-fashioned algorithm and kept the LLM for explaining. That also means the same data always gives the same plan.</p>
@@ -863,30 +1076,44 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
         <p>I froze new features for the two and a half weeks before my own marathon, so nobody&rsquo;s predictions moved under them. The part I didn&rsquo;t finish was scoring the forecast against enough real race results. I&rsquo;d set 50 predictions with results as the bar for calibrating it, and I stopped working on Dreamy before I got there.</p>
       </div>
       <p class="src">Sources: Dreamy&rsquo;s repo (research validation doc, review notes from each model, Codex review commits, lessons file). Beta runners&rsquo; names and data stay private.</p>
-    </section>
-
-    <section class="exhibit" id="ms" aria-labelledby="ms-h" style="--c: var(--c-msblue)">
-      <header><h2 class="ext" id="ms-h"><span class="exn">Exhibit 1.</span> At Morgan Stanley I used it to write and build faster, inside rules I set</h2></header>
-      <div class="table-wrap">
-        <table class="ledger">
-          <thead><tr><th scope="col">What it was</th><th scope="col">What the AI did</th><th scope="col">What I did</th></tr></thead>
-          <tbody>
-            <tr><th scope="row">My team&rsquo;s move to GenAI</th><td>Research, brainstorming and first drafts for the whole team.</td><td>Became the person people came to when they couldn&rsquo;t get it to do what they needed. The time it saved went into deeper work, not fewer hours.</td></tr>
-            <tr><th scope="row">About eight internal agents</th><td>One converted our chartbook, one came up with chart ideas from news and advisor feedback, and one was a house-style writing and proofreading assistant that up to about 20 people used.</td><td>Built them, mostly for my team.</td></tr>
-            <tr><th scope="row">Topics in Portfolio Construction pages<span class="when">2025 to 2026</span></th><td>Drafted each section from my charts.</td><td>Made the charts and gave it the house-style spec to draft from: one bold takeaway, one chart, 80 to 130 words a section, &ldquo;bp&rdquo; not &ldquo;bps&rdquo;, a source and an &ldquo;as of&rdquo; date on everything, and no overstating cause and effect. I set the framing, and when drafts got wordy I pointed it at our past pieces.</td></tr>
-            <tr><th scope="row">A Fed meeting recap for advisors<span class="when">Sep 2025</span></th><td>Checked the Fed&rsquo;s statement and drafted the recap in our format.</td><td>Cut it to about 450 to 600 words, matched it to my chart order, and dropped the section on market-implied rates because I couldn&rsquo;t pull that data myself that day.</td></tr>
-            <tr><th scope="row">Consumer sentiment vs stock returns<span class="when">May 2026</span></th><td>Built the charts and the workbook.</td><td>Picked the method: monthly data, 10-year rolling z-scores so the drop in sentiment after 2008 didn&rsquo;t skew the buckets, and only the top and bottom 20% so I wasn&rsquo;t overclaiming. I caught it when a later version quietly dropped the z-scores.</td></tr>
-            <tr><th scope="row">Last read on a research report<span class="when">May 2026</span></th><td>13 line edits on our stock-bond indicator report, including a header that showed up three times.</td><td>Limited it to line edits, since the structure had already been through review, and made the edits myself.</td></tr>
-            <tr><th scope="row">My chartbook macro</th><td>A code review that found real bugs, like an error handler that could run before a sheet was set and a retry loop that never counted its retries.</td><td>Wrote and ran the macro behind our monthly thousand-slide package, and asked for the review.</td></tr>
-            <tr><th scope="row">Research as a feed<span class="when">2025 to 2026</span></th><td>In April 2026, a working prototype of our research as a scrolling feed of short posts with charts.</td><td>The idea, in 2025, after advisors kept asking for research we&rsquo;d already emailed them. I pitched it internally. It was never adopted.</td></tr>
-          </tbody>
-        </table>
+    </section></details>
+      <details class="more"><summary>How I used it as my analyst in a strategy sim</summary><section class="exhibit ai-case" id="pivot" aria-labelledby="pivot-h" style="--c: var(--c-jade)">
+      <header><h2 class="ext" id="pivot-h">How I used it as my analyst in a strategy sim</h2></header>
+      <div class="ai-prose">
+        <p>In Pivot or Perish, the retail strategy sim in MKTG 6110, my team ran Getchell&rsquo;s, a money-losing department store worth $93 million with $287 million of debt. We grew it to about $3.4 billion. That was more than twice any other team in our class, and the highest across all sections of a course nearly every first-year takes. AI use was allowed.</p>
       </div>
-      <p class="src">No internal numbers, client data or colleagues&rsquo; names.</p>
-    </section>
-
-    <section class="exhibit" id="apps" aria-labelledby="apps-h" style="--c: var(--c-razz)">
-      <header><h2 class="ext" id="apps-h"><span class="exn">Exhibit 2.</span> In my own projects Claude writes the code, and I make the product calls</h2></header>
+      <!--pivot--><details class="mv" id="sim-box">
+        <summary><svg class="mv-spark" viewBox="0 0 96 30" width="96" height="30" aria-hidden="true"><polyline points="0.0,27.3 12.0,23.3 24.0,19.5 36.0,17.7 48.0,14.2 60.0,10.9 72.0,5.2 84.0,2.0 96.0,2.4"/></svg><span class="mv-sum"><b>$93 million to $3.43 billion</b> in eight rounds</span><span class="mv-open">Click through each round</span></summary>
+        <div class="sim" id="sim">
+          <div class="sim-nav">
+            <button type="button" class="sim-step" data-d="-1" aria-label="Previous round"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <b class="sim-r" aria-live="polite">Round 0</b>
+            <button type="button" class="sim-step" data-d="1" aria-label="Next round"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <span class="sim-dots" role="group" aria-label="Rounds"><button type="button" class="sim-dot" data-i="0" aria-label="Round 0"></button><button type="button" class="sim-dot" data-i="1" aria-label="Round 1 test"></button><button type="button" class="sim-dot" data-i="2" aria-label="Round 1"></button><button type="button" class="sim-dot" data-i="3" aria-label="Round 2"></button><button type="button" class="sim-dot" data-i="4" aria-label="Round 3"></button><button type="button" class="sim-dot" data-i="5" aria-label="Round 4"></button><button type="button" class="sim-dot" data-i="6" aria-label="Round 5"></button><button type="button" class="sim-dot" data-i="7" aria-label="Round 6"></button><button type="button" class="sim-dot" data-i="8" aria-label="Round 7"></button><button type="button" class="sim-dot" data-i="9" aria-label="Round 8"></button></span>
+          </div>
+          <div class="sim-grid">
+            <dl class="sim-in" aria-label="What we set this round"></dl>
+            <div class="sim-out">
+              <svg class="sim-radar" viewBox="-130 -118 260 236" role="img" aria-label="Retailing Success Matrix scores this round"></svg>
+              <div class="sim-mini">
+                <figure><figcaption>Market value <b class="sim-mv"></b></figcaption><svg class="sim-c1" viewBox="0 0 180 64" preserveAspectRatio="none" aria-hidden="true"></svg></figure>
+                <figure><figcaption>Profit so far <b class="sim-cp"></b></figcaption><svg class="sim-c2" viewBox="0 0 180 64" preserveAspectRatio="none" aria-hidden="true"></svg></figure>
+              </div>
+            </div>
+          </div>
+          <p class="sim-note"></p>
+          <p class="sim-key"><i class="k-us"></i>Getchell&rsquo;s <i class="k-fair"></i>Fair value <i class="k-riv"></i>The six rivals <i class="k-up"></i>Raised this round <i class="k-down"></i>Cut this round</p>
+        </div>
+        <script>window.SIM = {"steps": ["Round 0", "Round 1 test", "Round 1", "Round 2", "Round 3", "Round 4", "Round 5", "Round 6", "Round 7", "Round 8"], "prev": [null, 0, 0, 2, 3, 4, 5, 6, 7, 8], "x": [0, 1, 1, 2, 3, 4, 5, 6, 7, 8], "inp": {"mk": [[54, 66], [62, 76], [62, 76], [65, 80], [65, 85], [68, 85], [68, 85], [68, 85], [70, 88], [72, 90]], "br": [[50, 50], [50, 50], [50, 50], [50, 50], [70, 50], [70, 50], [75, 50], [80, 60], [85, 70], [90, 70]], "de": [[50, 50], [35, 35], [50, 50], [50, 50], [65, 50], [65, 50], [70, 50], [75, 50], [80, 50], [80, 50]], "pb": [50, 75, 75, 75, 75, 75, 90, 100, 100, 100], "q": [5, 5, 5, 5, 7, 7, 7, 7, 7, 7], "st": [200, 200, 200, 200, 240, 240, 240, 240, 240, 240], "cs": [15, 10, 15, 15, 22, 23, 27, 31, 34, 38], "se": [10, 25, 24, 24.5, 21.5, 21.5, 23, 24.5, 24.5, 20], "on": [2, 18, 16, 19, 18, 22, 26, 30, 30, 25], "vm": [30, 10, 10, 10, 10, 10, 10, 10, 10, 10], "ca": [10, 5, 4, 2.9, 2.2, 0, 0, 0, 0, 0]}, "m": {"B": [[6.3, 4.2, [4.1, 1.8, 3.5, 2.5, 4.9, 3.6]], [5.2, 3.5, [4.3, 1.9, 3.7, 2.8, 5, 3.9]], [6.3, 4.2, [4, 1.8, 3.5, 2.6, 4.8, 3.6]], [6.2, 4.1, [4, 1.8, 3.5, 2.8, 4.8, 3.7]], [7.2, 4.8, [3.8, 1.7, 3.3, 2.7, 4.6, 3.6]], [7.2, 4.8, [3.8, 1.6, 3.3, 2.8, 4.6, 3.5]], [7.5, 5, [3.8, 1.6, 3.3, 2.8, 4.5, 3.5]], [7.6, 5.1, [3.8, 1.6, 3.3, 2.9, 4.5, 3.5]], [7.7, 5.1, [3.8, 1.5, 3.2, 2.9, 4.4, 3.5]], [7.6, 5, [3.8, 1.5, 3.2, 3, 4.4, 3.5]]], "E": [[5.8, 4.3, [3.1, 3.5, 1.4, 3.8, 6.5, 3.3]], [6.4, 4.3, [2.8, 3.6, 1.1, 3.9, 6.2, 3.5]], [7.2, 4.8, [2.6, 3.5, 1.1, 3.9, 6.1, 3.3]], [7.6, 5.1, [2.5, 3.5, 1, 3.9, 6.2, 3.4]], [8.4, 5.6, [2.3, 3.4, 0.9, 4, 6.2, 3.2]], [8.3, 5.5, [2.4, 3.4, 0.9, 4.1, 6.2, 3.1]], [8.5, 5.7, [2.4, 3.4, 0.9, 4.1, 6.2, 3]], [8.8, 5.8, [2.4, 3.3, 0.9, 4.2, 6.1, 2.8]], [8.7, 5.8, [2.4, 3.3, 0.9, 4.3, 6.1, 2.8]], [8.5, 5.6, [2.5, 3.4, 0.9, 4.4, 6.2, 2.7]]], "F": [[3.4, 5.2, [7.8, 2.8, 1.8, 1.5, 3.6, 5.2]], [3.3, 5.2, [7.8, 2.9, 1.5, 1.8, 3.9, 5.6]], [4, 5.1, [7.6, 2.9, 1.5, 1.7, 3.7, 5.5]], [4.4, 5, [7.5, 2.9, 1.4, 1.8, 3.8, 5.5]], [5.4, 4.8, [7.1, 2.7, 1.3, 1.8, 3.7, 5.4]], [5.8, 4.7, [7, 2.6, 1.3, 1.8, 3.7, 5.2]], [6.3, 4.6, [6.9, 2.5, 1.3, 1.8, 3.6, 5.1]], [6.7, 4.6, [6.8, 2.3, 1.3, 1.7, 3.6, 4.9]], [6.8, 4.6, [6.9, 2.3, 1.3, 1.7, 3.6, 4.9]], [6.8, 4.7, [7.1, 2.2, 1.3, 1.8, 3.6, 4.8]]], "L": [[4.9, 3.6, [5, 5.1, 5.4, 5, 4.8, 4.9]], [4.7, 3.7, [5.1, 5.2, 5.5, 4.9, 4.9, 4.9]], [4.7, 3.7, [5.1, 5.2, 5.5, 4.9, 4.9, 4.9]], [4.6, 3.7, [5.1, 5.2, 5.5, 4.9, 4.9, 4.9]], [4.6, 3.7, [5.2, 5.2, 5.5, 4.9, 5, 4.9]], [4.6, 3.7, [5.2, 5.2, 5.5, 4.8, 5, 5]], [4.6, 3.7, [5.2, 5.2, 5.5, 4.8, 5, 5]], [4.5, 3.7, [5.2, 5.3, 5.6, 4.7, 5, 5]], [4.5, 3.7, [5.3, 5.3, 5.6, 4.7, 5, 5]], [4.5, 3.7, [5.2, 5.3, 5.6, 4.6, 5.1, 5.1]]]}, "mv": [93.2, 583.8, 633.7, 1131.5, 1372.8, 1847.7, 2282.8, 3055.6, 3478.7, 3431.6], "ni": [-6.3, 30.8, 31.0, 60.6, 72.7, 102.5, 122.5, 149.2, 176.0, 189.4], "notes": ["What we were given: a department store losing money, with $287M of debt.", "A test we undid: we pushed most levers hard to see what each one did. Cutting depth cost us Brand, and cutting service cost us the service lead.", "Kept what worked in the test and put depth and service back.", "Held both leads and raised markup. Profit paid down $32M of debt.", "My bolder test: private brand quality 7, more breadth, depth and service, and 40 more stores. Service and quality paid off. The stores didn&rsquo;t.", "No new stores. Profit paid off $98M of debt.", "Private brand to 90%, which kept our costs rising slower than rivals&rsquo;.", "Higher-cost breadth from 50 to 60, the best single move of the game. Nobody else was above 50.", "Raised markup and held spending about flat while the budget jumped. Peak value.", "It picked trimming online and experience for profit. Value fell 1.4%, because the sim rewarded growth."]};</script>
+      </details><!--/pivot-->
+      <div class="ai-prose">
+        <p>I ran the AI side in my own Claude. I fed it the manual and about 16 reports a round, and had it model every lever and result for all seven companies. That&rsquo;s how we worked out how the game scores things, which the reports never say. Customer service counted in two of the four quadrants, so it was our most important dollar. We used the game&rsquo;s one undo as a test market, and before every submit we wrote down what would prove us wrong. My teammates and I made the calls.</p>
+        <p>Its first suggestion for round 3 was small and safe. I pushed for a bolder test, which found what drove the rest of the game. In the last round I asked it to pick between two options and went with its answer, cutting spend for profit. Market value fell 1.4% because the sim rewarded growth. Now I ask what each option risks and decide myself.</p>
+      </div>
+      <p class="src">Sources: our decision log and each roundSources: our team&rsquo;s reports from each round, and the class results our professor shared.rsquo;s reports, and the class results our professor shared.</p>
+    </section></details>
+      <details class="more"><summary>Examples from my own projects</summary><section class="exhibit" id="apps" aria-labelledby="apps-h" style="--c: var(--c-razz)">
+      <header><h2 class="ext" id="apps-h">In my own projects Claude writes the code, and I make the product calls</h2></header>
       <div class="table-wrap">
         <table class="ledger">
           <thead><tr><th scope="col">What it was</th><th scope="col">What the AI did</th><th scope="col">What I did</th></tr></thead>
@@ -905,10 +1132,10 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
           </tbody>
         </table>
       </div>
-    </section>
-
-    <section class="exhibit" id="else" aria-labelledby="else-h" style="--c: var(--c-jade)">
-      <header><h2 class="ext" id="else-h"><span class="exn">Exhibit 3.</span> At Wharton and everywhere else, I mostly use it to check things</h2></header>
+    </section></details>
+      <details class="more"><summary>The build log</summary><!--log--><section class="exhibit" id="log" aria-labelledby="log-h" style="--c: var(--c-msblue)"><header><h2 class="ext" id="log-h">Build log: most of Dreamy got built in February and March, while I was working full time and training for the Jersey City Marathon.</h2></header><div class="log-key"><span><i class="d-dreamy"></i>Dreamy</span><span><i class="d-in"></i>In.</span><span><i class="d-5k"></i>5K 5 Bars</span><span><i class="d-wd"></i>Walldrobe</span><span><i class="d-other"></i>Other things I built</span><span><i class="ring race"></i>Races</span><span><i class="ring first"></i>First day at Wharton</span></div><div class="log-key k2"><span><i class="d-ink"></i>Circle: a day I wrote code, bigger for more commits</span><span><i class="chat d-ink"></i>Square: a day of research or planning, no code</span></div><div class="log-wrap"><table class="log"><caption class="sr-only">January to May</caption><thead><tr><th></th><th scope="col">Jan</th><th scope="col"></th><th scope="col"></th><th scope="col"></th><th scope="col">Feb</th><th scope="col"></th><th scope="col"></th><th scope="col"></th><th scope="col">Mar</th><th scope="col"></th><th scope="col"></th><th scope="col"></th><th scope="col"></th><th scope="col">Apr</th><th scope="col"></th><th scope="col"></th><th scope="col"></th><th scope="col">May</th><th scope="col"></th><th scope="col"></th></tr></thead><tbody><tr><th scope="row">Mon</th><td></td><td></td><td></td><td></td><td></td><td title="2026-02-09: 7 commits to Dreamy"><i class="d-dreamy" style="--s:0.54"></i></td><td title="2026-02-16: 26 commits to Dreamy"><i class="d-dreamy" style="--s:0.72"></i></td><td title="2026-02-23: 52 commits to Dreamy"><i class="d-dreamy" style="--s:0.88"></i></td><td title="2026-03-02: 76 commits to Dreamy"><i class="d-dreamy" style="--s:0.99"></i></td><td title="2026-03-09: 46 commits to Dreamy"><i class="d-dreamy" style="--s:0.85"></i></td><td title="2026-03-16: 23 commits to Dreamy"><i class="d-dreamy" style="--s:0.70"></i></td><td title="2026-03-23: 21 commits to Dreamy"><i class="d-dreamy" style="--s:0.68"></i></td><td title="2026-03-30: 12 commits to Dreamy"><i class="d-dreamy" style="--s:0.60"></i></td><td></td><td title="2026-04-13: 7 commits to Dreamy"><i class="d-dreamy" style="--s:0.54"></i></td><td title="2026-04-20: 2 commits to Dreamy"><i class="d-dreamy" style="--s:0.45"></i></td><td></td><td></td><td></td><td></td></tr><tr><th scope="row"></th><td></td><td></td><td></td><td title="2026-01-27: research or planning on Dreamy"><i class="chat d-dreamy"></i></td><td title="2026-02-03: 40 commits to Dreamy"><i class="d-dreamy" style="--s:0.81"></i></td><td title="2026-02-10: 22 commits to Dreamy"><i class="d-dreamy" style="--s:0.69"></i></td><td title="2026-02-17: 51 commits to Dreamy"><i class="d-dreamy" style="--s:0.88"></i></td><td title="2026-02-24: 46 commits to Dreamy"><i class="d-dreamy" style="--s:0.85"></i></td><td title="2026-03-03: 22 commits to Dreamy"><i class="d-dreamy" style="--s:0.69"></i></td><td title="2026-03-10: 49 commits to Dreamy"><i class="d-dreamy" style="--s:0.86"></i></td><td title="2026-03-17: 18 commits to Dreamy"><i class="d-dreamy" style="--s:0.66"></i></td><td title="2026-03-24: 6 commits to Dreamy"><i class="d-dreamy" style="--s:0.52"></i></td><td></td><td title="2026-04-07: 25 commits to Dreamy"><i class="d-dreamy" style="--s:0.72"></i></td><td></td><td></td><td></td><td></td><td></td><td title="2026-05-19: research or planning on something else"><i class="chat d-other"></i></td></tr><tr><th scope="row">Wed</th><td></td><td></td><td></td><td title="2026-01-28: 7 commits to Dreamy"><i class="d-dreamy" style="--s:0.54"></i></td><td title="2026-02-04: 26 commits to Dreamy"><i class="d-dreamy" style="--s:0.72"></i></td><td title="2026-02-11: 20 commits to Dreamy"><i class="d-dreamy" style="--s:0.68"></i></td><td title="2026-02-18: 43 commits to Dreamy"><i class="d-dreamy" style="--s:0.83"></i></td><td title="2026-02-25: 43 commits to Dreamy"><i class="d-dreamy" style="--s:0.83"></i></td><td title="2026-03-04: 46 commits to Dreamy"><i class="d-dreamy" style="--s:0.85"></i></td><td title="2026-03-11: 33 commits to Dreamy"><i class="d-dreamy" style="--s:0.77"></i></td><td title="2026-03-18: 1 commits to Dreamy"><i class="d-dreamy" style="--s:0.42"></i></td><td title="2026-03-25: 8 commits to Dreamy"><i class="d-dreamy" style="--s:0.55"></i></td><td title="2026-04-01: research or planning on something else"><i class="chat d-other"></i></td><td title="2026-04-08: 33 commits to Dreamy"><i class="d-dreamy" style="--s:0.77"></i></td><td title="2026-04-15: research or planning on something else"><i class="chat d-other"></i></td><td></td><td></td><td></td><td></td><td title="2026-05-20: research or planning on something else"><i class="chat d-other"></i></td></tr><tr><th scope="row"></th><td title="2026-01-08: research or planning on something else"><i class="chat d-other"></i></td><td></td><td></td><td title="2026-01-29: 32 commits to Dreamy"><i class="d-dreamy" style="--s:0.76"></i></td><td title="2026-02-05: 7 commits to Dreamy"><i class="d-dreamy" style="--s:0.54"></i></td><td title="2026-02-12: 16 commits to Dreamy"><i class="d-dreamy" style="--s:0.64"></i></td><td title="2026-02-19: 19 commits to Dreamy"><i class="d-dreamy" style="--s:0.67"></i></td><td title="2026-02-26: 2 commits to Dreamy"><i class="d-dreamy" style="--s:0.45"></i></td><td title="2026-03-05: 62 commits to Dreamy"><i class="d-dreamy" style="--s:0.93"></i></td><td title="2026-03-12: 46 commits to Dreamy"><i class="d-dreamy" style="--s:0.85"></i></td><td title="2026-03-19: 39 commits to Dreamy"><i class="d-dreamy" style="--s:0.81"></i></td><td title="2026-03-26: 6 commits to Dreamy"><i class="d-dreamy" style="--s:0.52"></i></td><td title="2026-04-02: 6 commits to Dreamy"><i class="d-dreamy" style="--s:0.52"></i></td><td title="2026-04-09: 10 commits to Dreamy"><i class="d-dreamy" style="--s:0.58"></i></td><td></td><td></td><td></td><td title="2026-05-07: research or planning on something else"><i class="chat d-other"></i></td><td></td><td></td></tr><tr><th scope="row">Fri</th><td></td><td></td><td></td><td title="2026-01-30: 3 commits to Dreamy"><i class="d-dreamy" style="--s:0.47"></i></td><td></td><td title="2026-02-13: 22 commits to Dreamy"><i class="d-dreamy" style="--s:0.69"></i></td><td title="2026-02-20: 42 commits to Dreamy"><i class="d-dreamy" style="--s:0.83"></i></td><td title="2026-02-27: 45 commits to Dreamy"><i class="d-dreamy" style="--s:0.84"></i></td><td title="2026-03-06: 90 commits to Dreamy"><i class="d-dreamy" style="--s:1.00"></i></td><td title="2026-03-13: 32 commits to Dreamy"><i class="d-dreamy" style="--s:0.76"></i></td><td title="2026-03-20: 38 commits to Dreamy"><i class="d-dreamy" style="--s:0.80"></i></td><td></td><td title="2026-04-03: 1 commits to Dreamy"><i class="d-dreamy" style="--s:0.42"></i></td><td title="2026-04-10: 20 commits to Dreamy"><i class="d-dreamy" style="--s:0.68"></i></td><td></td><td></td><td title="2026-05-01: research or planning on something else"><i class="chat d-other"></i></td><td></td><td></td><td></td></tr><tr><th scope="row"></th><td></td><td></td><td></td><td></td><td></td><td title="2026-02-14: 33 commits to Dreamy"><i class="d-dreamy" style="--s:0.77"></i></td><td title="2026-02-21: 92 commits to Dreamy"><i class="d-dreamy" style="--s:1.00"></i></td><td title="2026-02-28: 38 commits to Dreamy"><i class="d-dreamy" style="--s:0.80"></i></td><td title="2026-03-07: 67 commits to Dreamy"><i class="d-dreamy" style="--s:0.95"></i></td><td title="2026-03-14: 20 commits to Dreamy"><i class="d-dreamy" style="--s:0.68"></i></td><td title="2026-03-21: 34 commits to Dreamy"><i class="d-dreamy" style="--s:0.78"></i></td><td></td><td title="2026-04-04: 4 commits to Dreamy"><i class="d-dreamy" style="--s:0.49"></i></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><th scope="row">Sun</th><td></td><td></td><td></td><td></td><td title="2026-02-08: research or planning on something else"><i class="chat d-other"></i></td><td title="2026-02-15: 82 commits to Dreamy"><i class="d-dreamy" style="--s:1.00"></i></td><td title="2026-02-22: 100 commits to Dreamy"><i class="d-dreamy" style="--s:1.00"></i></td><td title="2026-03-01: 83 commits to Dreamy"><i class="d-dreamy" style="--s:1.00"></i></td><td title="2026-03-08: 39 commits to Dreamy"><i class="d-dreamy" style="--s:0.81"></i></td><td class="mark race" title="NYC Half Marathon, March 15"><span class="sr-only">NYC Half Marathon, March 15</span></td><td></td><td title="2026-03-29: 14 commits to Dreamy"><i class="d-dreamy" style="--s:0.62"></i></td><td></td><td title="2026-04-12: 30 commits to Dreamy"><i class="d-dreamy" style="--s:0.75"></i></td><td class="mark race" title="Jersey City Marathon, April 19"><span class="sr-only">Jersey City Marathon, April 19</span></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table><table class="log"><caption class="sr-only">June to September</caption><thead><tr><th></th><th scope="col"></th><th scope="col">Jun</th><th scope="col"></th><th scope="col"></th><th scope="col"></th><th scope="col"></th><th scope="col">Jul</th><th scope="col"></th><th scope="col"></th><th scope="col"></th><th scope="col">Aug</th><th scope="col"></th><th scope="col"></th><th scope="col"></th><th scope="col"></th><th scope="col">Sep</th><th scope="col"></th><th scope="col"></th><th scope="col"></th></tr></thead><tbody><tr><th scope="row">Mon</th><td></td><td title="2026-06-01: research or planning on something else"><i class="chat d-other"></i></td><td></td><td title="2026-06-15: research or planning on something else"><i class="chat d-other"></i></td><td></td><td></td><td title="2026-07-06: research or planning on something else"><i class="chat d-other"></i></td><td title="2026-07-13: research or planning on something else"><i class="chat d-other"></i></td><td></td><td></td><td title="2026-08-03: research or planning on something else"><i class="chat d-other"></i></td><td></td><td></td><td></td><td></td><td title="2026-09-07: research or planning on Walldrobe"><i class="chat d-wd"></i></td><td></td><td title="2026-09-21: research or planning on something else"><i class="chat d-other"></i></td><td title="2026-09-28: 11 commits to 5K 5 Bars"><i class="d-5k" style="--s:0.59"></i></td></tr><tr><th scope="row"></th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="mark first" title="First day at Wharton, August 4"><span class="sr-only">First day at Wharton, August 4</span></td><td></td><td></td><td title="2026-08-25: research or planning on Walldrobe"><i class="chat d-wd"></i></td><td></td><td title="2026-09-08: research or planning on Walldrobe"><i class="chat d-wd"></i></td><td></td><td title="2026-09-22: research or planning on Walldrobe"><i class="chat d-wd"></i></td><td title="2026-09-29: 52 commits to this site, 9 commits to DrinkDock, 8 commits to 5K 5 Bars"><i class="d-other" style="--s:0.96"></i></td></tr><tr><th scope="row">Wed</th><td></td><td></td><td title="2026-06-10: research or planning on something else"><i class="chat d-other"></i></td><td></td><td></td><td></td><td title="2026-07-08: research or planning on something else"><i class="chat d-other"></i></td><td title="2026-07-15: research or planning on something else"><i class="chat d-other"></i></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td title="2026-09-09: research or planning on something else"><i class="chat d-other"></i></td><td></td><td></td><td title="2026-09-30: 12 commits to Walldrobe, 6 commits to this site, 4 commits to In."><i class="d-wd" style="--s:0.69"></i></td></tr><tr><th scope="row"></th><td></td><td title="2026-06-04: research or planning on something else"><i class="chat d-other"></i></td><td></td><td></td><td></td><td></td><td title="2026-07-09: research or planning on In."><i class="chat d-in"></i></td><td></td><td></td><td title="2026-07-30: research or planning on In."><i class="chat d-in"></i></td><td></td><td></td><td></td><td></td><td></td><td title="2026-09-10: research or planning on Walldrobe"><i class="chat d-wd"></i></td><td title="2026-09-17: research or planning on something else"><i class="chat d-other"></i></td><td title="2026-09-24: research or planning on something else"><i class="chat d-other"></i></td><td title="2026-10-01: 22 commits to Walldrobe"><i class="d-wd" style="--s:0.69"></i></td></tr><tr><th scope="row">Fri</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td title="2026-07-24: research or planning on Dreamy"><i class="chat d-dreamy"></i></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td title="2026-10-02: 50 commits to Walldrobe"><i class="d-wd" style="--s:0.87"></i></td></tr><tr><th scope="row"></th><td class="mark race" title="Trail ultramarathon near Ithaca, May 30"><span class="sr-only">Trail ultramarathon near Ithaca, May 30</span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td title="2026-09-26: research or planning on something else"><i class="chat d-other"></i></td><td title="2026-10-03: 28 commits to Walldrobe"><i class="d-wd" style="--s:0.74"></i></td></tr><tr><th scope="row">Sun</th><td></td><td class="mark race" title="Western Mass 70.3, the bike leg of a relay, June 7"><span class="sr-only">Western Mass 70.3, the bike leg of a relay, June 7</span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td title="2026-09-27: 12 commits to In."><i class="d-in" style="--s:0.60"></i></td><td title="2026-10-04: 15 commits to Walldrobe"><i class="d-wd" style="--s:0.63"></i></td></tr></tbody></table></div><p class="src">2,214 commits from January 5 to October 4, 2026. Squares are days I did research or planning with Claude but wrote no code, like the In. concept work over the summer and Walldrobe in September. I plan in other apps too, so there were more of those days than this shows. Sources: GitHub history for Dreamy, In., 5K 5 Bars, DrinkDock, Walldrobe and this site; my Claude chat history.</p></section><!--/log--></details>
+      <details class="more"><summary>Examples from Wharton and everywhere else</summary><section class="exhibit" id="else" aria-labelledby="else-h" style="--c: var(--c-jade)">
+      <header><h2 class="ext" id="else-h">At Wharton and everywhere else, I mostly use it to check things</h2></header>
       <div class="table-wrap">
         <table class="ledger">
           <thead><tr><th scope="col">What it was</th><th scope="col">What the AI did</th><th scope="col">What I did</th></tr></thead>
@@ -922,48 +1149,10 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
           </tbody>
         </table>
       </div>
+    </section></details>
     </section>
 
-    <section class="exhibit" id="overruled" aria-labelledby="over-h" style="--c: var(--c-magenta)">
-      <header><h2 class="ext" id="over-h"><span class="exn">Exhibit 4.</span> Some of the times I overruled it</h2></header>
-      <div class="table-wrap">
-        <table class="ledger two">
-          <thead><tr><th scope="col">What it suggested</th><th scope="col">What I said</th></tr></thead>
-          <tbody>
-            <tr><td>Leading my Morgan Stanley resume line with how many agents I built.</td><td>&ldquo;It was more that people came to me to ask how to get AI to do what they wanted.&rdquo; The line leads with adoption now.</td></tr>
-            <tr><td>Renting original art for $60 a month.</td><td>&ldquo;Your math is completely off. $60 is way too much. No one would ever pay that.&rdquo;</td></tr>
-            <tr><td>The first Walldrobe screens.</td><td>&ldquo;Complete AI slop, too many buttons, not intuitive.&rdquo; It got redone, and later restarted from an earlier version.</td></tr>
-            <tr><td>Asking hotels how long their wait times are.</td><td>&ldquo;Let people find their own reason for it.&rdquo; Hotels care more about staffing than lines.</td></tr>
-            <tr><td>A batch of startup ideas built around my hobbies.</td><td>&ldquo;It doesn&rsquo;t seem like you thought deeply about these triggers and found a real problem.&rdquo; It redid them starting from real industry problems.</td></tr>
-            <tr><td>An &ldquo;I&rsquo;m in&rdquo; button in solid green before anyone tapped it.</td><td>&ldquo;I don&rsquo;t like how &lsquo;I&rsquo;m in&rsquo; is green even though I&rsquo;m not selected.&rdquo; Untaken choices are outlined now.</td></tr>
-            <tr><td>A fueling plan that ignored what I actually had.</td><td>&ldquo;Did you even look at what I have? Be specific.&rdquo;</td></tr>
-            <tr><td>Claude said not to rewrite one of Dreamy&rsquo;s forecast models. Claude Code said to.</td><td>I read the code myself and sided with Claude Code.</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <section class="exhibit" id="rules" aria-labelledby="rules-h" style="--c: var(--c-amethyst)">
-      <header><h2 class="ext" id="rules-h"><span class="exn">Exhibit 5.</span> Rules I&rsquo;ve written for it, and the mistake behind each one</h2></header>
-      <div class="table-wrap">
-        <table class="ledger three">
-          <thead><tr><th scope="col">The rule</th><th scope="col">What went wrong first</th><th scope="col">Where</th></tr></thead>
-          <tbody>
-            <tr><td>Don&rsquo;t ship related model fixes one at a time.</td><td>Three models outvoted a runner&rsquo;s real races, and no single fix helped.</td><td>Dreamy</td></tr>
-            <tr><td>One way to calculate fitness, one set of 8 pace zones, one date parser, one pace formatter. Never write a second one.</td><td>Fitness was calculated three ways and shown five ways across pages, and paces showed up as &ldquo;8:352&rdquo;.</td><td>Dreamy</td></tr>
-            <tr><td>The same runner can never get different numbers on different pages.</td><td>Same as above.</td><td>Dreamy</td></tr>
-            <tr><td>Never hardcode a number that should be computed. If you can&rsquo;t compute it yet, say so.</td><td>Three training-load numbers shipped as zeros.</td><td>Dreamy</td></tr>
-            <tr><td>After any correction, add the lesson to a file the next session reads first.</td><td>The same date bug got fixed in 14 files and kept coming back.</td><td>Dreamy</td></tr>
-            <tr><td>Every plan starts with a Canvas check for deadlines.</td><td>Two deadlines got left off a weekend plan.</td><td>Wharton OS</td></tr>
-            <tr><td>Saving a plan deletes and rewrites it in one step, or not at all.</td><td>Workouts got duplicated 12 times because the delete and the rewrite weren&rsquo;t done together.</td><td>Dreamy</td></tr>
-            <tr><td>Rules and scoring for layout; models only for taste and photos.</td><td>LLM-written plans in Dreamy got expensive and inconsistent.</td><td>Walldrobe</td></tr>
-            <tr><td>Confirm the page&rsquo;s script actually ran before calling a change done.</td><td>An early return silently stopped every script on this site, with no error.</td><td>This site</td></tr>
-            <tr><td>Every sentence has to sound like me.</td><td>The first version of this site read like AI.</td><td>This site</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
+    <nav class="pager" aria-label="Chapters"><a class="pg-prev" href="research.html" style="--pg-accent: #6FA0D6"><span class="pg-k">Previous, 2 of 4</span><span class="pg-t">Research and strategy</span></a><a class="pg-next" href="background.html" style="--pg-accent: #E56A9C"><span class="pg-k">Next, 4 of 4</span><span class="pg-t">About me</span><span class="pg-d">My skills, my paintings and what I do outside work.</span></a></nav>
   </main>
   <footer class="colophon">
     <p class="note"><a href="mailto:jtraum@wharton.upenn.edu">jtraum@wharton.upenn.edu</a></p>
@@ -971,181 +1160,6 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
   </footer>
 </div>
 <script>
-/* Dreamy's week builder, shared by the main page and the Dreamy page. */
-(function () {
-  // ---------------------------------------------------------------------------
-  // Week builder: a simplified port of Dreamy's week-skeleton.ts
-  // (generateWeekSkeleton with respectExplicitTargets, as used when a runner
-  // marks days off) and mileage-enforcement.ts (enforceMileageTarget), with the
-  // MILEAGE_DISTRIBUTION table from training-status.ts.
-  // Days are 0 = Monday ... 6 = Sunday.
-  // ---------------------------------------------------------------------------
-  var SHORT = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-  var FULL = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-  var ROLE_LABEL = { long: 'Long run', quality: 'Quality', easy: 'Easy', recovery: 'Recovery', off: 'Off', rest: 'Rest' };
-  var ROLE_SHORT = { long: 'Long', quality: 'Quality', easy: 'Easy', recovery: 'Recov.', off: 'Off', rest: 'Rest' };
-
-  var PREFS = { longDay: 5, qualityDays: [1, 3], qualityTarget: 2 };
-
-  // Mirrors MILEAGE_DISTRIBUTION in training-status.ts
-  var DIST = {
-    3: { long: 0.35, quality: 0.33, easy: 0.32 },
-    4: { long: 0.30, quality: 0.25, easy: 0.25, easy2: 0.20 },
-    5: { long: 0.25, quality: 0.16, quality2: 0.16, easy: 0.22, easy2: 0.21 },
-    6: { long: 0.23, quality: 0.15, quality2: 0.14, medium_long: 0.16, easy: 0.17, easy2: 0.15 },
-    7: { long: 0.21, quality: 0.14, quality2: 0.13, medium_long: 0.15, easy: 0.14, easy2: 0.12, recovery: 0.11 }
-  };
-
-  function round1(x) { return Math.round(x * 10) / 10; }
-  // daysBetween(from, to): forward distance, wrapping; same day counts as 7.
-  function daysBetween(from, to) { var d = to - from; return d > 0 ? d : d + 7; }
-  function gap(a, b) { return Math.min(daysBetween(a, b), daysBetween(b, a)); }
-
-  function fallbackLongRunDays(pref) {
-    var weekend = [5, 6];
-    var candidates = weekend.filter(function (d) { return d !== pref; });
-    var rest = [0, 1, 2, 3, 4, 5, 6]
-      .filter(function (d) { return d !== pref && candidates.indexOf(d) === -1; })
-      .sort(function (a, b) { return gap(pref, a) - gap(pref, b); });
-    return candidates.concat(rest);
-  }
-
-  // Runs and quality sessions per week are the runner's settings in the app; here they follow the weekly miles.
-  function runsFor(miles) { return miles <= 25 ? 4 : miles <= 35 ? 5 : miles <= 50 ? 6 : 7; }
-
-  function skeleton(blocked, prefs, runsWanted) {
-    var A = [null, null, null, null, null, null, null];
-    blocked.forEach(function (d) { A[d] = { role: 'off', why: "You can't run" }; });
-    var runsTarget = Math.min(runsWanted, 7 - blocked.length);
-    var qualityTarget = runsWanted >= 5 ? prefs.qualityTarget : 1;
-
-    // Long run: preferred day, else fallback order.
-    var L = null;
-    if (runsTarget > 0) {
-      if (!A[prefs.longDay]) {
-        A[prefs.longDay] = { role: 'long', why: 'Long run on your preferred day' };
-        L = prefs.longDay;
-      } else {
-        var fb = fallbackLongRunDays(prefs.longDay);
-        for (var i = 0; i < fb.length; i++) {
-          if (!A[fb[i]]) {
-            A[fb[i]] = { role: 'long', why: 'Long run moved from ' + FULL[prefs.longDay] };
-            L = fb[i];
-            break;
-          }
-        }
-      }
-    }
-
-    // Recovery the day after the long run.
-    if (L !== null) {
-      var n = (L + 1) % 7;
-      if (!A[n]) A[n] = { role: 'recovery', why: 'Recovery the day after the long run' };
-    }
-
-    // Quality: preferred days first, then any open day that fits
-    // (not next to the long run, 48 hours from other quality days).
-    var placed = [];
-    function canPlace(d) {
-      if (A[d]) return false;
-      if (L !== null && (daysBetween(d, L) === 1 || daysBetween(L, d) === 1)) return false;
-      for (var k = 0; k < placed.length; k++) if (gap(placed[k], d) < 2) return false;
-      return true;
-    }
-    prefs.qualityDays.forEach(function (d) {
-      if (placed.length >= qualityTarget) return;
-      if (canPlace(d)) { A[d] = { role: 'quality', why: 'Quality on a preferred day' }; placed.push(d); }
-    });
-    [0, 1, 2, 3, 4, 5, 6].filter(function (d) { return prefs.qualityDays.indexOf(d) === -1; }).forEach(function (d) {
-      if (placed.length >= qualityTarget) return;
-      if (canPlace(d)) { A[d] = { role: 'quality', why: "Quality moved here; the usual day doesn't work this week" }; placed.push(d); }
-    });
-
-    // Fill the rest in calendar order: easy runs up to the run target, else rest (same as week-skeleton.ts).
-    for (var d = 0; d < 7; d++) {
-      if (A[d]) continue;
-      var runs = A.filter(function (x) { return x && x.role !== 'off' && x.role !== 'rest'; }).length;
-      if (runs >= runsTarget) { A[d] = { role: 'rest', why: 'Rest to match runs this week' }; continue; }
-      var hard = placed.concat(L !== null ? [L] : [prefs.longDay]);
-      var buffer = hard.some(function (h) { return gap(h, d) === 1; });
-      A[d] = { role: 'easy', why: buffer ? 'Easy buffer next to a hard day' : 'Easy aerobic run' };
-    }
-    return { days: A, longDay: L, quality: placed };
-  }
-
-  function mileage(sk, weekly) {
-    var runDays = sk.days.filter(function (x) { return x.role !== 'off' && x.role !== 'rest'; }).length;
-    var longTarget = sk.longDay !== null ? Math.round(weekly * 0.3) : 0;
-    var miles = [0, 0, 0, 0, 0, 0, 0];
-    if (runDays === 0) return { miles: miles, adjustments: [], impossible: false, short: 0, total: 0, longTarget: 0 };
-
-    // computeDayMileageTargets
-    var p = DIST[Math.min(Math.max(runDays, 3), 7)];
-    var remaining = Math.max(0, weekly - longTarget);
-    var sum = 0;
-    Object.keys(p).forEach(function (k) { if (k !== 'long') sum += p[k]; });
-    var t = {};
-    Object.keys(p).forEach(function (k) { t[k] = k === 'long' ? longTarget : round1(remaining * p[k] / sum); });
-
-    // getMileageForRole
-    sk.days.forEach(function (x, i) {
-      if (x.role === 'long') miles[i] = t.long;
-      else if (x.role === 'quality') miles[i] = Math.min(t.quality != null ? t.quality : t.quality2, sk.longDay !== null ? t.long : Infinity);
-      else if (x.role === 'easy') miles[i] = t.easy != null ? t.easy : t.easy2;
-      else if (x.role === 'recovery') miles[i] = t.recovery != null ? t.recovery : round1(weekly * 0.10);
-      else miles[i] = 0;
-    });
-
-    // Easy days stay at or under 80% of the long run (top of the medium-long range).
-    var cap = sk.longDay !== null ? round1(0.8 * longTarget) : Infinity;
-    var capped = [];
-    sk.days.forEach(function (x, i) {
-      if (x.role === 'easy' && miles[i] > cap) { miles[i] = cap; capped.push(i); }
-    });
-
-    // enforceMileageTarget
-    var TOL = 1.0;
-    var total = miles.reduce(function (s, v) { return s + v; }, 0);
-    var rem = weekly - total;
-    var adjustments = [];
-    function pass(roles, maxFor, adding) {
-      roles.forEach(function (role) {
-        if (Math.abs(rem) <= TOL) return;
-        for (var i = 0; i < 7; i++) {
-          if (Math.abs(rem) <= TOL) break;
-          if (sk.days[i].role !== role) continue;
-          if (adding) {
-            var room = role === 'easy' ? cap - miles[i] : role === 'quality' && sk.longDay !== null ? miles[sk.longDay] - miles[i] : Infinity;
-            var add = Math.min(rem, maxFor(role), room);
-            if (add <= 0) { if (role === 'easy' && capped.indexOf(i) === -1) capped.push(i); continue; }
-            adjustments.push({ day: i, miles: round1(add) });
-            rem -= add;
-            if (role === 'easy' && add < Math.min(rem + add, maxFor(role)) && capped.indexOf(i) === -1) capped.push(i);
-          } else {
-            var floor = { long: 6, quality: 4, medium_long: 3 }[role] || 2;
-            var maxRemove = Math.max(0, miles[i] - floor);
-            var remove = Math.min(Math.abs(rem), maxRemove);
-            if (remove > 0) { adjustments.push({ day: i, miles: -round1(remove) }); rem += remove; }
-          }
-        }
-      });
-    }
-    if (Math.abs(rem) > TOL) {
-      if (rem > 0) {
-        pass(['easy', 'medium_long'], function (r) { return r === 'easy' ? 3 : 2; }, true);
-        if (Math.abs(rem) > TOL) pass(['quality', 'recovery', 'long'], function (r) { return r === 'quality' ? 2 : r === 'recovery' ? 1.5 : 2; }, true);
-      } else {
-        pass(['easy', 'medium_long'], null, false);
-        if (Math.abs(rem) > TOL) pass(['quality', 'long'], null, false);
-      }
-    }
-    adjustments.forEach(function (a) { miles[a.day] = round1(miles[a.day] + a.miles); });
-    var finalTotal = round1(miles.reduce(function (s, v) { return s + v; }, 0));
-    return { miles: miles, adjustments: adjustments, impossible: Math.abs(rem) > TOL, short: round1(rem), total: finalTotal, longTarget: longTarget, capped: capped, cap: cap };
-  }
-
-  window.DreamyWeek = { SHORT: SHORT, FULL: FULL, ROLE_LABEL: ROLE_LABEL, ROLE_SHORT: ROLE_SHORT, PREFS: PREFS, DIST: DIST, round1: round1, daysBetween: daysBetween, gap: gap, fallbackLongRunDays: fallbackLongRunDays, runsFor: runsFor, skeleton: skeleton, mileage: mileage };
-})();
 (function () {
   // Copy-email buttons: clipboard first, text selection as a fallback.
   document.querySelectorAll('button.copy').forEach(function (btn) {
@@ -1494,55 +1508,118 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
   });
 })();
 
-  // Dreamy week builder (main page). Its own block so a problem here can't stop the rest of the page.
+  // Pivot or Perish replay (How I use AI page). Its own block so a problem here can't stop the rest of the page.
   (function () {
-    var fig = document.getElementById('wk'), W = window.DreamyWeek;
-    if (!fig || !W) return;
-    var daysEl = document.getElementById('wk-days'), noteEl = document.getElementById('wk-note');
-    var mi = document.getElementById('wk-mi'), miOut = document.getElementById('wk-mi-out');
-    var blocked = [], weekly = 40, cols = [], chips = Array.prototype.slice.call(fig.querySelectorAll('.wk-chip'));
-    var ROLE = { long: 'Long', quality: 'Quality', easy: 'Easy', recovery: 'Recovery', off: 'Off', rest: 'Rest' };
-    var NARROW = { long: 'Long', quality: 'Quality', easy: 'Easy', recovery: 'Recov.', off: 'Off', rest: 'Rest' };
-    function names(ds) { return ds.map(function (q) { return W.FULL[q]; }).join(' and '); }
-    function fmt(x) { return (Math.round(x * 10) / 10).toFixed(1).replace(/\.0$/, ''); }
-    for (var d = 0; d < 7; d++) {
-      var b = document.createElement('button');
-      b.type = 'button'; b.className = 'wk-day';
-      b.innerHTML = '<span class="wk-plot"><span class="wk-bar"></span><span class="wk-mi"></span><span class="wk-off" hidden>can&rsquo;t</span></span><span class="wk-dn">' + W.SHORT[d] + '</span><span class="wk-role"></span>';
-      (function (day) { b.addEventListener('click', function () { var i = blocked.indexOf(day); if (i === -1) blocked.push(day); else blocked.splice(i, 1); render(); }); })(d);
-      daysEl.appendChild(b); cols.push(b);
-    }
-    function render() {
-      var want = W.runsFor(weekly);
-      var sk = W.skeleton(blocked.slice().sort(), W.PREFS, want), ml = W.mileage(sk, weekly);
-      var base = W.skeleton([], W.PREFS, want);
-      var top = Math.max(ml.longTarget + 2, 8, Math.max.apply(null, ml.miles));
-      sk.days.forEach(function (x, i) {
-        var b = cols[i], off = x.role === 'off', runs = !off && x.role !== 'rest';
-        var h = runs ? Math.max(4, Math.round(ml.miles[i] / top * 100)) : 0;
-        b.setAttribute('aria-pressed', off ? 'true' : 'false');
-        b.className = 'wk-day' + (runs ? ' r-' + x.role : '') + (!off && x.role !== base.days[i].role ? ' changed' : '');
-        b.querySelector('.wk-bar').style.height = (h * 0.8) + '%';
-        var m = b.querySelector('.wk-mi'); m.textContent = runs ? fmt(ml.miles[i]) : ''; m.style.bottom = 'calc(' + (h * 0.8) + '% + 4px)';
-        b.querySelector('.wk-off').hidden = !off;
-        b.querySelector('.wk-role').textContent = off ? '' : (fig.clientWidth < 420 ? NARROW : ROLE)[x.role];
-        b.setAttribute('aria-label', W.FULL[i] + ': ' + (off ? "can't run" : runs ? ROLE[x.role] + ', ' + fmt(ml.miles[i]) + ' miles' : 'rest') + '. ' + (off ? 'Tap to free it up.' : "Tap if you can't run."));
+    var root = document.getElementById('sim'), D = window.SIM;
+    if (!root || !D) return;
+    var NS = 'http://www.w3.org/2000/svg', i = 0, n = D.steps.length;
+    var inEl = root.querySelector('.sim-in'), radar = root.querySelector('.sim-radar'), c1 = root.querySelector('.sim-c1'), c2 = root.querySelector('.sim-c2');
+    var dots = Array.prototype.slice.call(root.querySelectorAll('.sim-dot'));
+    function el(tag, attrs, parent) { var e = document.createElementNS(NS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
+    function money(v) { return v >= 1000 ? '$' + (v / 1000).toFixed(2) + 'B' : (v < 0 ? '&minus;$' + Math.abs(v).toFixed(0) : '$' + v.toFixed(0)) + 'M'; }
+    var cum = []; (function () { var t = 0; [0, 2, 3, 4, 5, 6, 7, 8, 9].forEach(function (s) { t += D.ni[s]; cum.push(t); }); })();
+    var testCum = D.ni[0] + D.ni[1];
+    // Matrix: Brand top left, Experience top right, Frictionless bottom right, Low Price bottom left, like the sim.
+    var AX = [['B', 'Brand', -1, -1], ['E', 'Experience', 1, -1], ['F', 'Frictionless', 1, 1], ['L', 'Low Price', -1, 1]], R = 82;
+    function pt(q, v) { var a = AX[q], r = v / 10 * R / Math.SQRT2; return [a[2] * r, a[3] * r]; }
+    function poly(vals) { return vals.map(function (v, q) { return pt(q, v).join(','); }).join(' '); }
+    function drawRadar() {
+      radar.innerHTML = '';
+      el('circle', { cx: 0, cy: 0, r: R, class: 'r-bg' }, radar);
+      el('line', { x1: -R, y1: 0, x2: R, y2: 0, class: 'r-ax' }, radar); el('line', { x1: 0, y1: -R, x2: 0, y2: R, class: 'r-ax' }, radar);
+      for (var k = 0; k < 6; k++) el('polygon', { points: poly(AX.map(function (a) { return D.m[a[0]][i][2][k]; })), class: 'r-riv' }, radar);
+      el('polygon', { points: poly(AX.map(function (a) { return D.m[a[0]][i][1]; })), class: 'r-fair' }, radar);
+      el('polygon', { points: poly(AX.map(function (a) { return D.m[a[0]][i][0]; })), class: 'r-us' }, radar);
+      AX.forEach(function (a, q) {
+        var us = D.m[a[0]][i][0], t = el('text', { x: a[2] * 76, y: a[3] * 76 + (a[3] < 0 ? -18 : 26), 'text-anchor': a[2] < 0 ? 'end' : 'start', class: 'r-lab' }, radar);
+        t.textContent = a[1] + ' '; var s = el('tspan', { class: 'r-val' }, t); s.textContent = us.toFixed(1);
       });
-      var key = blocked.slice().sort().join(',');
-      chips.forEach(function (c) { c.setAttribute('aria-pressed', c.getAttribute('data-preset') === key ? 'true' : 'false'); });
-      var n = sk.days.filter(function (x) { return x.role !== 'off' && x.role !== 'rest'; }).length, t = [];
-      if (!n) { noteEl.textContent = "Every day is blocked, so there's nothing to plan."; return; }
-      if (sk.longDay !== base.longDay) t.push(sk.longDay === null ? 'No long run this week.' : 'Long run moves to ' + W.FULL[sk.longDay] + '.');
-      if (sk.quality.length < base.quality.length) t.push((base.quality.length - sk.quality.length === 1 ? 'One quality session drops' : 'Both quality sessions drop') + ' because no open day is 48 hours from the other hard days.');
-      else if (sk.quality.join() !== base.quality.join()) t.push('Quality moves to ' + names(sk.quality) + '.');
-      if (ml.impossible) t.push("Can't reach " + weekly + ' miles on ' + n + (n === 1 ? ' day' : ' days') + ' without overloading them, so Dreamy flags it.');
-      noteEl.textContent = n + (n === 1 ? ' run, ' : ' runs, ') + fmt(ml.total) + ' miles. ' + (t.length ? t.join(' ') : (blocked.length ? 'Same shape as an open week.' : 'Long run on ' + W.FULL[base.longDay] + ', quality on ' + names(base.quality) + '.'));
     }
-    chips.forEach(function (c) { c.addEventListener('click', function () { var v = c.getAttribute('data-preset'); blocked = v ? v.split(',').map(Number) : []; render(); }); });
-    mi.addEventListener('input', function () { weekly = Number(mi.value); miOut.textContent = String(weekly); render(); });
-    fig.hidden = false;
+    function chart(svg, vals, cur, curVal, kind) {
+      svg.innerHTML = '';
+      var lo = Math.min(0, Math.min.apply(null, vals)), hi = Math.max.apply(null, vals.concat([curVal])), w = 180 / 9;
+      function y(v) { return 58 - (v - lo) / (hi - lo) * 52; }
+      el('line', { x1: 0, x2: 180, y1: y(0), y2: y(0), class: 'c-base' }, svg);
+      vals.forEach(function (v, k) {
+        if (kind === 'bar') el('rect', { x: k * w + 3, width: w - 6, y: Math.min(y(v), y(0)), height: Math.max(1, Math.abs(y(0) - y(v))), class: k === cur ? 'c-cur' : (k < cur ? 'c-past' : 'c-fut') }, svg);
+      });
+      if (kind === 'line') {
+        el('polyline', { points: vals.map(function (v, k) { return (k * w + w / 2) + ',' + y(v); }).join(' '), class: 'c-line' }, svg);
+        el('circle', { cx: cur * w + w / 2, cy: y(curVal), r: 3.5, class: 'c-dot' }, svg);
+      } else if (curVal !== vals[cur]) {
+        el('rect', { x: cur * w + 3, width: w - 6, y: y(curVal), height: Math.max(1, y(0) - y(curVal)), class: 'c-test' }, svg);
+      }
+    }
+    var ROWS = [
+      ['Markup', 'pair', 'mk'],
+      ['Breadth', 'pair', 'br'], ['Depth', 'pair', 'de'],
+      ['Private brand', function (s) { return D.inp.pb[s] + '%'; }, 'pb', 100],
+      ['Brand quality', function (s) { return D.inp.q[s] + ' of 10'; }, 'q', 10],
+      ['Stores', function (s) { return String(D.inp.st[s]); }, 'st'],
+      ['Service', function (s) { return '$' + D.inp.cs[s] + 'M'; }, 'cs', 40],
+      ['Experience', function (s) { return '$' + D.inp.se[s] + 'M'; }, 'se', 40],
+      ['Online', function (s) { return '$' + D.inp.on[s] + 'M'; }, 'on', 40],
+      ['Vendors', function (s) { return '$' + D.inp.vm[s] + 'M'; }, 'vm', 40],
+      ['Analytics', function (s) { return '$' + D.inp.ca[s] + 'M'; }, 'ca', 40]
+    ];
+    function same(a, b) { return JSON.stringify(a) === JSON.stringify(b); }
+    function render() {
+      var p = D.prev[i], h = '';
+      function dir(a, b) { return b === undefined || a === b ? '' : (a > b ? 'up' : 'down'); }
+      ROWS.forEach(function (r) {
+        var v = D.inp[r[2]][i], pv = p === null ? undefined : D.inp[r[2]][p], val, bar = '', any = '';
+        if (Array.isArray(v)) {
+          var unit = r[2] === 'mk' ? '%' : '';
+          val = v.map(function (x, k) { var d = dir(x, pv && pv[k]); if (d) any = any || d; return '<span class="' + d + '">' + x + unit + '</span>'; }).join(' / ');
+          if (r[2] !== 'mk') bar = v.map(function (x, k) { return '<span class="sim-tr ' + dir(x, pv && pv[k]) + '"><i style="width:' + x + '%"></i></span>'; }).join('');
+        } else {
+          var d = dir(v, pv); any = d;
+          val = '<span class="' + d + '">' + r[1](i) + (d ? '<span class="sim-ar" aria-label="' + (d === 'up' ? 'up' : 'down') + '">' + (d === 'up' ? '&uarr;' : '&darr;') + '</span>' : '') + '</span>';
+          if (r[3]) bar = '<span class="sim-tr ' + d + '"><i style="width:' + Math.min(100, v / r[3] * 100) + '%"></i></span>';
+        }
+        h += '<div><dt>' + r[0] + '</dt><dd><span class="sim-v">' + val + '</span>' + bar + '</dd></div>';
+      });
+      inEl.innerHTML = h;
+      root.querySelector('.sim-r').textContent = D.steps[i];
+      root.querySelector('.sim-note').innerHTML = D.notes[i];
+      root.classList.toggle('is-test', i === 1);
+      dots.forEach(function (d, k) { d.setAttribute('aria-pressed', k === i ? 'true' : 'false'); });
+      root.querySelector('[data-d="-1"]').disabled = i === 0; root.querySelector('[data-d="1"]').disabled = i === n - 1;
+      drawRadar();
+      var finals = [0, 2, 3, 4, 5, 6, 7, 8, 9].map(function (s) { return D.mv[s]; }), x = D.x[i];
+      chart(c1, finals, x, D.mv[i], 'line');
+      chart(c2, cum, x, i === 1 ? testCum : cum[x], 'bar');
+      root.querySelector('.sim-mv').innerHTML = money(D.mv[i]);
+      root.querySelector('.sim-cp').innerHTML = money(i === 1 ? testCum : cum[x]);
+    }
+    function go(k) { i = Math.max(0, Math.min(n - 1, k)); render(); }
+    root.querySelectorAll('.sim-step').forEach(function (b) { b.addEventListener('click', function () { go(i + Number(b.getAttribute('data-d'))); }); });
+    dots.forEach(function (d) { d.addEventListener('click', function () { go(Number(d.getAttribute('data-i'))); }); });
+    root.addEventListener('keydown', function (e) { if (e.key === 'ArrowRight') { go(i + 1); e.preventDefault(); } if (e.key === 'ArrowLeft') { go(i - 1); e.preventDefault(); } });
     render();
   })();
+
+// A link that points inside a folded section opens it.
+(function () {
+  function open() {
+    var id = decodeURIComponent(location.hash.slice(1)); if (!id) return;
+    var el = document.getElementById(id); if (!el) return;
+    for (var d = el.closest && el.closest('details'); d; d = d.parentElement && d.parentElement.closest('details')) d.open = true;
+    el.scrollIntoView();
+  }
+  window.addEventListener('hashchange', open); open();
+})();
+
+(function () {
+  var nav = document.querySelector('.route-nav'); if (!nav) return;
+  var here = nav.querySelector('li.here'), key = 'jt-seen', seen = [];
+  try { seen = JSON.parse(localStorage.getItem(key) || '[]'); } catch (e) {}
+  if (here && seen.indexOf(here.getAttribute('data-stop')) < 0) seen.push(here.getAttribute('data-stop'));
+  try { localStorage.setItem(key, JSON.stringify(seen)); } catch (e) {}
+  Array.prototype.forEach.call(nav.querySelectorAll('li'), function (li) {
+    if (seen.indexOf(li.getAttribute('data-stop')) >= 0 && !li.classList.contains('here')) li.classList.add('seen');
+  });
+})();
 
 </script>
 </body>

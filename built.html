@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>5K 5 Bars | Jason Traum</title>
-<meta name="description" content="Race-day app for our run club's bar crawl">
-<link rel="canonical" href="https://jason-traum.github.io/projects/5k-5-bars.html">
-<meta property="og:type" content="website">
-<meta property="og:title" content="5K 5 Bars | Jason Traum">
-<meta property="og:description" content="Race-day app for our run club's bar crawl">
-<meta property="og:url" content="https://jason-traum.github.io/projects/5k-5-bars.html">
+<title>Things I've built | Jason Traum</title>
+<meta name="description" content="Startups and apps, newest first. Most of these started as a problem I had myself.">
+<link rel="canonical" href="https://jason-traum.github.io/built.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Things I've built | Jason Traum">
+<meta property="og:description" content="Startups and apps, newest first. Most of these started as a problem I had myself.">
+<meta property="og:url" content="https://jason-traum.github.io/built.html">
 <meta property="og:image" content="https://jason-traum.github.io/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#141619">
@@ -831,69 +831,129 @@ details.more[open] > summary { margin-bottom: 10px; }
   .route-nav li + li::before { width: 10px; margin: 0; }
 }
 
+/* How I use AI: ledgers of what the AI did and what I did. */
+.pg main { padding-top: 8px; }
+.pg .p-head { margin-top: 36px; }
+.ai-intro { display: grid; gap: 14px; max-width: 42em; margin-bottom: 34px; }
+.ai-intro .lede { font-size: clamp(1.15rem, 2vw, 1.4rem); line-height: 1.45; color: var(--ink); }
+.ai-intro p { color: var(--ink-2); }
+.ai-h2 { font-size: clamp(1.25rem, 2.4vw, 1.6rem); font-weight: 800; letter-spacing: -0.015em; margin: 0 0 14px; }
+.habits { margin: 0 0 20px; padding-left: 1.4em; display: grid; gap: 10px; max-width: 44em; color: var(--ink-2); }
+.habits li::marker { color: var(--c-msblue); font-weight: 800; font-variant-numeric: tabular-nums; }
+.habits b { color: var(--ink); font-weight: 700; }
+.ai-prose { display: grid; gap: 14px; max-width: 42em; color: var(--ink-2); }
+.ai-prose + .table-wrap, .table-wrap + .ai-prose { margin-top: 22px; }
+.table-wrap { width: 100%; }
+.ledger { width: 100%; border-collapse: collapse; font-size: 15px; line-height: 1.5; }
+.ledger thead th { text-align: left; font-size: 13px; font-weight: 600; color: var(--muted); padding: 0 18px 8px 0; border-bottom: 1px solid var(--rule-strong); }
+.ledger tbody th, .ledger tbody td { text-align: left; vertical-align: top; padding: 14px 18px 14px 0; border-bottom: 1px solid var(--rule); }
+.ledger { table-layout: fixed; }
+.ledger thead th:nth-child(1) { width: 24%; } .ledger thead th:nth-child(2) { width: 32%; }
+.ledger.two thead th:nth-child(1), .ledger.two thead th:nth-child(2) { width: 50%; }
+.ledger.three thead th:nth-child(1) { width: 40%; } .ledger.three thead th:nth-child(2) { width: 46%; } .ledger.three thead th:nth-child(3) { width: 14%; }
+.ledger tbody th { width: 24%; font-weight: 700; color: var(--ink); }
+.ledger tbody td { color: var(--ink-2); }
+.ledger tbody td:last-child { color: var(--ink); }
+.ledger.two tbody td:first-child { width: 50%; color: var(--ink-2); }
+.ledger.three tbody td:first-child { width: 42%; color: var(--ink); font-weight: 600; }
+.ledger.three tbody td:last-child { width: 14%; color: var(--muted); white-space: nowrap; }
+.ledger .when { display: block; margin-top: 3px; font-size: 13px; font-weight: 500; color: var(--muted); font-variant-numeric: tabular-nums; }
+.ledger th a { color: var(--ink); }
+@media (max-width: 760px) {
+  .ledger thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .ledger, .ledger tbody, .ledger tr, .ledger th, .ledger td { display: block; width: auto !important; }
+  .ledger tr { padding: 14px 0; border-bottom: 1px solid var(--rule); }
+  .ledger tbody th, .ledger tbody td { border: 0; padding: 0; }
+  .ledger tbody td { margin-top: 8px; }
+  .ledger tbody td::before { display: block; font-size: 12.5px; font-weight: 600; color: var(--muted); margin-bottom: 2px; }
+  .ledger:not(.two):not(.three) td:nth-of-type(1)::before { content: "What the AI did"; }
+  .ledger:not(.two):not(.three) td:nth-of-type(2)::before { content: "What I did"; }
+  #dreamy-eval .ledger td:nth-of-type(1)::before { content: "What the reviews caught"; }
+  #dreamy-eval .ledger td:nth-of-type(2)::before { content: "What I changed"; }
+  #overruled .ledger td:nth-of-type(1)::before { content: "What it suggested"; }
+  #overruled .ledger td:nth-of-type(2)::before { content: "What I said"; }
+  .ledger.three td:nth-of-type(1) { margin-top: 0; }
+  .ledger.three td:nth-of-type(2)::before { content: "What went wrong first"; }
+  .ledger.three td:nth-of-type(3)::before { content: "Where"; }
+}
+
+/* colophon */
+.sw-dot { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 8px; vertical-align: -1px; }
+.swatch-table .hexes { font-variant-numeric: tabular-nums; color: var(--ink); }
+.swatch-table .hexes span { color: var(--muted); margin-left: 8px; }
+.ledger.changes thead th:nth-child(1) { width: 18%; } .ledger.changes thead th:nth-child(2) { width: 82%; }
+.ledger.changes tbody th { font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+@media (max-width: 760px) {
+  .swatch-table td:nth-of-type(1)::before { content: "Print, then screen" !important; }
+  .swatch-table td:nth-of-type(2)::before { content: "What it does here" !important; }
+  .ledger.changes td::before { content: none !important; }
+  .ledger.changes td { margin-top: 4px; }
+}
+
+
+/* chapter pager */
+.pager { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 12px; margin: 56px 0 8px; }
+.pager a { display: grid; align-content: start; gap: 4px; padding: 16px 18px; border: 1px solid var(--rule); border-top: 4px solid var(--pg-accent, #6FA0D6); border-radius: 12px; text-decoration: none; color: inherit; }
+.pager .pg-next { background: color-mix(in srgb, var(--pg-accent) 10%, transparent); }
+.pager a:hover { border-color: var(--pg-accent, #6FA0D6); }
+.pager a:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+.pg-k { font-size: 13px; color: var(--muted); }
+.pg-t { font-size: 19px; font-weight: 800; letter-spacing: -0.01em; }
+.pg-next { text-align: right; }
+.pg-next .pg-t::after { content: '  \2192'; color: var(--pg-accent, #6FA0D6); }
+.pg-prev .pg-t::before { content: '\2190  '; color: var(--muted); }
+.pg-d { font-size: 14px; color: var(--ink-2, inherit); }
+@media (max-width: 560px) { .pager { grid-template-columns: minmax(0, 1fr); } .pg-next { order: -1; } }
+
+/* route bar: the stops of the site in order. Filled dot = you've been there, ring = you are here. */
+.route-nav { margin: 0; }
+.route-nav ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 0; }
+.route-nav li { position: relative; display: flex; align-items: center; }
+.route-nav li + li::before { content: ''; width: 14px; height: 2px; background: var(--rule, #2A2E33); margin: 0 4px; }
+.route-nav a { display: inline-flex; align-items: center; gap: 7px; padding: 8px 2px; font-size: 14px; color: var(--muted, #9AA5B2); text-decoration: none; white-space: nowrap; }
+.route-nav a:hover { color: var(--ink, #E7ECF1); }
+.route-nav i { width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--pc); box-sizing: border-box; flex: none; }
+.route-nav li.seen i { background: var(--pc); }
+.route-nav li.here a { color: var(--ink, #E7ECF1); font-weight: 700; }
+.route-nav li.here i { background: var(--pc); box-shadow: 0 0 0 3px color-mix(in srgb, var(--pc) 30%, transparent); }
+.route-nav li.here a { text-decoration: underline; text-decoration-color: var(--pc); text-decoration-thickness: 2px; text-underline-offset: 6px; }
+.route-nav a:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; border-radius: 4px; }
+@media (max-width: 759px) {
+  .route-nav li:not(.here) span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .route-nav a { padding: 10px 4px; min-width: 24px; justify-content: center; }
+  .route-nav li + li::before { width: 10px; margin: 0; }
+}
+
 </style>
 </head>
-<body>
+<body class="pg pg-built">
 <a class="skip" href="#main">Skip to content</a>
 <div class="page">
+  <div class="progress" aria-hidden="true"></div>
   <header class="topbar proj-top">
-    <p class="label"><a href="../">Jason Traum</a></p>
-    <nav class="route-nav" aria-label="Where you are on the site"><ol><li data-stop="start" style="--pc: #5AAEFF"><a href=".././"><i aria-hidden="true"></i><span>Start</span></a></li><li class="here" data-stop="built.html" style="--pc: #5CC495"><a href="../built.html"><i aria-hidden="true"></i><span>Things I&rsquo;ve built</span></a></li><li data-stop="research.html" style="--pc: #6FA0D6"><a href="../research.html"><i aria-hidden="true"></i><span>Research and strategy</span></a></li><li data-stop="ai.html" style="--pc: #A593EC"><a href="../ai.html"><i aria-hidden="true"></i><span>How I use AI</span></a></li><li data-stop="background.html" style="--pc: #E56A9C"><a href="../background.html"><i aria-hidden="true"></i><span>About me</span></a></li><li data-stop="contact" style="--pc: #A3A5AE"><a href=".././#contact"><i aria-hidden="true"></i><span>Get in touch</span></a></li></ol></nav>
+    <p class="label"><a href="./">Jason Traum</a></p>
+    <nav class="route-nav" aria-label="Where you are on the site"><ol><li data-stop="start" style="--pc: #5AAEFF"><a href="./"><i aria-hidden="true"></i><span>Start</span></a></li><li class="here" data-stop="built.html" style="--pc: #5CC495"><a href="built.html" aria-current="page"><i aria-hidden="true"></i><span>Things I&rsquo;ve built</span></a></li><li data-stop="research.html" style="--pc: #6FA0D6"><a href="research.html"><i aria-hidden="true"></i><span>Research and strategy</span></a></li><li data-stop="ai.html" style="--pc: #A593EC"><a href="ai.html"><i aria-hidden="true"></i><span>How I use AI</span></a></li><li data-stop="background.html" style="--pc: #E56A9C"><a href="background.html"><i aria-hidden="true"></i><span>About me</span></a></li><li data-stop="contact" style="--pc: #A3A5AE"><a href="./#contact"><i aria-hidden="true"></i><span>Get in touch</span></a></li></ol></nav>
   </header>
   <main id="main">
-    <article class="project" id="fivek" aria-labelledby="fivek-h">
+    <article class="project chapter" id="built-page" aria-labelledby="built-h">
       <header class="p-head">
-        <h2 class="p-name" id="fivek-h">5K 5 Bars</h2>
-        <p class="p-tag">Race-day app for our run club's bar crawl</p>
-<p class="p-sum">You join with your bib, tap one big button at each bar, and the leaderboard only counts running time.</p>
+        <h1 class="p-name" id="built-h">Things I&rsquo;ve built</h1>
+        <p class="p-tag">Startups and apps, newest first. Most of these started as a problem I had myself.</p>
       </header>
-      <div class="p-grid">
-        <div class="p-meta">
-          <dl>
-            <div><dt>Status</dt><dd>Built and live; race date TBD</dd></div>
-            <div><dt>Built</dt><dd>Sep 2026</dd></div>
-            <div><dt>Link</dt><dd><a href="https://jason-traum.github.io/wrtc-5k5bars/?demo">Try the demo</a></dd></div>
-          
-            <div><dt>Built with</dt><dd>Claude Code, Supabase, MapLibre, GitHub Pages</dd></div>
-          </dl>
-        </div>
-        <div class="p-body">
-          <p>I'm organizing a 5K 5 Bars for the Run &amp; Tri Club with the Beer Club: about a kilometer of running between each of five bars, from Rittenhouse Square to Morgan's Pier. I wanted a way to know who actually made it to each bar, so I built an app for race day.</p>
-          <p>You join with your bib number and first name. When you walk into a bar you tap I'm at the bar, and it checks your phone's location. When you head out you tap Leaving. The leaderboard ranks everyone on running pace only, so time at the bars never counts and drinking fast doesn't help you. If someone forgets a tap, that leg just doesn't count. It never guesses a time. GPS is often off inside bars, so if the app says you're too far away you can still check in. That check-in counts and is marked as not GPS-checked so the organizer can see it.</p>
-          <p>People will be a few drinks in at a loud bar, so the race screen only shows the next bar, one big button and when the group is leaving. The stats wait for the finish screen. It only reads your location when you tap, and it saves how far you were from the bar, never where you were.</p>
-          <p>Before building I wrote down who uses it and when, what every screen shows in every situation, the look, and a log of every decision. Claude Code reads those before it changes anything. I&rsquo;d been planning it for a while, so once I sat down to build, the first version came together in a day.</p>
-          <div class="shots" style="--n:3">
-            <figure>
-              <img src="../img/5k-race.webp" width="600" height="962" alt="5K 5 Bars race screen: the progress strip at bar 2 of 5, McGillin's Olde Ale House, and a large red I'm at McGillin's button." loading="lazy" decoding="async">
-              <figcaption>Between bars: the next stop and one big button</figcaption>
-            </figure>
-            <figure>
-              <img src="../img/5k-atbar.webp" width="600" height="962" alt="5K 5 Bars at-the-bar screen: group leaves in 30:00 at 7:39 PM, a Leaving McGillin's button, and Already at Indy Beer Garden." loading="lazy" decoding="async">
-              <figcaption>At a bar, a countdown to when the group leaves, so nobody has to keep track</figcaption>
-            </figure>
-            <figure>
-              <img src="../img/5k-finished.webp" width="600" height="962" alt="5K 5 Bars finish card: 6th of 15, 8:44 per mile, 26:18 running, and a bar showing time running versus time at bars." loading="lazy" decoding="async">
-              <figcaption>The finish screen, from the demo</figcaption>
-            </figure>
-          </div>
-        </div>
-      </div>
     </article>
-<!--deep--><section class="deep" aria-labelledby="deep-h"><h2 class="label" id="deep-h">The details</h2><div class="feat has-fig phone"><div class="feat-text"><h3>Taps that work without signal</h3><p>Signal inside bars is bad, so a tap saves on the phone with the time it actually happened and syncs once the phone has signal again. Under the button it says when it saved, so people know it counted.</p><p>If a retry sends the same tap twice, the database keeps just one.</p></div><figure class="feat-fig phone"><img src="../img/5k-offline.webp" alt="At the bar screen with a No signal note, a Leaving McGillin&#x27;s button, and Saved on this phone at 9:12. Syncs when you have signal." loading="lazy" decoding="async"><figcaption>No signal at the bar, so the tap saved on the phone.</figcaption></figure></div><div class="feat"><div class="feat-text"><h3>The database checks every write</h3><p>Nobody can write to a table directly. Every write goes through a SQL function that checks who is asking, and the only key in the app is the publishable one.</p><p>Before launch I had the security reviewed from scratch, then ran 121 checks against a local stand-in for Supabase, as runners, as organizers, and as phones pretending to be the organizer.</p><pre class="feat-code"><code>revoke all on public.admins, public.event, public.stops,
-  public.runners, public.taps from anon, authenticated;
--- Other runners see when and where you checked in,
--- not how far off your GPS was.
-grant select (id, runner_id, stop, kind, at, verified, source, created_at)
-  on public.taps to authenticated;</code></pre></div></div><div class="feat has-fig phone"><div class="feat-text"><h3>A demo you can open from a link</h3><p>Add ?demo to the link and you get the whole app with 14 sample runners and a simulated location, and nothing is saved. A Preview button jumps to any point in the race and switches your location and signal.</p><p>My screenshot test uses the same controls to go through every screen in light and dark, and fails if anything scrolls sideways or throws an error.</p></div><figure class="feat-fig feat-frame phone"><iframe src="https://jason-traum.github.io/wrtc-5k5bars/?demo" title="5K 5 Bars demo" loading="lazy" allow="screen-wake-lock" style="height:780px"></iframe><figcaption>The live demo. Tap Preview to jump around the race.</figcaption></figure></div><div class="feat has-fig phone"><div class="feat-text"><h3>Everyone starts their own clock</h3><p>My first plan started everyone at the organizer's GO. I changed it the same day, because not everyone leaves at once and a late starter would have looked slow.</p><p>Now GO only opens the start, each runner taps Start when they set off, and Test my location tells you before you go whether your GPS is good enough to check in.</p></div><figure class="feat-fig phone"><img src="../img/5k-ready.webp" alt="Start line screen at Rittenhouse Square with a big Start button, Already at PHS Garden, and a location test that passed." loading="lazy" decoding="async"><figcaption>The start line, with the location test.</figcaption></figure></div><div class="feat has-fig phone"><div class="feat-text"><h3>Setting up the course</h3><p>The organizer places each bar by searching OpenStreetMap, pasting coordinates or standing there, instead of dragging pins.</p><p>Test a check-in tells you whether a tap would count from where you're standing, so you can set each bar's radius while walking the course.</p></div><figure class="feat-fig phone"><img src="../img/5k-organizer.webp" alt="Organizer screen: the start is open, the course as chips for each bar, and a map with numbered stops." loading="lazy" decoding="async"><figcaption>The organizer screen.</figcaption></figure></div></section><!--/deep-->
 
-    <nav class="proj-more" aria-labelledby="more-h">
-      <h2 class="label" id="more-h">More projects</h2>
-      <ul><li><a href="../dreamy.html">Dreamy</a></li><li><a href="walldrobe.html">Walldrobe</a></li><li><a href="drinkdock.html">DrinkDock</a></li><li><a href="in.html">In.</a></li><li><a href="wharton-os.html">Wharton OS</a></li></ul>
-    </nav>
+    <section class="section stop-page" aria-label="Everything I've built">
+      <p class="src built-src">Status as of October 6, 2026.</p>
+      <!--btiles--><ol class="built"><li><a href="projects/walldrobe.html"><img src="img/map-walldrobe.webp" width="432" height="324" alt="Walldrobe: framed prints drawn on a photo of a wall" loading="lazy" decoding="async"><span class="b-txt"><span class="b-name">Walldrobe</span><span class="b-when">Wharton, Sep 2026. A class startup</span><span class="b-line">A wardrobe for your walls: photograph one wall and get it finished</span><span class="b-stat"><i aria-hidden="true"></i>Live</span></span></a></li><li><a href="projects/drinkdock.html"><img src="img/map-drinkdock.webp" width="432" height="324" alt="DrinkDock: the kiosk in a bar, a 3D render" loading="lazy" decoding="async"><span class="b-txt"><span class="b-name">DrinkDock</span><span class="b-when">Wharton, Sep 2026. A class startup, and I&rsquo;m the CTO</span><span class="b-line">Age-verified vending machine for canned drinks at busy bars and hotels</span><span class="b-stat"><i aria-hidden="true"></i>First of 20 in our class pitch</span></span></a></li><li><a href="projects/5k-5-bars.html"><img src="img/map-5k.webp" width="432" height="324" alt="5K 5 Bars: the race screen and its big check-in button" loading="lazy" decoding="async"><span class="b-txt"><span class="b-name">5K 5 Bars</span><span class="b-when">Wharton, Sep 2026. On the side</span><span class="b-line">Race-day app for our run club&rsquo;s bar crawl</span><span class="b-stat"><i aria-hidden="true"></i>Live</span></span></a></li><li><a href="projects/in.html"><img src="img/map-in.webp" width="432" height="324" alt="In.: a morning run with I'm in, Maybe and Not going" loading="lazy" decoding="async"><span class="b-txt"><span class="b-name">In.</span><span class="b-when">Wharton, Sep 2026. On the side</span><span class="b-line">Plan tomorrow&rsquo;s run with other Wharton and Penn grad runners</span><span class="b-stat"><i aria-hidden="true"></i>Live, in testing</span></span></a></li><li><a href="projects/wharton-os.html"><img src="img/map-whartonos.webp" width="432" height="324" alt="The Wharton OS write-up" loading="lazy" decoding="async"><span class="b-txt"><span class="b-name">Wharton OS</span><span class="b-when">Wharton, Sep to Oct 2026. For me</span><span class="b-line">Claude Code and an Obsidian vault that run school for me</span><span class="b-stat"><i aria-hidden="true"></i>In use every day</span></span></a></li><li><a href="dreamy.html"><img src="img/map-builder.webp" width="432" height="324" alt="Dreamy's week builder with the long run on Saturday" loading="lazy" decoding="async"><span class="b-txt"><span class="b-name">Dreamy</span><span class="b-when">Jan to Apr 2026, while I was at Morgan Stanley</span><span class="b-line">AI running coach that plans around the days you can&rsquo;t run</span><span class="b-stat"><i aria-hidden="true"></i>Beta done; I still use it</span></span></a></li><li><a href="https://jason-traum.github.io/running-pace-adjuster/"><img src="img/map-hap.webp" width="432" height="324" alt="The Heat Adjusted Pace app" loading="lazy" decoding="async"><span class="b-txt"><span class="b-name">Heat Adjusted Pace</span><span class="b-when">June 2024, my first web app, before I was using Claude Code</span><span class="b-line">Adjusts your goal pace for heat and humidity</span><span class="b-stat"><i aria-hidden="true"></i>Live</span></span></a></li></ol><!--/btiles-->
+    </section>
+
+    
+
+    <nav class="pager" aria-label="Chapters"><a class="pg-prev" href="./" style="--pg-accent: #5AAEFF"><span class="pg-k">Back to the start</span><span class="pg-t">Start</span></a><a class="pg-next" href="research.html" style="--pg-accent: #6FA0D6"><span class="pg-k">Next, 2 of 4</span><span class="pg-t">Research and strategy</span><span class="pg-d">The Morgan Stanley reports and charts, and my Wharton memo and strategy sim.</span></a></nav>
   </main>
   <footer class="colophon">
     <p class="note"><a href="mailto:jtraum@wharton.upenn.edu">jtraum@wharton.upenn.edu</a></p>
-    <p class="note"><a href="../colophon.html">How this site is made</a></p>
+    <p class="note"><a href="colophon.html">How this site is made</a></p>
   </footer>
 </div>
 <script>
