@@ -754,8 +754,8 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .chapters .label { margin: 0 0 16px; }
 .toc { list-style: none; margin: 0; padding: 0; border-top: 1.5px solid var(--rule-strong); }
 .toc li { border-bottom: 1px solid var(--rule); }
-.toc a { display: grid; grid-template-columns: 2.2em auto minmax(28px, 1fr); grid-template-areas: "n t lead" ". d d"; align-items: baseline; gap: 4px 14px; padding: 18px 0 17px; color: var(--ink); text-decoration: none; }
-.toc .n { grid-area: n; font-size: clamp(1.2rem, 2vw, 1.45rem); font-weight: 800; color: var(--pc, var(--c-msblue)); font-variant-numeric: tabular-nums; }
+.toc a { display: grid; grid-template-columns: 12px auto minmax(28px, 1fr); grid-template-areas: "n t lead" ". d d"; align-items: baseline; gap: 4px 14px; padding: 18px 0 17px; color: var(--ink); text-decoration: none; }
+.toc .n { grid-area: n; width: 12px; height: 12px; border-radius: 50%; background: var(--pc, var(--c-msblue)); align-self: center; font-variant-numeric: tabular-nums; }
 .toc .t { grid-area: t; font-size: clamp(1.2rem, 2vw, 1.45rem); font-weight: 800; letter-spacing: -0.015em; line-height: 1.2; }
 .toc .lead { grid-area: lead; display: flex; align-items: center; gap: 12px; align-self: center; color: var(--muted); }
 .toc .lead::before { content: ''; flex: 1; border-bottom: 2px dotted var(--rule-strong); opacity: .5; }
@@ -764,14 +764,17 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .toc a:hover .t { text-decoration: underline; text-decoration-color: var(--c-msblue); text-decoration-thickness: 2px; text-underline-offset: 5px; }
 .toc a:hover .lead { color: var(--pc, var(--c-msblue)); }
 .toc a:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; border-radius: 4px; }
-@media (max-width: 559px) { .toc a { grid-template-columns: 1.7em minmax(0, 1fr) auto; gap: 4px 10px; } .toc .lead::before { content: none; } }
+@media (max-width: 559px) { .toc a { grid-template-columns: 12px minmax(0, 1fr) auto; gap: 4px 10px; } .toc .lead::before { content: none; } }
 
 /* stop pages: the job, then what I made there, with long stories folded */
 .stop-h { font-size: clamp(1.25rem, 2.4vw, 1.6rem); font-weight: 800; letter-spacing: -0.015em; line-height: 1.2; margin: 0 0 8px; }
 .made-h { font-size: 19px; font-weight: 800; letter-spacing: -0.01em; margin: 40px 0 6px; }
 .made-lead { max-width: 40em; color: var(--ink-2); margin: 0 0 14px; }
-details.more { margin: 14px 0 0; border-top: 1px solid var(--rule); padding-top: 10px; max-width: 46em; }
-details.more > summary { cursor: pointer; font-size: 15px; font-weight: 600; color: var(--olive); padding: 6px 0; list-style-position: inside; }
+details.more { margin: 10px 0 0; max-width: 46em; }
+details.more > summary { cursor: pointer; display: inline-block; font-size: 15px; font-weight: 600; color: var(--ink); padding: 4px 0; list-style: none; text-decoration: underline; text-decoration-color: var(--rule-strong); text-underline-offset: 4px; }
+details.more > summary::-webkit-details-marker { display: none; }
+details.more > summary::after { content: ' \2193'; color: var(--muted); }
+details.more[open] > summary::after { content: ' \2191'; }
 details.more > summary:hover { text-decoration: underline; }
 details.more[open] > summary { margin-bottom: 10px; }
 #examples details.more { max-width: none; }
@@ -800,7 +803,7 @@ details.more[open] > summary { margin-bottom: 10px; }
 .rbig a:hover img, .rbig a:hover .pal { border-color: var(--k-res); }
 .reports { list-style: none; margin: 0 0 40px; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 20px; }
 .reports a { display: flex; flex-direction: column; gap: 6px; text-decoration: none; color: var(--ink); }
-.cover { display: flex; flex-direction: column; justify-content: flex-end; aspect-ratio: 3 / 4; padding: 14px; box-sizing: border-box; border-radius: 6px; border: 1px solid var(--rule); border-top: 4px solid var(--k-res); background: var(--surface); }
+.cover { display: flex; flex-direction: column; justify-content: flex-end; aspect-ratio: 3 / 4; padding: 14px; box-sizing: border-box; border-radius: 6px; border: 1px solid var(--rule); background: var(--surface); }
 .cv-t { font-size: 15px; font-weight: 800; line-height: 1.25; letter-spacing: -0.01em; }
 .reports a:hover .cover { border-color: var(--k-res); }
 .rtiles .stop-h { margin-top: 8px; margin-bottom: 18px; }

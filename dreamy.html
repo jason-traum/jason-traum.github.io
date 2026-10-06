@@ -381,19 +381,19 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
 .prose.story .beta-line { color: var(--t1); }
 .prose.story .beta-line strong { color: var(--glow); font-weight: 700; }
 
-/* chapter pager */
-.pager { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 12px; margin: 56px 0 8px; }
-.pager a { display: grid; align-content: start; gap: 4px; padding: 16px 18px; border: 1px solid var(--rule); border-top: 4px solid var(--pg-accent, #6FA0D6); border-radius: 12px; text-decoration: none; color: inherit; }
-.pager .pg-next { background: color-mix(in srgb, var(--pg-accent) 10%, transparent); }
-.pager a:hover { border-color: var(--pg-accent, #6FA0D6); }
-.pager a:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+/* end of page: previous small, next as the last big line */
+.pager { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px 40px; margin: 72px 0 8px; padding-top: 22px; border-top: 1px solid var(--rule); }
+.pager a { text-decoration: none; color: inherit; }
+.pg-prev { font-size: 15px; color: var(--ink-2, inherit); }
+.pg-prev:hover { color: var(--ink, inherit); text-decoration: underline; text-underline-offset: 3px; }
+.pg-next { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; text-align: right; max-width: 34em; margin-left: auto; }
 .pg-k { font-size: 13px; color: var(--muted); }
-.pg-t { font-size: 19px; font-weight: 800; letter-spacing: -0.01em; }
-.pg-next { text-align: right; }
-.pg-next .pg-t::after { content: '  \2192'; color: var(--pg-accent, #6FA0D6); }
-.pg-prev .pg-t::before { content: '\2190  '; color: var(--muted); }
-.pg-d { font-size: 14px; color: var(--ink-2, inherit); }
-@media (max-width: 560px) { .pager { grid-template-columns: minmax(0, 1fr); } .pg-next { order: -1; } }
+.pg-prev .pg-k::after { content: ':'; }
+.pg-t { font-size: clamp(26px, 4vw, 40px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; text-decoration: underline; text-decoration-color: var(--pg); text-decoration-thickness: 3px; text-underline-offset: 8px; }
+.pg-next:hover .pg-t { text-decoration-thickness: 5px; }
+.pg-d { font-size: 15px; color: var(--ink-2, inherit); margin-top: 10px; }
+.pager a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; border-radius: 4px; }
+@media (max-width: 560px) { .pager { flex-direction: column-reverse; align-items: stretch; } .pg-next { align-items: flex-start; text-align: left; margin-left: 0; } }
 
 /* route bar: the stops of the site in order. Filled dot = you've been there, ring = you are here. */
 .route-nav { margin: 0; }
