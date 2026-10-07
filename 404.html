@@ -880,6 +880,28 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
 .pw-box .wb-x { position: absolute; top: 12px; right: 16px; font-size: 15px; text-decoration: underline; text-underline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) { .pw-b img { transition: none; } }
 
+/* Strategy sim: the result in bold, and the questions I asked (Oct 7) */
+.sim-win { font-size: 19px; line-height: 1.45; color: var(--ink); max-width: 38em; margin: 14px 0 6px; }
+.sim-win strong { font-weight: 700; }
+#pivot .made-h { margin: 34px 0 8px; }
+.sim-qs { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 18px; max-width: 46em; }
+.sim-qs li { display: grid; gap: 4px; }
+.sim-qs q { font-weight: 700; color: var(--ink); quotes: "\201C" "\201D"; }
+.sim-qs span { color: var(--ink-2); }
+
+/* Your name: big on Start, and it glides to the top left when you open another page (Oct 7) */
+@view-transition { navigation: auto; }
+.name { view-transition-name: jt-name; }
+.topbar .label:not(.tb-name) a { view-transition-name: jt-name; display: inline-block; }
+.topbar .tb-name { opacity: 0; pointer-events: none; transition: opacity .25s ease; }
+.topbar .tb-name.on { opacity: 1; pointer-events: auto; }
+::view-transition-group(jt-name) { animation-duration: .45s; animation-timing-function: cubic-bezier(.2,.7,.2,1); }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: .25s; }
+@media (prefers-reduced-motion: reduce) { ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; } }
+
+/* Things I've built: one project per row until there's room for two (Astra review, Oct 7: at 768px the text got 110px) */
+@media (max-width: 1099px) { .built { grid-template-columns: minmax(0, 1fr); gap: 30px; } }
+
 /* route bar: the stops of the site in order. Filled dot = you've been there, ring = you are here. */
 .route-nav { margin: 0; }
 .route-nav ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 0; }
@@ -894,9 +916,10 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
 .route-nav li.here a { text-decoration: underline; text-decoration-color: var(--pc); text-decoration-thickness: 2px; text-underline-offset: 6px; }
 .route-nav a:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; border-radius: 4px; }
 @media (max-width: 759px) {
-  .route-nav li:not(.here) span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
-  .route-nav a { padding: 10px 4px; min-width: 24px; justify-content: center; }
-  .route-nav li + li::before { width: 10px; margin: 0; }
+  .route-nav ol { gap: 0 14px; }
+  .route-nav li + li::before { display: none; }
+  .route-nav a { padding: 8px 0; font-size: 13.5px; gap: 6px; min-height: 36px; }
+  .route-nav i { width: 8px; height: 8px; }
 }
 
 .nf { padding-block: 18vh 12vh; display: grid; gap: 18px; }

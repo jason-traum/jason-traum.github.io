@@ -889,6 +889,28 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
 .pw-box .wb-x { position: absolute; top: 12px; right: 16px; font-size: 15px; text-decoration: underline; text-underline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) { .pw-b img { transition: none; } }
 
+/* Strategy sim: the result in bold, and the questions I asked (Oct 7) */
+.sim-win { font-size: 19px; line-height: 1.45; color: var(--ink); max-width: 38em; margin: 14px 0 6px; }
+.sim-win strong { font-weight: 700; }
+#pivot .made-h { margin: 34px 0 8px; }
+.sim-qs { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 18px; max-width: 46em; }
+.sim-qs li { display: grid; gap: 4px; }
+.sim-qs q { font-weight: 700; color: var(--ink); quotes: "\201C" "\201D"; }
+.sim-qs span { color: var(--ink-2); }
+
+/* Your name: big on Start, and it glides to the top left when you open another page (Oct 7) */
+@view-transition { navigation: auto; }
+.name { view-transition-name: jt-name; }
+.topbar .label:not(.tb-name) a { view-transition-name: jt-name; display: inline-block; }
+.topbar .tb-name { opacity: 0; pointer-events: none; transition: opacity .25s ease; }
+.topbar .tb-name.on { opacity: 1; pointer-events: auto; }
+::view-transition-group(jt-name) { animation-duration: .45s; animation-timing-function: cubic-bezier(.2,.7,.2,1); }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: .25s; }
+@media (prefers-reduced-motion: reduce) { ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; } }
+
+/* Things I've built: one project per row until there's room for two (Astra review, Oct 7: at 768px the text got 110px) */
+@media (max-width: 1099px) { .built { grid-template-columns: minmax(0, 1fr); gap: 30px; } }
+
 /* route bar: the stops of the site in order. Filled dot = you've been there, ring = you are here. */
 .route-nav { margin: 0; }
 .route-nav ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 0; }
@@ -903,9 +925,10 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
 .route-nav li.here a { text-decoration: underline; text-decoration-color: var(--pc); text-decoration-thickness: 2px; text-underline-offset: 6px; }
 .route-nav a:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; border-radius: 4px; }
 @media (max-width: 759px) {
-  .route-nav li:not(.here) span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
-  .route-nav a { padding: 10px 4px; min-width: 24px; justify-content: center; }
-  .route-nav li + li::before { width: 10px; margin: 0; }
+  .route-nav ol { gap: 0 14px; }
+  .route-nav li + li::before { display: none; }
+  .route-nav a { padding: 8px 0; font-size: 13.5px; gap: 6px; min-height: 36px; }
+  .route-nav i { width: 8px; height: 8px; }
 }
 
 </style>
@@ -920,7 +943,7 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
   <main id="main">
     <article class="project" id="drinkdock" aria-labelledby="dd-h">
       <header class="p-head">
-        <h2 class="p-name" id="dd-h">DrinkDock</h2>
+        <h1 class="p-name" id="dd-h">DrinkDock</h1>
         <p class="p-tag">Age-verified vending machine for canned drinks at busy bars and hotels</p>
       </header>
       <div class="p-grid">
@@ -1179,9 +1202,10 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
             ts = 1 + f * (0.75 - 0.11 * q.wt);
             tx = dx / d * 22 * f; ty = dy / d * 14 * f;
           }
-          if (w.el.getAttribute('aria-pressed') === 'true') ts = Math.max(ts, 1.12);
-          tx += Math.sin(t * 0.7 + q.ph) * 2.2; ty += Math.cos(t * 0.55 + q.ph * 1.3) * 1.8;
-          ty += prog * (q.wt - 3) * -9;
+          var narrow = box.clientWidth < 700;
+          if (!narrow && w.el.getAttribute('aria-pressed') === 'true') ts = Math.max(ts, 1.12);
+          // Phones stay still once the words are in: no drift and no scroll shift, so words can't run into each other
+          if (!narrow) { tx += Math.sin(t * 0.7 + q.ph) * 2.2; ty += Math.cos(t * 0.55 + q.ph * 1.3) * 1.8; ty += prog * (q.wt - 3) * -5; }
           var lag = Math.min(1, Math.max(0, intro * 1.6 - (5 - q.wt) * 0.12));
           var ei = 1 - Math.pow(1 - lag, 3);
           var sx = (1 - ei) * Math.cos(q.ph) * 60, sy = (1 - ei) * Math.sin(q.ph) * 40;
@@ -1193,7 +1217,7 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
           w.el.style.opacity = !entered ? '0' : ei >= 1 ? '' : Math.min(1, ei * 1.4).toFixed(2);
           w.el.style.zIndex = f > 0.2 ? String(Math.round(f * 10)) : '';
         });
-        if (onScreen || busy || intro < 1) raf = requestAnimationFrame(frame);
+        if ((onScreen && box.clientWidth >= 700) || busy || intro < 1) raf = requestAnimationFrame(frame);
       }
       function kick() { if (!raf) raf = requestAnimationFrame(frame); }
       box.addEventListener('pointermove', function (ev) {
@@ -1244,11 +1268,13 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
       if (!listing) layout();
     });
 
-    var fine = window.matchMedia('(hover: hover) and (pointer: fine)');
+    // A click pins a word. With a mouse, hovering previews another word and leaving the cloud goes back to the pinned one.
+    var fine = window.matchMedia('(hover: hover) and (pointer: fine)'), pinned = null;
     words.forEach(function (el) {
-      el.addEventListener('click', function () { select(el); reveal(); });
-      el.addEventListener('mouseenter', function () { if (fine.matches) select(el); });
+      el.addEventListener('click', function () { pinned = el; select(el); reveal(); });
+      el.addEventListener('mouseenter', function () { if (fine.matches && box.clientWidth >= 700) select(el); });
     });
+    box.addEventListener('mouseleave', function () { if (pinned) select(pinned); });
     // A tap near a small word still counts: pick the closest word within 22px.
     box.addEventListener('click', function (e) {
       if (e.target.classList.contains('kw') || !rects.length) return;
@@ -1257,7 +1283,7 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
         var dx = Math.max(q.x - px, 0, px - (q.x + q.w)), dy = Math.max(q.y - py, 0, py - (q.y + q.h)), dd = Math.sqrt(dx * dx + dy * dy);
         if (dd < bd) { bd = dd; best = q.el; }
       });
-      if (best) { select(best); reveal(); }
+      if (best) { pinned = best; select(best); reveal(); }
     });
     // Arrow keys move between words, so the cloud is one stop in the tab order.
     box.addEventListener('keydown', function (e) {
@@ -1268,7 +1294,7 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
       else if (k === 'ArrowLeft' || k === 'ArrowUp') j = (i - 1 + words.length) % words.length;
       else if (k === 'Home') j = 0;
       else if (k === 'End') j = words.length - 1;
-      if (j >= 0) { e.preventDefault(); select(words[j], true); }
+      if (j >= 0) { e.preventDefault(); pinned = words[j]; select(words[j], true); }
     });
     Array.prototype.forEach.call(chips, function (chip) {
       chip.addEventListener('click', function () {
@@ -1414,6 +1440,18 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
   window.addEventListener('hashchange', open); open();
 })();
 
+// Start: the small name in the top bar only appears once the big name has scrolled away
+(function () {
+  var big = document.querySelector('.name'), small = document.querySelector('.tb-name');
+  if (!big || !small || !('IntersectionObserver' in window)) { if (small) small.classList.add('on'); return; }
+  new IntersectionObserver(function (es) {
+    var gone = !es[0].isIntersecting;
+    small.classList.toggle('on', gone);
+    small.setAttribute('aria-hidden', gone ? 'false' : 'true');
+    var a = small.querySelector('a'); if (a) a.tabIndex = gone ? 0 : -1;
+  }, { threshold: 0 }).observe(big);
+})();
+
 (function () {
   var nav = document.querySelector('.route-nav'); if (!nav) return;
   var here = nav.querySelector('li.here'), key = 'jt-seen', seen = [];
@@ -1423,6 +1461,21 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
   Array.prototype.forEach.call(nav.querySelectorAll('li'), function (li) {
     if (seen.indexOf(li.getAttribute('data-stop')) >= 0 && !li.classList.contains('here')) li.classList.add('seen');
   });
+  // On Start, #contact is its own stop: mark it as where you are when the link or the address points there
+  var start = nav.querySelector('li[data-stop="start"]'), contact = nav.querySelector('li[data-stop="contact"]');
+  if (start && contact && start.classList.contains('here')) {
+    var sync = function () {
+      var c = location.hash === '#contact';
+      start.classList.toggle('here', !c); contact.classList.toggle('here', c);
+      var sa = start.querySelector('a'), ca = contact.querySelector('a');
+      if (c) { sa.removeAttribute('aria-current'); ca.setAttribute('aria-current', 'location'); }
+      else { ca.removeAttribute('aria-current'); sa.setAttribute('aria-current', 'page'); }
+    };
+    sync(); window.addEventListener('hashchange', sync);
+  }
+  // Side pages: say which section you're in
+  var hereA = here && here.querySelector('a');
+  if (hereA && !hereA.hasAttribute('aria-current')) hereA.setAttribute('aria-current', 'location');
 })();
 
 </script>

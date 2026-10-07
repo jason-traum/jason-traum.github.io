@@ -889,6 +889,28 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
 .pw-box .wb-x { position: absolute; top: 12px; right: 16px; font-size: 15px; text-decoration: underline; text-underline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) { .pw-b img { transition: none; } }
 
+/* Strategy sim: the result in bold, and the questions I asked (Oct 7) */
+.sim-win { font-size: 19px; line-height: 1.45; color: var(--ink); max-width: 38em; margin: 14px 0 6px; }
+.sim-win strong { font-weight: 700; }
+#pivot .made-h { margin: 34px 0 8px; }
+.sim-qs { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 18px; max-width: 46em; }
+.sim-qs li { display: grid; gap: 4px; }
+.sim-qs q { font-weight: 700; color: var(--ink); quotes: "\201C" "\201D"; }
+.sim-qs span { color: var(--ink-2); }
+
+/* Your name: big on Start, and it glides to the top left when you open another page (Oct 7) */
+@view-transition { navigation: auto; }
+.name { view-transition-name: jt-name; }
+.topbar .label:not(.tb-name) a { view-transition-name: jt-name; display: inline-block; }
+.topbar .tb-name { opacity: 0; pointer-events: none; transition: opacity .25s ease; }
+.topbar .tb-name.on { opacity: 1; pointer-events: auto; }
+::view-transition-group(jt-name) { animation-duration: .45s; animation-timing-function: cubic-bezier(.2,.7,.2,1); }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: .25s; }
+@media (prefers-reduced-motion: reduce) { ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; } }
+
+/* Things I've built: one project per row until there's room for two (Astra review, Oct 7: at 768px the text got 110px) */
+@media (max-width: 1099px) { .built { grid-template-columns: minmax(0, 1fr); gap: 30px; } }
+
 /* route bar: the stops of the site in order. Filled dot = you've been there, ring = you are here. */
 .route-nav { margin: 0; }
 .route-nav ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 0; }
@@ -903,9 +925,10 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
 .route-nav li.here a { text-decoration: underline; text-decoration-color: var(--pc); text-decoration-thickness: 2px; text-underline-offset: 6px; }
 .route-nav a:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; border-radius: 4px; }
 @media (max-width: 759px) {
-  .route-nav li:not(.here) span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
-  .route-nav a { padding: 10px 4px; min-width: 24px; justify-content: center; }
-  .route-nav li + li::before { width: 10px; margin: 0; }
+  .route-nav ol { gap: 0 14px; }
+  .route-nav li + li::before { display: none; }
+  .route-nav a { padding: 8px 0; font-size: 13.5px; gap: 6px; min-height: 36px; }
+  .route-nav i { width: 8px; height: 8px; }
 }
 
 /* How I use AI: ledgers of what the AI did and what I did. */
@@ -1054,9 +1077,10 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
 .route-nav li.here a { text-decoration: underline; text-decoration-color: var(--pc); text-decoration-thickness: 2px; text-underline-offset: 6px; }
 .route-nav a:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; border-radius: 4px; }
 @media (max-width: 759px) {
-  .route-nav li:not(.here) span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
-  .route-nav a { padding: 10px 4px; min-width: 24px; justify-content: center; }
-  .route-nav li + li::before { width: 10px; margin: 0; }
+  .route-nav ol { gap: 0 14px; }
+  .route-nav li + li::before { display: none; }
+  .route-nav a { padding: 8px 0; font-size: 13.5px; gap: 6px; min-height: 36px; }
+  .route-nav i { width: 8px; height: 8px; }
 }
 
 </style>
@@ -1153,7 +1177,8 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
         <section class="exhibit ai-case" id="pivot" aria-labelledby="pivot-h" style="--c: var(--c-jade)">
       <header><h2 class="ext" id="pivot-h">How I used AI as my analyst in a strategy sim</h2></header>
       <div class="ai-prose">
-        <p>In Pivot or Perish, the retail strategy sim in MKTG 6110, my team ran Getchell&rsquo;s, a money-losing department store worth $93 million with $287 million of debt. We grew it to about $3.4 billion. That was more than twice any other team in our class, and the highest across all sections of a course nearly every first-year takes. AI use was allowed.</p>
+        <p>In Pivot or Perish, the retail strategy sim in MKTG 6110, a core class nearly every first-year takes, my team ran Getchell&rsquo;s, a money-losing department store worth $93 million with $287 million of debt. AI use was allowed.</p>
+        <p class="sim-win"><strong>We grew it to about $3.4 billion: more than 2x the final market value of any other team in our class, and the best result in the course, across every section.</strong></p>
       </div>
       <!--pivot--><details class="mv" id="sim-box">
         <summary><svg class="mv-spark" viewBox="0 0 96 30" width="96" height="30" aria-hidden="true"><polyline points="0.0,27.3 12.0,23.3 24.0,19.5 36.0,17.7 48.0,14.2 60.0,10.9 72.0,5.2 84.0,2.0 96.0,2.4"/></svg><span class="mv-sum"><b>$93 million to $3.43 billion</b> in eight rounds</span><span class="mv-open">Click through each round</span></summary>
@@ -1180,8 +1205,18 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
         <script>window.SIM = {"steps": ["Round 0", "Round 1 test", "Round 1", "Round 2", "Round 3", "Round 4", "Round 5", "Round 6", "Round 7", "Round 8"], "prev": [null, 0, 0, 2, 3, 4, 5, 6, 7, 8], "x": [0, 1, 1, 2, 3, 4, 5, 6, 7, 8], "inp": {"mk": [[54, 66], [62, 76], [62, 76], [65, 80], [65, 85], [68, 85], [68, 85], [68, 85], [70, 88], [72, 90]], "br": [[50, 50], [50, 50], [50, 50], [50, 50], [70, 50], [70, 50], [75, 50], [80, 60], [85, 70], [90, 70]], "de": [[50, 50], [35, 35], [50, 50], [50, 50], [65, 50], [65, 50], [70, 50], [75, 50], [80, 50], [80, 50]], "pb": [50, 75, 75, 75, 75, 75, 90, 100, 100, 100], "q": [5, 5, 5, 5, 7, 7, 7, 7, 7, 7], "st": [200, 200, 200, 200, 240, 240, 240, 240, 240, 240], "cs": [15, 10, 15, 15, 22, 23, 27, 31, 34, 38], "se": [10, 25, 24, 24.5, 21.5, 21.5, 23, 24.5, 24.5, 20], "on": [2, 18, 16, 19, 18, 22, 26, 30, 30, 25], "vm": [30, 10, 10, 10, 10, 10, 10, 10, 10, 10], "ca": [10, 5, 4, 2.9, 2.2, 0, 0, 0, 0, 0]}, "m": {"B": [[6.3, 4.2, [4.1, 1.8, 3.5, 2.5, 4.9, 3.6]], [5.2, 3.5, [4.3, 1.9, 3.7, 2.8, 5, 3.9]], [6.3, 4.2, [4, 1.8, 3.5, 2.6, 4.8, 3.6]], [6.2, 4.1, [4, 1.8, 3.5, 2.8, 4.8, 3.7]], [7.2, 4.8, [3.8, 1.7, 3.3, 2.7, 4.6, 3.6]], [7.2, 4.8, [3.8, 1.6, 3.3, 2.8, 4.6, 3.5]], [7.5, 5, [3.8, 1.6, 3.3, 2.8, 4.5, 3.5]], [7.6, 5.1, [3.8, 1.6, 3.3, 2.9, 4.5, 3.5]], [7.7, 5.1, [3.8, 1.5, 3.2, 2.9, 4.4, 3.5]], [7.6, 5, [3.8, 1.5, 3.2, 3, 4.4, 3.5]]], "E": [[5.8, 4.3, [3.1, 3.5, 1.4, 3.8, 6.5, 3.3]], [6.4, 4.3, [2.8, 3.6, 1.1, 3.9, 6.2, 3.5]], [7.2, 4.8, [2.6, 3.5, 1.1, 3.9, 6.1, 3.3]], [7.6, 5.1, [2.5, 3.5, 1, 3.9, 6.2, 3.4]], [8.4, 5.6, [2.3, 3.4, 0.9, 4, 6.2, 3.2]], [8.3, 5.5, [2.4, 3.4, 0.9, 4.1, 6.2, 3.1]], [8.5, 5.7, [2.4, 3.4, 0.9, 4.1, 6.2, 3]], [8.8, 5.8, [2.4, 3.3, 0.9, 4.2, 6.1, 2.8]], [8.7, 5.8, [2.4, 3.3, 0.9, 4.3, 6.1, 2.8]], [8.5, 5.6, [2.5, 3.4, 0.9, 4.4, 6.2, 2.7]]], "F": [[3.4, 5.2, [7.8, 2.8, 1.8, 1.5, 3.6, 5.2]], [3.3, 5.2, [7.8, 2.9, 1.5, 1.8, 3.9, 5.6]], [4, 5.1, [7.6, 2.9, 1.5, 1.7, 3.7, 5.5]], [4.4, 5, [7.5, 2.9, 1.4, 1.8, 3.8, 5.5]], [5.4, 4.8, [7.1, 2.7, 1.3, 1.8, 3.7, 5.4]], [5.8, 4.7, [7, 2.6, 1.3, 1.8, 3.7, 5.2]], [6.3, 4.6, [6.9, 2.5, 1.3, 1.8, 3.6, 5.1]], [6.7, 4.6, [6.8, 2.3, 1.3, 1.7, 3.6, 4.9]], [6.8, 4.6, [6.9, 2.3, 1.3, 1.7, 3.6, 4.9]], [6.8, 4.7, [7.1, 2.2, 1.3, 1.8, 3.6, 4.8]]], "L": [[4.9, 3.6, [5, 5.1, 5.4, 5, 4.8, 4.9]], [4.7, 3.7, [5.1, 5.2, 5.5, 4.9, 4.9, 4.9]], [4.7, 3.7, [5.1, 5.2, 5.5, 4.9, 4.9, 4.9]], [4.6, 3.7, [5.1, 5.2, 5.5, 4.9, 4.9, 4.9]], [4.6, 3.7, [5.2, 5.2, 5.5, 4.9, 5, 4.9]], [4.6, 3.7, [5.2, 5.2, 5.5, 4.8, 5, 5]], [4.6, 3.7, [5.2, 5.2, 5.5, 4.8, 5, 5]], [4.5, 3.7, [5.2, 5.3, 5.6, 4.7, 5, 5]], [4.5, 3.7, [5.3, 5.3, 5.6, 4.7, 5, 5]], [4.5, 3.7, [5.2, 5.3, 5.6, 4.6, 5.1, 5.1]]]}, "mv": [93.2, 583.8, 633.7, 1131.5, 1372.8, 1847.7, 2282.8, 3055.6, 3478.7, 3431.6], "ni": [-6.3, 30.8, 31.0, 60.6, 72.7, 102.5, 122.5, 149.2, 176.0, 189.4], "notes": ["What we were given: a department store losing money, with $287M of debt.", "A test we undid: we pushed most levers hard to see what each one did. Cutting depth cost us Brand, and cutting service cost us the service lead.", "Kept what worked in the test and put depth and service back.", "Held both leads and raised markup. Profit paid down $32M of debt.", "My bolder test: private brand quality 7, more breadth, depth and service, and 40 more stores. Service and quality paid off. The stores didn&rsquo;t.", "No new stores. Profit paid off $98M of debt.", "Private brand to 90%, which kept our costs rising slower than rivals&rsquo;.", "Higher-cost breadth from 50 to 60, the best single move of the game. Nobody else was above 50.", "Raised markup and held spending about flat while the budget jumped. Peak value.", "It picked trimming online and experience for profit. Value fell 1.4%, because the sim rewarded growth."]};</script>
       </details><!--/pivot-->
       <div class="ai-prose">
-        <p>I ran the AI side in my own Claude. I fed it the manual and about 16 reports a round, and had it model every lever and result for all seven companies. That&rsquo;s how we worked out how the game scores things, which the reports never say. Customer service counted in two of the four quadrants, so it was our most important dollar. We used the game&rsquo;s one undo as a test market, and before every submit we wrote down what would prove us wrong. My teammates and I made the calls.</p>
-        <p>Its first suggestion for round 3 was small and safe. I pushed for a bolder test, which found what drove the rest of the game. In the last round I asked it to pick between two options and went with its answer, cutting spend for profit. Market value fell 1.4% because the sim rewarded growth. Now I ask what each option risks and decide myself.</p>
+        <h3 class="made-h">What I gave it</h3>
+        <p>I ran the AI side in my own Claude. Every round I gave it the sim&rsquo;s manual, our class slides and lecture notes, and the 16 or so reports the game puts out, and had it keep one model of every lever and every result for all seven companies.</p>
+        <h3 class="made-h">The questions I asked it</h3>
+        <ul class="sim-qs">
+          <li><q>Dig deep. Think about the models, the marketing, and what&rsquo;s changed between rounds.</q><span>It worked out how the game scores things, which the reports never say. Each quadrant is two ratings added up, and customer service counts in two of the four. That made service our most important dollar.</span></li>
+          <li><q>That&rsquo;s it? You don&rsquo;t think we should test out more changes?</q><span>Its round 3 plan was small and safe. We went bolder: 40 more stores, the highest private brand quality, and service up $7 million. That round showed us what drove the rest of the game.</span></li>
+          <li><q>Explain why opening new stores still isn&rsquo;t worth it. Is that just a result of the sim?</q><span>Stores only changed access, about 0.1 of rating per 10 stores. Catching a rival would have taken about $350 million of debt, so we stopped adding them.</span></li>
+          <li><q>We&rsquo;ve almost saturated our favorite segment. Should we go after our next favorites without cannibalizing it?</q><span>We kept our positioning and pushed into the two segments growing fastest.</span></li>
+        </ul>
+        <h3 class="made-h">How we used it</h3>
+        <p>We used the game&rsquo;s one undo as a free test market: an extreme round to see what every lever did, then undo it and keep what worked. Before every submit we wrote down what would tell us we were wrong. My teammates and I made the calls.</p>
+        <p>The one time I let it decide, in the last round, I asked it to pick between two options and went with its answer, cutting spend for profit. Market value fell 1.4% because the sim rewarded growth. Now I ask what each option risks and decide myself.</p>
       </div>
       <p class="src">Sources: our decision log and each round&rsquo;s reports, and the class results our professor shared.</p>
     </section>
@@ -1493,9 +1528,10 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
             ts = 1 + f * (0.75 - 0.11 * q.wt);
             tx = dx / d * 22 * f; ty = dy / d * 14 * f;
           }
-          if (w.el.getAttribute('aria-pressed') === 'true') ts = Math.max(ts, 1.12);
-          tx += Math.sin(t * 0.7 + q.ph) * 2.2; ty += Math.cos(t * 0.55 + q.ph * 1.3) * 1.8;
-          ty += prog * (q.wt - 3) * -9;
+          var narrow = box.clientWidth < 700;
+          if (!narrow && w.el.getAttribute('aria-pressed') === 'true') ts = Math.max(ts, 1.12);
+          // Phones stay still once the words are in: no drift and no scroll shift, so words can't run into each other
+          if (!narrow) { tx += Math.sin(t * 0.7 + q.ph) * 2.2; ty += Math.cos(t * 0.55 + q.ph * 1.3) * 1.8; ty += prog * (q.wt - 3) * -5; }
           var lag = Math.min(1, Math.max(0, intro * 1.6 - (5 - q.wt) * 0.12));
           var ei = 1 - Math.pow(1 - lag, 3);
           var sx = (1 - ei) * Math.cos(q.ph) * 60, sy = (1 - ei) * Math.sin(q.ph) * 40;
@@ -1507,7 +1543,7 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
           w.el.style.opacity = !entered ? '0' : ei >= 1 ? '' : Math.min(1, ei * 1.4).toFixed(2);
           w.el.style.zIndex = f > 0.2 ? String(Math.round(f * 10)) : '';
         });
-        if (onScreen || busy || intro < 1) raf = requestAnimationFrame(frame);
+        if ((onScreen && box.clientWidth >= 700) || busy || intro < 1) raf = requestAnimationFrame(frame);
       }
       function kick() { if (!raf) raf = requestAnimationFrame(frame); }
       box.addEventListener('pointermove', function (ev) {
@@ -1558,11 +1594,13 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
       if (!listing) layout();
     });
 
-    var fine = window.matchMedia('(hover: hover) and (pointer: fine)');
+    // A click pins a word. With a mouse, hovering previews another word and leaving the cloud goes back to the pinned one.
+    var fine = window.matchMedia('(hover: hover) and (pointer: fine)'), pinned = null;
     words.forEach(function (el) {
-      el.addEventListener('click', function () { select(el); reveal(); });
-      el.addEventListener('mouseenter', function () { if (fine.matches) select(el); });
+      el.addEventListener('click', function () { pinned = el; select(el); reveal(); });
+      el.addEventListener('mouseenter', function () { if (fine.matches && box.clientWidth >= 700) select(el); });
     });
+    box.addEventListener('mouseleave', function () { if (pinned) select(pinned); });
     // A tap near a small word still counts: pick the closest word within 22px.
     box.addEventListener('click', function (e) {
       if (e.target.classList.contains('kw') || !rects.length) return;
@@ -1571,7 +1609,7 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
         var dx = Math.max(q.x - px, 0, px - (q.x + q.w)), dy = Math.max(q.y - py, 0, py - (q.y + q.h)), dd = Math.sqrt(dx * dx + dy * dy);
         if (dd < bd) { bd = dd; best = q.el; }
       });
-      if (best) { select(best); reveal(); }
+      if (best) { pinned = best; select(best); reveal(); }
     });
     // Arrow keys move between words, so the cloud is one stop in the tab order.
     box.addEventListener('keydown', function (e) {
@@ -1582,7 +1620,7 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
       else if (k === 'ArrowLeft' || k === 'ArrowUp') j = (i - 1 + words.length) % words.length;
       else if (k === 'Home') j = 0;
       else if (k === 'End') j = words.length - 1;
-      if (j >= 0) { e.preventDefault(); select(words[j], true); }
+      if (j >= 0) { e.preventDefault(); pinned = words[j]; select(words[j], true); }
     });
     Array.prototype.forEach.call(chips, function (chip) {
       chip.addEventListener('click', function () {
@@ -1728,6 +1766,18 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
   window.addEventListener('hashchange', open); open();
 })();
 
+// Start: the small name in the top bar only appears once the big name has scrolled away
+(function () {
+  var big = document.querySelector('.name'), small = document.querySelector('.tb-name');
+  if (!big || !small || !('IntersectionObserver' in window)) { if (small) small.classList.add('on'); return; }
+  new IntersectionObserver(function (es) {
+    var gone = !es[0].isIntersecting;
+    small.classList.toggle('on', gone);
+    small.setAttribute('aria-hidden', gone ? 'false' : 'true');
+    var a = small.querySelector('a'); if (a) a.tabIndex = gone ? 0 : -1;
+  }, { threshold: 0 }).observe(big);
+})();
+
 (function () {
   var nav = document.querySelector('.route-nav'); if (!nav) return;
   var here = nav.querySelector('li.here'), key = 'jt-seen', seen = [];
@@ -1737,6 +1787,21 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
   Array.prototype.forEach.call(nav.querySelectorAll('li'), function (li) {
     if (seen.indexOf(li.getAttribute('data-stop')) >= 0 && !li.classList.contains('here')) li.classList.add('seen');
   });
+  // On Start, #contact is its own stop: mark it as where you are when the link or the address points there
+  var start = nav.querySelector('li[data-stop="start"]'), contact = nav.querySelector('li[data-stop="contact"]');
+  if (start && contact && start.classList.contains('here')) {
+    var sync = function () {
+      var c = location.hash === '#contact';
+      start.classList.toggle('here', !c); contact.classList.toggle('here', c);
+      var sa = start.querySelector('a'), ca = contact.querySelector('a');
+      if (c) { sa.removeAttribute('aria-current'); ca.setAttribute('aria-current', 'location'); }
+      else { ca.removeAttribute('aria-current'); sa.setAttribute('aria-current', 'page'); }
+    };
+    sync(); window.addEventListener('hashchange', sync);
+  }
+  // Side pages: say which section you're in
+  var hereA = here && here.querySelector('a');
+  if (hereA && !hereA.hasAttribute('aria-current')) hereA.setAttribute('aria-current', 'location');
 })();
 
 </script>

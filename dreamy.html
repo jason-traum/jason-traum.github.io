@@ -410,9 +410,10 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
 .route-nav li.here a { text-decoration: underline; text-decoration-color: var(--pc); text-decoration-thickness: 2px; text-underline-offset: 6px; }
 .route-nav a:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; border-radius: 4px; }
 @media (max-width: 759px) {
-  .route-nav li:not(.here) span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
-  .route-nav a { padding: 10px 4px; min-width: 24px; justify-content: center; }
-  .route-nav li + li::before { width: 10px; margin: 0; }
+  .route-nav ol { gap: 0 14px; }
+  .route-nav li + li::before { display: none; }
+  .route-nav a { padding: 8px 0; font-size: 13.5px; gap: 6px; min-height: 36px; }
+  .route-nav i { width: 8px; height: 8px; }
 }
 
 </style>
@@ -1150,6 +1151,21 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
   Array.prototype.forEach.call(nav.querySelectorAll('li'), function (li) {
     if (seen.indexOf(li.getAttribute('data-stop')) >= 0 && !li.classList.contains('here')) li.classList.add('seen');
   });
+  // On Start, #contact is its own stop: mark it as where you are when the link or the address points there
+  var start = nav.querySelector('li[data-stop="start"]'), contact = nav.querySelector('li[data-stop="contact"]');
+  if (start && contact && start.classList.contains('here')) {
+    var sync = function () {
+      var c = location.hash === '#contact';
+      start.classList.toggle('here', !c); contact.classList.toggle('here', c);
+      var sa = start.querySelector('a'), ca = contact.querySelector('a');
+      if (c) { sa.removeAttribute('aria-current'); ca.setAttribute('aria-current', 'location'); }
+      else { ca.removeAttribute('aria-current'); sa.setAttribute('aria-current', 'page'); }
+    };
+    sync(); window.addEventListener('hashchange', sync);
+  }
+  // Side pages: say which section you're in
+  var hereA = here && here.querySelector('a');
+  if (hereA && !hereA.hasAttribute('aria-current')) hereA.setAttribute('aria-current', 'location');
 })();
 
 </script>
