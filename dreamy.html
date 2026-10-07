@@ -390,6 +390,10 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
 .fold summary { cursor: pointer; color: var(--t1); font-weight: 600; text-decoration: underline; text-decoration-color: var(--b2); text-underline-offset: 4px; list-style: none; }
 .fold summary::-webkit-details-marker { display: none; }
 .fold[open] summary { margin-bottom: 10px; }
+/* Oct 7 divider cleanup: sections and lists without rules; tables, chart rows and the footer keep theirs */
+.sec { border-top: 0; }
+.lessons li { border-top: 0; }
+.why-list { border-top: 0; padding-top: 0; }
 
 /* end of page: previous small, next as the last big line */
 .pager { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px 40px; margin: 72px 0 8px; padding-top: 22px; border-top: 1px solid var(--rule); }
