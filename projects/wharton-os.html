@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Wharton OS | Jason Traum</title>
-<meta name="description" content="Claude Code and an Obsidian vault that run school for me, built so I can trust it">
+<meta name="description" content="How I use Claude Code and Obsidian to keep track of school">
 <link rel="canonical" href="https://jason-traum.github.io/projects/wharton-os.html">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Wharton OS | Jason Traum">
-<meta property="og:description" content="Claude Code and an Obsidian vault that run school for me, built so I can trust it">
+<meta property="og:description" content="How I use Claude Code and Obsidian to keep track of school">
 <meta property="og:url" content="https://jason-traum.github.io/projects/wharton-os.html">
 <meta property="og:image" content="https://jason-traum.github.io/og.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -69,7 +69,7 @@ body {
   font-size: 17px;
   line-height: 1.6;
 }
-img { max-width: 100%; }
+img { max-width: 100%; height: auto; }
 [hidden] { display: none !important; }
 h1, h2, h3 { margin: 0; text-wrap: balance; }
 p { margin: 0; }
@@ -221,6 +221,17 @@ button.copy:hover { background: var(--ink); color: var(--paper); }
 @media (max-width: 859px) { .p-meta dl { grid-template-columns: 1fr 1fr; gap: 13px 20px; } }
 .p-body { display: grid; gap: 14px; align-content: start; min-width: 0; }
 .p-body > p { max-width: 38em; }
+/* Oct 7: on phone and tablet, show the work sooner. Status, the first two paragraphs, then the pictures and the demo link, then the rest; the other details go last. */
+@media (max-width: 859px) {
+  .p-grid { display: flex; flex-direction: column; gap: 14px; }
+  .p-meta, .p-meta dl, .p-body { display: contents; }
+  .p-meta dl > div { order: 5; }
+  .p-meta dl > div:first-child { order: 0; margin-bottom: 4px; }
+  .p-body > p:nth-of-type(-n+2) { order: 1; }
+  .p-body > figure, .p-body > .shots, .p-body > .deep-link { order: 2; }
+  .p-body > p:nth-of-type(n+3), .p-body > dl { order: 3; }
+  .p-meta dl > div:nth-child(2) { margin-top: 14px; padding-top: 16px; border-top: 1px solid var(--rule); }
+}
 .deep-link {
   display: inline-flex; align-items: center; gap: 10px;
   justify-self: start;
@@ -365,6 +376,8 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .wd-concept img { display: block; width: 100%; height: auto; }
 .intro-side { display: grid; gap: 22px; align-content: start; }
 @media (max-width: 859px) { .intro-side { display: contents; } }
+/* Oct 7: on a phone the ask and the buttons come before the Morgan Stanley detail, so they fit on the first screen */
+@media (max-width: 859px) { .intro-body .hero-ms { order: 3; } .intro-body .contact-line { order: 4; } .intro-body .hero-ask { order: 1; } .intro-body .cta-row { order: 2; } .intro-body .lede { order: 0; } }
 .portrait { display: block; width: 100%; max-width: 240px; height: auto; }
 @media (max-width: 859px) { .portrait { width: 120px; } }
 .outside p { color: var(--ink-2); }
@@ -891,6 +904,7 @@ ul.reports li { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap:
 .pw-b:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 .pw-i figcaption { font-size: 13px; line-height: 1.35; color: var(--muted); margin-top: 6px; }
 @media (max-width: 699px) { .pw-i { flex-basis: calc(var(--ar) * 130px); } .pw-grid { gap: 8px; } }
+@media (max-width: 699px) { .pw-i.long { min-width: 46%; } }
 dialog.pw-box { width: 100vw; height: 100vh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: rgba(10, 11, 13, 0.96); color: var(--ink); }
 dialog.pw-box[open] { display: grid; grid-template-columns: 56px minmax(0, 1fr) 56px; align-items: center; }
 dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
@@ -1003,7 +1017,7 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
     <article class="project" id="wharton-os" aria-labelledby="wos-h">
       <header class="p-head">
         <h1 class="p-name" id="wos-h">Wharton OS</h1>
-        <p class="p-tag">Claude Code and an Obsidian vault that run school for me, built so I can trust it</p>
+        <p class="p-tag">How I use Claude Code and Obsidian to keep track of school</p>
 <p class="p-sum">Every class, reading and deadline in one linked vault. A script checks Canvas before every plan, every date has a source, and nothing sends or deletes without my OK.</p>
       </header>
       <div class="p-grid">
@@ -1017,7 +1031,7 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
         </div>
         <div class="p-body">
           <p>Wharton has a course site per class, two inboxes, two calendars and a lot of club email. In September I set up Claude Code to keep track of all of it. In October it grew into an Obsidian vault for everything I learn: 89 class meetings, 96 lecture transcripts, 108 readings and 201 concept notes so far, all linked.</p>
-          <p>A lot of people are building a second brain with AI right now, and I took the vault's shape from people who've done it well. What I built on top is the part I care about: I have to be able to trust it. If it misses one deadline I can't rely on it, so it runs on a few hard rules.</p>
+          <p>I borrowed the vault's structure from other people's setups. I added checks so I could trust it. If it misses one deadline I can't rely on it, so it runs on a few hard rules.</p>
           <dl class="wiring" aria-label="Agents and skills">
             <dt>agents</dt><dd>Inbox, calendar, classes, career and research. Each reads one thing and reports back. None of them can write.</dd>
             <dt>class skills</dt><dd>Pull Canvas, digest a class meeting, rebuild a study guide, plan an exam, prep a case or a negotiation.</dd>
@@ -1026,7 +1040,7 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
         </div>
       </div>
     </article>
-<!--deep--><section class="deep" aria-labelledby="deep-h"><h2 class="sr-only" id="deep-h">The details</h2><div class="feat"><div class="feat-text"><h3>Checked, not remembered</h3><p>Before it writes any plan or answers "what's due", a script pulls every Canvas item from my calendar feed and lists anything that isn't on my task list. Every plan starts with the result in one line, like "Canvas check: 13 items in the next 21 days, 0 missing."</p><p>I added that rule after two deadlines got left off a weekend plan. Now it's checked every time instead of trusted.</p></div></div><div class="feat"><div class="feat-text"><h3>Every date has a source</h3><p>Every deadline carries a pointer to where it came from: a Canvas assignment, a syllabus page, an email or a calendar event. No date gets copied from memory or an old conversation, and today's date comes from the clock.</p><p>If an agent's report and the task list disagree, it goes back to the source, and the source wins.</p></div></div><div class="feat"><div class="feat-text"><h3>One writer, and nothing sent without me</h3><p>Only the main session can write to my calendar or task list. The agents read and report back. Before this, I had Claude go through two weeks of email and it added events to my calendar before I'd said yes.</p><p>A hook blocks sending, deleting, trashing or sharing anything until I say yes in the chat, and a second hook logs every action.</p></div></div><div class="feat"><div class="feat-text"><h3>Two transcripts per class</h3><p>Every class I record keeps two transcripts. The raw one is the phone app's export, never edited, kept as the safety copy. The clean one is corrected against that day's slides, my handwritten notes, the readings and Canvas, with a mark on anything it isn't sure about.</p><p>Each class meeting gets one note that links its transcripts, slides and readings, and the study guide for each course is rebuilt from those notes by topic.</p></div></div><div class="feat"><div class="feat-text"><h3>Ideas across classes</h3><p>The concept notes are the second-brain part. Willingness to pay, switching costs or scaling laws each get one note that links every lecture, reading and case that uses it, in any class. That's how I notice that marketing and operations are talking about the same idea.</p><p>Folders only say what type of file something is. Course, lecture and exam live in each note's properties, so one reading can belong to a class, a session and an exam at once.</p></div></div><div class="feat"><div class="feat-text"><h3>One ledger per course</h3><p>When I pulled everything from Canvas at the start of the semester, each course kept things somewhere different. One posted paper directions only in announcements, and another sent readings by email.</p><p>So each course has its own ledger of what's due, and one task list pulls from all of them.</p></div></div></section><!--/deep-->
+<!--deep--><section class="deep" aria-labelledby="deep-h"><h2 class="sr-only" id="deep-h">The details</h2><div class="feat"><div class="feat-text"><h3>Checking deadlines</h3><p>Before it writes any plan or answers "what's due", a script pulls every Canvas item from my calendar feed and lists anything that isn't on my task list. Every plan starts with the result in one line, like "Canvas check: 13 items in the next 21 days, 0 missing."</p><p>I added that rule after two deadlines got left off a weekend plan.</p></div></div><div class="feat"><div class="feat-text"><h3>Every date has a source</h3><p>Every deadline carries a pointer to where it came from: a Canvas assignment, a syllabus page, an email or a calendar event. No date gets copied from memory or an old conversation, and today's date comes from the clock.</p><p>If an agent's report and the task list disagree, it goes back to the source, and the source wins.</p></div></div><div class="feat"><div class="feat-text"><h3>One writer, and nothing sent without me</h3><p>Only the main session can write to my calendar or task list. The agents read and report back. Before this, I had Claude go through two weeks of email and it added events to my calendar before I'd said yes.</p><p>A hook blocks sending, deleting, trashing or sharing anything until I say yes in the chat, and a second hook logs every action.</p></div></div><div class="feat"><div class="feat-text"><h3>Two transcripts per class</h3><p>Every class I record keeps two transcripts. The raw one is the phone app's export, never edited, kept as the safety copy. The clean one is corrected against that day's slides, my handwritten notes, the readings and Canvas, with a mark on anything it isn't sure about.</p><p>Each class meeting gets one note that links its transcripts, slides and readings, and the study guide for each course is rebuilt from those notes by topic.</p></div></div><div class="feat"><div class="feat-text"><h3>Ideas across classes</h3><p>The concept notes are the second-brain part. Willingness to pay, switching costs or scaling laws each get one note that links every lecture, reading and case that uses it, in any class. That's how I notice that marketing and operations are talking about the same idea.</p><p>Folders only say what type of file something is. Course, lecture and exam live in each note's properties, so one reading can belong to a class, a session and an exam at once.</p></div></div><div class="feat"><div class="feat-text"><h3>One ledger per course</h3><p>When I pulled everything from Canvas at the start of the semester, each course kept things somewhere different. One posted paper directions only in announcements, and another sent readings by email.</p><p>So each course has its own ledger of what's due, and one task list pulls from all of them.</p></div></div></section><!--/deep-->
 
     <nav class="proj-more" aria-labelledby="more-h">
       <h2 class="label" id="more-h">More projects</h2>
@@ -1266,12 +1280,13 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
           if (!narrow) { tx += Math.sin(t * 0.7 + q.ph) * 2.2; ty += Math.cos(t * 0.55 + q.ph * 1.3) * 1.8; ty += prog * (q.wt - 3) * -5; }
           var lag = Math.min(1, Math.max(0, intro * 1.6 - (5 - q.wt) * 0.12));
           var ei = 1 - Math.pow(1 - lag, 3);
-          var sx = (1 - ei) * Math.cos(q.ph) * 60, sy = (1 - ei) * Math.sin(q.ph) * 40;
+          // Oct 7: words fade in where they will sit; no fly-in or grow-in, so nothing can collide on the way in
+          var sx = 0, sy = 0;
           var ex = q.w * (ts - 1) / 2 + 2, Wb = box.clientWidth;
           tx = Math.max(ex - q.x, Math.min(Wb - q.x - q.w - ex, tx));
           w.x += (tx - w.x) * 0.16; w.y += (ty - w.y) * 0.16; w.s += (ts - w.s) * 0.16;
           if (Math.abs(tx - w.x) > 0.05 || Math.abs(ts - w.s) > 0.002) busy = true;
-          w.el.style.transform = 'translate(' + (q.bx + w.x + sx).toFixed(1) + 'px,' + (q.by + w.y + sy).toFixed(1) + 'px) scale(' + (w.s * (0.6 + 0.4 * ei)).toFixed(3) + ')';
+          w.el.style.transform = 'translate(' + (q.bx + w.x + sx).toFixed(1) + 'px,' + (q.by + w.y + sy).toFixed(1) + 'px) scale(' + w.s.toFixed(3) + ')';
           w.el.style.opacity = !entered ? '0' : ei >= 1 ? '' : Math.min(1, ei * 1.4).toFixed(2);
           w.el.style.zIndex = f > 0.2 ? String(Math.round(f * 10)) : '';
         });

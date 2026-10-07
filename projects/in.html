@@ -69,7 +69,7 @@ body {
   font-size: 17px;
   line-height: 1.6;
 }
-img { max-width: 100%; }
+img { max-width: 100%; height: auto; }
 [hidden] { display: none !important; }
 h1, h2, h3 { margin: 0; text-wrap: balance; }
 p { margin: 0; }
@@ -221,6 +221,17 @@ button.copy:hover { background: var(--ink); color: var(--paper); }
 @media (max-width: 859px) { .p-meta dl { grid-template-columns: 1fr 1fr; gap: 13px 20px; } }
 .p-body { display: grid; gap: 14px; align-content: start; min-width: 0; }
 .p-body > p { max-width: 38em; }
+/* Oct 7: on phone and tablet, show the work sooner. Status, the first two paragraphs, then the pictures and the demo link, then the rest; the other details go last. */
+@media (max-width: 859px) {
+  .p-grid { display: flex; flex-direction: column; gap: 14px; }
+  .p-meta, .p-meta dl, .p-body { display: contents; }
+  .p-meta dl > div { order: 5; }
+  .p-meta dl > div:first-child { order: 0; margin-bottom: 4px; }
+  .p-body > p:nth-of-type(-n+2) { order: 1; }
+  .p-body > figure, .p-body > .shots, .p-body > .deep-link { order: 2; }
+  .p-body > p:nth-of-type(n+3), .p-body > dl { order: 3; }
+  .p-meta dl > div:nth-child(2) { margin-top: 14px; padding-top: 16px; border-top: 1px solid var(--rule); }
+}
 .deep-link {
   display: inline-flex; align-items: center; gap: 10px;
   justify-self: start;
@@ -365,6 +376,8 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .wd-concept img { display: block; width: 100%; height: auto; }
 .intro-side { display: grid; gap: 22px; align-content: start; }
 @media (max-width: 859px) { .intro-side { display: contents; } }
+/* Oct 7: on a phone the ask and the buttons come before the Morgan Stanley detail, so they fit on the first screen */
+@media (max-width: 859px) { .intro-body .hero-ms { order: 3; } .intro-body .contact-line { order: 4; } .intro-body .hero-ask { order: 1; } .intro-body .cta-row { order: 2; } .intro-body .lede { order: 0; } }
 .portrait { display: block; width: 100%; max-width: 240px; height: auto; }
 @media (max-width: 859px) { .portrait { width: 120px; } }
 .outside p { color: var(--ink-2); }
@@ -891,6 +904,7 @@ ul.reports li { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap:
 .pw-b:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 .pw-i figcaption { font-size: 13px; line-height: 1.35; color: var(--muted); margin-top: 6px; }
 @media (max-width: 699px) { .pw-i { flex-basis: calc(var(--ar) * 130px); } .pw-grid { gap: 8px; } }
+@media (max-width: 699px) { .pw-i.long { min-width: 46%; } }
 dialog.pw-box { width: 100vw; height: 100vh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: rgba(10, 11, 13, 0.96); color: var(--ink); }
 dialog.pw-box[open] { display: grid; grid-template-columns: 56px minmax(0, 1fr) 56px; align-items: center; }
 dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
@@ -1019,7 +1033,7 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
         </div>
         <div class="p-body">
           <p>I built In. so Wharton and Penn grad students can find someone to run with. You post a run the night before with the time, the pace and where it starts, and people tap I'm in or Maybe. It shows who's going and what time to leave your place, and every run has its own chat.</p>
-          <p>The first version of In. matched runners using Nash bargaining. I kept this one simple on purpose, so people start using it without much to think about. I have more ideas, but I want to see what I learn from how people use this before deciding how to build out the matching.</p>
+          <p>The first version of In. matched runners using Nash bargaining. I kept this one simple on purpose, so people can join a run quickly. I have more ideas, but I want to see what I learn from how people use this before deciding how to build out the matching.</p>
           <p>A proposed run only happens if the host confirms it by 10 PM. You pick whether friends, friends of friends or all of Wharton can see it, and nobody sees where you live, just where the run starts. Until 20 real people sign up, famous Philly names like Ben Franklin and Jalen Hurts fill out the runs, tagged as bots.</p>
           <p>I&rsquo;d worked through a few drafts of In. before this one, so once I knew what to build, this version took a day with Claude. It's a live app with sign-in, a database and notifications. I'm sharing it with the Run &amp; Tri Club board first.</p>
           <div class="shots" style="--n:2">
@@ -1035,7 +1049,7 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
         </div>
       </div>
     </article>
-<!--deep--><section class="deep" aria-labelledby="deep-h"><h2 class="sr-only" id="deep-h">The details</h2><div class="feat has-fig phone"><div class="feat-text"><h3>Try it without signing in</h3><p>Add ?demo to the link and you get the board with sample runners, and nothing is saved. It walks you through three steps. You say you'd be in on a proposed run, see your leave-by and home-by times, then watch the host confirm it.</p><p>I made it so people could see how In. works without signing up first.</p></div><figure class="feat-fig feat-frame phone"><iframe src="https://jason-traum.github.io/in/?demo" title="In. demo" loading="lazy" allow="screen-wake-lock" style="height:780px"></iframe><figcaption>The live demo. Start with the proposed run.</figcaption></figure></div><div class="feat"><div class="feat-text"><h3>Leave-by and home-by times</h3><p>I wanted the leave time to actually be right, so the streets around Rittenhouse and Penn are geocoded with the US Census geocoder, and In. counts real blocks to the start and then miles along the trail.</p><p>It assumes you walk to runs at 20:00 a mile unless you say you jog, and past 2.5 miles it counts a ride. Tap the time and it shows each leg and the math.</p></div></div><div class="feat"><div class="feat-text"><h3>One run at a time</h3><p>You can't be in two runs at once. If you tap I'm in on a run that overlaps one you already joined, counting 30 minutes to get between them, In. takes you out of the other one and tells you.</p><p>If you're hosting the other one, it asks you to cancel that first. A Maybe never counts as a clash.</p></div></div><div class="feat"><div class="feat-text"><h3>When the host drops out</h3><p>If a host drops out, the run doesn't disappear. It stays up for the same people, everyone who's in gets a notification, and anyone who can see it can tap Take over as host.</p><p>If it was still only proposed, the new host has to confirm it by 10 PM.</p></div></div><div class="feat"><div class="feat-text"><h3>Who gets which notification</h3><p>I started with three notifications: a new message on a run you're in, 8 PM the night before, and 30 minutes before. Then I added RSVPs, friend requests, run changes and a 9 PM reminder to confirm.</p><p>Chat only goes to the host and people who are in. Maybes still hear if a run changes or gets cancelled. The bots never trigger a notification.</p></div></div><div class="feat"><div class="feat-text"><h3>What In. saves about your location</h3><p>In. never asks for your address. If you tap Use my location, it's rounded to about a block before it's saved, and only you can read it.</p><p>Other people only ever see where the run starts. The database rules start from nobody being allowed anything, then add back only what the app uses.</p></div></div><div class="feat"><div class="feat-text"><h3>Where the matching went</h3><p>The Nash bargaining from the first version moved to the confirm step. When a host confirms, In. suggests a start time and pace that splits the compromise across everyone who's in, and it treats running faster than you like as worse than running slower.</p><p>The host can take the suggestion or change it.</p></div></div></section><!--/deep-->
+<!--deep--><section class="deep" aria-labelledby="deep-h"><h2 class="sr-only" id="deep-h">The details</h2><div class="feat has-fig phone"><div class="feat-text"><h3>Try it without signing in</h3><p>The demo has sample runners and saves nothing. It walks you through three steps. You say you'd be in on a proposed run, see your leave-by and home-by times, then watch the host confirm it.</p><p>I made it so people could see how In. works without signing up first.</p></div><figure class="feat-fig feat-frame phone"><iframe src="https://jason-traum.github.io/in/?demo" title="In. demo" loading="lazy" allow="screen-wake-lock" style="height:780px"></iframe><figcaption>The live demo. Start with the proposed run.</figcaption></figure></div><div class="feat"><div class="feat-text"><h3>Leave-by and home-by times</h3><p>I wanted the leave time to actually be right, so the streets around Rittenhouse and Penn are geocoded with the US Census geocoder, and In. counts real blocks to the start and then miles along the trail.</p><p>It assumes you walk to runs at 20:00 a mile unless you say you jog, and past 2.5 miles it counts a ride. Tap the time and it shows each leg and the math.</p></div></div><div class="feat"><div class="feat-text"><h3>One run at a time</h3><p>You can't be in two runs at once. If you tap I'm in on a run that overlaps one you already joined, counting 30 minutes to get between them, In. takes you out of the other one and tells you.</p><p>If you're hosting the other one, it asks you to cancel that first. A Maybe never counts as a clash.</p></div></div><div class="feat"><div class="feat-text"><h3>When the host drops out</h3><p>If a host drops out, the run doesn't disappear. It stays up for the same people, everyone who's in gets a notification, and anyone who can see it can tap Take over as host.</p><p>If it was still only proposed, the new host has to confirm it by 10 PM.</p></div></div><div class="feat"><div class="feat-text"><h3>Who gets which notification</h3><p>I started with three notifications: a new message on a run you're in, 8 PM the night before, and 30 minutes before. Then I added RSVPs, friend requests, run changes and a 9 PM reminder to confirm.</p><p>Chat only goes to the host and people who are in. Maybes still hear if a run changes or gets cancelled. The bots never trigger a notification.</p></div></div><div class="feat"><div class="feat-text"><h3>What In. saves about your location</h3><p>In. never asks for your address. If you tap Use my location, it's rounded to about a block before it's saved, and only you can read it.</p><p>Other people only ever see where the run starts. The database rules start from nobody being allowed anything, then add back only what the app uses.</p></div></div><div class="feat"><div class="feat-text"><h3>Where the matching goes next</h3><p>The plan is to move the Nash bargaining from the first version into the confirm step. When a host confirms, In. would suggest a start time and pace that splits the compromise across everyone who's in, treating running faster than you like as worse than running slower.</p><p>The host could take the suggestion or change it.</p></div></div></section><!--/deep-->
 
     <nav class="proj-more" aria-labelledby="more-h">
       <h2 class="label" id="more-h">More projects</h2>
@@ -1275,12 +1289,13 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
           if (!narrow) { tx += Math.sin(t * 0.7 + q.ph) * 2.2; ty += Math.cos(t * 0.55 + q.ph * 1.3) * 1.8; ty += prog * (q.wt - 3) * -5; }
           var lag = Math.min(1, Math.max(0, intro * 1.6 - (5 - q.wt) * 0.12));
           var ei = 1 - Math.pow(1 - lag, 3);
-          var sx = (1 - ei) * Math.cos(q.ph) * 60, sy = (1 - ei) * Math.sin(q.ph) * 40;
+          // Oct 7: words fade in where they will sit; no fly-in or grow-in, so nothing can collide on the way in
+          var sx = 0, sy = 0;
           var ex = q.w * (ts - 1) / 2 + 2, Wb = box.clientWidth;
           tx = Math.max(ex - q.x, Math.min(Wb - q.x - q.w - ex, tx));
           w.x += (tx - w.x) * 0.16; w.y += (ty - w.y) * 0.16; w.s += (ts - w.s) * 0.16;
           if (Math.abs(tx - w.x) > 0.05 || Math.abs(ts - w.s) > 0.002) busy = true;
-          w.el.style.transform = 'translate(' + (q.bx + w.x + sx).toFixed(1) + 'px,' + (q.by + w.y + sy).toFixed(1) + 'px) scale(' + (w.s * (0.6 + 0.4 * ei)).toFixed(3) + ')';
+          w.el.style.transform = 'translate(' + (q.bx + w.x + sx).toFixed(1) + 'px,' + (q.by + w.y + sy).toFixed(1) + 'px) scale(' + w.s.toFixed(3) + ')';
           w.el.style.opacity = !entered ? '0' : ei >= 1 ? '' : Math.min(1, ei * 1.4).toFixed(2);
           w.el.style.zIndex = f > 0.2 ? String(Math.round(f * 10)) : '';
         });

@@ -60,7 +60,7 @@ body {
   font-size: 17px;
   line-height: 1.6;
 }
-img { max-width: 100%; }
+img { max-width: 100%; height: auto; }
 [hidden] { display: none !important; }
 h1, h2, h3 { margin: 0; text-wrap: balance; }
 p { margin: 0; }
@@ -212,6 +212,17 @@ button.copy:hover { background: var(--ink); color: var(--paper); }
 @media (max-width: 859px) { .p-meta dl { grid-template-columns: 1fr 1fr; gap: 13px 20px; } }
 .p-body { display: grid; gap: 14px; align-content: start; min-width: 0; }
 .p-body > p { max-width: 38em; }
+/* Oct 7: on phone and tablet, show the work sooner. Status, the first two paragraphs, then the pictures and the demo link, then the rest; the other details go last. */
+@media (max-width: 859px) {
+  .p-grid { display: flex; flex-direction: column; gap: 14px; }
+  .p-meta, .p-meta dl, .p-body { display: contents; }
+  .p-meta dl > div { order: 5; }
+  .p-meta dl > div:first-child { order: 0; margin-bottom: 4px; }
+  .p-body > p:nth-of-type(-n+2) { order: 1; }
+  .p-body > figure, .p-body > .shots, .p-body > .deep-link { order: 2; }
+  .p-body > p:nth-of-type(n+3), .p-body > dl { order: 3; }
+  .p-meta dl > div:nth-child(2) { margin-top: 14px; padding-top: 16px; border-top: 1px solid var(--rule); }
+}
 .deep-link {
   display: inline-flex; align-items: center; gap: 10px;
   justify-self: start;
@@ -356,6 +367,8 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .wd-concept img { display: block; width: 100%; height: auto; }
 .intro-side { display: grid; gap: 22px; align-content: start; }
 @media (max-width: 859px) { .intro-side { display: contents; } }
+/* Oct 7: on a phone the ask and the buttons come before the Morgan Stanley detail, so they fit on the first screen */
+@media (max-width: 859px) { .intro-body .hero-ms { order: 3; } .intro-body .contact-line { order: 4; } .intro-body .hero-ask { order: 1; } .intro-body .cta-row { order: 2; } .intro-body .lede { order: 0; } }
 .portrait { display: block; width: 100%; max-width: 240px; height: auto; }
 @media (max-width: 859px) { .portrait { width: 120px; } }
 .outside p { color: var(--ink-2); }
@@ -882,6 +895,7 @@ ul.reports li { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap:
 .pw-b:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 .pw-i figcaption { font-size: 13px; line-height: 1.35; color: var(--muted); margin-top: 6px; }
 @media (max-width: 699px) { .pw-i { flex-basis: calc(var(--ar) * 130px); } .pw-grid { gap: 8px; } }
+@media (max-width: 699px) { .pw-i.long { min-width: 46%; } }
 dialog.pw-box { width: 100vw; height: 100vh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: rgba(10, 11, 13, 0.96); color: var(--ink); }
 dialog.pw-box[open] { display: grid; grid-template-columns: 56px minmax(0, 1fr) 56px; align-items: center; }
 dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }

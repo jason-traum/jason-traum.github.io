@@ -383,6 +383,7 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
 .hero .beta-line { margin-top: 18px; font-size: clamp(1.02rem, 1.6vw, 1.15rem); line-height: 1.5; color: var(--t1); max-width: 40em; }
 .hero .beta-line strong { color: var(--t0); font-weight: 700; }
 .hero .beta-line a { color: var(--t2); white-space: nowrap; }
+.hero .beta-line strong a { color: var(--t0); white-space: normal; text-decoration-color: var(--b2); text-underline-offset: 3px; }
 
 /* Oct 7: folded repeats */
 .fold { margin: 4px 0 14px; }
@@ -440,7 +441,7 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
       <canvas id="stars" aria-hidden="true"></canvas>
       <h1 id="h1">How I built Dreamy</h1>
       <p class="lead">Dreamy is an AI running coach I built with Claude Code over twelve weeks while I was still working full time at Morgan Stanley. It's for people like me who don't have a reliable 9 to 5, have a busy social life, and still want to run their best marathon. It's technical on purpose: it explains the science behind each workout so you learn to coach yourself, not just follow a plan. Dreamy's plans come from rules taken from the research, it analyzes every run you sync from Strava, and it works around the days you can't run.</p>
-      <p class="beta-line">15 runners trained on Dreamy through full race cycles, in the app or on plans I made with its engine. <strong>14 of the 15 rated it above the coach or app they used before.</strong> <a href="#stopped">What it didn&rsquo;t prove</a></p>
+      <p class="beta-line">15 runners trained on Dreamy through full race cycles, in the app or on plans I made with its engine. <strong><a href="#beta">14 of the 15 rated it above the coach or app they used before.</a></strong> <a href="#stopped">What it didn&rsquo;t prove</a></p>
       <p class="hero-meta"><span>Built Jan 28 to Apr 20, 2026</span><span>Beta with 15 runners, Feb to Apr 2026</span><span>I still use it</span><span>TypeScript, Next.js, Postgres, Anthropic API</span><span><a href="https://www.getdreamy.run">getdreamy.run</a> (invite-only)</span></p>
       <nav class="toc" aria-label="On this page"><a href="#builder">Try the week builder</a><a href="#beta">What I learned from the beta</a><a href="#week-rules">How the week gets built</a><a href="#engine">The engine</a><a href="#forecast">Race forecasting</a><a href="#research">The research</a><a href="#screens">Screenshots</a></nav>
 
@@ -478,6 +479,7 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
 
     <section class="sec" id="beta" aria-labelledby="beta-h">
       <h2 id="beta-h">What I learned from the beta</h2>
+      <details class="fold"><summary>How I asked</summary><p>I asked each runner myself, and they&rsquo;re all running friends.</p></details>
       <ul class="lessons">
         <li><b>Heart-rate VO2max can flatter you.</b>One runner's heart-rate model said VDOT 54 while their races said 46 to 48. Now any estimate that runs way ahead of real races gets set aside.</li>
         <li><b>Most of the early bugs were in the data, not the models.</b>One runner's import quietly failed on 922 of 1,211 runs.</li>
@@ -715,9 +717,9 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
       <div class="pause" id="stopped">
         <h3>Why I stopped after the main build</h3>
         <p>I wrapped up the main build in April, the day after the Jersey City Marathon, and turned off the scheduled jobs so it stopped costing money. I still use the engine to make training plans, for me and for other runners.</p>
-        <p>The beta told me the core idea works. It didn&rsquo;t prove two things. One is that the race forecasts are accurate, which takes about 50 predictions matched to real results to check. The other is that anyone would pay. Nobody was asked to, and a heavy user would have cost $5 to $20 a month in AI calls against my goal of under $5.</p>
+        <p>The beta showed runners stuck with it. It didn&rsquo;t prove two things. One is that the race forecasts are accurate, which I set at about 50 forecasts matched to real race results. The other is that anyone would pay. Nobody was asked to, and a heavy user would have cost $5 to $20 a month in AI calls against my goal of under $5.</p>
         <p>Over the next few months the big platforms started shipping things Dreamy already had. Google launched a Gemini health coach, Strava (which already owned Runna) launched a connector so Claude can read your Strava data, Runna added heat-adjusted paces, and Garmin bought TrainingPeaks. Strava alone has more than 180 million users.</p>
-        <p>Going further would have meant proving the forecasts, testing a price and supporting real users while those platforms caught up. Right now I&rsquo;d rather build smaller things for needs I can see than turn one into a full business. The part I&rsquo;d do the same way anywhere is the process. I started from a problem runners actually have, turned the research into rules the code follows, and shipped it with Claude Code in twelve weeks.</p>
+        <p>Going further would have meant proving the forecasts, testing a price and supporting real users while those platforms caught up. Right now I&rsquo;d rather build smaller things for needs I can see than turn one into a full business.</p>
       </div>
 
       <p class="sources">Sources:
