@@ -26,6 +26,7 @@
   --ink: #14212E;
   --ink-2: #435061;
   --muted: #5E6A78;
+  --ink-strong: #000000;
   --rule: #D9DEE4;
   --rule-strong: #14212E;
   --olive: #275C90;          /* MS Blue: links, focus, the report band */
@@ -48,7 +49,7 @@
   color-scheme: dark;
 }
 :root {
-  --paper: #141619; --surface: #1C1F23; --ink: #E7ECF1; --ink-2: #B9C3CE; --muted: #9AA5B2;
+  --paper: #141619; --surface: #1C1F23; --ink: #E7ECF1; --ink-2: #C8D0D8; --muted: #9AA5B2; --ink-strong: #FFFFFF;
   --rule: #2A2E33; --rule-strong: #B9C3CE; --olive: #7FAEE0; --signal: #5CC495; --signal-ink: #141619;
   --frame: #06090D; --mat: #E6E9EC; --shot-border: #2A2E33;
   --c-msblue: #6FA0D6; --c-razz: #5AAEFF; --c-jade: #5CC495; --c-amethyst: #A593EC; --c-carrot: #E8834F; --c-honey: #E8AE2E; --c-magenta: #E56A9C; --c-grey: #A3A5AE;
@@ -135,7 +136,7 @@ a:hover { color: var(--olive); text-decoration-thickness: 2px; }
 .facts div { display: grid; gap: 2px; }
 .facts dt { font-size: 13px; color: var(--muted); }
 .facts dd { margin: 0; font-size: 15px; line-height: 1.4; }
-@media (max-width: 859px) { .facts { grid-template-columns: 1fr 1fr; gap: 14px 20px; } }
+@media (max-width: 859px) { .facts { grid-template-columns: 1fr 1fr; gap: 14px 20px; order: 2; } }
 .intro-body { display: grid; gap: 14px; }
 .lede {
   font-size: clamp(1.3rem, 2.4vw, 1.7rem);
@@ -363,6 +364,7 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .wd-concept { margin: 28px 0 0; }
 .wd-concept img { display: block; width: 100%; height: auto; }
 .intro-side { display: grid; gap: 22px; align-content: start; }
+@media (max-width: 859px) { .intro-side { display: contents; } }
 .portrait { display: block; width: 100%; max-width: 240px; height: auto; }
 @media (max-width: 859px) { .portrait { width: 120px; } }
 .outside p { color: var(--ink-2); }
@@ -708,6 +710,8 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .cv-role { font-size: 14px; line-height: 1.4; color: var(--ink-2); }
 .cv-more { font-size: 14.5px; color: var(--muted); margin: 0 0 30px; max-width: 46em; }
 .lede b { font-weight: 700; color: var(--ink); }
+/* a result, in bold white: at most one per paragraph, never in a heading */
+strong.res { font-weight: 700; color: var(--ink-strong); }
 
 /* the ending: what I want, then one action */
 .ending { font-size: clamp(20px, 2.4vw, 26px); line-height: 1.4; text-wrap: pretty; color: var(--ink); max-width: 30em; margin: 0 0 22px; letter-spacing: -0.01em; }
@@ -732,8 +736,8 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .who .yr { font-size: 14px; font-weight: 600; color: var(--muted); font-variant-numeric: tabular-nums; }
 .who .hl { font-size: 14px; line-height: 1.45; color: var(--ink-2); }
 .tiles { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 22px 16px; }
-.tiles a { display: flex; flex-direction: column; gap: 6px; width: 144px; text-decoration: none; color: var(--ink); }
-.tiles img, .tiles .pal { display: block; width: 144px; height: 108px; object-fit: cover; border-radius: 6px; border: 1px solid var(--rule); }
+.tiles a { display: flex; flex-direction: column; gap: 6px; width: 216px; text-decoration: none; color: var(--ink); }
+.tiles img, .tiles .pal { display: block; width: 216px; height: 162px; object-fit: cover; border-radius: 6px; border: 1px solid var(--rule); }
 .tiles .pal { display: flex; gap: 2px; overflow: hidden; background: var(--paper); }
 .tiles .pal b { display: flex; flex-direction: column; }
 .tiles a:hover img, .tiles a:hover .pal { border-color: var(--k); }
@@ -744,7 +748,7 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 #path .src { margin-top: 18px; }
 @media (max-width: 759px) {
   .stop { grid-template-columns: minmax(0, 1fr); padding-bottom: 32px; }
-  .tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px 10px; }
+  .tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 12px; }
   .tiles a { width: auto; }
   .tiles img, .tiles .pal { width: 100%; height: auto; aspect-ratio: 4 / 3; }
 }
@@ -897,6 +901,14 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
 .sim-qs li { display: grid; gap: 4px; }
 .sim-qs q { font-weight: 700; color: var(--ink); quotes: "\201C" "\201D"; }
 .sim-qs span { color: var(--ink-2); }
+/* Oct 7: the questions read like the overrules on How I use AI: the question big, what happened small */
+.sim-qs { gap: 30px 48px; max-width: none; margin-top: 14px; }
+@media (min-width: 820px) { .sim-qs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.sim-qs li { gap: 8px; border-top: 1px solid var(--rule); padding-top: 14px; align-content: start; }
+.sim-qs q { font-weight: 400; font-size: clamp(1.15rem, 2vw, 1.4rem); line-height: 1.35; letter-spacing: -0.01em; text-indent: -0.4em; }
+.sim-qs span { font-size: 15px; line-height: 1.5; }
+.work-lede { max-width: 30em; margin: 0 0 14px; font-size: clamp(1.15rem, 2vw, 1.4rem); line-height: 1.4; letter-spacing: -0.01em; color: var(--ink); }
+@media (min-width: 820px) { .highlights.two-up { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 48px; max-width: none; } }
 
 /* Your name: big on Start, and it glides to the top left when you open another page (Oct 7) */
 @view-transition { navigation: auto; }
@@ -910,6 +922,44 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
 
 /* Things I've built: one project per row until there's room for two (Astra review, Oct 7: at 768px the text got 110px) */
 @media (max-width: 1099px) { .built { grid-template-columns: minmax(0, 1fr); gap: 30px; } }
+
+/* Running: six races drawn like Strava posts, route from his Strava (Oct 7) */
+.run-lede { color: var(--ink-2); max-width: 40em; margin: 8px 0 20px; }
+.rps { list-style: none; margin: 0; padding: 4px 2px 18px; display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: thin; }
+.rps:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.rp { flex: 0 0 316px; scroll-snap-align: start; display: flex; flex-direction: column; background: #FFFFFF; color: #242428; border-radius: 6px; padding: 16px 0 0; overflow: hidden; }
+.rp > *:not(.rp-mapbox) { padding-inline: 16px; }
+.rp-head { display: flex; gap: 10px; align-items: center; }
+.rp-head img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+.rp-head p { margin: 0; display: grid; font-size: 13px; line-height: 1.3; color: #6D6D78; }
+.rp-head b { color: #242428; font-size: 14.5px; }
+.rp-title { margin: 12px 0 4px; font-size: 19px; font-weight: 800; letter-spacing: -0.01em; line-height: 1.2; color: #242428; }
+.rp-cap { margin: 0; font-size: 14px; line-height: 1.45; color: #3B3B42; }
+.rp-stats { display: flex; gap: 18px; margin: 12px 0 12px; }
+.rp-stats div { display: grid; gap: 1px; }
+.rp-stats dt { font-size: 12px; color: #6D6D78; }
+.rp-stats dd { margin: 0; font-size: 17px; font-weight: 700; color: #242428; font-variant-numeric: tabular-nums; }
+.rp-mapbox { position: relative; margin-top: auto; background: #ECEAE4; }
+.rp-map { display: block; width: 100%; height: auto; }
+.rp-line { fill: none; stroke: #FC5200; stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
+.rp-start { fill: #1FA74A; stroke: #fff; stroke-width: 2; } .rp-end { fill: #D11E1E; stroke: #fff; stroke-width: 2; }
+.rp-tag { position: absolute; left: 10px; top: 10px; font-size: 12px; font-weight: 700; background: #242428; color: #fff; padding: 3px 8px; border-radius: 3px; }
+.rp-foot { margin: 0; padding-block: 10px 12px; font-size: 13px; color: #6D6D78; border-top: 1px solid #E6E6EA; }
+@media (max-width: 699px) { .rp { flex-basis: 84%; } }
+.rp-mapbox { aspect-ratio: 300 / 170; }
+.rp-leaf { position: absolute; inset: 0; z-index: 0; background: #ECEAE4; }
+.rp-mapbox .rp-map { position: relative; z-index: 0; }
+.rp-mapbox.has-map .rp-map { visibility: hidden; }
+.rp-mapbox .rp-tag { z-index: 500; }
+.rp-leaf .leaflet-control-attribution { font-size: 9px; padding: 0 4px; background: rgba(255,255,255,.75); }
+.rp-leaf .leaflet-control-attribution a { color: #555; }
+.rbig4 { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; }
+.rbig4 .b-line { font-size: 14px; }
+@media (max-width: 900px) { .rbig4 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; } }
+#ms-work { padding-top: 40px; }
+#wharton-work .made-lead { max-width: 40em; }
+.rbig-one { grid-template-columns: minmax(0, 520px); margin-top: 22px; }
+.rp-later { margin: 6px 0 0; font-size: 13.5px; color: #6D6D78; font-style: italic; }
 
 /* route bar: the stops of the site in order. Filled dot = you've been there, ring = you are here. */
 .route-nav { margin: 0; }
@@ -963,12 +1013,12 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
           <p>The answer was narrower than I expected. About 160 of 1,370 venues in Philadelphia would come out $2,000 a year ahead. Music venues, nightclubs and college bars fit about half the time, and neighborhood, restaurant and cocktail bars almost never do. Most machine sales would have happened at the bar anyway, which makes a fee on every sale the weak spot in our pricing. Pennsylvania's own wine kiosks shut down in 2011 after about 1,000 malfunctions, so the sim also tests how much downtime a bar will put up with.</p>
           <p>We reached out to 50 hotels and 30 bars in Philadelphia to line up the first pilot. We don't have a production machine yet, and each venue needs a written opinion from the Pennsylvania Liquor Control Board before we install one. The pilot is how we get both.</p>
           <p>Our final investor pitch for the class came first of 20 teams, with $105,500 in mock funding, almost twice the next team.</p>
-          <figure class="wd-concept"><img src="../img/dd-placement.webp" width="1400" height="875" alt="Concept render of a black DrinkDock vending machine with a glass front full of cans, standing at the end of a bar next to the bar stools" loading="lazy" decoding="async"><figcaption>A concept render of a DrinkDock at the end of a bar. Not a real installation.</figcaption></figure>
-          <figure class="wd-concept"><a href="https://jason-traum.github.io/drinkdock-sim/"><img src="../img/dd-sim.webp" width="1600" height="774" alt="DrinkDock Market Sim overview for Philadelphia: about 160 of 1,370 venues would clear $2,000 a year, with sliders for rent, fee, adoption, uptime and guest patience" loading="lazy" decoding="async"></a><figcaption>The sim's overview for Philadelphia. <a href="https://jason-traum.github.io/drinkdock-sim/">Open the sim</a> to change the pricing, uptime or market.</figcaption></figure>
+          <figure class="wd-concept"><img src="../img/dd-placement.webp" width="1400" height="875" alt="Concept render of a black DrinkDock vending machine with a glass front full of cans, standing at the end of a bar next to the bar stools" loading="lazy" decoding="async" style="background-color:#52483F"><figcaption>A concept render of a DrinkDock at the end of a bar. Not a real installation.</figcaption></figure>
+          <figure class="wd-concept"><a href="https://jason-traum.github.io/drinkdock-sim/"><img src="../img/dd-sim.webp" width="1600" height="774" alt="DrinkDock Market Sim overview for Philadelphia: about 160 of 1,370 venues would clear $2,000 a year, with sliders for rent, fee, adoption, uptime and guest patience" loading="lazy" decoding="async" style="background-color:#1D2023"></a><figcaption>The sim's overview for Philadelphia. <a href="https://jason-traum.github.io/drinkdock-sim/">Open the sim</a> to change the pricing, uptime or market.</figcaption></figure>
         </div>
       </div>
     </article>
-<!--deep--><section class="deep" aria-labelledby="deep-h"><h2 class="label" id="deep-h">The details</h2><div class="feat wide"><div class="feat-text"><h3>The machine</h3><p>There's no production machine yet. This is the design model we use for renders and the spec sheet, in three sizes: One, Duo and Compact.</p></div><figure class="feat-fig feat-frame"><iframe src="../embed/dd-3d.html" title="DrinkDock 3D machine viewer" loading="lazy" allow="screen-wake-lock" style="height:560px" data-autoh></iframe><figcaption>Drag to rotate. A design model, not a built machine.</figcaption></figure></div><div class="feat has-fig phone"><div class="feat-text"><h3>Charged when the can arrives</h3><p>A guest picks up to two drinks and scans the barcode on the back of their ID, then holds the front up so a camera on the machine can match their face to the photo. The card is authorized at the tap and only charged when a sensor sees the can reach the pickup port.</p><p>If power, both connections or payments drop, every sale stops. If only the scanner or camera fails, alcohol stops and water and soda keep selling.</p></div><figure class="feat-fig feat-frame phone"><iframe src="../embed/dd-guest.html" title="DrinkDock guest screen demo" loading="lazy" allow="screen-wake-lock" style="height:900px" data-autoh></iframe><figcaption>The real guest screen demo. Tap through a sale or pick a problem. It doesn't read IDs or take payments.</figcaption></figure></div><div class="feat wide"><div class="feat-text"><h3>Staff stay in charge</h3><p>The sale is still on the bar's license, so we built the machine around the bartender. One scan buys at most two drinks, and then that ID waits 20 minutes.</p><p>A bartender can find a guest's sale in Manager and block that ID at every machine in the venue until close. The machine turns the ID number into a one-way code, deletes it at close and never shares it across venues.</p></div><figure class="feat-fig feat-frame"><iframe src="../embed/dd-manager.html" title="DrinkDock Manager demo" loading="lazy" allow="screen-wake-lock" style="height:1300px" data-autoh></iframe><figcaption>DrinkDock Manager, the staff app, with sample data. Try the three tasks at the top.</figcaption></figure></div><div class="feat has-fig"><div class="feat-text"><h3>A 20-minute jam at the rush</h3><p>In the sim, a machine at a busy college bar on a Saturday cut walkaways from 131 to 49 out of 639 orders. Then I jammed it for 20 minutes at the rush. That pushed 15 guests back to the bar line and walkaways went back up to 54.</p><p>It's a queue model: guests show up at random, each bartender serves one order at a time, and people leave if the wait gets too long.</p></div><figure class="feat-fig"><img src="../img/dd-night.webp" alt="The sim&#x27;s One night view: walkaways 131 to 54, and a chart of people waiting in line through the night with a shaded 20-minute jam." loading="lazy" decoding="async"><figcaption>One night in the sim, with the jam turned on.</figcaption></figure></div><div class="feat"><div class="feat-text"><h3>Which bars it fits</h3><p>Music venues, nightclubs and college bars cleared $2,000 a year about half the time. Neighborhood bars, brewpubs, cocktail bars and restaurant bars almost never did.</p><p>Bars with at least 100 orders an hour at the rush, 15% or more of orders that are just a can, and more demand than the staff can serve cleared it 83% of the time, against 7% of all bars.</p></div></div><div class="feat"><div class="feat-text"><h3>Most sales would happen anyway</h3><p>At the bars that fit, only 15% of machine sales were sales the bar would have lost. The rest would have happened at the bar. A $0.25 fee on every sale took 21% of the bar's gain, so a per-sale fee is the weak spot.</p><p>The revenue calculator on our site keeps sales moved from the bar and new sales on separate lines, so a bar sees both.</p></div></div><div class="feat has-fig"><div class="feat-text"><h3>What broke last time</h3><p>Pennsylvania ran its own wine kiosks in 2010 and 2011. Only 32 of 100 planned kiosks went in, the state auditor logged about 1,000 malfunctions, and the program shut down in 2011.</p><p>In the sim, the median bar that fits nets about $16K a year at 97% uptime at the rush, loses about $566 for each point of downtime, and stops paying off below about 74%. So a jammed row switches itself off and the machine tries another row with the same drink. There's an LTE backup behind the Wi-Fi, and if an ID won't read, the guest gets sent to the bar.</p></div><figure class="feat-fig"><img src="../img/dd-uptime.webp" alt="Two sim charts: share of venues that clear the hurdle by peak-hour uptime, and lifetime contribution per placement by uptime, by channel." loading="lazy" decoding="async"><figcaption>Uptime in the sim, by type of venue.</figcaption></figure></div></section><!--/deep-->
+<!--deep--><section class="deep" aria-labelledby="deep-h"><h2 class="sr-only" id="deep-h">The details</h2><div class="feat wide"><div class="feat-text"><h3>The machine</h3><p>There's no production machine yet. This is the design model we use for renders and the spec sheet, in three sizes: One, Duo and Compact.</p></div><figure class="feat-fig feat-frame"><iframe src="../embed/dd-3d.html" title="DrinkDock 3D machine viewer" loading="lazy" allow="screen-wake-lock" style="height:560px" data-autoh></iframe><figcaption>Drag to rotate. A design model, not a built machine.</figcaption></figure></div><div class="feat has-fig phone"><div class="feat-text"><h3>Charged when the can arrives</h3><p>A guest picks up to two drinks and scans the barcode on the back of their ID, then holds the front up so a camera on the machine can match their face to the photo. The card is authorized at the tap and only charged when a sensor sees the can reach the pickup port.</p><p>If power, both connections or payments drop, every sale stops. If only the scanner or camera fails, alcohol stops and water and soda keep selling.</p></div><figure class="feat-fig feat-frame phone"><iframe src="../embed/dd-guest.html" title="DrinkDock guest screen demo" loading="lazy" allow="screen-wake-lock" style="height:900px" data-autoh></iframe><figcaption>The real guest screen demo. Tap through a sale or pick a problem. It doesn't read IDs or take payments.</figcaption></figure></div><div class="feat wide"><div class="feat-text"><h3>Staff stay in charge</h3><p>The sale is still on the bar's license, so we built the machine around the bartender. One scan buys at most two drinks, and then that ID waits 20 minutes.</p><p>A bartender can find a guest's sale in Manager and block that ID at every machine in the venue until close. The machine turns the ID number into a one-way code, deletes it at close and never shares it across venues.</p></div><figure class="feat-fig feat-frame"><iframe src="../embed/dd-manager.html" title="DrinkDock Manager demo" loading="lazy" allow="screen-wake-lock" style="height:1300px" data-autoh></iframe><figcaption>DrinkDock Manager, the staff app, with sample data. Try the three tasks at the top.</figcaption></figure></div><div class="feat has-fig"><div class="feat-text"><h3>A 20-minute jam at the rush</h3><p>In the sim, a machine at a busy college bar on a Saturday cut walkaways from 131 to 49 out of 639 orders. Then I jammed it for 20 minutes at the rush. That pushed 15 guests back to the bar line and walkaways went back up to 54.</p><p>It's a queue model: guests show up at random, each bartender serves one order at a time, and people leave if the wait gets too long.</p></div><figure class="feat-fig"><img src="../img/dd-night.webp" alt="The sim&#x27;s One night view: walkaways 131 to 54, and a chart of people waiting in line through the night with a shaded 20-minute jam." loading="lazy" decoding="async" style="background-color:#212120"><figcaption>One night in the sim, with the jam turned on.</figcaption></figure></div><div class="feat"><div class="feat-text"><h3>Which bars it fits</h3><p>Music venues, nightclubs and college bars cleared $2,000 a year about half the time. Neighborhood bars, brewpubs, cocktail bars and restaurant bars almost never did.</p><p>Bars with at least 100 orders an hour at the rush, 15% or more of orders that are just a can, and more demand than the staff can serve cleared it 83% of the time, against 7% of all bars.</p></div></div><div class="feat"><div class="feat-text"><h3>Most sales would happen anyway</h3><p>At the bars that fit, only 15% of machine sales were sales the bar would have lost. The rest would have happened at the bar. A $0.25 fee on every sale took 21% of the bar's gain, so a per-sale fee is the weak spot.</p><p>The revenue calculator on our site keeps sales moved from the bar and new sales on separate lines, so a bar sees both.</p></div></div><div class="feat has-fig"><div class="feat-text"><h3>What broke last time</h3><p>Pennsylvania ran its own wine kiosks in 2010 and 2011. Only 32 of 100 planned kiosks went in, the state auditor logged about 1,000 malfunctions, and the program shut down in 2011.</p><p>In the sim, the median bar that fits nets about $16K a year at 97% uptime at the rush, loses about $566 for each point of downtime, and stops paying off below about 74%. So a jammed row switches itself off and the machine tries another row with the same drink. There's an LTE backup behind the Wi-Fi, and if an ID won't read, the guest gets sent to the bar.</p></div><figure class="feat-fig"><img src="../img/dd-uptime.webp" alt="Two sim charts: share of venues that clear the hurdle by peak-hour uptime, and lifetime contribution per placement by uptime, by channel." loading="lazy" decoding="async" style="background-color:#1E1F1E"><figcaption>Uptime in the sim, by type of venue.</figcaption></figure></div></section><!--/deep-->
 
     <nav class="proj-more" aria-labelledby="more-h">
       <h2 class="label" id="more-h">More projects</h2>

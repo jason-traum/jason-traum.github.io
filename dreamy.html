@@ -27,6 +27,7 @@
   --s1b: #181826;
   --s2: #1f1f2e;
   --s3: #282836;
+  --t0: #FFFFFF;
   --t1: #ededf2;
   --t2: #b8b8c8;
   --t3: #8888a0;
@@ -379,7 +380,9 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
 /* the story, moved here from the main page on Oct 6 */
 .prose.story { max-width: 70ch; margin-bottom: 32px; }
 .prose.story .beta-line { color: var(--t1); }
-.prose.story .beta-line strong { color: var(--glow); font-weight: 700; }
+.hero .beta-line { margin-top: 18px; font-size: clamp(1.02rem, 1.6vw, 1.15rem); line-height: 1.5; color: var(--t1); max-width: 40em; }
+.hero .beta-line strong { color: var(--t0); font-weight: 700; }
+.hero .beta-line a { color: var(--t2); white-space: nowrap; }
 
 /* end of page: previous small, next as the last big line */
 .pager { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px 40px; margin: 72px 0 8px; padding-top: 22px; border-top: 1px solid var(--rule); }
@@ -430,9 +433,10 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
     <section class="hero" aria-labelledby="h1">
       <canvas id="stars" aria-hidden="true"></canvas>
       <h1 id="h1">How I built Dreamy</h1>
-      <p class="lead">Dreamy is an AI running coach I built with Claude Code over twelve weeks while I was still working full time at Morgan Stanley. It's for people like me who don't have a reliable 9 to 5, have a busy social life, and still want to run their best marathon. It's technical on purpose: it explains the science behind each workout so you learn to coach yourself, not just follow a plan. It started as a ChatGPT prompt I kept rewriting through my second marathon, and became an app when I wanted more than a prompt could do. Dreamy's plans come from rules taken from the research, it analyzes every run you sync from Strava, and it works around the days you can't run.</p>
+      <p class="lead">Dreamy is an AI running coach I built with Claude Code over twelve weeks while I was still working full time at Morgan Stanley. It's for people like me who don't have a reliable 9 to 5, have a busy social life, and still want to run their best marathon. It's technical on purpose: it explains the science behind each workout so you learn to coach yourself, not just follow a plan. Dreamy's plans come from rules taken from the research, it analyzes every run you sync from Strava, and it works around the days you can't run.</p>
+      <p class="beta-line">15 runners trained on Dreamy through full race cycles, in the app or on plans I made with its engine. <strong>14 of the 15 rated it above the coach or app they used before.</strong> <a href="#stopped">What it didn&rsquo;t prove</a></p>
       <p class="hero-meta"><span>Built Jan 28 to Apr 20, 2026</span><span>Beta with 15 runners, Feb to Apr 2026</span><span>I still use it</span><span>TypeScript, Next.js, Postgres, Anthropic API</span><span><a href="https://www.getdreamy.run">getdreamy.run</a> (invite-only)</span></p>
-      <nav class="toc" aria-label="On this page"><a href="#builder">Try the week builder</a><a href="#week-rules">How the week gets built</a><a href="#engine">The engine</a><a href="#forecast">Race forecasting</a><a href="#research">The research</a><a href="#beta">What I learned from the beta</a><a href="#screens">Screenshots</a></nav>
+      <nav class="toc" aria-label="On this page"><a href="#builder">Try the week builder</a><a href="#beta">What I learned from the beta</a><a href="#week-rules">How the week gets built</a><a href="#engine">The engine</a><a href="#forecast">Race forecasting</a><a href="#research">The research</a><a href="#screens">Screenshots</a></nav>
 
       <div class="builder" id="builder">
         <div class="b-top">
@@ -466,6 +470,16 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
       </div>
     </section>
 
+    <section class="sec" id="beta" aria-labelledby="beta-h">
+      <h2 id="beta-h">What I learned from the beta</h2>
+      <ul class="lessons">
+        <li><b>Heart-rate VO2max can flatter you.</b>One runner's heart-rate model said VDOT 54 while their races said 46 to 48. Now any estimate that runs way ahead of real races gets set aside.</li>
+        <li><b>Most of the early bugs were in the data, not the models.</b>One runner's import quietly failed on 922 of 1,211 runs.</li>
+        <li><b>Plans have to know about races.</b>After a race, one plan jumped 30 percent in mileage. The week after a race is now capped at a 15 percent increase.</li>
+        <li><b>Related fixes have to ship together.</b>One runner's forecast only came out right once four model fixes landed at the same time, so model changes now go out together.</li>
+      </ul>
+    </section>
+
     <section class="sec" id="week-rules" aria-labelledby="rules-h">
       <h2 id="rules-h">How the week gets built</h2>
       <p class="intro">Dreamy rebuilds the week in the same order every time, based on what you actually ran and which days you have.</p>
@@ -483,7 +497,7 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
           <p>A few safety rules override everything else. You get a forced rest day after 14 straight days of running, when you say you're sick, or when your readiness drops below 25 out of 100. The day before a race is a shakeout of 4 miles or less, and there's nothing hard in the three days before it.</p>
           <p>When a run syncs from Strava, Dreamy asks why it went the way it did before it changes anything. If it was the heat or bad fueling, the plan stays the same. If your legs were heavy, it cuts the next day by 20 percent and adds more time before the next hard session. Every change shows what moved, and you can undo it.</p>
           <figure class="shot phone">
-            <img src="img/dreamy-plan.webp" width="600" height="986" alt="A week in Dreamy's plan view: Monday easy with strides, Tuesday VO2max intervals, Wednesday rest, Thursday VO2max, Friday medium-long, Saturday long run, Sunday easy with strides." loading="lazy" decoding="async">
+            <img src="img/dreamy-plan.webp" width="600" height="986" alt="A week in Dreamy's plan view: Monday easy with strides, Tuesday VO2max intervals, Wednesday rest, Thursday VO2max, Friday medium-long, Saturday long run, Sunday easy with strides." loading="lazy" decoding="async" style="background-color:#1F1F2F">
             <figcaption>A peak week in the app, 55 miles over six runs</figcaption>
           </figure>
         </div>
@@ -585,7 +599,7 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
           <p>The range comes from six named sources of uncertainty, and it leans slow because more things go wrong on race day than right. The fast end is your perfect-day time. The weights were still set by hand when the main build ended. The part that would tune them against real race results wasn't running yet.</p>
         </div>
         <figure class="shot">
-          <img src="img/dreamy-disagree.webp" width="900" height="789" alt="Dreamy's race predictions card showing VDOT 49.8 with low confidence and 28 percent agreement, flagging significant disagreement of plus or minus 4.1 VDOT with the heart-rate VO2max model as the outlier." loading="lazy" decoding="async">
+          <img src="img/dreamy-disagree.webp" width="900" height="789" alt="Dreamy's race predictions card showing VDOT 49.8 with low confidence and 28 percent agreement, flagging significant disagreement of plus or minus 4.1 VDOT with the heart-rate VO2max model as the outlier." loading="lazy" decoding="async" style="background-color:#171822">
           <figcaption>When the models disagree, the app shows which one it thinks is off.</figcaption>
         </figure>
       </div>
@@ -646,27 +660,18 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
         <p>Dreamy started when I was training for my second marathon. Work got busier, my back was acting up, and every plan I tried fell apart once life got in the way. So I turned to ChatGPT. The models kept giving me bad plans, so I read up on sports science and the top running coaches and kept rewriting my prompt until the answers got good. I ran a PR and shared it with my run club. As the models got better I needed less of the prompt, but I wanted more than a prompt could do. Nothing checked it against the research, you had to be really good at prompting to get something usable, and it didn&rsquo;t sync with anything or look at your actual runs.</p>
         <p>With Dreamy, the plan comes from rules taken from the research, it syncs with Strava and analyzes every run, and the same data always gives you the same plan. The biggest difference is that it works around your schedule. You tell it which days you can't run and it rebuilds the week around them, so you might run seven days one week and four the next. It adapts when you miss a workout or a race moves, and it explains every change and the science behind it, so over time you learn to coach yourself.</p>
         <p>I did an absurd amount of research for it. I used AI to find every marathon plan and sports science paper I could, and gave it a ton of direction from my own marathon training. I started with an LLM writing the plans, but that got expensive and unreliable, so I switched to a rules-based engine. Then I ran real runners' histories through it, had LLMs grade the plans against the research and suggest changes, and reviewed every round myself.</p>
-        <p>Claude Code wrote all of the code. My part was the product, the research and the model. I built it from January to April while working full time, and I still use it to make training plans.</p>
-        <p class="beta-line">15 runners trained on Dreamy through full race cycles, in the app or on plans I made with its engine. <strong>14 of the 15 rated it above the coach or app they used before.</strong></p>
       </div>
       <div class="two">
         <div class="prose">
-          <p>Claude Code wrote the code. I decided what the engine should do, did the research behind it, and checked whether its plans actually held up. To tune it I ran real runners' training histories through it, had LLMs grade the plans against the research and suggest rule changes, and reviewed every round myself.</p>
+          <p>Claude Code wrote the code. I decided what the engine should do, did the research behind it, and checked whether its plans actually held up.</p>
           <p>I set the repo up for working with AI. A CLAUDE.md sets the rules, like keeping the engine away from the database and never rewriting the VDOT math. When I corrected something, it went into a lessons file as a new rule. A test fails the build if any API route doesn't say who's allowed to call it, and every change runs type checks, lint, all the tests and a production build.</p>
         </div>
         <figure class="shot phone" style="max-width:240px">
-          <img src="img/dreamy-coach.webp" width="600" height="1266" alt="Dreamy's coach chat screen with the sheep mascot and suggested prompts like Ready to run, Log a run and Week review." loading="lazy" decoding="async">
+          <img src="img/dreamy-coach.webp" width="600" height="1266" alt="Dreamy's coach chat screen with the sheep mascot and suggested prompts like Ready to run, Log a run and Week review." loading="lazy" decoding="async" style="background-color:#2F2E3E">
           <figcaption>When you ask the coach something, it calls the same engine that built your plan.</figcaption>
         </figure>
       </div>
       <p class="count">From the repo, as of the end of the main build: 1,985 commits between January 28 and April 20, 95 percent of them co-authored with Claude; about 16,000 automated tests in 281 files; 63 database tables; 96 tools the coach can call; and 133 workout templates.</p>
-      <h3 id="beta" style="margin-top:44px;font-size:19px">What I learned from the beta</h3>
-      <ul class="lessons">
-        <li><b>Heart-rate VO2max can flatter you.</b>One runner's heart-rate model said VDOT 54 while their races said 46 to 48. Now any estimate that runs way ahead of real races gets set aside.</li>
-        <li><b>Most of the early bugs were in the data, not the models.</b>One runner's import quietly failed on 922 of 1,211 runs.</li>
-        <li><b>Plans have to know about races.</b>After a race, one plan jumped 30 percent in mileage. The week after a race is now capped at a 15 percent increase.</li>
-        <li><b>Related fixes have to ship together.</b>One runner's forecast only came out right once four model fixes landed at the same time, so model changes now go out together.</li>
-      </ul>
     </section>
 
     <section class="sec" id="compare" aria-labelledby="cmp-h">
@@ -701,10 +706,10 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
         </tbody>
       </table>
 
-      <div class="pause">
+      <div class="pause" id="stopped">
         <h3>Why I stopped after the main build</h3>
         <p>I wrapped up the main build in April, the day after the Jersey City Marathon, and turned off the scheduled jobs so it stopped costing money. I still use the engine to make training plans, for me and for other runners.</p>
-        <p>Counting the app and the plans I made with the engine, 15 runners trained on Dreamy through full race cycles, and 14 of them rated it above the coach or app they used before. That told me the core idea works. It didn&rsquo;t prove two things. One is that the race forecasts are accurate, which takes about 50 predictions matched to real results to check. The other is that anyone would pay. Nobody was asked to, and a heavy user would have cost $5 to $20 a month in AI calls against my goal of under $5.</p>
+        <p>The beta told me the core idea works. It didn&rsquo;t prove two things. One is that the race forecasts are accurate, which takes about 50 predictions matched to real results to check. The other is that anyone would pay. Nobody was asked to, and a heavy user would have cost $5 to $20 a month in AI calls against my goal of under $5.</p>
         <p>Over the next few months the big platforms started shipping things Dreamy already had. Google launched a Gemini health coach, Strava (which already owned Runna) launched a connector so Claude can read your Strava data, Runna added heat-adjusted paces, and Garmin bought TrainingPeaks. Strava alone has more than 180 million users.</p>
         <p>Going further would have meant proving the forecasts, testing a price and supporting real users while those platforms caught up. Right now I&rsquo;d rather build smaller things for needs I can see than turn one into a full business. The part I&rsquo;d do the same way anywhere is the process. I started from a problem runners actually have, turned the research into rules the code follows, and shipped it with Claude Code in twelve weeks.</p>
       </div>
@@ -725,12 +730,12 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
     <section class="sec" id="screens" aria-labelledby="sc-h">
       <h2 id="sc-h">Screenshots</h2>
       <div class="gallery">
-        <figure class="shot"><img src="img/dreamy-today.webp" width="600" height="857" alt="Today screen with a race countdown and the day's easy run." loading="lazy" decoding="async"><figcaption>Today, three days before a half marathon</figcaption></figure>
-        <figure class="shot"><img src="img/dreamy-week.webp" width="600" height="857" alt="This Week screen after one swap: Wednesday's tempo became a rest day and Thursday carries the quality session." loading="lazy" decoding="async"><figcaption>A week after I swapped Wednesday&rsquo;s tempo for rest</figcaption></figure>
-        <figure class="shot"><img src="img/dreamy-why.webp" width="600" height="982" alt="Why This Felt Hard: high recent volume and a hard run the day before, with a training adaptation profile below." loading="lazy" decoding="async"><figcaption>Why a run felt hard, and what it trained</figcaption></figure>
-        <figure class="shot"><img src="img/dreamy-training.webp" width="600" height="927" alt="How Is My Training: the mix is imbalanced, with a suggestion to add about 15 minutes a week of VO2max work." loading="lazy" decoding="async"><figcaption>Training balance, with a specific fix</figcaption></figure>
-        <figure class="shot"><img src="img/dreamy-forecast.webp" width="600" height="857" alt="The race forecast with each model's estimate, VDOT, confidence and weight." loading="lazy" decoding="async"><figcaption>My half marathon forecast, with every model&rsquo;s estimate</figcaption></figure>
-        <figure class="shot"><img src="img/dreamy-atlas.webp" width="600" height="1055" alt="The Pace Zone Atlas comparing how coaching systems from Lydiard to Garmin define each pace zone." loading="lazy" decoding="async"><figcaption>Pace Zone Atlas: 22 systems, approximate mappings</figcaption></figure>
+        <figure class="shot"><img src="img/dreamy-today.webp" width="600" height="857" alt="Today screen with a race countdown and the day's easy run." loading="lazy" decoding="async" style="background-color:#1C1B29"><figcaption>Today, three days before a half marathon</figcaption></figure>
+        <figure class="shot"><img src="img/dreamy-week.webp" width="600" height="857" alt="This Week screen after one swap: Wednesday's tempo became a rest day and Thursday carries the quality session." loading="lazy" decoding="async" style="background-color:#171722"><figcaption>A week after I swapped Wednesday&rsquo;s tempo for rest</figcaption></figure>
+        <figure class="shot"><img src="img/dreamy-why.webp" width="600" height="982" alt="Why This Felt Hard: high recent volume and a hard run the day before, with a training adaptation profile below." loading="lazy" decoding="async" style="background-color:#242033"><figcaption>Why a run felt hard, and what it trained</figcaption></figure>
+        <figure class="shot"><img src="img/dreamy-training.webp" width="600" height="927" alt="How Is My Training: the mix is imbalanced, with a suggestion to add about 15 minutes a week of VO2max work." loading="lazy" decoding="async" style="background-color:#191823"><figcaption>Training balance, with a specific fix</figcaption></figure>
+        <figure class="shot"><img src="img/dreamy-forecast.webp" width="600" height="857" alt="The race forecast with each model's estimate, VDOT, confidence and weight." loading="lazy" decoding="async" style="background-color:#1B1B26"><figcaption>My half marathon forecast, with every model&rsquo;s estimate</figcaption></figure>
+        <figure class="shot"><img src="img/dreamy-atlas.webp" width="600" height="1055" alt="The Pace Zone Atlas comparing how coaching systems from Lydiard to Garmin define each pace zone." loading="lazy" decoding="async" style="background-color:#292A40"><figcaption>Pace Zone Atlas: 22 systems, approximate mappings</figcaption></figure>
       </div>
     </section>
     

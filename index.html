@@ -30,6 +30,7 @@
   --ink: #14212E;
   --ink-2: #435061;
   --muted: #5E6A78;
+  --ink-strong: #000000;
   --rule: #D9DEE4;
   --rule-strong: #14212E;
   --olive: #275C90;          /* MS Blue: links, focus, the report band */
@@ -52,7 +53,7 @@
   color-scheme: dark;
 }
 :root {
-  --paper: #141619; --surface: #1C1F23; --ink: #E7ECF1; --ink-2: #B9C3CE; --muted: #9AA5B2;
+  --paper: #141619; --surface: #1C1F23; --ink: #E7ECF1; --ink-2: #C8D0D8; --muted: #9AA5B2; --ink-strong: #FFFFFF;
   --rule: #2A2E33; --rule-strong: #B9C3CE; --olive: #7FAEE0; --signal: #5CC495; --signal-ink: #141619;
   --frame: #06090D; --mat: #E6E9EC; --shot-border: #2A2E33;
   --c-msblue: #6FA0D6; --c-razz: #5AAEFF; --c-jade: #5CC495; --c-amethyst: #A593EC; --c-carrot: #E8834F; --c-honey: #E8AE2E; --c-magenta: #E56A9C; --c-grey: #A3A5AE;
@@ -139,7 +140,7 @@ a:hover { color: var(--olive); text-decoration-thickness: 2px; }
 .facts div { display: grid; gap: 2px; }
 .facts dt { font-size: 13px; color: var(--muted); }
 .facts dd { margin: 0; font-size: 15px; line-height: 1.4; }
-@media (max-width: 859px) { .facts { grid-template-columns: 1fr 1fr; gap: 14px 20px; } }
+@media (max-width: 859px) { .facts { grid-template-columns: 1fr 1fr; gap: 14px 20px; order: 2; } }
 .intro-body { display: grid; gap: 14px; }
 .lede {
   font-size: clamp(1.3rem, 2.4vw, 1.7rem);
@@ -367,6 +368,7 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .wd-concept { margin: 28px 0 0; }
 .wd-concept img { display: block; width: 100%; height: auto; }
 .intro-side { display: grid; gap: 22px; align-content: start; }
+@media (max-width: 859px) { .intro-side { display: contents; } }
 .portrait { display: block; width: 100%; max-width: 240px; height: auto; }
 @media (max-width: 859px) { .portrait { width: 120px; } }
 .outside p { color: var(--ink-2); }
@@ -712,6 +714,8 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .cv-role { font-size: 14px; line-height: 1.4; color: var(--ink-2); }
 .cv-more { font-size: 14.5px; color: var(--muted); margin: 0 0 30px; max-width: 46em; }
 .lede b { font-weight: 700; color: var(--ink); }
+/* a result, in bold white: at most one per paragraph, never in a heading */
+strong.res { font-weight: 700; color: var(--ink-strong); }
 
 /* the ending: what I want, then one action */
 .ending { font-size: clamp(20px, 2.4vw, 26px); line-height: 1.4; text-wrap: pretty; color: var(--ink); max-width: 30em; margin: 0 0 22px; letter-spacing: -0.01em; }
@@ -736,8 +740,8 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .who .yr { font-size: 14px; font-weight: 600; color: var(--muted); font-variant-numeric: tabular-nums; }
 .who .hl { font-size: 14px; line-height: 1.45; color: var(--ink-2); }
 .tiles { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 22px 16px; }
-.tiles a { display: flex; flex-direction: column; gap: 6px; width: 144px; text-decoration: none; color: var(--ink); }
-.tiles img, .tiles .pal { display: block; width: 144px; height: 108px; object-fit: cover; border-radius: 6px; border: 1px solid var(--rule); }
+.tiles a { display: flex; flex-direction: column; gap: 6px; width: 216px; text-decoration: none; color: var(--ink); }
+.tiles img, .tiles .pal { display: block; width: 216px; height: 162px; object-fit: cover; border-radius: 6px; border: 1px solid var(--rule); }
 .tiles .pal { display: flex; gap: 2px; overflow: hidden; background: var(--paper); }
 .tiles .pal b { display: flex; flex-direction: column; }
 .tiles a:hover img, .tiles a:hover .pal { border-color: var(--k); }
@@ -748,7 +752,7 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 #path .src { margin-top: 18px; }
 @media (max-width: 759px) {
   .stop { grid-template-columns: minmax(0, 1fr); padding-bottom: 32px; }
-  .tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px 10px; }
+  .tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 12px; }
   .tiles a { width: auto; }
   .tiles img, .tiles .pal { width: 100%; height: auto; aspect-ratio: 4 / 3; }
 }
@@ -901,6 +905,14 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
 .sim-qs li { display: grid; gap: 4px; }
 .sim-qs q { font-weight: 700; color: var(--ink); quotes: "\201C" "\201D"; }
 .sim-qs span { color: var(--ink-2); }
+/* Oct 7: the questions read like the overrules on How I use AI: the question big, what happened small */
+.sim-qs { gap: 30px 48px; max-width: none; margin-top: 14px; }
+@media (min-width: 820px) { .sim-qs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.sim-qs li { gap: 8px; border-top: 1px solid var(--rule); padding-top: 14px; align-content: start; }
+.sim-qs q { font-weight: 400; font-size: clamp(1.15rem, 2vw, 1.4rem); line-height: 1.35; letter-spacing: -0.01em; text-indent: -0.4em; }
+.sim-qs span { font-size: 15px; line-height: 1.5; }
+.work-lede { max-width: 30em; margin: 0 0 14px; font-size: clamp(1.15rem, 2vw, 1.4rem); line-height: 1.4; letter-spacing: -0.01em; color: var(--ink); }
+@media (min-width: 820px) { .highlights.two-up { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 48px; max-width: none; } }
 
 /* Your name: big on Start, and it glides to the top left when you open another page (Oct 7) */
 @view-transition { navigation: auto; }
@@ -951,6 +963,7 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
 #ms-work { padding-top: 40px; }
 #wharton-work .made-lead { max-width: 40em; }
 .rbig-one { grid-template-columns: minmax(0, 520px); margin-top: 22px; }
+.rp-later { margin: 6px 0 0; font-size: 13.5px; color: #6D6D78; font-style: italic; }
 
 /* route bar: the stops of the site in order. Filled dot = you've been there, ring = you are here. */
 .route-nav { margin: 0; }
@@ -1015,7 +1028,7 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
       <ol class="path">
         <li class="stop"><div class="who"><a class="sn" href="research.html#background"><span class="dot" aria-hidden="true"></span><span class="st">Brown</span></a><span class="yr">2020</span><span class="hl">Applied math and econ, and a summer at Goldman Sachs in market risk</span></div></li>
         <li class="stop"><div class="who"><a class="sn" href="research.html#background"><span class="dot" aria-hidden="true"></span><span class="st">Guggenheim</span></a><span class="yr">2020 to 2022</span><span class="hl">Investment analyst in the Portfolio Construction Group: fixed income model portfolios, Monte Carlo simulations, and analytics I automated end to end</span></div></li>
-        <li class="stop"><div class="who"><a class="sn" href="research.html#background"><span class="dot" aria-hidden="true"></span><span class="st">Morgan Stanley</span></a><span class="yr">2022 to 2026</span><span class="hl">I wrote the daily market note for about 25,000 financial advisors, and did the research behind what they told their clients</span></div><ul class="tiles"><li style="--k: var(--k-res)"><a href="research.html#palette"><span class="pal" aria-hidden="true"><b style="flex:5.0 1 0"><i style="flex:58 1 0;background:#275C90"></i><i style="flex:14 1 0;background:#7395B7"></i><i style="flex:14 1 0;background:#ADC1D5"></i><i style="flex:14 1 0;background:#1B4065"></i></b><b style="flex:4.0 1 0"><i style="flex:58 1 0;background:#3296FE"></i><i style="flex:14 1 0;background:#7ABBFE"></i><i style="flex:14 1 0;background:#B1D7FF"></i><i style="flex:14 1 0;background:#2369B2"></i></b><b style="flex:2.4 1 0"><i style="flex:58 1 0;background:#39A174"></i><i style="flex:14 1 0;background:#7EC2A5"></i><i style="flex:14 1 0;background:#B4DBCA"></i><i style="flex:14 1 0;background:#287151"></i></b><b style="flex:2.2 1 0"><i style="flex:58 1 0;background:#8771D7"></i><i style="flex:14 1 0;background:#B1A3E5"></i><i style="flex:14 1 0;background:#D1C9F0"></i><i style="flex:14 1 0;background:#5E4F96"></i></b><b style="flex:0.7 1 0"><i style="flex:58 1 0;background:#CF612F"></i><i style="flex:14 1 0;background:#E09878"></i><i style="flex:14 1 0;background:#EDC3B0"></i><i style="flex:14 1 0;background:#914421"></i></b><b style="flex:0.7 1 0"><i style="flex:58 1 0;background:#DA9408"></i><i style="flex:14 1 0;background:#E7B95E"></i><i style="flex:14 1 0;background:#F1D6A1"></i><i style="flex:14 1 0;background:#996806"></i></b><b style="flex:1.6 1 0"><i style="flex:58 1 0;background:#BF2C6E"></i><i style="flex:14 1 0;background:#D576A1"></i><i style="flex:14 1 0;background:#E7AFC8"></i><i style="flex:14 1 0;background:#861F4D"></i></b><b style="flex:1.4 1 0"><i style="flex:58 1 0;background:#95949B"></i><i style="flex:14 1 0;background:#BAB9BE"></i><i style="flex:14 1 0;background:#D7D6D9"></i><i style="flex:14 1 0;background:#68686C"></i></b></span><span class="cap"><i aria-hidden="true"></i>The chart palette</span></a></li><li style="--k: var(--k-res)"><a href="research.html#dd"><img src="img/map-drawdown.webp" width="432" height="324" alt="The drawdown chart comparing Eli Lilly and Regeneron" loading="lazy" decoding="async" style="background-color:#BAC8CD"><span class="cap"><i aria-hidden="true"></i>The drawdown chart</span></a></li></ul></li>
+        <li class="stop"><div class="who"><a class="sn" href="research.html#background"><span class="dot" aria-hidden="true"></span><span class="st">Morgan Stanley</span></a><span class="yr">2022 to 2026</span><span class="hl">I wrote the daily market note for about 25,000 financial advisors, and did the research behind what they told their clients</span></div><ul class="tiles"><li style="--k: var(--k-res)"><a href="research.html#palette"><span class="pal" aria-hidden="true"><b style="flex:5.0 1 0"><i style="flex:58 1 0;background:#275C90"></i><i style="flex:14 1 0;background:#7395B7"></i><i style="flex:14 1 0;background:#ADC1D5"></i><i style="flex:14 1 0;background:#1B4065"></i></b><b style="flex:4.0 1 0"><i style="flex:58 1 0;background:#3296FE"></i><i style="flex:14 1 0;background:#7ABBFE"></i><i style="flex:14 1 0;background:#B1D7FF"></i><i style="flex:14 1 0;background:#2369B2"></i></b><b style="flex:2.4 1 0"><i style="flex:58 1 0;background:#39A174"></i><i style="flex:14 1 0;background:#7EC2A5"></i><i style="flex:14 1 0;background:#B4DBCA"></i><i style="flex:14 1 0;background:#287151"></i></b><b style="flex:2.2 1 0"><i style="flex:58 1 0;background:#8771D7"></i><i style="flex:14 1 0;background:#B1A3E5"></i><i style="flex:14 1 0;background:#D1C9F0"></i><i style="flex:14 1 0;background:#5E4F96"></i></b><b style="flex:0.7 1 0"><i style="flex:58 1 0;background:#CF612F"></i><i style="flex:14 1 0;background:#E09878"></i><i style="flex:14 1 0;background:#EDC3B0"></i><i style="flex:14 1 0;background:#914421"></i></b><b style="flex:0.7 1 0"><i style="flex:58 1 0;background:#DA9408"></i><i style="flex:14 1 0;background:#E7B95E"></i><i style="flex:14 1 0;background:#F1D6A1"></i><i style="flex:14 1 0;background:#996806"></i></b><b style="flex:1.6 1 0"><i style="flex:58 1 0;background:#BF2C6E"></i><i style="flex:14 1 0;background:#D576A1"></i><i style="flex:14 1 0;background:#E7AFC8"></i><i style="flex:14 1 0;background:#861F4D"></i></b><b style="flex:1.4 1 0"><i style="flex:58 1 0;background:#95949B"></i><i style="flex:14 1 0;background:#BAB9BE"></i><i style="flex:14 1 0;background:#D7D6D9"></i><i style="flex:14 1 0;background:#68686C"></i></b></span><span class="cap"><i aria-hidden="true"></i>The chart palette</span></a></li><li style="--k: var(--k-res)"><a href="research.html#reports"><img src="img/map-reports.webp" width="456" height="342" alt="The first pages of four Global Investment Committee reports" loading="lazy" decoding="async" style="background-color:#959798"><span class="cap"><i aria-hidden="true"></i>Public reports</span></a></li></ul></li>
         <li class="stop"><div class="who"><a class="sn" href="built.html"><span class="dot" aria-hidden="true"></span><span class="st">Building on the side</span></a><span class="yr">2024 to 2026</span><span class="hl">Apps I built outside of work while I was at Morgan Stanley. I made my first web app in June 2024, before I started using Claude Code, and later built Dreamy, my AI running coach</span></div><ul class="tiles"><li style="--k: var(--k-build)"><a href="https://jason-traum.github.io/running-pace-adjuster/"><img src="img/map-hap.webp" width="432" height="324" alt="Heat Adjusted Pace, which adjusts your goal pace for heat and humidity" loading="lazy" decoding="async" style="background-color:#EBF2F4"><span class="cap"><i aria-hidden="true"></i>Heat Adjusted Pace</span><span class="stat">My first app, June 2024</span></a></li><li style="--k: var(--k-build)"><a href="dreamy.html"><img src="img/map-builder.webp" width="432" height="324" alt="Dreamy's week builder with the long run on Saturday" loading="lazy" decoding="async" style="background-color:#1E2534"><span class="cap"><i aria-hidden="true"></i>Dreamy</span><span class="stat">Beta done; I still use it</span></a></li></ul></li>
         <li class="stop"><div class="who"><a class="sn" href="built.html"><span class="dot" aria-hidden="true"></span><span class="st">Wharton</span></a><span class="yr">2026 to 2028</span><span class="hl">MBA, and what I&rsquo;m building next</span></div><ul class="tiles"><li style="--k: var(--k-build)"><a href="projects/walldrobe.html"><img src="img/map-walldrobe.webp" width="432" height="324" alt="Walldrobe: framed prints drawn on a photo of a wall" loading="lazy" decoding="async" style="background-color:#979FA1"><span class="cap"><i aria-hidden="true"></i>Walldrobe</span><span class="stat">Live</span></a></li><li style="--k: var(--k-build)"><a href="projects/drinkdock.html"><img src="img/map-drinkdock.webp" width="432" height="324" alt="DrinkDock: the kiosk in a bar, a 3D render" loading="lazy" decoding="async" style="background-color:#524A40"><span class="cap"><i aria-hidden="true"></i>DrinkDock</span><span class="stat">First of 20 in our class pitch</span></a></li><li style="--k: var(--k-build)"><a href="projects/5k-5-bars.html"><img src="img/map-5k.webp" width="432" height="324" alt="5K 5 Bars: the race screen and its big check-in button" loading="lazy" decoding="async" style="background-color:#B0B1BC"><span class="cap"><i aria-hidden="true"></i>5K 5 Bars</span><span class="stat">Live</span></a></li><li style="--k: var(--k-build)"><a href="projects/in.html"><img src="img/map-in.webp" width="432" height="324" alt="In.: a morning run with I'm in, Maybe and Not going" loading="lazy" decoding="async" style="background-color:#DBDFDE"><span class="cap"><i aria-hidden="true"></i>In.</span><span class="stat">Live, in testing</span></a></li><li style="--k: var(--k-build)"><a href="projects/wharton-os.html"><img src="img/map-whartonos.webp" width="432" height="324" alt="The Wharton OS write-up" loading="lazy" decoding="async" style="background-color:#202226"><span class="cap"><i aria-hidden="true"></i>Wharton OS</span><span class="stat">In use every day</span></a></li><li style="--k: var(--k-res)"><a href="research.html#pivot"><img src="img/map-sim.webp" width="432" height="324" alt="The retail strategy sim replay, round 0" loading="lazy" decoding="async" style="background-color:#212528"><span class="cap"><i aria-hidden="true"></i>The retail strategy sim</span><span class="stat">Best score in the course</span></a></li><li style="--k: var(--k-res)"><a href="strava-memo.html"><img src="img/map-strava.webp" width="432" height="324" alt="The Strava memo cover" loading="lazy" decoding="async" style="background-color:#F1F0EF"><span class="cap"><i aria-hidden="true"></i>Strava strategy memo</span></a></li></ul></li>
         <li class="stop end"><div class="who"><a class="sn" href="#contact"><span class="dot" aria-hidden="true"></span><span class="st">Next</span></a><span class="hl">AI product, strategy and deployment roles in New York</span></div></li>
@@ -1029,13 +1042,13 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
       <!--toc--><ol class="toc">
         <li style="--pc: #5AAEFF"><a href="built.html"><span class="n" aria-hidden="true"></span><span class="t">Things I&rsquo;ve built</span><span class="lead" aria-hidden="true"></span><span class="d">Startups and apps, from Dreamy to DrinkDock, and where each one stands</span></a></li>
         <li style="--pc: #5CC495"><a href="research.html"><span class="n" aria-hidden="true"></span><span class="t">Research and strategy</span><span class="lead" aria-hidden="true"></span><span class="d">The Morgan Stanley reports and charts, and my Wharton memo and strategy sim</span></a></li>
-        <li style="--pc: #A593EC"><a href="ai.html"><span class="n" aria-hidden="true"></span><span class="t">How I use AI</span><span class="lead" aria-hidden="true"></span><span class="d">The rules I give it, and some of the times I overruled it</span></a></li>
+        <li style="--pc: #A593EC"><a href="ai.html"><span class="n" aria-hidden="true"></span><span class="t">How I use AI</span><span class="lead" aria-hidden="true"></span><span class="d">Four calls I made, and the rules I give it</span></a></li>
         <li style="--pc: #E56A9C"><a href="background.html"><span class="n" aria-hidden="true"></span><span class="t">About me</span><span class="lead" aria-hidden="true"></span><span class="d">My skills, my paintings and what I do outside work</span></a></li>
       </ol><!--/toc-->
     </section>
 
     <section class="section" id="contact" aria-labelledby="contact-h">
-      <div class="sec-head"><h2 class="label" id="contact-h">Contact</h2></div>
+      <h2 class="sr-only" id="contact-h">Contact</h2>
       <p class="ending">I&rsquo;m looking at AI-focused product, strategy and deployment roles in New York, at startups and at bigger tech companies. If you&rsquo;re hiring for one of those, or just want to talk running or charts, email me.</p>
       <div class="contact-big">
         <a class="email" id="email-bottom" href="mailto:jtraum@wharton.upenn.edu">jtraum@<wbr>wharton.upenn.edu</a>

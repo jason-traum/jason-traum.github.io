@@ -26,6 +26,7 @@
   --ink: #14212E;
   --ink-2: #435061;
   --muted: #5E6A78;
+  --ink-strong: #000000;
   --rule: #D9DEE4;
   --rule-strong: #14212E;
   --olive: #275C90;          /* MS Blue: links, focus, the report band */
@@ -48,7 +49,7 @@
   color-scheme: dark;
 }
 :root {
-  --paper: #141619; --surface: #1C1F23; --ink: #E7ECF1; --ink-2: #B9C3CE; --muted: #9AA5B2;
+  --paper: #141619; --surface: #1C1F23; --ink: #E7ECF1; --ink-2: #C8D0D8; --muted: #9AA5B2; --ink-strong: #FFFFFF;
   --rule: #2A2E33; --rule-strong: #B9C3CE; --olive: #7FAEE0; --signal: #5CC495; --signal-ink: #141619;
   --frame: #06090D; --mat: #E6E9EC; --shot-border: #2A2E33;
   --c-msblue: #6FA0D6; --c-razz: #5AAEFF; --c-jade: #5CC495; --c-amethyst: #A593EC; --c-carrot: #E8834F; --c-honey: #E8AE2E; --c-magenta: #E56A9C; --c-grey: #A3A5AE;
@@ -135,7 +136,7 @@ a:hover { color: var(--olive); text-decoration-thickness: 2px; }
 .facts div { display: grid; gap: 2px; }
 .facts dt { font-size: 13px; color: var(--muted); }
 .facts dd { margin: 0; font-size: 15px; line-height: 1.4; }
-@media (max-width: 859px) { .facts { grid-template-columns: 1fr 1fr; gap: 14px 20px; } }
+@media (max-width: 859px) { .facts { grid-template-columns: 1fr 1fr; gap: 14px 20px; order: 2; } }
 .intro-body { display: grid; gap: 14px; }
 .lede {
   font-size: clamp(1.3rem, 2.4vw, 1.7rem);
@@ -363,6 +364,7 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .wd-concept { margin: 28px 0 0; }
 .wd-concept img { display: block; width: 100%; height: auto; }
 .intro-side { display: grid; gap: 22px; align-content: start; }
+@media (max-width: 859px) { .intro-side { display: contents; } }
 .portrait { display: block; width: 100%; max-width: 240px; height: auto; }
 @media (max-width: 859px) { .portrait { width: 120px; } }
 .outside p { color: var(--ink-2); }
@@ -708,6 +710,8 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .cv-role { font-size: 14px; line-height: 1.4; color: var(--ink-2); }
 .cv-more { font-size: 14.5px; color: var(--muted); margin: 0 0 30px; max-width: 46em; }
 .lede b { font-weight: 700; color: var(--ink); }
+/* a result, in bold white: at most one per paragraph, never in a heading */
+strong.res { font-weight: 700; color: var(--ink-strong); }
 
 /* the ending: what I want, then one action */
 .ending { font-size: clamp(20px, 2.4vw, 26px); line-height: 1.4; text-wrap: pretty; color: var(--ink); max-width: 30em; margin: 0 0 22px; letter-spacing: -0.01em; }
@@ -732,8 +736,8 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .who .yr { font-size: 14px; font-weight: 600; color: var(--muted); font-variant-numeric: tabular-nums; }
 .who .hl { font-size: 14px; line-height: 1.45; color: var(--ink-2); }
 .tiles { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 22px 16px; }
-.tiles a { display: flex; flex-direction: column; gap: 6px; width: 144px; text-decoration: none; color: var(--ink); }
-.tiles img, .tiles .pal { display: block; width: 144px; height: 108px; object-fit: cover; border-radius: 6px; border: 1px solid var(--rule); }
+.tiles a { display: flex; flex-direction: column; gap: 6px; width: 216px; text-decoration: none; color: var(--ink); }
+.tiles img, .tiles .pal { display: block; width: 216px; height: 162px; object-fit: cover; border-radius: 6px; border: 1px solid var(--rule); }
 .tiles .pal { display: flex; gap: 2px; overflow: hidden; background: var(--paper); }
 .tiles .pal b { display: flex; flex-direction: column; }
 .tiles a:hover img, .tiles a:hover .pal { border-color: var(--k); }
@@ -744,7 +748,7 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 #path .src { margin-top: 18px; }
 @media (max-width: 759px) {
   .stop { grid-template-columns: minmax(0, 1fr); padding-bottom: 32px; }
-  .tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px 10px; }
+  .tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 12px; }
   .tiles a { width: auto; }
   .tiles img, .tiles .pal { width: 100%; height: auto; aspect-ratio: 4 / 3; }
 }
@@ -897,6 +901,14 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
 .sim-qs li { display: grid; gap: 4px; }
 .sim-qs q { font-weight: 700; color: var(--ink); quotes: "\201C" "\201D"; }
 .sim-qs span { color: var(--ink-2); }
+/* Oct 7: the questions read like the overrules on How I use AI: the question big, what happened small */
+.sim-qs { gap: 30px 48px; max-width: none; margin-top: 14px; }
+@media (min-width: 820px) { .sim-qs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.sim-qs li { gap: 8px; border-top: 1px solid var(--rule); padding-top: 14px; align-content: start; }
+.sim-qs q { font-weight: 400; font-size: clamp(1.15rem, 2vw, 1.4rem); line-height: 1.35; letter-spacing: -0.01em; text-indent: -0.4em; }
+.sim-qs span { font-size: 15px; line-height: 1.5; }
+.work-lede { max-width: 30em; margin: 0 0 14px; font-size: clamp(1.15rem, 2vw, 1.4rem); line-height: 1.4; letter-spacing: -0.01em; color: var(--ink); }
+@media (min-width: 820px) { .highlights.two-up { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 48px; max-width: none; } }
 
 /* Your name: big on Start, and it glides to the top left when you open another page (Oct 7) */
 @view-transition { navigation: auto; }
@@ -910,6 +922,44 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
 
 /* Things I've built: one project per row until there's room for two (Astra review, Oct 7: at 768px the text got 110px) */
 @media (max-width: 1099px) { .built { grid-template-columns: minmax(0, 1fr); gap: 30px; } }
+
+/* Running: six races drawn like Strava posts, route from his Strava (Oct 7) */
+.run-lede { color: var(--ink-2); max-width: 40em; margin: 8px 0 20px; }
+.rps { list-style: none; margin: 0; padding: 4px 2px 18px; display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: thin; }
+.rps:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.rp { flex: 0 0 316px; scroll-snap-align: start; display: flex; flex-direction: column; background: #FFFFFF; color: #242428; border-radius: 6px; padding: 16px 0 0; overflow: hidden; }
+.rp > *:not(.rp-mapbox) { padding-inline: 16px; }
+.rp-head { display: flex; gap: 10px; align-items: center; }
+.rp-head img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+.rp-head p { margin: 0; display: grid; font-size: 13px; line-height: 1.3; color: #6D6D78; }
+.rp-head b { color: #242428; font-size: 14.5px; }
+.rp-title { margin: 12px 0 4px; font-size: 19px; font-weight: 800; letter-spacing: -0.01em; line-height: 1.2; color: #242428; }
+.rp-cap { margin: 0; font-size: 14px; line-height: 1.45; color: #3B3B42; }
+.rp-stats { display: flex; gap: 18px; margin: 12px 0 12px; }
+.rp-stats div { display: grid; gap: 1px; }
+.rp-stats dt { font-size: 12px; color: #6D6D78; }
+.rp-stats dd { margin: 0; font-size: 17px; font-weight: 700; color: #242428; font-variant-numeric: tabular-nums; }
+.rp-mapbox { position: relative; margin-top: auto; background: #ECEAE4; }
+.rp-map { display: block; width: 100%; height: auto; }
+.rp-line { fill: none; stroke: #FC5200; stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
+.rp-start { fill: #1FA74A; stroke: #fff; stroke-width: 2; } .rp-end { fill: #D11E1E; stroke: #fff; stroke-width: 2; }
+.rp-tag { position: absolute; left: 10px; top: 10px; font-size: 12px; font-weight: 700; background: #242428; color: #fff; padding: 3px 8px; border-radius: 3px; }
+.rp-foot { margin: 0; padding-block: 10px 12px; font-size: 13px; color: #6D6D78; border-top: 1px solid #E6E6EA; }
+@media (max-width: 699px) { .rp { flex-basis: 84%; } }
+.rp-mapbox { aspect-ratio: 300 / 170; }
+.rp-leaf { position: absolute; inset: 0; z-index: 0; background: #ECEAE4; }
+.rp-mapbox .rp-map { position: relative; z-index: 0; }
+.rp-mapbox.has-map .rp-map { visibility: hidden; }
+.rp-mapbox .rp-tag { z-index: 500; }
+.rp-leaf .leaflet-control-attribution { font-size: 9px; padding: 0 4px; background: rgba(255,255,255,.75); }
+.rp-leaf .leaflet-control-attribution a { color: #555; }
+.rbig4 { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; }
+.rbig4 .b-line { font-size: 14px; }
+@media (max-width: 900px) { .rbig4 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; } }
+#ms-work { padding-top: 40px; }
+#wharton-work .made-lead { max-width: 40em; }
+.rbig-one { grid-template-columns: minmax(0, 520px); margin-top: 22px; }
+.rp-later { margin: 6px 0 0; font-size: 13.5px; color: #6D6D78; font-style: italic; }
 
 /* route bar: the stops of the site in order. Filled dot = you've been there, ring = you are here. */
 .route-nav { margin: 0; }
@@ -964,27 +1014,27 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
           <p>Before building I wrote down who uses it and when, what every screen shows in every situation, the look, and a log of every decision. Claude Code reads those before it changes anything. I&rsquo;d been planning it for a while, so once I sat down to build, the first version came together in a day.</p>
           <div class="shots" style="--n:3">
             <figure>
-              <img src="../img/5k-race.webp" width="600" height="962" alt="5K 5 Bars race screen: the progress strip at bar 2 of 5, McGillin's Olde Ale House, and a large red I'm at McGillin's button." loading="lazy" decoding="async">
+              <img src="../img/5k-race.webp" width="600" height="962" alt="5K 5 Bars race screen: the progress strip at bar 2 of 5, McGillin's Olde Ale House, and a large red I'm at McGillin's button." loading="lazy" decoding="async" style="background-color:#C9B5BE">
               <figcaption>Between bars: the next stop and one big button</figcaption>
             </figure>
             <figure>
-              <img src="../img/5k-atbar.webp" width="600" height="962" alt="5K 5 Bars at-the-bar screen: group leaves in 30:00 at 7:39 PM, a Leaving McGillin's button, and Already at Indy Beer Garden." loading="lazy" decoding="async">
+              <img src="../img/5k-atbar.webp" width="600" height="962" alt="5K 5 Bars at-the-bar screen: group leaves in 30:00 at 7:39 PM, a Leaving McGillin's button, and Already at Indy Beer Garden." loading="lazy" decoding="async" style="background-color:#C9B1B3">
               <figcaption>At a bar, a countdown to when the group leaves, so nobody has to keep track</figcaption>
             </figure>
             <figure>
-              <img src="../img/5k-finished.webp" width="600" height="962" alt="5K 5 Bars finish card: 6th of 15, 8:44 per mile, 26:18 running, and a bar showing time running versus time at bars." loading="lazy" decoding="async">
+              <img src="../img/5k-finished.webp" width="600" height="962" alt="5K 5 Bars finish card: 6th of 15, 8:44 per mile, 26:18 running, and a bar showing time running versus time at bars." loading="lazy" decoding="async" style="background-color:#7F7F8A">
               <figcaption>The finish screen, from the demo</figcaption>
             </figure>
           </div>
         </div>
       </div>
     </article>
-<!--deep--><section class="deep" aria-labelledby="deep-h"><h2 class="label" id="deep-h">The details</h2><div class="feat has-fig phone"><div class="feat-text"><h3>Taps that work without signal</h3><p>Signal inside bars is bad, so a tap saves on the phone with the time it actually happened and syncs once the phone has signal again. Under the button it says when it saved, so people know it counted.</p><p>If a retry sends the same tap twice, the database keeps just one.</p></div><figure class="feat-fig phone"><img src="../img/5k-offline.webp" alt="At the bar screen with a No signal note, a Leaving McGillin&#x27;s button, and Saved on this phone at 9:12. Syncs when you have signal." loading="lazy" decoding="async"><figcaption>No signal at the bar, so the tap saved on the phone.</figcaption></figure></div><div class="feat"><div class="feat-text"><h3>The database checks every write</h3><p>Nobody can write to a table directly. Every write goes through a SQL function that checks who is asking, and the only key in the app is the publishable one.</p><p>Before launch I had the security reviewed from scratch, then ran 121 checks against a local stand-in for Supabase, as runners, as organizers, and as phones pretending to be the organizer.</p><pre class="feat-code"><code>revoke all on public.admins, public.event, public.stops,
+<!--deep--><section class="deep" aria-labelledby="deep-h"><h2 class="sr-only" id="deep-h">The details</h2><div class="feat has-fig phone"><div class="feat-text"><h3>Taps that work without signal</h3><p>Signal inside bars is bad, so a tap saves on the phone with the time it actually happened and syncs once the phone has signal again. Under the button it says when it saved, so people know it counted.</p><p>If a retry sends the same tap twice, the database keeps just one.</p></div><figure class="feat-fig phone"><img src="../img/5k-offline.webp" alt="At the bar screen with a No signal note, a Leaving McGillin&#x27;s button, and Saved on this phone at 9:12. Syncs when you have signal." loading="lazy" decoding="async" style="background-color:#45333B"><figcaption>No signal at the bar, so the tap saved on the phone.</figcaption></figure></div><div class="feat"><div class="feat-text"><h3>The database checks every write</h3><p>Nobody can write to a table directly. Every write goes through a SQL function that checks who is asking, and the only key in the app is the publishable one.</p><p>Before launch I had the security reviewed from scratch, then ran 121 checks against a local stand-in for Supabase, as runners, as organizers, and as phones pretending to be the organizer.</p><pre class="feat-code"><code>revoke all on public.admins, public.event, public.stops,
   public.runners, public.taps from anon, authenticated;
 -- Other runners see when and where you checked in,
 -- not how far off your GPS was.
 grant select (id, runner_id, stop, kind, at, verified, source, created_at)
-  on public.taps to authenticated;</code></pre></div></div><div class="feat has-fig phone"><div class="feat-text"><h3>A demo you can open from a link</h3><p>Add ?demo to the link and you get the whole app with 14 sample runners and a simulated location, and nothing is saved. A Preview button jumps to any point in the race and switches your location and signal.</p><p>My screenshot test uses the same controls to go through every screen in light and dark, and fails if anything scrolls sideways or throws an error.</p></div><figure class="feat-fig feat-frame phone"><iframe src="https://jason-traum.github.io/wrtc-5k5bars/?demo" title="5K 5 Bars demo" loading="lazy" allow="screen-wake-lock" style="height:780px"></iframe><figcaption>The live demo. Tap Preview to jump around the race.</figcaption></figure></div><div class="feat has-fig phone"><div class="feat-text"><h3>Everyone starts their own clock</h3><p>My first plan started everyone at the organizer's GO. I changed it the same day, because not everyone leaves at once and a late starter would have looked slow.</p><p>Now GO only opens the start, each runner taps Start when they set off, and Test my location tells you before you go whether your GPS is good enough to check in.</p></div><figure class="feat-fig phone"><img src="../img/5k-ready.webp" alt="Start line screen at Rittenhouse Square with a big Start button, Already at PHS Garden, and a location test that passed." loading="lazy" decoding="async"><figcaption>The start line, with the location test.</figcaption></figure></div><div class="feat has-fig phone"><div class="feat-text"><h3>Setting up the course</h3><p>The organizer places each bar by searching OpenStreetMap, pasting coordinates or standing there, instead of dragging pins.</p><p>Test a check-in tells you whether a tap would count from where you're standing, so you can set each bar's radius while walking the course.</p></div><figure class="feat-fig phone"><img src="../img/5k-organizer.webp" alt="Organizer screen: the start is open, the course as chips for each bar, and a map with numbered stops." loading="lazy" decoding="async"><figcaption>The organizer screen.</figcaption></figure></div></section><!--/deep-->
+  on public.taps to authenticated;</code></pre></div></div><div class="feat has-fig phone"><div class="feat-text"><h3>A demo you can open from a link</h3><p>Add ?demo to the link and you get the whole app with 14 sample runners and a simulated location, and nothing is saved. A Preview button jumps to any point in the race and switches your location and signal.</p><p>My screenshot test uses the same controls to go through every screen in light and dark, and fails if anything scrolls sideways or throws an error.</p></div><figure class="feat-fig feat-frame phone"><iframe src="https://jason-traum.github.io/wrtc-5k5bars/?demo" title="5K 5 Bars demo" loading="lazy" allow="screen-wake-lock" style="height:780px"></iframe><figcaption>The live demo. Tap Preview to jump around the race.</figcaption></figure></div><div class="feat has-fig phone"><div class="feat-text"><h3>Everyone starts their own clock</h3><p>My first plan started everyone at the organizer's GO. I changed it the same day, because not everyone leaves at once and a late starter would have looked slow.</p><p>Now GO only opens the start, each runner taps Start when they set off, and Test my location tells you before you go whether your GPS is good enough to check in.</p></div><figure class="feat-fig phone"><img src="../img/5k-ready.webp" alt="Start line screen at Rittenhouse Square with a big Start button, Already at PHS Garden, and a location test that passed." loading="lazy" decoding="async" style="background-color:#362A3B"><figcaption>The start line, with the location test.</figcaption></figure></div><div class="feat has-fig phone"><div class="feat-text"><h3>Setting up the course</h3><p>The organizer places each bar by searching OpenStreetMap, pasting coordinates or standing there, instead of dragging pins.</p><p>Test a check-in tells you whether a tap would count from where you're standing, so you can set each bar's radius while walking the course.</p></div><figure class="feat-fig phone"><img src="../img/5k-organizer.webp" alt="Organizer screen: the start is open, the course as chips for each bar, and a map with numbered stops." loading="lazy" decoding="async" style="background-color:#273046"><figcaption>The organizer screen.</figcaption></figure></div></section><!--/deep-->
 
     <nav class="proj-more" aria-labelledby="more-h">
       <h2 class="label" id="more-h">More projects</h2>

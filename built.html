@@ -26,6 +26,7 @@
   --ink: #14212E;
   --ink-2: #435061;
   --muted: #5E6A78;
+  --ink-strong: #000000;
   --rule: #D9DEE4;
   --rule-strong: #14212E;
   --olive: #275C90;          /* MS Blue: links, focus, the report band */
@@ -48,7 +49,7 @@
   color-scheme: dark;
 }
 :root {
-  --paper: #141619; --surface: #1C1F23; --ink: #E7ECF1; --ink-2: #B9C3CE; --muted: #9AA5B2;
+  --paper: #141619; --surface: #1C1F23; --ink: #E7ECF1; --ink-2: #C8D0D8; --muted: #9AA5B2; --ink-strong: #FFFFFF;
   --rule: #2A2E33; --rule-strong: #B9C3CE; --olive: #7FAEE0; --signal: #5CC495; --signal-ink: #141619;
   --frame: #06090D; --mat: #E6E9EC; --shot-border: #2A2E33;
   --c-msblue: #6FA0D6; --c-razz: #5AAEFF; --c-jade: #5CC495; --c-amethyst: #A593EC; --c-carrot: #E8834F; --c-honey: #E8AE2E; --c-magenta: #E56A9C; --c-grey: #A3A5AE;
@@ -135,7 +136,7 @@ a:hover { color: var(--olive); text-decoration-thickness: 2px; }
 .facts div { display: grid; gap: 2px; }
 .facts dt { font-size: 13px; color: var(--muted); }
 .facts dd { margin: 0; font-size: 15px; line-height: 1.4; }
-@media (max-width: 859px) { .facts { grid-template-columns: 1fr 1fr; gap: 14px 20px; } }
+@media (max-width: 859px) { .facts { grid-template-columns: 1fr 1fr; gap: 14px 20px; order: 2; } }
 .intro-body { display: grid; gap: 14px; }
 .lede {
   font-size: clamp(1.3rem, 2.4vw, 1.7rem);
@@ -363,6 +364,7 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .wd-concept { margin: 28px 0 0; }
 .wd-concept img { display: block; width: 100%; height: auto; }
 .intro-side { display: grid; gap: 22px; align-content: start; }
+@media (max-width: 859px) { .intro-side { display: contents; } }
 .portrait { display: block; width: 100%; max-width: 240px; height: auto; }
 @media (max-width: 859px) { .portrait { width: 120px; } }
 .outside p { color: var(--ink-2); }
@@ -708,6 +710,8 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .cv-role { font-size: 14px; line-height: 1.4; color: var(--ink-2); }
 .cv-more { font-size: 14.5px; color: var(--muted); margin: 0 0 30px; max-width: 46em; }
 .lede b { font-weight: 700; color: var(--ink); }
+/* a result, in bold white: at most one per paragraph, never in a heading */
+strong.res { font-weight: 700; color: var(--ink-strong); }
 
 /* the ending: what I want, then one action */
 .ending { font-size: clamp(20px, 2.4vw, 26px); line-height: 1.4; text-wrap: pretty; color: var(--ink); max-width: 30em; margin: 0 0 22px; letter-spacing: -0.01em; }
@@ -732,8 +736,8 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .who .yr { font-size: 14px; font-weight: 600; color: var(--muted); font-variant-numeric: tabular-nums; }
 .who .hl { font-size: 14px; line-height: 1.45; color: var(--ink-2); }
 .tiles { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 22px 16px; }
-.tiles a { display: flex; flex-direction: column; gap: 6px; width: 144px; text-decoration: none; color: var(--ink); }
-.tiles img, .tiles .pal { display: block; width: 144px; height: 108px; object-fit: cover; border-radius: 6px; border: 1px solid var(--rule); }
+.tiles a { display: flex; flex-direction: column; gap: 6px; width: 216px; text-decoration: none; color: var(--ink); }
+.tiles img, .tiles .pal { display: block; width: 216px; height: 162px; object-fit: cover; border-radius: 6px; border: 1px solid var(--rule); }
 .tiles .pal { display: flex; gap: 2px; overflow: hidden; background: var(--paper); }
 .tiles .pal b { display: flex; flex-direction: column; }
 .tiles a:hover img, .tiles a:hover .pal { border-color: var(--k); }
@@ -744,7 +748,7 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 #path .src { margin-top: 18px; }
 @media (max-width: 759px) {
   .stop { grid-template-columns: minmax(0, 1fr); padding-bottom: 32px; }
-  .tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px 10px; }
+  .tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 12px; }
   .tiles a { width: auto; }
   .tiles img, .tiles .pal { width: 100%; height: auto; aspect-ratio: 4 / 3; }
 }
@@ -897,6 +901,14 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
 .sim-qs li { display: grid; gap: 4px; }
 .sim-qs q { font-weight: 700; color: var(--ink); quotes: "\201C" "\201D"; }
 .sim-qs span { color: var(--ink-2); }
+/* Oct 7: the questions read like the overrules on How I use AI: the question big, what happened small */
+.sim-qs { gap: 30px 48px; max-width: none; margin-top: 14px; }
+@media (min-width: 820px) { .sim-qs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.sim-qs li { gap: 8px; border-top: 1px solid var(--rule); padding-top: 14px; align-content: start; }
+.sim-qs q { font-weight: 400; font-size: clamp(1.15rem, 2vw, 1.4rem); line-height: 1.35; letter-spacing: -0.01em; text-indent: -0.4em; }
+.sim-qs span { font-size: 15px; line-height: 1.5; }
+.work-lede { max-width: 30em; margin: 0 0 14px; font-size: clamp(1.15rem, 2vw, 1.4rem); line-height: 1.4; letter-spacing: -0.01em; color: var(--ink); }
+@media (min-width: 820px) { .highlights.two-up { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 48px; max-width: none; } }
 
 /* Your name: big on Start, and it glides to the top left when you open another page (Oct 7) */
 @view-transition { navigation: auto; }
@@ -947,6 +959,7 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
 #ms-work { padding-top: 40px; }
 #wharton-work .made-lead { max-width: 40em; }
 .rbig-one { grid-template-columns: minmax(0, 520px); margin-top: 22px; }
+.rp-later { margin: 6px 0 0; font-size: 13.5px; color: #6D6D78; font-style: italic; }
 
 /* route bar: the stops of the site in order. Filled dot = you've been there, ring = you are here. */
 .route-nav { margin: 0; }
@@ -978,6 +991,24 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
 .habits { margin: 0 0 20px; padding-left: 1.4em; display: grid; gap: 10px; max-width: 44em; color: var(--ink-2); }
 .habits li::marker { color: var(--c-msblue); font-weight: 800; font-variant-numeric: tabular-nums; }
 .habits b { color: var(--ink); font-weight: 700; }
+.calls { list-style: none; margin: 0 0 40px; padding: 0; display: grid; gap: 0 40px; max-width: 980px; }
+@media (min-width: 820px) { .calls { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.calls li { padding: 14px 0 18px; border-top: 1px solid var(--rule); color: var(--ink-2); }
+.calls b { display: block; margin-bottom: 4px; color: var(--ink); font-weight: 700; }
+.calls li { display: grid; grid-template-columns: 132px minmax(0, 1fr); gap: 16px; align-items: start; }
+.calls img { width: 132px; height: 99px; object-fit: cover; border-radius: 6px; border: 1px solid var(--rule); }
+@media (max-width: 480px) { .calls li { grid-template-columns: 96px minmax(0, 1fr); gap: 12px; } .calls img { width: 96px; height: 72px; } }
+@media (min-width: 900px) { .habits { columns: 2; column-gap: 48px; max-width: none; display: block; } .habits li { break-inside: avoid; margin-bottom: 12px; } }
+/* Overrules: what it suggested, small; what I said, big. Two columns on a laptop. */
+.overrule { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 30px 48px; }
+@media (min-width: 820px) { .overrule { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.overrule li { border-top: 1px solid var(--rule); padding-top: 14px; }
+.ov-s { font-size: 14px; line-height: 1.45; color: var(--muted); margin-bottom: 8px; }
+.ov-q { font-size: clamp(1.15rem, 2vw, 1.4rem); line-height: 1.35; letter-spacing: -0.01em; color: var(--ink); text-indent: -0.4em; }
+.ov-a { margin-top: 8px; font-size: 15px; line-height: 1.5; color: var(--ink-2); }
+.more-q { margin-top: 18px; }
+.ledger td.where { white-space: nowrap; }
+.ledger td.where i { display: inline-block; width: 9px; height: 9px; margin-right: 7px; vertical-align: 1px; }
 .ai-prose { display: grid; gap: 14px; max-width: 42em; color: var(--ink-2); }
 .ai-prose + .table-wrap, .table-wrap + .ai-prose { margin-top: 22px; }
 .table-wrap { width: 100%; }
@@ -1026,6 +1057,29 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
   .ledger.changes td::before { content: none !important; }
   .ledger.changes td { margin-top: 4px; }
 }
+/* Colophon, Oct 7: side headings on the prose sections, so the page doesn't read as one long column */
+@media (min-width: 980px) {
+  .exhibit.side { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); column-gap: 56px; align-items: start; }
+  .exhibit.side > header { grid-column: 1; grid-row: 1 / span 4; margin-bottom: 0; position: sticky; top: 96px; }
+  .exhibit.side > :not(header) { grid-column: 2; }
+}
+.specimen { display: flex; align-items: baseline; gap: 28px; margin: 0 0 18px; color: var(--ink); line-height: 1; }
+.specimen .sp-a { font-size: clamp(4rem, 9vw, 6.5rem); font-weight: 900; letter-spacing: -0.04em; }
+.specimen .sp-b { font-size: clamp(2.6rem, 6vw, 4rem); font-weight: 400; color: var(--ink-2); }
+.specimen .sp-m { font-family: var(--mono); font-size: clamp(1.4rem, 3vw, 2rem); color: var(--c-razz); font-variant-numeric: tabular-nums; }
+.habits.checks { list-style: none; padding-left: 0; }
+.habits.checks li { position: relative; padding-left: 30px; }
+.habits.checks li::before { content: ''; position: absolute; left: 4px; top: 5px; width: 6px; height: 12px; border: solid var(--c-jade); border-width: 0 2.5px 2.5px 0; transform: rotate(45deg); }
+@media (min-width: 900px) { .habits.checks { columns: 1; } }
+.ai-prose s { text-decoration-color: var(--c-magenta); text-decoration-thickness: 2px; }
+.timeline { list-style: none; margin: 0; padding: 0; position: relative; max-width: 46em; }
+.timeline::before { content: ''; position: absolute; left: 5px; top: 8px; bottom: 8px; width: 2px; background: var(--rule); }
+.timeline li { position: relative; display: grid; grid-template-columns: 8.5em minmax(0, 1fr); gap: 4px 18px; padding: 0 0 18px 28px; }
+.timeline li::before { content: ''; position: absolute; left: 0; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--paper); border: 2px solid var(--c-msblue); box-sizing: border-box; }
+.timeline li:last-child::before { background: var(--c-msblue); }
+.tl-d { font-family: var(--mono); font-size: 13.5px; color: var(--muted); padding-top: 2px; font-variant-numeric: tabular-nums; }
+.tl-t { color: var(--ink-2); }
+@media (max-width: 600px) { .timeline li { grid-template-columns: minmax(0, 1fr); } }
 
 
 /* end of page: previous small, next as the last big line */
@@ -1083,7 +1137,7 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
 
     <section class="section stop-page" aria-label="Everything I've built">
       <p class="src built-src">Status as of October 6, 2026.</p>
-      <!--btiles--><ol class="built"><li><a href="projects/walldrobe.html"><img src="img/map-walldrobe.webp" width="432" height="324" alt="Walldrobe: framed prints drawn on a photo of a wall" loading="lazy" decoding="async"><span class="b-txt"><span class="b-name">Walldrobe</span><span class="b-when">Wharton, Sep 2026. A class startup</span><span class="b-line">A wardrobe for your walls: photograph one wall and get it finished</span><span class="b-stat"><i aria-hidden="true"></i>Live</span></span></a></li><li><a href="projects/drinkdock.html"><img src="img/map-drinkdock.webp" width="432" height="324" alt="DrinkDock: the kiosk in a bar, a 3D render" loading="lazy" decoding="async"><span class="b-txt"><span class="b-name">DrinkDock</span><span class="b-when">Wharton, Sep 2026. A class startup, and I&rsquo;m the CTO</span><span class="b-line">Age-verified vending machine for canned drinks at busy bars and hotels</span><span class="b-stat"><i aria-hidden="true"></i>First of 20 in our class pitch</span></span></a></li><li><a href="projects/5k-5-bars.html"><img src="img/map-5k.webp" width="432" height="324" alt="5K 5 Bars: the race screen and its big check-in button" loading="lazy" decoding="async"><span class="b-txt"><span class="b-name">5K 5 Bars</span><span class="b-when">Wharton, Sep 2026. On the side</span><span class="b-line">Race-day app for our run club&rsquo;s bar crawl</span><span class="b-stat"><i aria-hidden="true"></i>Live</span></span></a></li><li><a href="projects/in.html"><img src="img/map-in.webp" width="432" height="324" alt="In.: a morning run with I'm in, Maybe and Not going" loading="lazy" decoding="async"><span class="b-txt"><span class="b-name">In.</span><span class="b-when">Wharton, Sep 2026. On the side</span><span class="b-line">Plan tomorrow&rsquo;s run with other Wharton and Penn grad runners</span><span class="b-stat"><i aria-hidden="true"></i>Live, in testing</span></span></a></li><li><a href="projects/wharton-os.html"><img src="img/map-whartonos.webp" width="432" height="324" alt="The Wharton OS write-up" loading="lazy" decoding="async"><span class="b-txt"><span class="b-name">Wharton OS</span><span class="b-when">Wharton, Sep to Oct 2026. For me</span><span class="b-line">Claude Code and an Obsidian vault that run school for me</span><span class="b-stat"><i aria-hidden="true"></i>In use every day</span></span></a></li><li><a href="dreamy.html"><img src="img/map-builder.webp" width="432" height="324" alt="Dreamy's week builder with the long run on Saturday" loading="lazy" decoding="async"><span class="b-txt"><span class="b-name">Dreamy</span><span class="b-when">Jan to Apr 2026, while I was at Morgan Stanley</span><span class="b-line">AI running coach that plans around the days you can&rsquo;t run</span><span class="b-stat"><i aria-hidden="true"></i>Beta done; I still use it</span></span></a></li><li><a href="https://jason-traum.github.io/running-pace-adjuster/"><img src="img/map-hap.webp" width="432" height="324" alt="The Heat Adjusted Pace app" loading="lazy" decoding="async"><span class="b-txt"><span class="b-name">Heat Adjusted Pace</span><span class="b-when">June 2024, my first web app, before I was using Claude Code</span><span class="b-line">Adjusts your goal pace for heat and humidity. It isn&rsquo;t very good, and that&rsquo;s the point. It shows where AI and my skills were in 2024</span><span class="b-stat"><i aria-hidden="true"></i>Live</span></span></a></li></ol><!--/btiles-->
+      <!--btiles--><ol class="built"><li><a href="projects/walldrobe.html"><img src="img/map-walldrobe.webp" width="432" height="324" alt="Walldrobe: framed prints drawn on a photo of a wall" loading="lazy" decoding="async" style="background-color:#979FA1"><span class="b-txt"><span class="b-name">Walldrobe</span><span class="b-when">Wharton, Sep 2026. A class startup</span><span class="b-line">A wardrobe for your walls: photograph one wall and get it finished</span><span class="b-stat"><i aria-hidden="true"></i>Live</span></span></a></li><li><a href="projects/drinkdock.html"><img src="img/map-drinkdock.webp" width="432" height="324" alt="DrinkDock: the kiosk in a bar, a 3D render" loading="lazy" decoding="async" style="background-color:#524A40"><span class="b-txt"><span class="b-name">DrinkDock</span><span class="b-when">Wharton, Sep 2026. A class startup, and I&rsquo;m the CTO</span><span class="b-line">Age-verified vending machine for canned drinks at busy bars and hotels</span><span class="b-stat"><i aria-hidden="true"></i>First of 20 in our class pitch</span></span></a></li><li><a href="projects/5k-5-bars.html"><img src="img/map-5k.webp" width="432" height="324" alt="5K 5 Bars: the race screen and its big check-in button" loading="lazy" decoding="async" style="background-color:#B0B1BC"><span class="b-txt"><span class="b-name">5K 5 Bars</span><span class="b-when">Wharton, Sep 2026. On the side</span><span class="b-line">Race-day app for our run club&rsquo;s bar crawl</span><span class="b-stat"><i aria-hidden="true"></i>Live</span></span></a></li><li><a href="projects/in.html"><img src="img/map-in.webp" width="432" height="324" alt="In.: a morning run with I'm in, Maybe and Not going" loading="lazy" decoding="async" style="background-color:#DBDFDE"><span class="b-txt"><span class="b-name">In.</span><span class="b-when">Wharton, Sep 2026. On the side</span><span class="b-line">Plan tomorrow&rsquo;s run with other Wharton and Penn grad runners</span><span class="b-stat"><i aria-hidden="true"></i>Live, in testing</span></span></a></li><li><a href="projects/wharton-os.html"><img src="img/map-whartonos.webp" width="432" height="324" alt="The Wharton OS write-up" loading="lazy" decoding="async" style="background-color:#202226"><span class="b-txt"><span class="b-name">Wharton OS</span><span class="b-when">Wharton, Sep to Oct 2026. For me</span><span class="b-line">Claude Code and an Obsidian vault that run school for me</span><span class="b-stat"><i aria-hidden="true"></i>In use every day</span></span></a></li><li><a href="dreamy.html"><img src="img/map-builder.webp" width="432" height="324" alt="Dreamy's week builder with the long run on Saturday" loading="lazy" decoding="async" style="background-color:#1E2534"><span class="b-txt"><span class="b-name">Dreamy</span><span class="b-when">Jan to Apr 2026, while I was at Morgan Stanley</span><span class="b-line">AI running coach that plans around the days you can&rsquo;t run</span><span class="b-stat"><i aria-hidden="true"></i>Beta done; I still use it</span></span></a></li><li><a href="https://jason-traum.github.io/running-pace-adjuster/"><img src="img/map-hap.webp" width="432" height="324" alt="The Heat Adjusted Pace app" loading="lazy" decoding="async" style="background-color:#EBF2F4"><span class="b-txt"><span class="b-name">Heat Adjusted Pace</span><span class="b-when">June 2024, my first web app, before I was using Claude Code</span><span class="b-line">Adjusts your goal pace for heat and humidity. It isn&rsquo;t very good, and that&rsquo;s the point. It shows where AI and my skills were in 2024</span><span class="b-stat"><i aria-hidden="true"></i>Live</span></span></a></li></ol><!--/btiles-->
     </section>
 
     

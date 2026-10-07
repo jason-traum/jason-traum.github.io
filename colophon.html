@@ -26,6 +26,7 @@
   --ink: #14212E;
   --ink-2: #435061;
   --muted: #5E6A78;
+  --ink-strong: #000000;
   --rule: #D9DEE4;
   --rule-strong: #14212E;
   --olive: #275C90;          /* MS Blue: links, focus, the report band */
@@ -48,7 +49,7 @@
   color-scheme: dark;
 }
 :root {
-  --paper: #141619; --surface: #1C1F23; --ink: #E7ECF1; --ink-2: #B9C3CE; --muted: #9AA5B2;
+  --paper: #141619; --surface: #1C1F23; --ink: #E7ECF1; --ink-2: #C8D0D8; --muted: #9AA5B2; --ink-strong: #FFFFFF;
   --rule: #2A2E33; --rule-strong: #B9C3CE; --olive: #7FAEE0; --signal: #5CC495; --signal-ink: #141619;
   --frame: #06090D; --mat: #E6E9EC; --shot-border: #2A2E33;
   --c-msblue: #6FA0D6; --c-razz: #5AAEFF; --c-jade: #5CC495; --c-amethyst: #A593EC; --c-carrot: #E8834F; --c-honey: #E8AE2E; --c-magenta: #E56A9C; --c-grey: #A3A5AE;
@@ -135,7 +136,7 @@ a:hover { color: var(--olive); text-decoration-thickness: 2px; }
 .facts div { display: grid; gap: 2px; }
 .facts dt { font-size: 13px; color: var(--muted); }
 .facts dd { margin: 0; font-size: 15px; line-height: 1.4; }
-@media (max-width: 859px) { .facts { grid-template-columns: 1fr 1fr; gap: 14px 20px; } }
+@media (max-width: 859px) { .facts { grid-template-columns: 1fr 1fr; gap: 14px 20px; order: 2; } }
 .intro-body { display: grid; gap: 14px; }
 .lede {
   font-size: clamp(1.3rem, 2.4vw, 1.7rem);
@@ -363,6 +364,7 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .wd-concept { margin: 28px 0 0; }
 .wd-concept img { display: block; width: 100%; height: auto; }
 .intro-side { display: grid; gap: 22px; align-content: start; }
+@media (max-width: 859px) { .intro-side { display: contents; } }
 .portrait { display: block; width: 100%; max-width: 240px; height: auto; }
 @media (max-width: 859px) { .portrait { width: 120px; } }
 .outside p { color: var(--ink-2); }
@@ -708,6 +710,8 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .cv-role { font-size: 14px; line-height: 1.4; color: var(--ink-2); }
 .cv-more { font-size: 14.5px; color: var(--muted); margin: 0 0 30px; max-width: 46em; }
 .lede b { font-weight: 700; color: var(--ink); }
+/* a result, in bold white: at most one per paragraph, never in a heading */
+strong.res { font-weight: 700; color: var(--ink-strong); }
 
 /* the ending: what I want, then one action */
 .ending { font-size: clamp(20px, 2.4vw, 26px); line-height: 1.4; text-wrap: pretty; color: var(--ink); max-width: 30em; margin: 0 0 22px; letter-spacing: -0.01em; }
@@ -732,8 +736,8 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .who .yr { font-size: 14px; font-weight: 600; color: var(--muted); font-variant-numeric: tabular-nums; }
 .who .hl { font-size: 14px; line-height: 1.45; color: var(--ink-2); }
 .tiles { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 22px 16px; }
-.tiles a { display: flex; flex-direction: column; gap: 6px; width: 144px; text-decoration: none; color: var(--ink); }
-.tiles img, .tiles .pal { display: block; width: 144px; height: 108px; object-fit: cover; border-radius: 6px; border: 1px solid var(--rule); }
+.tiles a { display: flex; flex-direction: column; gap: 6px; width: 216px; text-decoration: none; color: var(--ink); }
+.tiles img, .tiles .pal { display: block; width: 216px; height: 162px; object-fit: cover; border-radius: 6px; border: 1px solid var(--rule); }
 .tiles .pal { display: flex; gap: 2px; overflow: hidden; background: var(--paper); }
 .tiles .pal b { display: flex; flex-direction: column; }
 .tiles a:hover img, .tiles a:hover .pal { border-color: var(--k); }
@@ -744,7 +748,7 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 #path .src { margin-top: 18px; }
 @media (max-width: 759px) {
   .stop { grid-template-columns: minmax(0, 1fr); padding-bottom: 32px; }
-  .tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px 10px; }
+  .tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 12px; }
   .tiles a { width: auto; }
   .tiles img, .tiles .pal { width: 100%; height: auto; aspect-ratio: 4 / 3; }
 }
@@ -897,6 +901,14 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
 .sim-qs li { display: grid; gap: 4px; }
 .sim-qs q { font-weight: 700; color: var(--ink); quotes: "\201C" "\201D"; }
 .sim-qs span { color: var(--ink-2); }
+/* Oct 7: the questions read like the overrules on How I use AI: the question big, what happened small */
+.sim-qs { gap: 30px 48px; max-width: none; margin-top: 14px; }
+@media (min-width: 820px) { .sim-qs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.sim-qs li { gap: 8px; border-top: 1px solid var(--rule); padding-top: 14px; align-content: start; }
+.sim-qs q { font-weight: 400; font-size: clamp(1.15rem, 2vw, 1.4rem); line-height: 1.35; letter-spacing: -0.01em; text-indent: -0.4em; }
+.sim-qs span { font-size: 15px; line-height: 1.5; }
+.work-lede { max-width: 30em; margin: 0 0 14px; font-size: clamp(1.15rem, 2vw, 1.4rem); line-height: 1.4; letter-spacing: -0.01em; color: var(--ink); }
+@media (min-width: 820px) { .highlights.two-up { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 48px; max-width: none; } }
 
 /* Your name: big on Start, and it glides to the top left when you open another page (Oct 7) */
 @view-transition { navigation: auto; }
@@ -910,6 +922,44 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
 
 /* Things I've built: one project per row until there's room for two (Astra review, Oct 7: at 768px the text got 110px) */
 @media (max-width: 1099px) { .built { grid-template-columns: minmax(0, 1fr); gap: 30px; } }
+
+/* Running: six races drawn like Strava posts, route from his Strava (Oct 7) */
+.run-lede { color: var(--ink-2); max-width: 40em; margin: 8px 0 20px; }
+.rps { list-style: none; margin: 0; padding: 4px 2px 18px; display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: thin; }
+.rps:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.rp { flex: 0 0 316px; scroll-snap-align: start; display: flex; flex-direction: column; background: #FFFFFF; color: #242428; border-radius: 6px; padding: 16px 0 0; overflow: hidden; }
+.rp > *:not(.rp-mapbox) { padding-inline: 16px; }
+.rp-head { display: flex; gap: 10px; align-items: center; }
+.rp-head img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+.rp-head p { margin: 0; display: grid; font-size: 13px; line-height: 1.3; color: #6D6D78; }
+.rp-head b { color: #242428; font-size: 14.5px; }
+.rp-title { margin: 12px 0 4px; font-size: 19px; font-weight: 800; letter-spacing: -0.01em; line-height: 1.2; color: #242428; }
+.rp-cap { margin: 0; font-size: 14px; line-height: 1.45; color: #3B3B42; }
+.rp-stats { display: flex; gap: 18px; margin: 12px 0 12px; }
+.rp-stats div { display: grid; gap: 1px; }
+.rp-stats dt { font-size: 12px; color: #6D6D78; }
+.rp-stats dd { margin: 0; font-size: 17px; font-weight: 700; color: #242428; font-variant-numeric: tabular-nums; }
+.rp-mapbox { position: relative; margin-top: auto; background: #ECEAE4; }
+.rp-map { display: block; width: 100%; height: auto; }
+.rp-line { fill: none; stroke: #FC5200; stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
+.rp-start { fill: #1FA74A; stroke: #fff; stroke-width: 2; } .rp-end { fill: #D11E1E; stroke: #fff; stroke-width: 2; }
+.rp-tag { position: absolute; left: 10px; top: 10px; font-size: 12px; font-weight: 700; background: #242428; color: #fff; padding: 3px 8px; border-radius: 3px; }
+.rp-foot { margin: 0; padding-block: 10px 12px; font-size: 13px; color: #6D6D78; border-top: 1px solid #E6E6EA; }
+@media (max-width: 699px) { .rp { flex-basis: 84%; } }
+.rp-mapbox { aspect-ratio: 300 / 170; }
+.rp-leaf { position: absolute; inset: 0; z-index: 0; background: #ECEAE4; }
+.rp-mapbox .rp-map { position: relative; z-index: 0; }
+.rp-mapbox.has-map .rp-map { visibility: hidden; }
+.rp-mapbox .rp-tag { z-index: 500; }
+.rp-leaf .leaflet-control-attribution { font-size: 9px; padding: 0 4px; background: rgba(255,255,255,.75); }
+.rp-leaf .leaflet-control-attribution a { color: #555; }
+.rbig4 { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; }
+.rbig4 .b-line { font-size: 14px; }
+@media (max-width: 900px) { .rbig4 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; } }
+#ms-work { padding-top: 40px; }
+#wharton-work .made-lead { max-width: 40em; }
+.rbig-one { grid-template-columns: minmax(0, 520px); margin-top: 22px; }
+.rp-later { margin: 6px 0 0; font-size: 13.5px; color: #6D6D78; font-style: italic; }
 
 /* route bar: the stops of the site in order. Filled dot = you've been there, ring = you are here. */
 .route-nav { margin: 0; }
@@ -941,6 +991,24 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
 .habits { margin: 0 0 20px; padding-left: 1.4em; display: grid; gap: 10px; max-width: 44em; color: var(--ink-2); }
 .habits li::marker { color: var(--c-msblue); font-weight: 800; font-variant-numeric: tabular-nums; }
 .habits b { color: var(--ink); font-weight: 700; }
+.calls { list-style: none; margin: 0 0 40px; padding: 0; display: grid; gap: 0 40px; max-width: 980px; }
+@media (min-width: 820px) { .calls { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.calls li { padding: 14px 0 18px; border-top: 1px solid var(--rule); color: var(--ink-2); }
+.calls b { display: block; margin-bottom: 4px; color: var(--ink); font-weight: 700; }
+.calls li { display: grid; grid-template-columns: 132px minmax(0, 1fr); gap: 16px; align-items: start; }
+.calls img { width: 132px; height: 99px; object-fit: cover; border-radius: 6px; border: 1px solid var(--rule); }
+@media (max-width: 480px) { .calls li { grid-template-columns: 96px minmax(0, 1fr); gap: 12px; } .calls img { width: 96px; height: 72px; } }
+@media (min-width: 900px) { .habits { columns: 2; column-gap: 48px; max-width: none; display: block; } .habits li { break-inside: avoid; margin-bottom: 12px; } }
+/* Overrules: what it suggested, small; what I said, big. Two columns on a laptop. */
+.overrule { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 30px 48px; }
+@media (min-width: 820px) { .overrule { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.overrule li { border-top: 1px solid var(--rule); padding-top: 14px; }
+.ov-s { font-size: 14px; line-height: 1.45; color: var(--muted); margin-bottom: 8px; }
+.ov-q { font-size: clamp(1.15rem, 2vw, 1.4rem); line-height: 1.35; letter-spacing: -0.01em; color: var(--ink); text-indent: -0.4em; }
+.ov-a { margin-top: 8px; font-size: 15px; line-height: 1.5; color: var(--ink-2); }
+.more-q { margin-top: 18px; }
+.ledger td.where { white-space: nowrap; }
+.ledger td.where i { display: inline-block; width: 9px; height: 9px; margin-right: 7px; vertical-align: 1px; }
 .ai-prose { display: grid; gap: 14px; max-width: 42em; color: var(--ink-2); }
 .ai-prose + .table-wrap, .table-wrap + .ai-prose { margin-top: 22px; }
 .table-wrap { width: 100%; }
@@ -989,6 +1057,29 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
   .ledger.changes td::before { content: none !important; }
   .ledger.changes td { margin-top: 4px; }
 }
+/* Colophon, Oct 7: side headings on the prose sections, so the page doesn't read as one long column */
+@media (min-width: 980px) {
+  .exhibit.side { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); column-gap: 56px; align-items: start; }
+  .exhibit.side > header { grid-column: 1; grid-row: 1 / span 4; margin-bottom: 0; position: sticky; top: 96px; }
+  .exhibit.side > :not(header) { grid-column: 2; }
+}
+.specimen { display: flex; align-items: baseline; gap: 28px; margin: 0 0 18px; color: var(--ink); line-height: 1; }
+.specimen .sp-a { font-size: clamp(4rem, 9vw, 6.5rem); font-weight: 900; letter-spacing: -0.04em; }
+.specimen .sp-b { font-size: clamp(2.6rem, 6vw, 4rem); font-weight: 400; color: var(--ink-2); }
+.specimen .sp-m { font-family: var(--mono); font-size: clamp(1.4rem, 3vw, 2rem); color: var(--c-razz); font-variant-numeric: tabular-nums; }
+.habits.checks { list-style: none; padding-left: 0; }
+.habits.checks li { position: relative; padding-left: 30px; }
+.habits.checks li::before { content: ''; position: absolute; left: 4px; top: 5px; width: 6px; height: 12px; border: solid var(--c-jade); border-width: 0 2.5px 2.5px 0; transform: rotate(45deg); }
+@media (min-width: 900px) { .habits.checks { columns: 1; } }
+.ai-prose s { text-decoration-color: var(--c-magenta); text-decoration-thickness: 2px; }
+.timeline { list-style: none; margin: 0; padding: 0; position: relative; max-width: 46em; }
+.timeline::before { content: ''; position: absolute; left: 5px; top: 8px; bottom: 8px; width: 2px; background: var(--rule); }
+.timeline li { position: relative; display: grid; grid-template-columns: 8.5em minmax(0, 1fr); gap: 4px 18px; padding: 0 0 18px 28px; }
+.timeline li::before { content: ''; position: absolute; left: 0; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--paper); border: 2px solid var(--c-msblue); box-sizing: border-box; }
+.timeline li:last-child::before { background: var(--c-msblue); }
+.tl-d { font-family: var(--mono); font-size: 13.5px; color: var(--muted); padding-top: 2px; font-variant-numeric: tabular-nums; }
+.tl-t { color: var(--ink-2); }
+@media (max-width: 600px) { .timeline li { grid-template-columns: minmax(0, 1fr); } }
 
 
 /* end of page: previous small, next as the last big line */
@@ -1042,15 +1133,15 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
         <h1 class="p-name" id="col-h">How this site is made</h1>
       </header>
       <div class="ai-intro">
-        <p class="lede">The site is laid out like the research chartbooks I worked on at Morgan Stanley. Each chart or table is a numbered exhibit with a title that says the takeaway, and a source line underneath.</p>
+        <p class="lede">The site reads like a book in six parts, and the Start page is a map of all of it.</p>
         <p>Claude Code wrote the code. I made the calls, and every sentence is in my words or checked against a voice file of things I&rsquo;ve actually said. <a href="ai.html">How I use AI</a> has the longer version of how that split works.</p>
       </div>
     </article>
 
     <section class="exhibit" id="col-color" aria-labelledby="color-h" style="--c: var(--c-msblue)">
-      <header><h2 class="ext" id="color-h"><span class="exn">Exhibit 1.</span> Every accent color comes from the data visualization palette I built at Morgan Stanley</h2></header>
+      <header><h2 class="ext" id="color-h">Every accent color comes from the data visualization palette I built at Morgan Stanley</h2></header>
       <div class="ai-prose">
-        <p>The firm&rsquo;s approved brand colors were all dark, cool shades with very little contrast between them. They worked for marketing but not for charts, and charts were most of what my team owned. Advisors couldn&rsquo;t tell our lines apart on printouts and office screens, and marketing and operations had been arguing about colors for 18 months. I derived lighter versions of some of the approved colors, hand-picked a few new ones, tweaked them until they worked for our charts, and tested every option on our real charts with fake numbers. My palette became the Wealth Management standard for charts. The full story is <a href="research.html#palette">on the Background page</a>.</p>
+        <p>The firm&rsquo;s approved brand colors were all dark, cool shades with very little contrast between them. They worked for marketing but not for charts, and charts were most of what my team owned. Advisors couldn&rsquo;t tell our lines apart on printouts and office screens, and marketing and operations had been arguing about colors for 18 months. I derived lighter versions of some of the approved colors, hand-picked a few new ones, tweaked them until they worked for our charts, and tested every option on our real charts with fake numbers. My palette became the Wealth Management standard for charts. The full story is <a href="research.html#palette">on the Research page</a>.</p>
         <p>The left hex is the print color. The site uses a lighter version of each so it reads on the dark background. The background is graphite, #141619, which I picked after comparing three darks side by side. I gave each project and each group of skills its own color, and checked that the ones next to each other are easy to tell apart.</p>
       </div>
       <div class="table-wrap">
@@ -1070,26 +1161,26 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
       </div>
     </section>
 
-    <section class="exhibit" id="col-type" aria-labelledby="type-h" style="--c: var(--c-razz)">
+    <section class="exhibit side" id="col-type" aria-labelledby="type-h" style="--c: var(--c-razz)">
       <header><h2 class="ext" id="type-h">One typeface for almost everything</h2></header>
-      <div class="ai-prose">
-        <p>Libre Franklin does almost everything, from the 900 weight in my name down to the source lines. IBM Plex Mono shows up only in a few small places, like dates in tables and a code sample. Numbers line up in columns wherever they sit in a table. The <a href="dreamy.html">Dreamy page</a> uses Dreamy&rsquo;s own type, Manrope and Inter, so it matches the app screenshots.</p>
-      </div>
+      <div class="side-body"><p class="specimen" aria-hidden="true"><span class="sp-a">Aa</span><span class="sp-b">Aa</span><span class="sp-m">0123</span></p><div class="ai-prose">
+        <p>Libre Franklin runs from the 900 weight in my name down to the source lines. IBM Plex Mono shows up in a few small places, like dates in tables and a code sample. The <a href="dreamy.html">Dreamy page</a> uses Dreamy&rsquo;s own type, Manrope and Inter, so it matches the app screenshots.</p>
+      </div></div>
     </section>
 
-    <section class="exhibit" id="col-build" aria-labelledby="build-h" style="--c: var(--c-jade)">
+    <section class="exhibit side" id="col-build" aria-labelledby="build-h" style="--c: var(--c-jade)">
       <header><h2 class="ext" id="build-h">Plain HTML, built by a few Python scripts and hosted on GitHub Pages</h2></header>
       <div class="ai-prose">
-        <p>Each page is plain HTML. Small Python scripts write the generated parts into it: the skills cloud, the build log, the palette, the side rail, the project details, and the drawdown chart, which is drawn from the numbers in my own workbook. A build script then puts each page&rsquo;s styles and code inline, gives every lazy-loaded image a placeholder in its own average color, and drops any image no page uses.</p>
-        <p>The build fails if it finds an em dash anywhere. The site is hosted on GitHub Pages. The source and all my working notes live in a separate private repo, and only the built pages get copied to the public one.</p>
+        <p>Each page is plain HTML. Small Python scripts write the generated parts into it: the skills cloud, the build log, the palette, the Start map, the project details, and the drawdown chart, which is drawn from the numbers in my own workbook. A build script then puts each page&rsquo;s styles and code inline, gives every lazy-loaded image a placeholder in its own average color, and drops any image no page uses.</p>
+        <p>The build fails if it finds an em dash anywhere. The source and all my working notes live in a separate private repo, and only the built pages get copied to the public one.</p>
         <p>The build log counts commits per day from each project&rsquo;s GitHub history. A circle is a day with code, colored by the project with the most commits that day and sized by how many. A square is a day I spent researching or planning with no code, counted from my Claude chats. Chat titles get deleted after counting, and only the daily counts are kept. The squares undercount, since I plan in other apps too.</p>
       </div>
     </section>
 
-    <section class="exhibit" id="col-checks" aria-labelledby="checks-h" style="--c: var(--c-amethyst)">
+    <section class="exhibit side" id="col-checks" aria-labelledby="checks-h" style="--c: var(--c-amethyst)">
       <header><h2 class="ext" id="checks-h">Nothing goes up until these pass</h2></header>
-      <ol class="habits">
-        <li><b>Screenshots at phone and desktop sizes,</b> taken by Playwright, with no sideways scroll and no console errors.</li>
+      <ol class="habits checks">
+        <li><b>Screenshots at phone, tablet and desktop sizes,</b> taken by Playwright, with no sideways scroll and no console errors.</li>
         <li><b>Proof the page&rsquo;s script actually ran.</b> I added that after an early return quietly stopped every script on the page with no error.</li>
         <li><b>A fresh agent reads every changed sentence</b> against my voice file and flags anything that doesn&rsquo;t sound like me.</li>
         <li><b>No number without a source,</b> from my own documents, the repos or something I said. When two sources disagree, the number stays off.</li>
@@ -1097,15 +1188,15 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
       </ol>
     </section>
 
-    <section class="exhibit" id="col-voice" aria-labelledby="voice-h" style="--c: var(--c-magenta)">
+    <section class="exhibit side" id="col-voice" aria-labelledby="voice-h" style="--c: var(--c-magenta)">
       <header><h2 class="ext" id="voice-h">If I wouldn&rsquo;t say it to someone at coffee, it gets rewritten</h2></header>
       <div class="ai-prose">
         <p>The first version of this site read like AI, so all of it got rewritten from sentences I&rsquo;d actually said. Those sentences are the reference now. From them came rules like saying what happened in order, using specific numbers and names instead of adjectives, and being honest about what didn&rsquo;t work without opening on it.</p>
-        <p>Never: em dashes, slogans as headings, hype words like leverage, seamless or cutting-edge, sentences that explain the page, or lines written to sound quotable.</p>
+        <p>Never: em dashes, slogans as headings, hype words like <s>leverage</s>, <s>seamless</s> or <s>cutting-edge</s>, sentences that explain the page, or lines written to sound quotable.</p>
       </div>
     </section>
 
-    <section class="exhibit" id="col-research" aria-labelledby="res-h" style="--c: var(--c-razz)">
+    <section class="exhibit side" id="col-research" aria-labelledby="res-h" style="--c: var(--c-razz)">
       <header><h2 class="ext" id="res-h">The October redesign came from studying more than 100 personal sites</h2></header>
       <div class="ai-prose">
         <p>Before the October changes, I had Claude study more than 100 personal sites, from product designers and data visualization people to founders and AI researchers, along with the research on first impressions. What I took from it is that the sites people remember pick one idea from the person&rsquo;s own work and show proof of it. So I took out the decoration, moved the projects up, and made my palette the thing that ties the site together.</p>
@@ -1113,7 +1204,7 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
       </div>
     </section>
 
-    <section class="exhibit" id="col-rules" aria-labelledby="priv-h" style="--c: var(--c-jade)">
+    <section class="exhibit side" id="col-rules" aria-labelledby="priv-h" style="--c: var(--c-jade)">
       <header><h2 class="ext" id="priv-h">What stays off</h2></header>
       <div class="ai-prose">
         <p>No phone number, address or health details, and no one else&rsquo;s name without their OK. Screenshots are real and cropped, never stretched. No links to private Claude chats or artifacts. The apps follow their own rules, like 5K 5 Bars never storing anyone&rsquo;s coordinates.</p>
@@ -1123,17 +1214,7 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
     <section class="exhibit" id="col-log" aria-labelledby="log2-h" style="--c: var(--c-msblue)">
       <header><h2 class="ext" id="log2-h">What changed and when</h2></header>
       <div class="table-wrap">
-        <table class="ledger changes">
-          <thead><tr><th scope="col">Date</th><th scope="col">Change</th></tr></thead>
-          <tbody>
-            <tr><th scope="row">Sep 27, 2026</th><td>First direction: a holdings report.</td></tr>
-            <tr><th scope="row">Sep 28, 2026</th><td>All the copy got rewritten from my own sentences. Moved to the chartbook look and added the build log.</td></tr>
-            <tr><th scope="row">Sep 29, 2026</th><td>Went live on GitHub Pages. Added the skills cloud. Switched to dark only.</td></tr>
-            <tr><th scope="row">Oct 4, 2026</th><td>Rebuilt the Walldrobe page and moved Walldrobe second, after Dreamy.</td></tr>
-            <tr><th scope="row">Oct 5, 2026</th><td>The redesign after the research: my background in the first sentence, projects first, the palette band in place of decoration, a graphite background, and two new pages, How I use AI and this one.</td></tr>
-            <tr><th scope="row">Oct 6, 2026</th><td>After a friend&rsquo;s review, the site became a book: three chapters with a next page at the end of each, and Background on its own page. The main page is now a map of my path, with every page on the site hanging off the stop where I made it, then the projects and a contents list.</td></tr>
-          </tbody>
-        </table>
+        <ol class="timeline"><li><span class="tl-d">Sep 27, 2026</span><span class="tl-t">First direction: a holdings report.</span></li><li><span class="tl-d">Sep 28, 2026</span><span class="tl-t">All the copy got rewritten from my own sentences. Moved to the chartbook look and added the build log.</span></li><li><span class="tl-d">Sep 29, 2026</span><span class="tl-t">Went live on GitHub Pages. Added the skills cloud. Switched to dark only.</span></li><li><span class="tl-d">Oct 4, 2026</span><span class="tl-t">Rebuilt the Walldrobe page and moved Walldrobe second, after Dreamy.</span></li><li><span class="tl-d">Oct 5, 2026</span><span class="tl-t">The redesign after the research: my background in the first sentence, projects first, the palette band in place of decoration, a graphite background, and two new pages, How I use AI and this one.</span></li><li><span class="tl-d">Oct 6, 2026</span><span class="tl-t">After a friend&rsquo;s review, the site became a book: three chapters with a next page at the end of each, and Background on its own page. The main page is now a map of my path, with every page on the site hanging off the stop where I made it, then the projects and a contents list.</span></li><li><span class="tl-d">Oct 7, 2026</span><span class="tl-t">Research opens with pictures, About me with my races, and How I use AI with four calls I made.</span></li></ol>
       </div>
     </section>
 
