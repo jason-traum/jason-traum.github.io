@@ -384,6 +384,12 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
 .hero .beta-line strong { color: var(--t0); font-weight: 700; }
 .hero .beta-line a { color: var(--t2); white-space: nowrap; }
 
+/* Oct 7: folded repeats */
+.fold { margin: 4px 0 14px; }
+.fold summary { cursor: pointer; color: var(--t1); font-weight: 600; text-decoration: underline; text-decoration-color: var(--b2); text-underline-offset: 4px; list-style: none; }
+.fold summary::-webkit-details-marker { display: none; }
+.fold[open] summary { margin-bottom: 10px; }
+
 /* end of page: previous small, next as the last big line */
 .pager { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px 40px; margin: 72px 0 8px; padding-top: 22px; border-top: 1px solid var(--rule); }
 .pager a { text-decoration: none; color: inherit; }
@@ -427,7 +433,7 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
     <a class="back" href="./"><span aria-hidden="true">&larr;</span> Jason Traum</a>
     <span class="wordmark" aria-label="Dreamy">dreamy</span>
   </header>
-  <nav class="route-nav" aria-label="Where you are on the site"><ol><li data-stop="start" style="--pc: #E7ECF1"><a href="./"><i aria-hidden="true"></i><span>Start</span></a></li><li class="here" data-stop="built.html" style="--pc: #5AAEFF"><a href="built.html"><i aria-hidden="true"></i><span>Things I&rsquo;ve built</span></a></li><li data-stop="research.html" style="--pc: #5CC495"><a href="research.html"><i aria-hidden="true"></i><span>Research and strategy</span></a></li><li data-stop="ai.html" style="--pc: #A593EC"><a href="ai.html"><i aria-hidden="true"></i><span>How I use AI</span></a></li><li data-stop="background.html" style="--pc: #E56A9C"><a href="background.html"><i aria-hidden="true"></i><span>About me</span></a></li><li data-stop="contact" style="--pc: #E7ECF1"><a href="./#contact"><i aria-hidden="true"></i><span>Get in touch</span></a></li></ol></nav>
+  <nav class="route-nav" aria-label="Where you are on the site"><ol><li data-stop="start" style="--pc: #E7ECF1"><a href="./"><i aria-hidden="true"></i><span>Start</span></a></li><li class="here" data-stop="built.html" style="--pc: #5AAEFF"><a href="built.html"><i aria-hidden="true"></i><span>Things I&rsquo;ve built</span></a></li><li data-stop="ai.html" style="--pc: #A593EC"><a href="ai.html"><i aria-hidden="true"></i><span>How I use AI</span></a></li><li data-stop="research.html" style="--pc: #5CC495"><a href="research.html"><i aria-hidden="true"></i><span>Research and strategy</span></a></li><li data-stop="background.html" style="--pc: #E56A9C"><a href="background.html"><i aria-hidden="true"></i><span>About me</span></a></li><li data-stop="contact" style="--pc: #E7ECF1"><a href="./#contact"><i aria-hidden="true"></i><span>Get in touch</span></a></li></ol></nav>
 
   <main>
     <section class="hero" aria-labelledby="h1">
@@ -658,7 +664,7 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
       <h2 id="bd-h">How I built it</h2>
       <div class="prose story">
         <p>Dreamy started when I was training for my second marathon. Work got busier, my back was acting up, and every plan I tried fell apart once life got in the way. So I turned to ChatGPT. The models kept giving me bad plans, so I read up on sports science and the top running coaches and kept rewriting my prompt until the answers got good. I ran a PR and shared it with my run club. As the models got better I needed less of the prompt, but I wanted more than a prompt could do. Nothing checked it against the research, you had to be really good at prompting to get something usable, and it didn&rsquo;t sync with anything or look at your actual runs.</p>
-        <p>With Dreamy, the plan comes from rules taken from the research, it syncs with Strava and analyzes every run, and the same data always gives you the same plan. The biggest difference is that it works around your schedule. You tell it which days you can't run and it rebuilds the week around them, so you might run seven days one week and four the next. It adapts when you miss a workout or a race moves, and it explains every change and the science behind it, so over time you learn to coach yourself.</p>
+        <details class="fold"><summary>What it does that a prompt couldn&rsquo;t</summary><p>With Dreamy, the plan comes from rules taken from the research, it syncs with Strava and analyzes every run, and the same data always gives you the same plan. The biggest difference is that it works around your schedule. You tell it which days you can't run and it rebuilds the week around them, so you might run seven days one week and four the next. It adapts when you miss a workout or a race moves, and it explains every change and the science behind it, so over time you learn to coach yourself.</p></details>
         <p>I did an absurd amount of research for it. I used AI to find every marathon plan and sports science paper I could, and gave it a ton of direction from my own marathon training. I started with an LLM writing the plans, but that got expensive and unreliable, so I switched to a rules-based engine. Then I ran real runners' histories through it, had LLMs grade the plans against the research and suggest changes, and reviewed every round myself.</p>
       </div>
       <div class="two">

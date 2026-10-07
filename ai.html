@@ -426,7 +426,7 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 #dreamy { --c: var(--c-msblue); } #drinkdock { --c: var(--c-amethyst); } #fivek { --c: var(--c-carrot); } #in { --c: var(--c-jade); }
 #wharton-os { --c: var(--c-honey); } #walldrobe { --c: var(--c-magenta); }
 .project { border-top: 1px solid var(--rule); position: relative; }
-.project::before { content: ""; position: absolute; left: 0; top: -1px; width: 88px; height: 5px; background: var(--c, var(--olive)); }
+/* (Oct 7) the short colored stripe over page titles is gone: it was decoration */
 .holdings td.p .sw2 { display: inline-block; width: 10px; height: 10px; margin-right: 9px; background: var(--c); vertical-align: 0; }
 .deep-link { border-color: var(--c, var(--ink)); }
 
@@ -530,7 +530,11 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .cta:focus-visible { outline: 2px solid var(--olive); outline-offset: 3px; }
 @media (pointer: coarse) { .cta { min-height: 44px; } }
 
-.cta-row { margin-top: 18px; }
+.cta-row { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 10px; }
+.cta.cta-2 { background: none; color: var(--ink); box-shadow: inset 0 0 0 1px var(--rule-strong); }
+.cta.cta-2:hover { color: var(--ink); }
+/* the one line under my name (Oct 7, from a friend's review) */
+.tagline { margin: 14px 0 0; max-width: 30em; font-size: clamp(1.2rem, 2.3vw, 1.6rem); font-weight: 700; line-height: 1.3; letter-spacing: -0.015em; color: var(--ink); }
 .cta-row + .contact-line { margin-top: 12px; }
 
 .work-note { max-width: 40em; margin: 10px 0 0; color: var(--ink-2); line-height: 1.55; }
@@ -746,6 +750,11 @@ strong.res { font-weight: 700; color: var(--ink-strong); }
 .tiles a:hover .cap { text-decoration: underline; text-decoration-color: var(--k); text-underline-offset: 3px; }
 .tiles .stat { padding-left: 16px; font-size: 13px; line-height: 1.3; color: var(--muted); }
 #path .src { margin-top: 18px; }
+@media (min-width: 760px) and (max-width: 1099px) {
+  .tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 14px; }
+  .tiles a { width: auto; }
+  .tiles img, .tiles .pal { width: 100%; height: auto; aspect-ratio: 4 / 3; }
+}
 @media (max-width: 759px) {
   .stop { grid-template-columns: minmax(0, 1fr); padding-bottom: 32px; }
   .tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 12px; }
@@ -994,6 +1003,7 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
 .calls { list-style: none; margin: 0 0 40px; padding: 0; display: grid; gap: 0 40px; max-width: 980px; }
 @media (min-width: 820px) { .calls { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .calls li { padding: 14px 0 18px; border-top: 1px solid var(--rule); color: var(--ink-2); }
+.calls b a { color: var(--ink); text-decoration-color: var(--rule-strong); text-underline-offset: 3px; }
 .calls b { display: block; margin-bottom: 4px; color: var(--ink); font-weight: 700; }
 .calls li { display: grid; grid-template-columns: 132px minmax(0, 1fr); gap: 16px; align-items: start; }
 .calls img { width: 132px; height: 99px; object-fit: cover; border-radius: 6px; border: 1px solid var(--rule); }
@@ -1182,7 +1192,7 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
   <div class="progress" aria-hidden="true"></div>
   <header class="topbar proj-top">
     <p class="label"><a href="./">Jason Traum</a></p>
-    <nav class="route-nav" aria-label="Where you are on the site"><ol><li data-stop="start" style="--pc: #E7ECF1"><a href="./"><i aria-hidden="true"></i><span>Start</span></a></li><li data-stop="built.html" style="--pc: #5AAEFF"><a href="built.html"><i aria-hidden="true"></i><span>Things I&rsquo;ve built</span></a></li><li data-stop="research.html" style="--pc: #5CC495"><a href="research.html"><i aria-hidden="true"></i><span>Research and strategy</span></a></li><li class="here" data-stop="ai.html" style="--pc: #A593EC"><a href="ai.html" aria-current="page"><i aria-hidden="true"></i><span>How I use AI</span></a></li><li data-stop="background.html" style="--pc: #E56A9C"><a href="background.html"><i aria-hidden="true"></i><span>About me</span></a></li><li data-stop="contact" style="--pc: #E7ECF1"><a href="./#contact"><i aria-hidden="true"></i><span>Get in touch</span></a></li></ol></nav>
+    <nav class="route-nav" aria-label="Where you are on the site"><ol><li data-stop="start" style="--pc: #E7ECF1"><a href="./"><i aria-hidden="true"></i><span>Start</span></a></li><li data-stop="built.html" style="--pc: #5AAEFF"><a href="built.html"><i aria-hidden="true"></i><span>Things I&rsquo;ve built</span></a></li><li class="here" data-stop="ai.html" style="--pc: #A593EC"><a href="ai.html" aria-current="page"><i aria-hidden="true"></i><span>How I use AI</span></a></li><li data-stop="research.html" style="--pc: #5CC495"><a href="research.html"><i aria-hidden="true"></i><span>Research and strategy</span></a></li><li data-stop="background.html" style="--pc: #E56A9C"><a href="background.html"><i aria-hidden="true"></i><span>About me</span></a></li><li data-stop="contact" style="--pc: #E7ECF1"><a href="./#contact"><i aria-hidden="true"></i><span>Get in touch</span></a></li></ol></nav>
   </header>
   <main id="main">
     <article class="project" id="ai" aria-labelledby="ai-h">
@@ -1195,10 +1205,10 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
       </div>
       <h2 class="ai-h2">Four calls I made</h2>
       <ul class="calls">
-        <li><img src="img/call-dreamy.webp" width="396" height="297" alt="Dreamy's coach chat, which explains the plan the engine built" loading="lazy" decoding="async" style="background-color:#37354A"><div><b>Dreamy: the plan comes from rules.</b> At first an LLM wrote parts of the plan. It was expensive and unreliable, so I moved every training decision into code and kept the LLM for explaining. Now the same data always gives the same plan.</div></li>
-        <li><img src="img/call-walldrobe.webp" width="396" height="297" alt="Walldrobe placing prints by measurement: 56 inches across, 57 inches to center" loading="lazy" decoding="async" style="background-color:#DEDDD9"><div><b>Walldrobe: rules for layout, models for taste.</b> It reads your wall photo and picks art. I decided layout runs on rules and scoring, and models only handle taste and reading the photo.</div></li>
-        <li><img src="img/call-drinkdock.webp" width="396" height="297" alt="The DrinkDock manager screen: sales by hour and stock by row" loading="lazy" decoding="async" style="background-color:#38393A"><div><b>DrinkDock: let hotels give their own reason.</b> The AI wanted to ask hotels about wait times. I said to let them find their own reason. Hotels cared more about staffing than lines, and they answered our emails more than bars did.</div></li>
-        <li><img src="img/call-wos.webp" width="396" height="297" alt="The Wharton OS vault as a graph of linked notes" loading="lazy" decoding="async" style="background-color:#3B3B3C"><div><b>Wharton OS: check the source, then plan.</b> It left two deadlines off a weekend plan, so every plan now starts with a Canvas check. Every tool call gets logged, so I check the log, not the agent&rsquo;s summary.</div></li>
+        <li><a class="call-pic" href="dreamy.html" tabindex="-1" aria-hidden="true"><img src="img/call-dreamy.webp" width="396" height="297" alt="Dreamy's coach chat, which explains the plan the engine built" loading="lazy" decoding="async" style="background-color:#37354A"></a><div><b><a href="dreamy.html">Dreamy: the plan comes from rules.</a></b> At first an LLM wrote parts of the plan. It was expensive and unreliable, so I moved every training decision into code and kept the LLM for explaining. Now the same data always gives the same plan.</div></li>
+        <li><a class="call-pic" href="projects/walldrobe.html" tabindex="-1" aria-hidden="true"><img src="img/call-walldrobe.webp" width="396" height="297" alt="Walldrobe placing prints by measurement: 56 inches across, 57 inches to center" loading="lazy" decoding="async" style="background-color:#DEDDD9"></a><div><b><a href="projects/walldrobe.html">Walldrobe: rules for layout, models for taste.</a></b> It reads your wall photo and picks art. I decided layout runs on rules and scoring, and models only handle taste and reading the photo.</div></li>
+        <li><a class="call-pic" href="projects/drinkdock.html" tabindex="-1" aria-hidden="true"><img src="img/call-drinkdock.webp" width="396" height="297" alt="The DrinkDock manager screen: sales by hour and stock by row" loading="lazy" decoding="async" style="background-color:#38393A"></a><div><b><a href="projects/drinkdock.html">DrinkDock: let hotels give their own reason.</a></b> The AI wanted to ask hotels about wait times. I said to let them find their own reason. Hotels cared more about staffing than lines, and they answered our emails more than bars did.</div></li>
+        <li><a class="call-pic" href="projects/wharton-os.html" tabindex="-1" aria-hidden="true"><img src="img/call-wos.webp" width="396" height="297" alt="The Wharton OS vault as a graph of linked notes" loading="lazy" decoding="async" style="background-color:#3B3B3C"></a><div><b><a href="projects/wharton-os.html">Wharton OS: check the source, then plan.</a></b> It left two deadlines off a weekend plan, so every plan now starts with a Canvas check. Every tool call gets logged, so I check the log, not the agent&rsquo;s summary.</div></li>
       </ul>
       <h2 class="ai-h2">How I work with it</h2>
       <ol class="habits">
@@ -1302,7 +1312,7 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
       
     </section>
 
-    <nav class="pager" aria-label="Next page"><a class="pg-prev" href="research.html"><span class="pg-k">Back</span> Research and strategy</a><a class="pg-next" href="background.html" style="--pg: #E56A9C"><span class="pg-t"><span class="pg-n">Next:</span> About me</span><span class="pg-d">My skills, my paintings and what I do outside work.</span></a></nav>
+    <nav class="pager" aria-label="Next page"><a class="pg-prev" href="built.html"><span class="pg-k">Back</span> Things I&rsquo;ve built</a><a class="pg-next" href="research.html" style="--pg: #5CC495"><span class="pg-t"><span class="pg-n">Next:</span> Research and strategy</span><span class="pg-d">The Morgan Stanley reports and charts, and my Wharton memo and strategy sim.</span></a></nav>
   </main>
   <footer class="colophon">
     <p class="note"><a href="mailto:jtraum@wharton.upenn.edu">jtraum@wharton.upenn.edu</a></p>

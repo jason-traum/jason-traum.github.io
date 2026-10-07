@@ -426,7 +426,7 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 #dreamy { --c: var(--c-msblue); } #drinkdock { --c: var(--c-amethyst); } #fivek { --c: var(--c-carrot); } #in { --c: var(--c-jade); }
 #wharton-os { --c: var(--c-honey); } #walldrobe { --c: var(--c-magenta); }
 .project { border-top: 1px solid var(--rule); position: relative; }
-.project::before { content: ""; position: absolute; left: 0; top: -1px; width: 88px; height: 5px; background: var(--c, var(--olive)); }
+/* (Oct 7) the short colored stripe over page titles is gone: it was decoration */
 .holdings td.p .sw2 { display: inline-block; width: 10px; height: 10px; margin-right: 9px; background: var(--c); vertical-align: 0; }
 .deep-link { border-color: var(--c, var(--ink)); }
 
@@ -530,7 +530,11 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .cta:focus-visible { outline: 2px solid var(--olive); outline-offset: 3px; }
 @media (pointer: coarse) { .cta { min-height: 44px; } }
 
-.cta-row { margin-top: 18px; }
+.cta-row { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 10px; }
+.cta.cta-2 { background: none; color: var(--ink); box-shadow: inset 0 0 0 1px var(--rule-strong); }
+.cta.cta-2:hover { color: var(--ink); }
+/* the one line under my name (Oct 7, from a friend's review) */
+.tagline { margin: 14px 0 0; max-width: 30em; font-size: clamp(1.2rem, 2.3vw, 1.6rem); font-weight: 700; line-height: 1.3; letter-spacing: -0.015em; color: var(--ink); }
 .cta-row + .contact-line { margin-top: 12px; }
 
 .work-note { max-width: 40em; margin: 10px 0 0; color: var(--ink-2); line-height: 1.55; }
@@ -746,6 +750,11 @@ strong.res { font-weight: 700; color: var(--ink-strong); }
 .tiles a:hover .cap { text-decoration: underline; text-decoration-color: var(--k); text-underline-offset: 3px; }
 .tiles .stat { padding-left: 16px; font-size: 13px; line-height: 1.3; color: var(--muted); }
 #path .src { margin-top: 18px; }
+@media (min-width: 760px) and (max-width: 1099px) {
+  .tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 14px; }
+  .tiles a { width: auto; }
+  .tiles img, .tiles .pal { width: 100%; height: auto; aspect-ratio: 4 / 3; }
+}
 @media (max-width: 759px) {
   .stop { grid-template-columns: minmax(0, 1fr); padding-bottom: 32px; }
   .tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 12px; }
@@ -994,6 +1003,7 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
 .calls { list-style: none; margin: 0 0 40px; padding: 0; display: grid; gap: 0 40px; max-width: 980px; }
 @media (min-width: 820px) { .calls { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .calls li { padding: 14px 0 18px; border-top: 1px solid var(--rule); color: var(--ink-2); }
+.calls b a { color: var(--ink); text-decoration-color: var(--rule-strong); text-underline-offset: 3px; }
 .calls b { display: block; margin-bottom: 4px; color: var(--ink); font-weight: 700; }
 .calls li { display: grid; grid-template-columns: 132px minmax(0, 1fr); gap: 16px; align-items: start; }
 .calls img { width: 132px; height: 99px; object-fit: cover; border-radius: 6px; border: 1px solid var(--rule); }
@@ -1182,7 +1192,7 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
   <div class="progress" aria-hidden="true"></div>
   <header class="topbar proj-top">
     <p class="label"><a href="./">Jason Traum</a></p>
-    <nav class="route-nav" aria-label="Where you are on the site"><ol><li data-stop="start" style="--pc: #E7ECF1"><a href="./"><i aria-hidden="true"></i><span>Start</span></a></li><li data-stop="built.html" style="--pc: #5AAEFF"><a href="built.html"><i aria-hidden="true"></i><span>Things I&rsquo;ve built</span></a></li><li class="here" data-stop="research.html" style="--pc: #5CC495"><a href="research.html" aria-current="page"><i aria-hidden="true"></i><span>Research and strategy</span></a></li><li data-stop="ai.html" style="--pc: #A593EC"><a href="ai.html"><i aria-hidden="true"></i><span>How I use AI</span></a></li><li data-stop="background.html" style="--pc: #E56A9C"><a href="background.html"><i aria-hidden="true"></i><span>About me</span></a></li><li data-stop="contact" style="--pc: #E7ECF1"><a href="./#contact"><i aria-hidden="true"></i><span>Get in touch</span></a></li></ol></nav>
+    <nav class="route-nav" aria-label="Where you are on the site"><ol><li data-stop="start" style="--pc: #E7ECF1"><a href="./"><i aria-hidden="true"></i><span>Start</span></a></li><li data-stop="built.html" style="--pc: #5AAEFF"><a href="built.html"><i aria-hidden="true"></i><span>Things I&rsquo;ve built</span></a></li><li data-stop="ai.html" style="--pc: #A593EC"><a href="ai.html"><i aria-hidden="true"></i><span>How I use AI</span></a></li><li class="here" data-stop="research.html" style="--pc: #5CC495"><a href="research.html" aria-current="page"><i aria-hidden="true"></i><span>Research and strategy</span></a></li><li data-stop="background.html" style="--pc: #E56A9C"><a href="background.html"><i aria-hidden="true"></i><span>About me</span></a></li><li data-stop="contact" style="--pc: #E7ECF1"><a href="./#contact"><i aria-hidden="true"></i><span>Get in touch</span></a></li></ol></nav>
   </header>
   <main id="main">
     <article class="project chapter" id="ms-page" aria-labelledby="msp-h">
@@ -1346,8 +1356,8 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
         <section class="exhibit ai-case" id="pivot" aria-labelledby="pivot-h" style="--c: var(--c-jade)">
       <header><h2 class="ext" id="pivot-h">How I used AI as my analyst in a strategy sim</h2></header>
       <div class="ai-prose">
-        <p>In Pivot or Perish, the retail strategy sim in MKTG 6110, a core class nearly every first-year takes, my team ran Getchell&rsquo;s, a money-losing department store worth $93 million with $287 million of debt. AI use was allowed.</p>
-        <p class="sim-win"><strong>We grew it to about $3.4 billion, more than 2x any other team&rsquo;s final market value and the best result across every section of the course.</strong></p>
+        <p class="sim-win"><strong>My team took a money-losing department store from $93 million to about $3.4 billion, more than 2x any other team&rsquo;s final market value and the best result across every section of the course.</strong></p>
+        <p>It was Pivot or Perish, the retail strategy sim in MKTG 6110, a core class nearly every first-year takes. We started with $287 million of debt, and AI use was allowed.</p>
       </div>
       <!--pivot--><details class="mv" id="sim-box">
         <summary><svg class="mv-spark" viewBox="0 0 96 30" width="96" height="30" aria-hidden="true"><polyline points="0.0,27.3 12.0,23.3 24.0,19.5 36.0,17.7 48.0,14.2 60.0,10.9 72.0,5.2 84.0,2.0 96.0,2.4"/></svg><span class="mv-sum"><b>$93 million to $3.43 billion</b> in eight rounds</span><span class="mv-open">Click through each round</span></summary>
@@ -1378,10 +1388,10 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
         <p>I ran the AI side in my own Claude. Every round I gave it the sim&rsquo;s manual, our class slides and lecture notes, and the 16 or so reports the game puts out, and had it keep one model of every lever and every result for all seven companies.</p>
         <h3 class="made-h">The questions I asked it</h3>
         <ul class="sim-qs">
-          <li><q>Dig deep. Think about the models, the marketing, and what&rsquo;s changed between rounds.</q><span>It worked out how the game scores things, which the reports never say. Each quadrant is two ratings added up, and customer service counts in two of the four. So service was where our money did the most.</span></li>
-          <li><q>That&rsquo;s it? You don&rsquo;t think we should test out more changes?</q><span>Its round 3 plan was small and safe. We went bolder: 40 more stores, the highest private brand quality, and service up $7 million. That round showed us what drove the rest of the game.</span></li>
-          <li><q>Explain why opening new stores still isn&rsquo;t worth it. Is that just a result of the sim?</q><span>Stores only changed access, about 0.1 of rating per 10 stores. Catching a rival would have taken about $350 million of debt, so we stopped adding them.</span></li>
-          <li><q>We&rsquo;ve almost saturated our favorite segment. Should we go after our next favorites without cannibalizing it?</q><span>We kept our positioning and pushed into the two segments growing fastest.</span></li>
+          <li><q>Dig deep. Think about the models, the marketing, and what&rsquo;s changed between rounds.</q><span>It worked out how the game scores you, which the reports never say: each quadrant adds up two ratings, and customer service counts in two of the four. So service was where our money did the most.</span></li>
+          <li><q>That&rsquo;s it? You don&rsquo;t think we should test out more changes?</q><span>Its round 3 plan was small and safe. We went bigger: 40 more stores, the best private brand quality and $7 million more on service. That round showed us what drove the rest of the game.</span></li>
+          <li><q>Explain why opening new stores still isn&rsquo;t worth it. Is that just a result of the sim?</q><span>More stores only moved one rating, about 0.1 for every 10 stores. Catching a rival would have taken about $350 million of debt, so we stopped opening them.</span></li>
+          <li><q>We&rsquo;ve almost saturated our favorite segment. Should we go after our next favorites without cannibalizing it?</q><span>We kept our positioning and pushed into the two fastest-growing segments.</span></li>
         </ul>
         <h3 class="made-h">How we used it</h3>
         <p>We used the game&rsquo;s one undo as a free test market: an extreme round to see what every lever did, then undo it and keep what worked. Before every submit we wrote down what would tell us we were wrong. My teammates and I made the calls.</p>
@@ -1392,7 +1402,7 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
 
     
 
-    <nav class="pager" aria-label="Next page"><a class="pg-prev" href="built.html"><span class="pg-k">Back</span> Things I&rsquo;ve built</a><a class="pg-next" href="ai.html" style="--pg: #A593EC"><span class="pg-t"><span class="pg-n">Next:</span> How I use AI</span><span class="pg-d">Four calls I made, and the rules I give it.</span></a></nav>
+    <nav class="pager" aria-label="Next page"><a class="pg-prev" href="ai.html"><span class="pg-k">Back</span> How I use AI</a><a class="pg-next" href="background.html" style="--pg: #E56A9C"><span class="pg-t"><span class="pg-n">Next:</span> About me</span><span class="pg-d">My skills, my paintings and what I do outside work.</span></a></nav>
   </main>
   <footer class="colophon">
     <p class="note"><a href="mailto:jtraum@wharton.upenn.edu">jtraum@wharton.upenn.edu</a></p>
