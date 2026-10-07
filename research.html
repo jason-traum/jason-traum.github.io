@@ -911,6 +911,37 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
 /* Things I've built: one project per row until there's room for two (Astra review, Oct 7: at 768px the text got 110px) */
 @media (max-width: 1099px) { .built { grid-template-columns: minmax(0, 1fr); gap: 30px; } }
 
+/* Running: six races drawn like Strava posts, route from his Strava (Oct 7) */
+.run-lede { color: var(--ink-2); max-width: 40em; margin: 8px 0 20px; }
+.rps { list-style: none; margin: 0; padding: 4px 2px 18px; display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: thin; }
+.rps:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.rp { flex: 0 0 316px; scroll-snap-align: start; display: flex; flex-direction: column; background: #FFFFFF; color: #242428; border-radius: 6px; padding: 16px 0 0; overflow: hidden; }
+.rp > *:not(.rp-mapbox) { padding-inline: 16px; }
+.rp-head { display: flex; gap: 10px; align-items: center; }
+.rp-head img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+.rp-head p { margin: 0; display: grid; font-size: 13px; line-height: 1.3; color: #6D6D78; }
+.rp-head b { color: #242428; font-size: 14.5px; }
+.rp-title { margin: 12px 0 4px; font-size: 19px; font-weight: 800; letter-spacing: -0.01em; line-height: 1.2; color: #242428; }
+.rp-cap { margin: 0; font-size: 14px; line-height: 1.45; color: #3B3B42; }
+.rp-stats { display: flex; gap: 18px; margin: 12px 0 12px; }
+.rp-stats div { display: grid; gap: 1px; }
+.rp-stats dt { font-size: 12px; color: #6D6D78; }
+.rp-stats dd { margin: 0; font-size: 17px; font-weight: 700; color: #242428; font-variant-numeric: tabular-nums; }
+.rp-mapbox { position: relative; margin-top: auto; background: #ECEAE4; background-image: linear-gradient(#E2DFD8 1px, transparent 1px), linear-gradient(90deg, #E2DFD8 1px, transparent 1px); background-size: 22px 22px; }
+.rp-map { display: block; width: 100%; height: auto; }
+.rp-line { fill: none; stroke: #FC5200; stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
+.rp-start { fill: #1FA74A; stroke: #fff; stroke-width: 2; } .rp-end { fill: #D11E1E; stroke: #fff; stroke-width: 2; }
+.rp-tag { position: absolute; left: 10px; top: 10px; font-size: 12px; font-weight: 700; background: #242428; color: #fff; padding: 3px 8px; border-radius: 3px; }
+.rp-foot { margin: 0; padding-block: 10px 12px; font-size: 13px; color: #6D6D78; border-top: 1px solid #E6E6EA; }
+@media (max-width: 699px) { .rp { flex-basis: 84%; } }
+.rp-mapbox { aspect-ratio: 300 / 170; }
+.rp-leaf { position: absolute; inset: 0; z-index: 0; background: #ECEAE4; }
+.rp-mapbox .rp-map { position: relative; z-index: 0; }
+.rp-mapbox.has-map .rp-map { visibility: hidden; }
+.rp-mapbox .rp-tag { z-index: 500; }
+.rp-leaf .leaflet-control-attribution { font-size: 9px; padding: 0 4px; background: rgba(255,255,255,.75); }
+.rp-leaf .leaflet-control-attribution a { color: #555; }
+
 /* route bar: the stops of the site in order. Filled dot = you've been there, ring = you are here. */
 .route-nav { margin: 0; }
 .route-nav ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 0; }
@@ -1172,55 +1203,7 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
 })();
 </script></figure><!--/dd--></details>
       <script>document.getElementById("dd-more").addEventListener("toggle", function () { window.dispatchEvent(new Event("resize")); });</script>
-    <!--rtiles2--><h2 class="stop-h" style="margin-top: 56px">At Wharton</h2><ul class="rbig"><li><a href="strava-memo.html"><img src="img/rs-strava.webp" width="1100" height="825" alt="The Strava memo cover" loading="lazy" decoding="async"><span class="b-name">Strava strategy memo</span><span class="b-line">A long memo on Strava for my strategy class, plus the version I submitted</span></a></li><li><a href="#pivot"><img src="img/rs-sim.webp" width="1200" height="900" alt="The retail strategy sim replay, round 0" loading="lazy" decoding="async"><span class="b-name">The retail strategy sim</span><span class="b-line">The best score in the course: in our class simulation, we grew a money-losing department store from $93 million to about $3.4 billion in market value</span></a></li></ul></section><!--/rtiles2-->
-
-        <section class="exhibit ai-case" id="pivot" aria-labelledby="pivot-h" style="--c: var(--c-jade)">
-      <header><h2 class="ext" id="pivot-h">How I used AI as my analyst in a strategy sim</h2></header>
-      <div class="ai-prose">
-        <p>In Pivot or Perish, the retail strategy sim in MKTG 6110, a core class nearly every first-year takes, my team ran Getchell&rsquo;s, a money-losing department store worth $93 million with $287 million of debt. AI use was allowed.</p>
-        <p class="sim-win"><strong>We grew it to about $3.4 billion: more than 2x the final market value of any other team in our class, and the best result in the course, across every section.</strong></p>
-      </div>
-      <!--pivot--><details class="mv" id="sim-box">
-        <summary><svg class="mv-spark" viewBox="0 0 96 30" width="96" height="30" aria-hidden="true"><polyline points="0.0,27.3 12.0,23.3 24.0,19.5 36.0,17.7 48.0,14.2 60.0,10.9 72.0,5.2 84.0,2.0 96.0,2.4"/></svg><span class="mv-sum"><b>$93 million to $3.43 billion</b> in eight rounds</span><span class="mv-open">Click through each round</span></summary>
-        <div class="sim" id="sim">
-          <div class="sim-nav">
-            <button type="button" class="sim-step" data-d="-1" aria-label="Previous round"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            <b class="sim-r" aria-live="polite">Round 0</b>
-            <button type="button" class="sim-step" data-d="1" aria-label="Next round"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            <span class="sim-dots" role="group" aria-label="Rounds"><button type="button" class="sim-dot" data-i="0" aria-label="Round 0"></button><button type="button" class="sim-dot" data-i="1" aria-label="Round 1 test"></button><button type="button" class="sim-dot" data-i="2" aria-label="Round 1"></button><button type="button" class="sim-dot" data-i="3" aria-label="Round 2"></button><button type="button" class="sim-dot" data-i="4" aria-label="Round 3"></button><button type="button" class="sim-dot" data-i="5" aria-label="Round 4"></button><button type="button" class="sim-dot" data-i="6" aria-label="Round 5"></button><button type="button" class="sim-dot" data-i="7" aria-label="Round 6"></button><button type="button" class="sim-dot" data-i="8" aria-label="Round 7"></button><button type="button" class="sim-dot" data-i="9" aria-label="Round 8"></button></span>
-          </div>
-          <div class="sim-grid">
-            <dl class="sim-in" aria-label="What we set this round"></dl>
-            <div class="sim-out">
-              <svg class="sim-radar" viewBox="-130 -118 260 236" role="img" aria-label="Retailing Success Matrix scores this round"></svg>
-              <div class="sim-mini">
-                <figure><figcaption>Market value <b class="sim-mv"></b></figcaption><svg class="sim-c1" viewBox="0 0 180 64" preserveAspectRatio="none" aria-hidden="true"></svg></figure>
-                <figure><figcaption>Profit so far <b class="sim-cp"></b></figcaption><svg class="sim-c2" viewBox="0 0 180 64" preserveAspectRatio="none" aria-hidden="true"></svg></figure>
-              </div>
-            </div>
-          </div>
-          <p class="sim-note"></p>
-          <p class="sim-key"><i class="k-us"></i>Getchell&rsquo;s <i class="k-fair"></i>Fair value <i class="k-riv"></i>The six rivals <i class="k-up"></i>Raised this round <i class="k-down"></i>Cut this round</p>
-        </div>
-        <script>window.SIM = {"steps": ["Round 0", "Round 1 test", "Round 1", "Round 2", "Round 3", "Round 4", "Round 5", "Round 6", "Round 7", "Round 8"], "prev": [null, 0, 0, 2, 3, 4, 5, 6, 7, 8], "x": [0, 1, 1, 2, 3, 4, 5, 6, 7, 8], "inp": {"mk": [[54, 66], [62, 76], [62, 76], [65, 80], [65, 85], [68, 85], [68, 85], [68, 85], [70, 88], [72, 90]], "br": [[50, 50], [50, 50], [50, 50], [50, 50], [70, 50], [70, 50], [75, 50], [80, 60], [85, 70], [90, 70]], "de": [[50, 50], [35, 35], [50, 50], [50, 50], [65, 50], [65, 50], [70, 50], [75, 50], [80, 50], [80, 50]], "pb": [50, 75, 75, 75, 75, 75, 90, 100, 100, 100], "q": [5, 5, 5, 5, 7, 7, 7, 7, 7, 7], "st": [200, 200, 200, 200, 240, 240, 240, 240, 240, 240], "cs": [15, 10, 15, 15, 22, 23, 27, 31, 34, 38], "se": [10, 25, 24, 24.5, 21.5, 21.5, 23, 24.5, 24.5, 20], "on": [2, 18, 16, 19, 18, 22, 26, 30, 30, 25], "vm": [30, 10, 10, 10, 10, 10, 10, 10, 10, 10], "ca": [10, 5, 4, 2.9, 2.2, 0, 0, 0, 0, 0]}, "m": {"B": [[6.3, 4.2, [4.1, 1.8, 3.5, 2.5, 4.9, 3.6]], [5.2, 3.5, [4.3, 1.9, 3.7, 2.8, 5, 3.9]], [6.3, 4.2, [4, 1.8, 3.5, 2.6, 4.8, 3.6]], [6.2, 4.1, [4, 1.8, 3.5, 2.8, 4.8, 3.7]], [7.2, 4.8, [3.8, 1.7, 3.3, 2.7, 4.6, 3.6]], [7.2, 4.8, [3.8, 1.6, 3.3, 2.8, 4.6, 3.5]], [7.5, 5, [3.8, 1.6, 3.3, 2.8, 4.5, 3.5]], [7.6, 5.1, [3.8, 1.6, 3.3, 2.9, 4.5, 3.5]], [7.7, 5.1, [3.8, 1.5, 3.2, 2.9, 4.4, 3.5]], [7.6, 5, [3.8, 1.5, 3.2, 3, 4.4, 3.5]]], "E": [[5.8, 4.3, [3.1, 3.5, 1.4, 3.8, 6.5, 3.3]], [6.4, 4.3, [2.8, 3.6, 1.1, 3.9, 6.2, 3.5]], [7.2, 4.8, [2.6, 3.5, 1.1, 3.9, 6.1, 3.3]], [7.6, 5.1, [2.5, 3.5, 1, 3.9, 6.2, 3.4]], [8.4, 5.6, [2.3, 3.4, 0.9, 4, 6.2, 3.2]], [8.3, 5.5, [2.4, 3.4, 0.9, 4.1, 6.2, 3.1]], [8.5, 5.7, [2.4, 3.4, 0.9, 4.1, 6.2, 3]], [8.8, 5.8, [2.4, 3.3, 0.9, 4.2, 6.1, 2.8]], [8.7, 5.8, [2.4, 3.3, 0.9, 4.3, 6.1, 2.8]], [8.5, 5.6, [2.5, 3.4, 0.9, 4.4, 6.2, 2.7]]], "F": [[3.4, 5.2, [7.8, 2.8, 1.8, 1.5, 3.6, 5.2]], [3.3, 5.2, [7.8, 2.9, 1.5, 1.8, 3.9, 5.6]], [4, 5.1, [7.6, 2.9, 1.5, 1.7, 3.7, 5.5]], [4.4, 5, [7.5, 2.9, 1.4, 1.8, 3.8, 5.5]], [5.4, 4.8, [7.1, 2.7, 1.3, 1.8, 3.7, 5.4]], [5.8, 4.7, [7, 2.6, 1.3, 1.8, 3.7, 5.2]], [6.3, 4.6, [6.9, 2.5, 1.3, 1.8, 3.6, 5.1]], [6.7, 4.6, [6.8, 2.3, 1.3, 1.7, 3.6, 4.9]], [6.8, 4.6, [6.9, 2.3, 1.3, 1.7, 3.6, 4.9]], [6.8, 4.7, [7.1, 2.2, 1.3, 1.8, 3.6, 4.8]]], "L": [[4.9, 3.6, [5, 5.1, 5.4, 5, 4.8, 4.9]], [4.7, 3.7, [5.1, 5.2, 5.5, 4.9, 4.9, 4.9]], [4.7, 3.7, [5.1, 5.2, 5.5, 4.9, 4.9, 4.9]], [4.6, 3.7, [5.1, 5.2, 5.5, 4.9, 4.9, 4.9]], [4.6, 3.7, [5.2, 5.2, 5.5, 4.9, 5, 4.9]], [4.6, 3.7, [5.2, 5.2, 5.5, 4.8, 5, 5]], [4.6, 3.7, [5.2, 5.2, 5.5, 4.8, 5, 5]], [4.5, 3.7, [5.2, 5.3, 5.6, 4.7, 5, 5]], [4.5, 3.7, [5.3, 5.3, 5.6, 4.7, 5, 5]], [4.5, 3.7, [5.2, 5.3, 5.6, 4.6, 5.1, 5.1]]]}, "mv": [93.2, 583.8, 633.7, 1131.5, 1372.8, 1847.7, 2282.8, 3055.6, 3478.7, 3431.6], "ni": [-6.3, 30.8, 31.0, 60.6, 72.7, 102.5, 122.5, 149.2, 176.0, 189.4], "notes": ["What we were given: a department store losing money, with $287M of debt.", "A test we undid: we pushed most levers hard to see what each one did. Cutting depth cost us Brand, and cutting service cost us the service lead.", "Kept what worked in the test and put depth and service back.", "Held both leads and raised markup. Profit paid down $32M of debt.", "My bolder test: private brand quality 7, more breadth, depth and service, and 40 more stores. Service and quality paid off. The stores didn&rsquo;t.", "No new stores. Profit paid off $98M of debt.", "Private brand to 90%, which kept our costs rising slower than rivals&rsquo;.", "Higher-cost breadth from 50 to 60, the best single move of the game. Nobody else was above 50.", "Raised markup and held spending about flat while the budget jumped. Peak value.", "It picked trimming online and experience for profit. Value fell 1.4%, because the sim rewarded growth."]};</script>
-      </details><!--/pivot-->
-      <div class="ai-prose">
-        <h3 class="made-h">What I gave it</h3>
-        <p>I ran the AI side in my own Claude. Every round I gave it the sim&rsquo;s manual, our class slides and lecture notes, and the 16 or so reports the game puts out, and had it keep one model of every lever and every result for all seven companies.</p>
-        <h3 class="made-h">The questions I asked it</h3>
-        <ul class="sim-qs">
-          <li><q>Dig deep. Think about the models, the marketing, and what&rsquo;s changed between rounds.</q><span>It worked out how the game scores things, which the reports never say. Each quadrant is two ratings added up, and customer service counts in two of the four. That made service our most important dollar.</span></li>
-          <li><q>That&rsquo;s it? You don&rsquo;t think we should test out more changes?</q><span>Its round 3 plan was small and safe. We went bolder: 40 more stores, the highest private brand quality, and service up $7 million. That round showed us what drove the rest of the game.</span></li>
-          <li><q>Explain why opening new stores still isn&rsquo;t worth it. Is that just a result of the sim?</q><span>Stores only changed access, about 0.1 of rating per 10 stores. Catching a rival would have taken about $350 million of debt, so we stopped adding them.</span></li>
-          <li><q>We&rsquo;ve almost saturated our favorite segment. Should we go after our next favorites without cannibalizing it?</q><span>We kept our positioning and pushed into the two segments growing fastest.</span></li>
-        </ul>
-        <h3 class="made-h">How we used it</h3>
-        <p>We used the game&rsquo;s one undo as a free test market: an extreme round to see what every lever did, then undo it and keep what worked. Before every submit we wrote down what would tell us we were wrong. My teammates and I made the calls.</p>
-        <p>The one time I let it decide, in the last round, I asked it to pick between two options and went with its answer, cutting spend for profit. Market value fell 1.4% because the sim rewarded growth. Now I ask what each option risks and decide myself.</p>
-      </div>
-      <p class="src">Sources: our decision log and each round&rsquo;s reports, and the class results our professor shared.</p>
     </section>
-
     <section class="section stop-page" id="background" aria-labelledby="job-h">
       <h2 class="stop-h" id="job-h">My job at Morgan Stanley</h2>
       <p class="work-intro">Most of my job at Morgan Stanley was the research behind what about 25,000 financial advisors told their clients. I wrote the daily positioning note, built the quant frameworks behind our model portfolios, including a stock-bond indicator several teams used, and worked on the yearly capital market assumptions, which set the expected return and risk for every asset class in the models. Before that, on the OCIO team, I ran the analytics behind 30+ model portfolios with $70B in them. Chartbooks were a big part of every week, and everything we published went through compliance first.</p>
@@ -1246,7 +1229,7 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
       </article>
       <article class="made-item">
       <h3 class="made-h">The analytics package, from 10 days to 3</h3>
-      <p class="made-lead">I led the automation of our monthly analytics package and got it from 10 days to 3.</p>
+      <p class="made-lead">I led the automation of our monthly analytics package and got it from 10 days to 3. The hard part was getting people to trust it, so I ran it next to the old process for months and wrote down every discrepancy.</p>
       <!--flow--><figure class="flow" id="flow"><p class="flow-title">Making the slides went from 10 business days to 3, and the whole thing from about 14 to 4</p><div class="flow-panel"><p class="flow-h"><b>Before:</b> about 50 hours over 14 business days</p><div class="flow-row"><p class="flow-lab">Making the slides<span>about 40 analyst hours</span></p><div class="flow-track" role="img" aria-label="Making the slides, business days 1 to 10, about 40 analyst hours"><i class="a" style="grid-column: 1 / 11"></i></div></div><div class="flow-row"><p class="flow-lab">Review and upload<span>about 5 editorial hours</span></p><div class="flow-track" role="img" aria-label="Review and upload, business days 5 to 14, about 5 editorial hours"><i class="b" style="grid-column: 5 / 15"></i></div></div><div class="flow-row"><p class="flow-lab">Legal and publishing review<span>about 5 editorial hours</span></p><div class="flow-track" role="img" aria-label="Legal and publishing review, business days 7 to 14, about 5 editorial hours"><i class="b" style="grid-column: 7 / 15"></i></div></div></div><div class="flow-panel"><p class="flow-h"><b>After:</b> about 14 hours over 4 business days</p><div class="flow-row"><p class="flow-lab">Making the slides<span>about 10 analyst hours</span></p><div class="flow-track" role="img" aria-label="Making the slides, business days 1 to 3, about 10 analyst hours"><i class="a" style="grid-column: 1 / 4"></i></div></div><div class="flow-row"><p class="flow-lab">Review<span>about 2 editorial hours</span></p><div class="flow-track" role="img" aria-label="Review, business days 2 to 3, about 2 editorial hours"><i class="b" style="grid-column: 2 / 4"></i></div></div><div class="flow-row"><p class="flow-lab">Legal and publishing review<span>about 2 editorial hours</span></p><div class="flow-track" role="img" aria-label="Legal and publishing review, business days 3 to 4, about 2 editorial hours"><i class="b" style="grid-column: 3 / 5"></i></div></div></div><div class="flow-row flow-axis-row" aria-hidden="true"><p class="flow-lab">Business day</p><div class="flow-axis"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span><span>14</span></div></div><figcaption>Simplified from memory, so the days and hours are rough.</figcaption></figure><!--/flow-->
       <details class="more"><summary>How I got people to trust it</summary><p>It was a thousand slides and more than 4,000 data fields from Bloomberg, FactSet and team workbooks that were all built differently. Senior people worried they&rsquo;d lose the ability to fix numbers by hand, and they&rsquo;d seen improvements fail before. So I split it into modules that could run on their own, logged every step, and ran it next to the old process for months, writing down every discrepancy. The skeptics ended up shaping the validation steps. I wrote a one-page runbook so anyone could run it, and it&rsquo;s still running without me.</p></details>
       </article>
@@ -1295,6 +1278,55 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
       <p class="pubs-note">I also worked on research that isn&rsquo;t public, including the relaunch of our stock-bond indicator.</p>
       </details>
       </article>
+    </section>
+
+    <!--rtiles2--><section class="section rtiles" id="wharton-work" aria-labelledby="whr-h"><h2 class="stop-h" id="whr-h">At Wharton</h2><ul class="rbig"><li><a href="strava-memo.html"><img src="img/rs-strava.webp" width="1100" height="825" alt="The Strava memo cover" loading="lazy" decoding="async"><span class="b-name">Strava strategy memo</span><span class="b-line">A long memo on Strava for my strategy class, plus the version I submitted</span></a></li><li><a href="#pivot"><img src="img/rs-sim.webp" width="1200" height="900" alt="The retail strategy sim replay, round 0" loading="lazy" decoding="async"><span class="b-name">The retail strategy sim</span><span class="b-line">The best score in the course: in our class simulation, we grew a money-losing department store from $93 million to about $3.4 billion in market value</span></a></li></ul></section><!--/rtiles2-->
+
+        <section class="exhibit ai-case" id="pivot" aria-labelledby="pivot-h" style="--c: var(--c-jade)">
+      <header><h2 class="ext" id="pivot-h">How I used AI as my analyst in a strategy sim</h2></header>
+      <div class="ai-prose">
+        <p>In Pivot or Perish, the retail strategy sim in MKTG 6110, a core class nearly every first-year takes, my team ran Getchell&rsquo;s, a money-losing department store worth $93 million with $287 million of debt. AI use was allowed.</p>
+        <p class="sim-win"><strong>We grew it to about $3.4 billion: more than 2x the final market value of any other team in our class, and the best result in the course, across every section.</strong></p>
+      </div>
+      <!--pivot--><details class="mv" id="sim-box">
+        <summary><svg class="mv-spark" viewBox="0 0 96 30" width="96" height="30" aria-hidden="true"><polyline points="0.0,27.3 12.0,23.3 24.0,19.5 36.0,17.7 48.0,14.2 60.0,10.9 72.0,5.2 84.0,2.0 96.0,2.4"/></svg><span class="mv-sum"><b>$93 million to $3.43 billion</b> in eight rounds</span><span class="mv-open">Click through each round</span></summary>
+        <div class="sim" id="sim">
+          <div class="sim-nav">
+            <button type="button" class="sim-step" data-d="-1" aria-label="Previous round"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <b class="sim-r" aria-live="polite">Round 0</b>
+            <button type="button" class="sim-step" data-d="1" aria-label="Next round"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <span class="sim-dots" role="group" aria-label="Rounds"><button type="button" class="sim-dot" data-i="0" aria-label="Round 0"></button><button type="button" class="sim-dot" data-i="1" aria-label="Round 1 test"></button><button type="button" class="sim-dot" data-i="2" aria-label="Round 1"></button><button type="button" class="sim-dot" data-i="3" aria-label="Round 2"></button><button type="button" class="sim-dot" data-i="4" aria-label="Round 3"></button><button type="button" class="sim-dot" data-i="5" aria-label="Round 4"></button><button type="button" class="sim-dot" data-i="6" aria-label="Round 5"></button><button type="button" class="sim-dot" data-i="7" aria-label="Round 6"></button><button type="button" class="sim-dot" data-i="8" aria-label="Round 7"></button><button type="button" class="sim-dot" data-i="9" aria-label="Round 8"></button></span>
+          </div>
+          <div class="sim-grid">
+            <dl class="sim-in" aria-label="What we set this round"></dl>
+            <div class="sim-out">
+              <svg class="sim-radar" viewBox="-130 -118 260 236" role="img" aria-label="Retailing Success Matrix scores this round"></svg>
+              <div class="sim-mini">
+                <figure><figcaption>Market value <b class="sim-mv"></b></figcaption><svg class="sim-c1" viewBox="0 0 180 64" preserveAspectRatio="none" aria-hidden="true"></svg></figure>
+                <figure><figcaption>Profit so far <b class="sim-cp"></b></figcaption><svg class="sim-c2" viewBox="0 0 180 64" preserveAspectRatio="none" aria-hidden="true"></svg></figure>
+              </div>
+            </div>
+          </div>
+          <p class="sim-note"></p>
+          <p class="sim-key"><i class="k-us"></i>Getchell&rsquo;s <i class="k-fair"></i>Fair value <i class="k-riv"></i>The six rivals <i class="k-up"></i>Raised this round <i class="k-down"></i>Cut this round</p>
+        </div>
+        <script>window.SIM = {"steps": ["Round 0", "Round 1 test", "Round 1", "Round 2", "Round 3", "Round 4", "Round 5", "Round 6", "Round 7", "Round 8"], "prev": [null, 0, 0, 2, 3, 4, 5, 6, 7, 8], "x": [0, 1, 1, 2, 3, 4, 5, 6, 7, 8], "inp": {"mk": [[54, 66], [62, 76], [62, 76], [65, 80], [65, 85], [68, 85], [68, 85], [68, 85], [70, 88], [72, 90]], "br": [[50, 50], [50, 50], [50, 50], [50, 50], [70, 50], [70, 50], [75, 50], [80, 60], [85, 70], [90, 70]], "de": [[50, 50], [35, 35], [50, 50], [50, 50], [65, 50], [65, 50], [70, 50], [75, 50], [80, 50], [80, 50]], "pb": [50, 75, 75, 75, 75, 75, 90, 100, 100, 100], "q": [5, 5, 5, 5, 7, 7, 7, 7, 7, 7], "st": [200, 200, 200, 200, 240, 240, 240, 240, 240, 240], "cs": [15, 10, 15, 15, 22, 23, 27, 31, 34, 38], "se": [10, 25, 24, 24.5, 21.5, 21.5, 23, 24.5, 24.5, 20], "on": [2, 18, 16, 19, 18, 22, 26, 30, 30, 25], "vm": [30, 10, 10, 10, 10, 10, 10, 10, 10, 10], "ca": [10, 5, 4, 2.9, 2.2, 0, 0, 0, 0, 0]}, "m": {"B": [[6.3, 4.2, [4.1, 1.8, 3.5, 2.5, 4.9, 3.6]], [5.2, 3.5, [4.3, 1.9, 3.7, 2.8, 5, 3.9]], [6.3, 4.2, [4, 1.8, 3.5, 2.6, 4.8, 3.6]], [6.2, 4.1, [4, 1.8, 3.5, 2.8, 4.8, 3.7]], [7.2, 4.8, [3.8, 1.7, 3.3, 2.7, 4.6, 3.6]], [7.2, 4.8, [3.8, 1.6, 3.3, 2.8, 4.6, 3.5]], [7.5, 5, [3.8, 1.6, 3.3, 2.8, 4.5, 3.5]], [7.6, 5.1, [3.8, 1.6, 3.3, 2.9, 4.5, 3.5]], [7.7, 5.1, [3.8, 1.5, 3.2, 2.9, 4.4, 3.5]], [7.6, 5, [3.8, 1.5, 3.2, 3, 4.4, 3.5]]], "E": [[5.8, 4.3, [3.1, 3.5, 1.4, 3.8, 6.5, 3.3]], [6.4, 4.3, [2.8, 3.6, 1.1, 3.9, 6.2, 3.5]], [7.2, 4.8, [2.6, 3.5, 1.1, 3.9, 6.1, 3.3]], [7.6, 5.1, [2.5, 3.5, 1, 3.9, 6.2, 3.4]], [8.4, 5.6, [2.3, 3.4, 0.9, 4, 6.2, 3.2]], [8.3, 5.5, [2.4, 3.4, 0.9, 4.1, 6.2, 3.1]], [8.5, 5.7, [2.4, 3.4, 0.9, 4.1, 6.2, 3]], [8.8, 5.8, [2.4, 3.3, 0.9, 4.2, 6.1, 2.8]], [8.7, 5.8, [2.4, 3.3, 0.9, 4.3, 6.1, 2.8]], [8.5, 5.6, [2.5, 3.4, 0.9, 4.4, 6.2, 2.7]]], "F": [[3.4, 5.2, [7.8, 2.8, 1.8, 1.5, 3.6, 5.2]], [3.3, 5.2, [7.8, 2.9, 1.5, 1.8, 3.9, 5.6]], [4, 5.1, [7.6, 2.9, 1.5, 1.7, 3.7, 5.5]], [4.4, 5, [7.5, 2.9, 1.4, 1.8, 3.8, 5.5]], [5.4, 4.8, [7.1, 2.7, 1.3, 1.8, 3.7, 5.4]], [5.8, 4.7, [7, 2.6, 1.3, 1.8, 3.7, 5.2]], [6.3, 4.6, [6.9, 2.5, 1.3, 1.8, 3.6, 5.1]], [6.7, 4.6, [6.8, 2.3, 1.3, 1.7, 3.6, 4.9]], [6.8, 4.6, [6.9, 2.3, 1.3, 1.7, 3.6, 4.9]], [6.8, 4.7, [7.1, 2.2, 1.3, 1.8, 3.6, 4.8]]], "L": [[4.9, 3.6, [5, 5.1, 5.4, 5, 4.8, 4.9]], [4.7, 3.7, [5.1, 5.2, 5.5, 4.9, 4.9, 4.9]], [4.7, 3.7, [5.1, 5.2, 5.5, 4.9, 4.9, 4.9]], [4.6, 3.7, [5.1, 5.2, 5.5, 4.9, 4.9, 4.9]], [4.6, 3.7, [5.2, 5.2, 5.5, 4.9, 5, 4.9]], [4.6, 3.7, [5.2, 5.2, 5.5, 4.8, 5, 5]], [4.6, 3.7, [5.2, 5.2, 5.5, 4.8, 5, 5]], [4.5, 3.7, [5.2, 5.3, 5.6, 4.7, 5, 5]], [4.5, 3.7, [5.3, 5.3, 5.6, 4.7, 5, 5]], [4.5, 3.7, [5.2, 5.3, 5.6, 4.6, 5.1, 5.1]]]}, "mv": [93.2, 583.8, 633.7, 1131.5, 1372.8, 1847.7, 2282.8, 3055.6, 3478.7, 3431.6], "ni": [-6.3, 30.8, 31.0, 60.6, 72.7, 102.5, 122.5, 149.2, 176.0, 189.4], "notes": ["What we were given: a department store losing money, with $287M of debt.", "A test we undid: we pushed most levers hard to see what each one did. Cutting depth cost us Brand, and cutting service cost us the service lead.", "Kept what worked in the test and put depth and service back.", "Held both leads and raised markup. Profit paid down $32M of debt.", "My bolder test: private brand quality 7, more breadth, depth and service, and 40 more stores. Service and quality paid off. The stores didn&rsquo;t.", "No new stores. Profit paid off $98M of debt.", "Private brand to 90%, which kept our costs rising slower than rivals&rsquo;.", "Higher-cost breadth from 50 to 60, the best single move of the game. Nobody else was above 50.", "Raised markup and held spending about flat while the budget jumped. Peak value.", "It picked trimming online and experience for profit. Value fell 1.4%, because the sim rewarded growth."]};</script>
+      </details><!--/pivot-->
+      <div class="ai-prose">
+        <h3 class="made-h">What I gave it</h3>
+        <p>I ran the AI side in my own Claude. Every round I gave it the sim&rsquo;s manual, our class slides and lecture notes, and the 16 or so reports the game puts out, and had it keep one model of every lever and every result for all seven companies.</p>
+        <h3 class="made-h">The questions I asked it</h3>
+        <ul class="sim-qs">
+          <li><q>Dig deep. Think about the models, the marketing, and what&rsquo;s changed between rounds.</q><span>It worked out how the game scores things, which the reports never say. Each quadrant is two ratings added up, and customer service counts in two of the four. That made service our most important dollar.</span></li>
+          <li><q>That&rsquo;s it? You don&rsquo;t think we should test out more changes?</q><span>Its round 3 plan was small and safe. We went bolder: 40 more stores, the highest private brand quality, and service up $7 million. That round showed us what drove the rest of the game.</span></li>
+          <li><q>Explain why opening new stores still isn&rsquo;t worth it. Is that just a result of the sim?</q><span>Stores only changed access, about 0.1 of rating per 10 stores. Catching a rival would have taken about $350 million of debt, so we stopped adding them.</span></li>
+          <li><q>We&rsquo;ve almost saturated our favorite segment. Should we go after our next favorites without cannibalizing it?</q><span>We kept our positioning and pushed into the two segments growing fastest.</span></li>
+        </ul>
+        <h3 class="made-h">How we used it</h3>
+        <p>We used the game&rsquo;s one undo as a free test market: an extreme round to see what every lever did, then undo it and keep what worked. Before every submit we wrote down what would tell us we were wrong. My teammates and I made the calls.</p>
+        <p>The one time I let it decide, in the last round, I asked it to pick between two options and went with its answer, cutting spend for profit. Market value fell 1.4% because the sim rewarded growth. Now I ask what each option risks and decide myself.</p>
+      </div>
+      <p class="src">Sources: our decision log and each round&rsquo;s reports, and the class results our professor shared.</p>
     </section>
 
     
