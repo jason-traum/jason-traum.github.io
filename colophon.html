@@ -870,23 +870,26 @@ ul.reports li { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap:
 #dd-more { margin-top: 20px; }
 
 /* Analytics package before and after (Jason's outline, Oct 6) */
-.flow { margin: 22px 0 6px; max-width: 760px; }
-.flow-title { font-weight: 700; font-size: 17px; margin-bottom: 12px; }
-.flow-panel { margin-top: 16px; }
-.flow-h { margin-bottom: 6px; color: var(--ink-2); }
-.flow-h b { color: var(--ink); }
-.flow-row { display: grid; grid-template-columns: 15em minmax(0, 1fr); gap: 4px 16px; align-items: center; padding: 5px 0; }
+.flow { margin: 22px 0 6px; max-width: 760px; display: grid; gap: 14px; }
+.flow-row { display: grid; grid-template-columns: 13em minmax(0, 1fr); gap: 6px 16px; align-items: center; }
 .flow-lab { font-size: 15px; line-height: 1.3; }
-.flow-lab span { display: block; font-size: 13px; color: var(--muted); }
-.flow-track, .flow-axis { display: grid; grid-template-columns: repeat(14, minmax(0, 1fr)); }
-.flow-track { height: 22px; background: var(--surface); }
-.flow-track i { display: block; height: 100%; }
-.flow-track i.a { background: var(--c-msblue); }
-.flow-track i.b { background: var(--c-grey); }
-.flow-axis span { font-size: 12px; color: var(--muted); text-align: center; font-variant-numeric: tabular-nums; }
-.flow-axis-row .flow-lab { font-size: 13px; color: var(--muted); }
-.flow figcaption { margin-top: 10px; font-size: 13px; color: var(--muted); }
-@media (max-width: 599px) { .flow-row { grid-template-columns: minmax(0, 1fr); } .flow-axis-row .flow-lab { display: none; } }
+.flow-lab b { color: var(--ink); }
+.flow-lab span { display: block; font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.flow-track { display: flex; height: 36px; background: var(--surface); border-radius: 3px; overflow: hidden; }
+.flow-bar { display: flex; min-width: 0; transform-origin: left center; }
+.flow-gap { display: block; }
+.flow-bar i { display: flex; align-items: center; min-width: 0; height: 100%; font-style: normal; }
+.flow-bar i.a { background: var(--c-msblue); }
+.flow-bar i.b { background: var(--c-grey); }
+.flow-bar i span { padding: 0 10px; font-size: 14px; font-weight: 600; color: var(--paper); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.flow-key { font-size: 14px; color: var(--muted); display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.flow-key i { display: inline-block; width: 12px; height: 12px; border-radius: 2px; }
+.flow-key i.a { background: var(--c-msblue); } .flow-key i.b { background: var(--c-grey); margin-left: 12px; }
+.flow figcaption { font-size: 13px; color: var(--muted); }
+.flow.grow .flow-bar { transform: scaleX(0); }
+.flow.grow.in .flow-bar { transform: scaleX(1); transition: transform .9s cubic-bezier(.3, .1, .2, 1); }
+.flow.grow.in .flow-row + .flow-row .flow-bar { transition-delay: .25s; }
+@media (max-width: 599px) { .flow-row { grid-template-columns: minmax(0, 1fr); } }
 
 /* About me: rows of pictures at one height each, never stretched (Oct 7) */
 @media (min-width: 700px) {
@@ -1027,11 +1030,29 @@ body:has(.pager) .colophon, body:has(.proj-more) .colophon { border-top: 0; }
 .gal-crooked { --rot: 3.4deg; transition: transform 1.1s cubic-bezier(.6, 0, .9, .4); }
 .gal-crooked.straight { --rot: 0deg; transition: transform .4s cubic-bezier(.3, 1.5, .5, 1); }
 .gal-tape { position: absolute; top: -9%; left: 30%; width: 40%; height: 13%; background: var(--gal-tape); opacity: .85; transform: rotate(-8deg); }
+/* Oct 7: walls from the real Walldrobe engine. Sizes are the engine's frame outsides; one thin black frame for all,
+   its 0.75 in moulding (--b, % of room width); a mat only where the engine put one (--m). Padding % is of the room's width. */
+.gal-p.gal-wd { height: calc(var(--h) * 1%); aspect-ratio: auto; border: 0; padding: calc(var(--b) * 1%); background: var(--gal-frame); }
+.gal-wd .gal-m { display: block; width: 100%; height: 100%; padding: calc(var(--m) / var(--w) * 100%); background: var(--gal-mat); }
+.gal-wd img { width: 100%; height: 100%; object-fit: cover; }
+/* Oct 7: more frame styles so the wall reads like a real salon wall. */
+.gal-p.gal-wood { border: clamp(3px, .55vw, 7px) solid var(--gal-wood); background: var(--gal-wood); }
+.gal-p.gal-thin { border-width: 1px; }
+.gal-p.gal-white { border: clamp(2px, .4vw, 5px) solid var(--gal-mat); background: var(--gal-mat); }
+.gal-p.gal-deep { padding: calc(var(--w) * .12 * 1%); }
+.gal-p.gal-pin { border: 0; background: none; overflow: visible; box-shadow: 0 3px 8px rgba(0, 0, 0, .35); }
+.gal-tape.l { top: -5%; left: -10%; width: 34%; height: 7%; transform: rotate(-38deg); }
+.gal-tape.r { top: -5%; left: auto; right: -10%; width: 34%; height: 7%; transform: rotate(38deg); }
 .gal-person { position: absolute; bottom: 7%; height: 61.6%; left: calc(var(--px, 5) * 1%); fill: var(--gal-wall); stroke: var(--gal-person); stroke-width: 1.6; stroke-linejoin: round; pointer-events: none; z-index: 3;
   transition: left 1.5s ease-in-out; }
 .gal-person.walk { animation: gal-bob .38s ease-in-out infinite alternate; }
 @keyframes gal-bob { from { translate: 0 0; } to { translate: 0 -1.2%; } }
 .gal figcaption { margin-top: 8px; font-size: 14px; color: var(--muted); }
+.gal-cap { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; }
+.gal-run { appearance: none; font: inherit; font-size: 14px; font-weight: 600; color: var(--paper); background: var(--c-magenta); border: 0; border-radius: 999px; padding: 7px 14px; cursor: pointer; }
+.gal-run:hover { filter: brightness(1.08); }
+.gal-run:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.gal-why { color: var(--ink-2); }
 @media (prefers-reduced-motion: reduce) { .gal-p, .gal-crooked, .gal-person { transition: none; } .gal-person.walk { animation: none; } }
 
 /* Bad taste: the same data, every chart crime at once */
@@ -1053,6 +1074,11 @@ body:has(.pager) .colophon, body:has(.proj-more) .colophon { border-top: 0; }
 .pal-c.awful .sw { flex-direction: row-reverse; transform: rotate(2deg); }
 .pal-c.awful .sw li:nth-child(odd) i { background: #00FF66 !important; } .pal-c.awful .sw li:nth-child(even) i { background: #FF00CC !important; }
 @media (prefers-reduced-motion: reduce) { .pal-c svg, .pal-c .sw, .pal-c .pal-h { transition: none; } }
+/* Oct 7: internal reports, no links or pictures: a plain three-column list. */
+ul.reports.r-int { gap: 0; border-top: 1px solid var(--rule); }
+ul.reports.r-int li { grid-template-columns: minmax(0, 5fr) minmax(0, 3fr) minmax(0, 4fr); align-items: baseline; padding: 12px 0; border-bottom: 1px solid var(--rule); }
+ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
+@media (max-width: 699px) { ul.reports.r-int li { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
 
 /* route bar: the stops of the site in order. Filled dot = you've been there, ring = you are here. */
 .route-nav { margin: 0; }
@@ -1300,6 +1326,17 @@ details.more > p + p { margin-top: 12px; }
 .hm.xl .w-me, .hm.xl .w-med, .hm:not(.xl) .w-xl, .hm:not(.xl) .w-xld { opacity: .28; }
 .hm-wheel figcaption { font-size: 13px; color: var(--muted); }
 @media (prefers-reduced-motion: reduce) { .w-xl, .w-me, .w-xld, .w-med { transition: none; } }
+/* Oct 7: elevation by mile for the Cayuga 50, in the Ithaca photo's details. */
+.pw-box .ev { width: 100%; max-width: 520px; }
+.ev svg { display: block; width: 100%; height: auto; overflow: visible; }
+.ev text { font-size: 12px; fill: var(--muted); font-variant-numeric: tabular-nums; }
+.ev .ev-u { fill: var(--muted); }
+.ev-a { fill: var(--c-magenta); opacity: .22; }
+.ev-l { fill: none; stroke: var(--c-magenta); stroke-width: 1.6; stroke-linejoin: round; }
+.ev-t line, .ev-g { stroke: var(--rule); stroke-width: 1; }
+/* Oct 7: the heatmap script sits out of the fold now, under "How it got made". */
+.made-more { margin-top: 28px; }
+.made-more .made-p { max-width: 40em; color: var(--ink-2); margin: 0; }
 
 
 /* end of page: previous small, next as the last big line */
@@ -1982,7 +2019,7 @@ details.more > p + p { margin-top: 12px; }
     }
     setTimeout(function () { p.classList.remove('straight'); }, 2300);
   }
-  room.querySelectorAll('.gal-p').forEach(function (p) {
+  function bind(p) {
     var sx = 0, sy = 0, ox = 0, oy = 0, moved = false, down = false;
     p.addEventListener('pointerdown', function (e) {
       down = true; moved = false; sx = e.clientX; sy = e.clientY; ox = num(p, '--x'); oy = num(p, '--y');
@@ -2013,6 +2050,47 @@ details.more > p + p { margin-top: 12px; }
       p.style.zIndex = String(++top);
       clearTimeout(p._k); p._k = setTimeout(function () { lookAt(p); }, 400);
     });
+  }
+  room.querySelectorAll('.gal-p').forEach(bind);
+
+  // Oct 7: Run Walldrobe. Each press hangs the next wall the real Walldrobe engine picked from my work (tools/walldrobe_real),
+  // each in its own layout. The pieces fade off, the new wall fades on one piece at a time, and the person walks over.
+  var run = document.querySelector('.gal-run'), why = document.querySelector('.gal-why'), wd = document.getElementById('walldata'), walls = [];
+  try { walls = JSON.parse(wd.textContent); } catch (e) {}
+  if (!run || !walls.length) return;
+  var at = 0, busy = false;
+  run.hidden = false;
+  run.addEventListener('click', function () {
+    if (busy) return; busy = true;
+    at = (at + 1) % walls.length;
+    var wall = walls[at], old = [].slice.call(room.querySelectorAll('.gal-p')), calm = still.matches;
+    old.forEach(function (p, i) {
+      if (calm || !p.animate) { p.remove(); return; }
+      p.animate([{ opacity: 1, transform: 'rotate(var(--rot, 0deg))' }, { opacity: 0, transform: 'scale(.92)' }], { duration: 260, delay: i * 30, easing: 'ease-in', fill: 'forwards' })
+        .onfinish = function () { p.remove(); };
+    });
+    setTimeout(function () {
+      var made = wall.p.map(function (it, i) {
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'gal-p gal-wd';
+        ['x', 'y', 'w', 'h', 'b', 'm'].forEach(function (k) { b.style.setProperty('--' + k, it[k]); });
+        b.setAttribute('aria-label', it.l + '. Drag it, or use the arrow keys, to rehang it.');
+        var m = document.createElement('span'); m.className = 'gal-m';
+        var im = document.createElement('img'); im.src = it.n; im.alt = ''; im.decoding = 'async';
+        m.appendChild(im); b.appendChild(m); room.insertBefore(b, person); bind(b);
+        if (!calm && b.animate) b.animate([{ opacity: 0, transform: 'scale(1.04)' }, { opacity: 1, transform: 'none' }], { duration: 420, delay: 120 + i * 90, easing: 'ease-out', fill: 'backwards' });
+        return b;
+      });
+      // Step back to the left to look at the new wall.
+      var to = 4;
+      if (person) {
+        if (!calm) person.classList.add('walk');
+        person.style.setProperty('--px', to.toFixed(2));
+        clearTimeout(person._t); person._t = setTimeout(function () { person.classList.remove('walk'); }, calm ? 0 : 1500);
+      }
+      if (why) why.textContent = wall.note || '';
+      setTimeout(function () { busy = false; }, calm ? 0 : 120 + made.length * 90 + 300);
+    }, calm ? 0 : 260 + old.length * 30);
   });
 })();
 
@@ -2350,18 +2428,18 @@ document.querySelectorAll('.tube').forEach(function (b) {
       var i = y * W + x, j = i * 3, fall = 1 - d2;
       var br = bristle[Math.max(0, Math.min(bristle.length - 1, Math.round(-ox * dy + oy * dx + RAD + 1)))];
       var wet = amt[i] > 0.02, load = wet ? brush.load + 0.3 * (1 - brush.load) : brush.load;
-      var dep = fall * br * load * 0.34;
+      var dep = fall * br * load * 0.5;
       if (dep < 0.004) continue;
       if (wet) {
         pr += col[j] * fall * amt[i]; pg += col[j + 1] * fall * amt[i]; pb += col[j + 2] * fall * amt[i]; pw += fall * amt[i];
-        var share = dep / (amt[i] + dep);
+        var share = dep / (amt[i] * 0.55 + dep);
         if (share > 0.015) { tmp[0] = col[j]; tmp[1] = col[j + 1]; tmp[2] = col[j + 2]; mix(tmp, brush.c, share, tmp); col[j] = tmp[0]; col[j + 1] = tmp[1]; col[j + 2] = tmp[2]; }
       } else { col[j] = brush.c[0]; col[j + 1] = brush.c[1]; col[j + 2] = brush.c[2]; }
       amt[i] = Math.min(1.1, amt[i] + dep * 0.8);
     }
     if (pw > 0) {
       pick[0] = pr / pw; pick[1] = pg / pw; pick[2] = pb / pw;
-      mix(brush.c, pick, Math.min(0.05, 0.0005 * pw), brush.c);
+      mix(brush.c, pick, Math.min(0.03, 0.0003 * pw) * (1 - 0.7 * brush.load), brush.c);
     }
     brush.load = Math.max(0, brush.load * 0.994);
     mark(x0, y0, x1 + 1, y1 + 1);
@@ -2486,6 +2564,15 @@ document.querySelectorAll('.tube').forEach(function (b) {
     });
   });
   sw.addEventListener('click', function () { mine = !mine; sw.setAttribute('aria-checked', mine ? 'true' : 'false'); draw(); });
+})();
+
+// Oct 7: the analytics bars grow from the left once, when they come into view.
+(function () {
+  var f = document.getElementById('flow');
+  if (!f || !window.IntersectionObserver || (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
+  f.classList.add('grow');
+  var io = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { f.classList.add('in'); io.disconnect(); } }, { threshold: 0.5 });
+  io.observe(f);
 })();
 
 </script>
