@@ -438,7 +438,7 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
     <a class="back" href="./"><span aria-hidden="true">&larr;</span> Jason Traum</a>
     <span class="wordmark" aria-label="Dreamy">dreamy</span>
   </header>
-  <nav class="route-nav" aria-label="Where you are on the site"><ol><li data-stop="start" style="--pc: #E7ECF1"><a href="./"><i aria-hidden="true"></i><span>Start</span></a></li><li class="here" data-stop="built.html" style="--pc: #5AAEFF"><a href="built.html"><i aria-hidden="true"></i><span>Things I&rsquo;ve built</span></a></li><li data-stop="ai.html" style="--pc: #A593EC"><a href="ai.html"><i aria-hidden="true"></i><span>How I use AI</span></a></li><li data-stop="research.html" style="--pc: #5CC495"><a href="research.html"><i aria-hidden="true"></i><span>Research and strategy</span></a></li><li data-stop="background.html" style="--pc: #E56A9C"><a href="background.html"><i aria-hidden="true"></i><span>About me</span></a></li><li data-stop="contact" style="--pc: #E7ECF1"><a href="./#contact"><i aria-hidden="true"></i><span>Get in touch</span></a></li></ol></nav>
+  <nav class="route-nav" aria-label="Where you are on the site"><ol><li class="here" data-stop="start" style="--pc: #E7ECF1"><a href="./"><i aria-hidden="true"></i><span>Start</span></a></li><li data-stop="ai.html" style="--pc: #A593EC"><a href="ai.html"><i aria-hidden="true"></i><span>How I use AI</span></a></li><li data-stop="research.html" style="--pc: #5CC495"><a href="research.html"><i aria-hidden="true"></i><span>Research and strategy</span></a></li><li data-stop="background.html" style="--pc: #E56A9C"><a href="background.html"><i aria-hidden="true"></i><span>About me</span></a></li><li data-stop="contact" style="--pc: #E7ECF1"><a href="./#contact"><i aria-hidden="true"></i><span>Get in touch</span></a></li></ol></nav>
 
   <main>
     <section class="hero" aria-labelledby="h1">
@@ -489,6 +489,10 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
         <li><b>Most of the early bugs were in the data, not the models.</b>One runner's import quietly failed on 922 of 1,211 runs.</li>
         <li><b>Plans have to know about races.</b>After a race, one plan jumped 30 percent in mileage. The week after a race is now capped at a 15 percent increase.</li>
         <li><b>Related fixes have to ship together.</b>One runner's forecast only came out right once four model fixes landed at the same time, so model changes now go out together.</li>
+        <li><b>Real histories caught bugs my tests missed.</b>A race goal saved as 71 seconds instead of 71 minutes, and training blocks that got duplicated.</li>
+        <li><b>Three models can outvote real races.</b>For one runner, three models that measure the same thing agreed with each other and made the marathon forecast 15 to 20 minutes too fast.</li>
+        <li><b>The code reviews found real problems.</b>Codex caught that the forecast's range was about 7 times too narrow, and that heat was counted twice for marathons.</li>
+        <li><b>I froze features before my own marathon.</b>For the two and a half weeks before it, nothing new shipped, so nobody's predictions moved under them.</li>
       </ul>
     </section>
 
