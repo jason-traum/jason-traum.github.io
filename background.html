@@ -1213,8 +1213,8 @@ dialog.pw-box.more figure { align-content: start; }
 }
 dialog.pw-box.more .pw-txt { justify-items: start; padding: 0 12px; } dialog.pw-box.more figcaption { text-align: left; padding: 0; } dialog.pw-box.more .pw-more { padding: 0; }
 
-/* Oct 7: the paint mixer, on the palette's paper card. Paint is a daub, screen is a flat square. */
-.mixer { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 18px; margin-top: 16px; padding-top: 4px; }
+/* Oct 7: the paint mixer, on the palette's paper card. Paint is a daub; the Excel switch turns it into a cell and the strip into a row of cells mixed the way Excel's color scale does (straight RGB). */
+.mixer { scroll-margin-top: 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 18px; margin-top: 16px; padding-top: 4px; }
 .mx-in { display: grid; grid-template-columns: auto auto auto; align-items: center; gap: 6px 10px; }
 .mx-in .mx-t { grid-column: 1 / -1; width: 100%; accent-color: #275C90; }
 .well { appearance: none; background: none; border: 0; padding: 0; width: 64px; height: 60px; cursor: pointer; border-radius: 12px; }
@@ -1226,20 +1226,80 @@ dialog.pw-box.more .pw-txt { justify-items: start; padding: 0 12px; } dialog.pw-
 .mx-out { display: flex; gap: 18px; align-items: flex-end; }
 .mx-r { margin: 0; display: grid; justify-items: center; gap: 4px; }
 .mx-r svg { width: 96px; height: 88px; display: block; }
-.mx-r figcaption { font-size: 12.5px; color: #454B3D; }
-.mx-screen { display: block; width: 72px; height: 72px; margin-bottom: 8px; transition: background-color .35s ease; }
+.mx-r svg path, .mx-cell { transition: fill .35s ease, opacity .35s ease; }
+.mx-cell { opacity: 0; stroke: #C9CCC4; stroke-width: 1; }
+.mixer.xl .mx-paint, .mixer.xl .mx-swirl { opacity: 0; }
+.mixer.xl .mx-cell { opacity: 1; }
+.mx-side { display: grid; gap: 12px; justify-items: start; }
+.mx-strip { display: grid; grid-template-columns: repeat(9, 16px); gap: 2px; cursor: pointer; }
+.mx-strip i { display: block; height: 28px; border-radius: 8px; transition: background-color .35s ease, border-radius .35s ease; }
+.mixer.xl .mx-strip { gap: 0; background: #C9CCC4; padding: 1px; column-gap: 1px; }
+.mixer.xl .mx-strip i { border-radius: 0; }
+.mx-strip i.on { box-shadow: 0 0 0 2px #FBFBF8, 0 0 0 4px #1C2016; }
+.mixer.xl .mx-strip i.on { box-shadow: inset 0 0 0 2px #217346; }
+.mx-sw { appearance: none; background: none; border: 0; padding: 4px 0; display: inline-flex; align-items: center; gap: 8px; font: inherit; font-size: 14px; color: #454B3D; cursor: pointer; }
+.mx-track { width: 38px; height: 22px; border-radius: 11px; background: #C9CCC4; position: relative; transition: background-color .25s ease; }
+.mx-knob { position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: #FBFBF8; transition: transform .25s ease; }
+.mx-sw[aria-checked="true"] .mx-track { background: #217346; }
+.mx-sw[aria-checked="true"] .mx-knob { transform: translateX(16px); }
+.mx-sw[aria-checked="false"] .mx-sw-l, .mx-sw[aria-checked="true"] .mx-sw-r { color: #1C2016; font-weight: 600; }
+.mx-sw:focus-visible { outline: 2px solid #275C90; outline-offset: 2px; border-radius: 6px; }
 .pcopy[draggable="true"] { cursor: grab; }
+.mx-link { font-size: 14px; color: #1F4F86; align-self: flex-end; margin-bottom: 6px; }
+.mx-link:focus-visible { outline: 2px solid #275C90; outline-offset: 2px; }
 @media (max-width: 560px) { .mixer { justify-content: center; } .mx-eq { display: none; } }
-@media (prefers-reduced-motion: reduce) { .well svg path, .mx-screen { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .well svg path, .mx-r svg path, .mx-cell, .mx-strip i, .mx-track, .mx-knob { transition: none; } }
 
 /* Oct 7: the Excel heatmap script, before and after. Cells like a spreadsheet: a thin gap between each. */
 .ramp { margin: 18px 0 0; display: grid; gap: 18px; max-width: 640px; }
-.ramp-pair { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 4px 12px; align-items: center; }
-.ramp-l { font-size: 13px; color: var(--muted); }
-.ramp-row { display: grid; grid-template-columns: repeat(11, minmax(0, 1fr)); gap: 2px; height: 28px; }
-.ramp-row i { display: block; }
 .ramp figcaption { font-size: 14px; color: var(--muted); }
+/* Oct 7: a made-up factor correlation matrix. Pick the two end colors and switch between Excel's blend and the script's. */
+.hm { display: grid; gap: 12px; justify-items: start; }
+.hm-ctl { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
+.hm-c { appearance: none; border: 0; width: 30px; height: 30px; border-radius: 8px; cursor: pointer; padding: 0; }
+.hm-c:focus-visible, .hm-sw:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.hm-leg { display: grid; grid-template-columns: repeat(11, 12px); height: 14px; gap: 1px; margin: 0 -6px; }
+.hm-leg i { display: block; transition: background-color .3s ease; }
+.hm-sw { color: var(--muted); }
+.hm-sw .mx-track { background: var(--rule); }
+.hm-sw .mx-knob { background: var(--ink); }
+.hm-sw[aria-checked="false"] .mx-sw-l, .hm-sw[aria-checked="true"] .mx-sw-r { color: var(--ink); }
+.cm { border-collapse: separate; border-spacing: 2px; font-size: 12.5px; font-variant-numeric: tabular-nums; }
+.cm thead th { height: 64px; vertical-align: bottom; padding: 0 0 4px; font-weight: 500; color: var(--muted); }
+.cm thead th span { writing-mode: vertical-rl; transform: rotate(180deg); display: inline-block; white-space: nowrap; }
+.cm tbody th { text-align: right; padding: 0 8px 0 0; font-weight: 500; color: var(--muted); white-space: nowrap; }
+.cm td { width: 40px; height: 30px; text-align: center; color: #FFFFFF; transition: background-color .3s ease, color .3s ease; }
+.cm td.cm-dk { color: #141619; }
+.cm-note { font-size: 13px; color: var(--muted); }
+@media (max-width: 400px) { .cm td { width: 34px; height: 28px; font-size: 11.5px; } }
+@media (prefers-reduced-motion: reduce) { .cm td, .hm-leg i { transition: none; } }
 details.more > p + p { margin-top: 12px; }
+
+/* Oct 7: the easel in Outside work. A sheet of paper with paint on it; the tray holds the palette as daubs, plus white. */
+@media (min-width: 960px) { .outside { grid-template-columns: minmax(0, 1fr) minmax(300px, 400px); gap: 44px; } }
+.easel { margin: 0; display: grid; gap: 12px; }
+.ez-c { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; border-radius: 3px; background: var(--gal-mat); box-shadow: 0 1px 0 rgba(0, 0, 0, .4), 0 12px 28px rgba(0, 0, 0, .35); touch-action: none; cursor: crosshair; }
+.ez-tray { display: grid; grid-template-columns: repeat(10, minmax(0, 40px)); justify-content: space-between; align-items: center; gap: 2px; }
+.ez-p { appearance: none; background: none; border: 0; padding: 2px; width: 100%; aspect-ratio: 36 / 34; cursor: pointer; border-radius: 10px; }
+.ez-p svg { width: 100%; height: 100%; display: block; }
+.ez-p[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--ink); }
+.ez-p:focus-visible, .ez-x:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.ez-x { appearance: none; background: none; border: 0; width: 100%; aspect-ratio: 1; padding: 22%; color: var(--muted); cursor: pointer; border-radius: 8px; }
+.ez-x svg { width: 100%; height: 100%; display: block; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.ez-x:hover { color: var(--ink); }
+/* Oct 7: the color wheel next to the heatmap. Both paths show; the switch picks which one is lit. */
+.hm-body { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 20px 32px; }
+.hm-wheel { margin: 0; width: 240px; display: grid; gap: 10px; padding-top: 30px; }
+.hm-wh { position: relative; width: 240px; height: 240px; }
+.hm-wh img, .hm-wh svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.hm-wh svg { overflow: visible; }
+.w-mid { fill: none; stroke: var(--paper); stroke-width: .014; opacity: .7; }
+.w-xl, .w-me { fill: none; stroke: var(--paper); stroke-width: .02; stroke-linecap: round; stroke-linejoin: round; transition: opacity .3s ease; }
+.hm-wheel circle { stroke: var(--paper); stroke-width: .012; }
+.w-xld, .w-med { transition: opacity .3s ease; }
+.hm.xl .w-me, .hm.xl .w-med, .hm:not(.xl) .w-xl, .hm:not(.xl) .w-xld { opacity: .28; }
+.hm-wheel figcaption { font-size: 13px; color: var(--muted); }
+@media (prefers-reduced-motion: reduce) { .w-xl, .w-me, .w-xld, .w-med { transition: none; } }
 
 
 /* end of page: previous small, next as the last big line */
@@ -1334,9 +1394,10 @@ details.more > p + p { margin-top: 12px; }
       <div class="sec-head"><h2 class="ext" id="out-h">Outside work</h2></div>
       <div class="outside">
         <div class="outside-text">
-        <p>I paint, and galleries in Tribeca and Soho have invited me to show. I paced group runs for a New York running club for three years and designed the route for its NYC Marathon shakeout, about 800 runners. I played rugby at Brown, and it was the best part of college.</p>
+        <p>I paint, and galleries in Tribeca and Soho have invited me to show. When I gave the salutatory address at graduation, my AP art teacher introduced me as &ldquo;the greatest colorist Hackley has ever seen.&rdquo; <a href="research.html#mixer">Mix my chart colors like paint</a></p><p>I paced group runs for a New York running club for three years and designed the route for its NYC Marathon shakeout, about 800 runners. I played rugby at Brown, and it was the best part of college.</p>
         <p>At Wharton I'm on the boards of the AI &amp; Analytics Club and the Run &amp; Tri Club, as a run captain.</p>
         </div>
+        <!--easel--><figure class="easel" id="easel"><canvas class="ez-c" width="400" height="300" role="img" aria-label="A canvas you can paint on with my chart colors. The paint mixes like real paint."></canvas><div class="ez-tray" role="group" aria-label="Paints"><button type="button" class="ez-p" data-c="#275C90" aria-pressed="false" aria-label="MS Blue"><svg viewBox="0 0 100 92" aria-hidden="true"><path d="M50 6c14 1 30 6 37 19 8 13 6 30-2 42-8 13-24 21-39 20C31 86 15 79 9 66 2 52 4 34 13 22 21 11 36 5 50 6z" style="fill:#275C90"/></svg></button><button type="button" class="ez-p" data-c="#3296FE" aria-pressed="true" aria-label="Blue Razz"><svg viewBox="0 0 100 92" aria-hidden="true"><path d="M50 6c14 1 30 6 37 19 8 13 6 30-2 42-8 13-24 21-39 20C31 86 15 79 9 66 2 52 4 34 13 22 21 11 36 5 50 6z" style="fill:#3296FE"/></svg></button><button type="button" class="ez-p" data-c="#39A174" aria-pressed="false" aria-label="Jade"><svg viewBox="0 0 100 92" aria-hidden="true"><path d="M50 6c14 1 30 6 37 19 8 13 6 30-2 42-8 13-24 21-39 20C31 86 15 79 9 66 2 52 4 34 13 22 21 11 36 5 50 6z" style="fill:#39A174"/></svg></button><button type="button" class="ez-p" data-c="#8771D7" aria-pressed="false" aria-label="Amethyst"><svg viewBox="0 0 100 92" aria-hidden="true"><path d="M50 6c14 1 30 6 37 19 8 13 6 30-2 42-8 13-24 21-39 20C31 86 15 79 9 66 2 52 4 34 13 22 21 11 36 5 50 6z" style="fill:#8771D7"/></svg></button><button type="button" class="ez-p" data-c="#CF612F" aria-pressed="false" aria-label="Carrot"><svg viewBox="0 0 100 92" aria-hidden="true"><path d="M50 6c14 1 30 6 37 19 8 13 6 30-2 42-8 13-24 21-39 20C31 86 15 79 9 66 2 52 4 34 13 22 21 11 36 5 50 6z" style="fill:#CF612F"/></svg></button><button type="button" class="ez-p" data-c="#DA9408" aria-pressed="false" aria-label="Honey"><svg viewBox="0 0 100 92" aria-hidden="true"><path d="M50 6c14 1 30 6 37 19 8 13 6 30-2 42-8 13-24 21-39 20C31 86 15 79 9 66 2 52 4 34 13 22 21 11 36 5 50 6z" style="fill:#DA9408"/></svg></button><button type="button" class="ez-p" data-c="#BF2C6E" aria-pressed="false" aria-label="Magenta"><svg viewBox="0 0 100 92" aria-hidden="true"><path d="M50 6c14 1 30 6 37 19 8 13 6 30-2 42-8 13-24 21-39 20C31 86 15 79 9 66 2 52 4 34 13 22 21 11 36 5 50 6z" style="fill:#BF2C6E"/></svg></button><button type="button" class="ez-p" data-c="#95949B" aria-pressed="false" aria-label="Cool Grey"><svg viewBox="0 0 100 92" aria-hidden="true"><path d="M50 6c14 1 30 6 37 19 8 13 6 30-2 42-8 13-24 21-39 20C31 86 15 79 9 66 2 52 4 34 13 22 21 11 36 5 50 6z" style="fill:#95949B"/></svg></button><button type="button" class="ez-p" data-c="#F5F3EE" aria-pressed="false" aria-label="White"><svg viewBox="0 0 100 92" aria-hidden="true"><path d="M50 6c14 1 30 6 37 19 8 13 6 30-2 42-8 13-24 21-39 20C31 86 15 79 9 66 2 52 4 34 13 22 21 11 36 5 50 6z" style="fill:#F5F3EE"/></svg></button><button type="button" class="ez-x" aria-label="Start over"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg></button></div><script type="application/json" id="kmdata">{"B":[[1.0012,1.0012,1.0012,1.0012,1.0012,1.0011,1.0011,1.001,1.0009,1.0007,1.0005,1.0003,1.0001,0.99995,0.99982,0.99974,0.99971,0.99973,0.9998,0.9999,1,1.0001,1.0003,1.0004,1.0004,1.0005,1.0005,1.0005,1.0005,1.0005,1.0005,1.0005,1.0005,1.0005,1.0005,1.0005,1.0005,1.0005],[0.97059,0.97059,0.97063,0.97079,0.97137,0.97316,0.97674,0.98159,0.98628,0.98995,0.99249,0.99415,0.99518,0.99576,0.99591,0.99561,0.9946,0.99222,0.98624,0.96794,0.89129,0.5362,0.15411,0.057458,0.031535,0.022263,0.018202,0.016299,0.015366,0.014911,0.014695,0.014596,0.014547,0.014523,0.014512,0.014507,0.014504,0.014504],[0.99067,0.99067,0.99066,0.99062,0.99045,0.98987,0.98829,0.98429,0.97393,0.94182,0.81739,0.43247,0.13845,0.053735,0.029217,0.021314,0.020135,0.024132,0.037224,0.076051,0.20538,0.54127,0.81584,0.91282,0.94634,0.95993,0.96626,0.96933,0.97085,0.97161,0.97196,0.97213,0.97221,0.97225,0.97227,0.97228,0.97228,0.97228],[0.021052,0.021056,0.021075,0.021165,0.021503,0.022674,0.025824,0.033488,0.051907,0.10075,0.23913,0.5348,0.79781,0.91145,0.9538,0.97124,0.9793,0.98338,0.98546,0.98644,0.98674,0.98662,0.98628,0.98586,0.98547,0.98518,0.98497,0.98485,0.98478,0.98474,0.98472,0.98471,0.98471,0.9847,0.9847,0.9847,0.9847,0.9847],[0.031561,0.031552,0.031515,0.031332,0.030673,0.028648,0.024645,0.019296,0.014207,0.010294,0.0076191,0.005898,0.0048233,0.0042299,0.0040599,0.0043534,0.0053434,0.0076917,0.013597,0.031698,0.10786,0.46381,0.84706,0.94319,0.96886,0.97803,0.98204,0.98392,0.98485,0.98529,0.98551,0.98561,0.98565,0.98568,0.98569,0.98569,0.9857,0.9857],[0.0095561,0.0095582,0.0095673,0.0096129,0.0097837,0.010379,0.012003,0.016098,0.026706,0.059556,0.18604,0.57058,0.86147,0.94588,0.97047,0.97841,0.97959,0.97553,0.96229,0.92312,0.79343,0.45927,0.18557,0.088177,0.054363,0.040629,0.034222,0.031119,0.029571,0.028811,0.028449,0.028282,0.028199,0.028158,0.02814,0.028131,0.028127,0.028126],[0.9794,0.9794,0.97938,0.97929,0.97896,0.97781,0.97472,0.9672,0.94908,0.90085,0.76315,0.46592,0.20126,0.087752,0.045718,0.028471,0.020527,0.01653,0.014514,0.0136,0.01336,0.013549,0.013959,0.014443,0.014885,0.015225,0.015459,0.015602,0.015682,0.015725,0.015746,0.015756,0.015761,0.015763,0.015764,0.015765,0.015765,0.015765]],"CMF":[[0.000064692,0.00021941,0.0011206,0.0037666,0.011881,0.023286,0.034559,0.037224,0.032418,0.021233,0.010491,0.0032958,0.00050704,0.00094867,0.0062737,0.016865,0.02869,0.042675,0.056255,0.06947,0.083053,0.086126,0.090466,0.085004,0.070907,0.050629,0.035474,0.021468,0.012516,0.0068046,0.0034646,0.0014976,0.0007697,0.00040737,0.00016901,0.000095225,0.000049031,0.000019996],[0.0000018443,0.0000062053,0.00003101,0.00010475,0.00035364,0.00095147,0.0022823,0.0042073,0.0066888,0.0098884,0.015249,0.021418,0.033423,0.05131,0.070402,0.087839,0.094249,0.097957,0.094152,0.086781,0.078857,0.063527,0.053741,0.042646,0.031617,0.020885,0.01386,0.0081026,0.0046301,0.0024914,0.0012593,0.00054165,0.00027795,0.00014711,0.000061033,0.000034387,0.000017706,0.000007221],[0.00030502,0.0010368,0.0053131,0.017954,0.057078,0.11365,0.17336,0.19621,0.18608,0.13995,0.089175,0.047896,0.028146,0.016138,0.0077591,0.0042961,0.0020055,0.00086147,0.00036904,0.00019143,0.00014956,0.000092311,0.000068135,0.000028826,0.000015767,0.0000039406,0.000001584,0,0,0,0,0,0,0,0,0,0,0]],"M":[[3.241,-1.5374,-0.49861],[-0.96924,1.876,0.041555],[0.05563,-0.20398,1.057]]}</script></figure><!--/easel-->
       </div>
       <figure class="gal" id="gal">
         <div class="gal-room" role="group" aria-label="A room with my paintings and photos on the wall">
@@ -2159,18 +2220,21 @@ document.querySelectorAll('.tube').forEach(function (b) {
   var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var wells = [].slice.call(mx.querySelectorAll('.well')), t = mx.querySelector('.mx-t');
   var paint = mx.querySelector('.mx-paint'), sa = mx.querySelector('.mx-a'), sb = mx.querySelector('.mx-b'), swirl = mx.querySelector('.mx-swirl');
-  var screen = mx.querySelector('.mx-screen'), live = mx.querySelector('.mx-live');
-  var pick = [1, 5], n = D.colors.length;
+  var cell = mx.querySelector('.mx-cell'), sw = mx.querySelector('.mx-sw'), live = mx.querySelector('.mx-live');
+  var strip = [].slice.call(mx.querySelectorAll('.mx-strip i'));
+  var pick = [1, 5], n = D.colors.length, xl = false;
   function draw(animate) {
     if (pick[0] === pick[1]) pick[1] = (pick[1] + 1) % n;
     var k = +t.value, key = pick[0] + '-' + pick[1];
-    var p = D.paint[key][k], s = D.screen[key][k];
+    var ramp = (xl ? D.screen : D.paint)[key], p = D.paint[key][k], s = D.screen[key][k];
+    strip.forEach(function (c, j) { c.style.backgroundColor = ramp[j]; c.classList.toggle('on', j === k); });
+    if (cell) cell.style.fill = s;
     wells.forEach(function (w, i) {
       w.querySelector('path').style.fill = D.colors[pick[i]];
       w.setAttribute('aria-label', (i ? 'Second' : 'First') + ' color: ' + D.names[pick[i]] + '. Tap for the next color, or drag a color here.');
     });
-    paint.style.fill = p; screen.style.backgroundColor = s;
-    live.textContent = D.names[pick[0]] + ' and ' + D.names[pick[1]] + ' mix to ' + p + ' as paint and ' + s + ' on a screen.';
+    paint.style.fill = p;
+    live.textContent = D.names[pick[0]] + ' and ' + D.names[pick[1]] + ' mix to ' + (xl ? s + ' the way Excel blends them.' : p + ' as paint.');
     sa.style.fill = D.colors[pick[0]]; sb.style.fill = D.colors[pick[1]];
     if (animate && !calm && swirl.animate) {
       swirl.animate([{ transform: 'rotate(0deg) scale(1)', opacity: 1 }, { transform: 'rotate(300deg) scale(.6)', opacity: 0 }],
@@ -2193,6 +2257,12 @@ document.querySelectorAll('.tube').forEach(function (b) {
     c.addEventListener('dragstart', function (e) { e.dataTransfer.setData('text/plain', c.getAttribute('data-hex')); });
   });
   t.addEventListener('input', function () { draw(false); });
+  if (sw) sw.addEventListener('click', function () {
+    xl = !xl; sw.setAttribute('aria-checked', xl ? 'true' : 'false'); mx.classList.toggle('xl', xl);
+    swirl.style.opacity = ''; draw(!xl);
+  });
+  var stripEl = mx.querySelector('.mx-strip');
+  if (stripEl) stripEl.addEventListener('click', function (e) { var j = strip.indexOf(e.target); if (j >= 0) { t.value = j; draw(false); } });
   var seen = false;
   if (window.IntersectionObserver) {
     var io = new IntersectionObserver(function (es) { if (es[0].isIntersecting && !seen) { seen = true; draw(true); io.disconnect(); } }, { threshold: 0.6 });
@@ -2243,6 +2313,229 @@ document.querySelectorAll('.tube').forEach(function (b) {
   window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(draw); } }, { passive: true });
   window.addEventListener('resize', draw);
   draw();
+})();
+
+// Oct 7: the easel on About me. Paint on a small canvas with the palette; strokes mix like real paint (Kubelka-Munk, the
+// tables from Spectral.js, MIT, ship as #kmdata). The brush carries paint, runs low, and picks up what it drags through.
+(function () {
+  var ez = document.getElementById('easel'), kd = document.getElementById('kmdata');
+  if (!ez || !kd) return;
+  var T; try { T = JSON.parse(kd.textContent); } catch (e) { return; }
+  var cv = ez.querySelector('canvas'), ctx = cv.getContext && cv.getContext('2d');
+  if (!ctx) return;
+  var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var W = cv.width, H = cv.height, N = 38, B = T.B, CMF = T.CMF, M = T.M;
+  var PAPER = [243, 241, 236];
+  function unc(x) { x /= 255; return x > 0.04045 ? Math.pow((x + 0.055) / 1.055, 2.4) : x / 12.92; }
+  function cmp(x) { x = x > 0.0031308 ? 1.055 * Math.pow(x, 1 / 2.4) - 0.055 : x * 12.92; return x <= 0 ? 0 : x >= 1 ? 255 : x * 255; }
+  var cache = new Map();
+  function spec(r, g, b) {
+    r = r | 0; g = g | 0; b = b | 0;
+    var key = (r << 16) | (g << 8) | b, o = cache.get(key);
+    if (o) return o;
+    var lr = unc(r), lg = unc(g), lb = unc(b), w = Math.min(lr, lg, lb);
+    lr -= w; lg -= w; lb -= w;
+    var c = Math.min(lg, lb), m = Math.min(lr, lb), y = Math.min(lr, lg);
+    var rr = Math.max(0, Math.min(lr - lb, lr - lg)), gg = Math.max(0, Math.min(lg - lb, lg - lr)), bb = Math.max(0, Math.min(lb - lg, lb - lr));
+    var ks = new Float32Array(N), lum = 0;
+    for (var i = 0; i < N; i++) {
+      var R = Math.max(1e-6, w * B[0][i] + c * B[1][i] + m * B[2][i] + y * B[3][i] + rr * B[4][i] + gg * B[5][i] + bb * B[6][i]);
+      ks[i] = (1 - R) * (1 - R) / (2 * R); lum += CMF[1][i] * R;
+    }
+    o = { ks: ks, lum: Math.max(1e-6, lum) };
+    if (cache.size > 40000) cache.clear();
+    cache.set(key, o); return o;
+  }
+  // t is the share of b, from 0 to 1. Same weighting as Spectral.js: share squared times luminance.
+  function mix(a, b, t, out) {
+    var A = spec(a[0], a[1], a[2]), Bc = spec(b[0], b[1], b[2]);
+    var ca = (1 - t) * (1 - t) * A.lum, cb = t * t * Bc.lum, tot = ca + cb, X = 0, Y = 0, Z = 0;
+    for (var i = 0; i < N; i++) {
+      var k = (A.ks[i] * ca + Bc.ks[i] * cb) / tot, R = 1 + k - Math.sqrt(k * k + 2 * k);
+      X += CMF[0][i] * R; Y += CMF[1][i] * R; Z += CMF[2][i] * R;
+    }
+    out[0] = cmp(M[0][0] * X + M[0][1] * Y + M[0][2] * Z);
+    out[1] = cmp(M[1][0] * X + M[1][1] * Y + M[1][2] * Z);
+    out[2] = cmp(M[2][0] * X + M[2][1] * Y + M[2][2] * Z);
+    return out;
+  }
+  var col = new Float32Array(W * H * 3), amt = new Float32Array(W * H), grain = new Float32Array(W * H);
+  for (var gy = 0; gy < H; gy++) for (var gx = 0; gx < W; gx++) {
+    grain[gy * W + gx] = 2.2 * (Math.sin(gx * 1.9) * Math.sin(gy * 1.9)) + (Math.random() - 0.5) * 3;
+  }
+  var img = ctx.createImageData(W, H), px = img.data;
+  var dirty = [0, 0, W, H], queued = false;
+  function mark(x0, y0, x1, y1) {
+    if (!dirty) dirty = [x0, y0, x1, y1];
+    else { dirty[0] = Math.min(dirty[0], x0); dirty[1] = Math.min(dirty[1], y0); dirty[2] = Math.max(dirty[2], x1); dirty[3] = Math.max(dirty[3], y1); }
+    if (!queued) { queued = true; requestAnimationFrame(render); }
+  }
+  function render() {
+    queued = false; if (!dirty) return;
+    var x0 = Math.max(0, dirty[0] - 1), y0 = Math.max(0, dirty[1] - 1), x1 = Math.min(W, dirty[2] + 1), y1 = Math.min(H, dirty[3] + 1);
+    dirty = null;
+    for (var y = y0; y < y1; y++) for (var x = x0; x < x1; x++) {
+      var i = y * W + x, a = Math.min(1, amt[i] * 2.8), j = i * 3, q = i * 4;
+      // A little light from the top left on the ridges of thick paint.
+      var sh = 0;
+      if (x > 0 && y > 0 && x < W - 1 && y < H - 1) sh = (amt[i - 1] - amt[i + 1] + amt[i - W] - amt[i + W]) * 22;
+      var g = grain[i] * (1 - 0.6 * a) + sh;
+      px[q] = PAPER[0] * (1 - a) + col[j] * a + g;
+      px[q + 1] = PAPER[1] * (1 - a) + col[j + 1] * a + g;
+      px[q + 2] = PAPER[2] * (1 - a) + col[j + 2] * a + g;
+      px[q + 3] = 255;
+    }
+    ctx.putImageData(img, 0, 0, x0, y0, x1 - x0, y1 - y0);
+  }
+  function hex(h) { return [1, 3, 5].map(function (k) { return parseInt(h.slice(k, k + 2), 16); }); }
+  var RAD = 11, brush = { c: hex('#3296FE'), load: 1 }, bristle = new Float32Array(2 * RAD + 3), tmp = [0, 0, 0], pick = [0, 0, 0];
+  function newStroke() { for (var k = 0; k < bristle.length; k++) bristle[k] = 0.3 + Math.random() * 0.7; }
+  function dab(cx, cy, dx, dy) {
+    var x0 = Math.max(0, Math.floor(cx - RAD)), x1 = Math.min(W - 1, Math.ceil(cx + RAD));
+    var y0 = Math.max(0, Math.floor(cy - RAD)), y1 = Math.min(H - 1, Math.ceil(cy + RAD));
+    var pr = 0, pg = 0, pb = 0, pw = 0;
+    for (var y = y0; y <= y1; y++) for (var x = x0; x <= x1; x++) {
+      var ox = x - cx, oy = y - cy, d2 = (ox * ox + oy * oy) / (RAD * RAD);
+      if (d2 >= 1) continue;
+      var i = y * W + x, j = i * 3, fall = 1 - d2;
+      var br = bristle[Math.max(0, Math.min(bristle.length - 1, Math.round(-ox * dy + oy * dx + RAD + 1)))];
+      var wet = amt[i] > 0.02, load = wet ? brush.load + 0.3 * (1 - brush.load) : brush.load;
+      var dep = fall * br * load * 0.34;
+      if (dep < 0.004) continue;
+      if (wet) {
+        pr += col[j] * fall * amt[i]; pg += col[j + 1] * fall * amt[i]; pb += col[j + 2] * fall * amt[i]; pw += fall * amt[i];
+        var share = dep / (amt[i] + dep);
+        if (share > 0.015) { tmp[0] = col[j]; tmp[1] = col[j + 1]; tmp[2] = col[j + 2]; mix(tmp, brush.c, share, tmp); col[j] = tmp[0]; col[j + 1] = tmp[1]; col[j + 2] = tmp[2]; }
+      } else { col[j] = brush.c[0]; col[j + 1] = brush.c[1]; col[j + 2] = brush.c[2]; }
+      amt[i] = Math.min(1.1, amt[i] + dep * 0.8);
+    }
+    if (pw > 0) {
+      pick[0] = pr / pw; pick[1] = pg / pw; pick[2] = pb / pw;
+      mix(brush.c, pick, Math.min(0.05, 0.0005 * pw), brush.c);
+    }
+    brush.load = Math.max(0, brush.load * 0.994);
+    mark(x0, y0, x1 + 1, y1 + 1);
+  }
+  var last = null;
+  function to(x, y) {
+    if (!last) { last = [x, y, 1, 0]; dab(x, y, 1, 0); return; }
+    var dx = x - last[0], dy = y - last[1], L = Math.sqrt(dx * dx + dy * dy);
+    if (L < 1.5) return;
+    var ux = dx / L, uy = dy / L, steps = Math.floor(L / 1.5);
+    for (var s = 1; s <= steps; s++) dab(last[0] + ux * s * 1.5, last[1] + uy * s * 1.5, ux, uy);
+    last = [last[0] + ux * steps * 1.5, last[1] + uy * steps * 1.5, ux, uy];
+  }
+  function at(e) { var r = cv.getBoundingClientRect(); return [(e.clientX - r.left) * W / r.width, (e.clientY - r.top) * H / r.height]; }
+  var down = false, touched = false;
+  cv.addEventListener('pointerdown', function (e) {
+    down = true; touched = true; last = null; newStroke();
+    try { cv.setPointerCapture(e.pointerId); } catch (er) {}
+    var p = at(e); to(p[0], p[1]); e.preventDefault();
+  });
+  cv.addEventListener('pointermove', function (e) {
+    if (!down) return;
+    var es = e.getCoalescedEvents ? e.getCoalescedEvents() : [e];
+    if (!es.length) es = [e];
+    es.forEach(function (ev) { var p = at(ev); to(p[0], p[1]); });
+  });
+  ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(function (t) { cv.addEventListener(t, function () { down = false; last = null; }); });
+  var paints = [].slice.call(ez.querySelectorAll('.ez-p'));
+  function choose(b) {
+    paints.forEach(function (o) { o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); });
+    brush.c = hex(b.getAttribute('data-c')); brush.load = 1;
+  }
+  paints.forEach(function (b) { b.addEventListener('click', function () { choose(b); }); });
+  ez.querySelector('.ez-x').addEventListener('click', function () { col.fill(0); amt.fill(0); mark(0, 0, W, H); });
+  // First look: two strokes cross, so the place they meet shows the mix.
+  function demo() {
+    var strokes = [
+      { c: '#3296FE', pts: function (t) { return [40 + t * 300, 105 + Math.sin(t * 5) * 22]; } },
+      { c: '#DA9408', pts: function (t) { return [110 + t * 230, 250 - t * 190 + Math.sin(t * 4) * 10]; } }
+    ];
+    var k = 0;
+    function run(s, done) {
+      brush.c = hex(s.c); brush.load = 1; newStroke(); last = null;
+      if (calm) { for (var t = 0; t <= 1; t += 0.004) { var p = s.pts(t); to(p[0], p[1]); } done(); return; }
+      var t0 = null;
+      function f(now) {
+        if (touched) return;
+        if (t0 === null) t0 = now;
+        var t = Math.min(1, (now - t0) / 1100), p = s.pts(t * t * (3 - 2 * t)); to(p[0], p[1]);
+        if (t < 1) requestAnimationFrame(f); else done();
+      }
+      requestAnimationFrame(f);
+    }
+    run(strokes[0], function () { if (touched) return; setTimeout(function () { if (!touched) run(strokes[1], function () { last = null; choose(paints[1] || paints[0]); }); }, calm ? 0 : 250); });
+  }
+  mark(0, 0, W, H);
+  if (window.IntersectionObserver && !calm) {
+    var io = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { io.disconnect(); if (!touched) demo(); } }, { threshold: 0.6 });
+    io.observe(cv);
+  } else demo();
+})();
+
+// Oct 7: the heatmap on Research. Tap either end color to cycle through the palette; the switch flips between Excel's
+// straight RGB blend and Jason's script (OKLCH: lightness and chroma blended, hue the short way, chroma pulled in to fit).
+(function () {
+  var hm = document.getElementById('hm'), dd = document.getElementById('hmdata');
+  if (!hm || !dd) return;
+  var P; try { P = JSON.parse(dd.textContent); } catch (e) { return; }
+  var sw = hm.querySelector('.hm-sw'), ends = [].slice.call(hm.querySelectorAll('.hm-c'));
+  var cells = [].slice.call(hm.querySelectorAll('td[data-t]')), leg = [].slice.call(hm.querySelectorAll('.hm-leg i'));
+  var pick = ends.map(function (b) { return +b.getAttribute('data-i'); }), mine = true;
+  function rgb(h) { return [1, 3, 5].map(function (k) { return parseInt(h.slice(k, k + 2), 16); }); }
+  function lin(c) { c /= 255; return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); }
+  function gam(c) { c = c <= 0.0031308 ? c * 12.92 : 1.055 * Math.pow(c, 1 / 2.4) - 0.055; return c * 255; }
+  function oklab(h) {
+    var c = rgb(h).map(lin), r = c[0], g = c[1], b = c[2];
+    var l = Math.cbrt(0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b), m = Math.cbrt(0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b), s = Math.cbrt(0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b);
+    return [0.2104542553 * l + 0.7936177850 * m - 0.0040720468 * s, 1.9779984951 * l - 2.4285922050 * m + 0.4505937099 * s, 0.0259040371 * l + 0.7827717662 * m - 0.8086757660 * s];
+  }
+  function toRgb(L, a, b) {
+    var l = Math.pow(L + 0.3963377774 * a + 0.2158037573 * b, 3), m = Math.pow(L - 0.1055613458 * a - 0.0638541728 * b, 3), s = Math.pow(L - 0.0894841775 * a - 1.2914855480 * b, 3);
+    return [gam(4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s), gam(-1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s), gam(-0.0041960863 * l - 0.7034186147 * m + 1.7076147010 * s)];
+  }
+  function script(h1, h2, t) {
+    var A = oklab(h1), B = oklab(h2), C1 = Math.hypot(A[1], A[2]), C2 = Math.hypot(B[1], B[2]), H1 = Math.atan2(A[2], A[1]), H2 = Math.atan2(B[2], B[1]);
+    var d = ((H2 - H1 + Math.PI) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI) - Math.PI;
+    var L = A[0] + (B[0] - A[0]) * t, C = C1 + (C2 - C1) * t, H = H1 + d * t, o;
+    for (;;) { o = toRgb(L, C * Math.cos(H), C * Math.sin(H)); if (o.every(function (v) { return v >= -0.5 && v <= 255.5; }) || C < 0.001) break; C *= 0.97; }
+    return o.map(function (v) { return Math.max(0, Math.min(255, Math.round(v))); });
+  }
+  function excel(h1, h2, t) { var a = rgb(h1), b = rgb(h2); return a.map(function (v, k) { return Math.round(v + (b[k] - v) * t); }); }
+  function css(c) { return 'rgb(' + c.join(',') + ')'; }
+  function hx(c) { return '#' + c.map(function (v) { return ('0' + v.toString(16)).slice(-2); }).join(''); }
+  var wl = { xl: [hm.querySelector('.w-xl'), hm.querySelector('.w-xld')], me: [hm.querySelector('.w-me'), hm.querySelector('.w-med')] };
+  function wheel(path, dots, f, h1, h2) {
+    if (!path || !dots) return;
+    var d = '', circles = dots.querySelectorAll('circle');
+    for (var k = 0; k <= 10; k++) {
+      var c = f(h1, h2, k / 10), o = oklab(hx(c)), x = o[1] / 0.21, y = -o[2] / 0.21;
+      d += (k ? ' L' : 'M') + x.toFixed(3) + ' ' + y.toFixed(3);
+      if (circles[k]) { circles[k].setAttribute('cx', x.toFixed(3)); circles[k].setAttribute('cy', y.toFixed(3)); circles[k].style.fill = css(c); }
+    }
+    path.setAttribute('d', d);
+  }
+  function draw() {
+    var h1 = P[pick[0]], h2 = P[pick[1]], f = mine ? script : excel;
+    ends.forEach(function (b, k) { b.style.background = P[pick[k]]; });
+    cells.forEach(function (td) {
+      var c = f(h1, h2, +td.getAttribute('data-t')), y = 0.2126 * lin(c[0]) + 0.7152 * lin(c[1]) + 0.0722 * lin(c[2]);
+      td.style.backgroundColor = css(c); td.classList.toggle('cm-dk', y > 0.3);
+    });
+    leg.forEach(function (i, k) { i.style.backgroundColor = css(f(h1, h2, k / (leg.length - 1))); });
+    wheel(wl.xl[0], wl.xl[1], excel, h1, h2); wheel(wl.me[0], wl.me[1], script, h1, h2);
+    hm.classList.toggle('xl', !mine);
+  }
+  ends.forEach(function (b, k) {
+    b.addEventListener('click', function () {
+      do { pick[k] = (pick[k] + 1) % P.length; } while (pick[k] === pick[1 - k]);
+      var lab = b.getAttribute('aria-label').replace(/: [^.]+\./, ': ' + (b.getAttribute('data-names') || '').split('|')[pick[k]] + '.');
+      if (b.getAttribute('data-names')) b.setAttribute('aria-label', lab);
+      draw();
+    });
+  });
+  sw.addEventListener('click', function () { mine = !mine; sw.setAttribute('aria-checked', mine ? 'true' : 'false'); draw(); });
 })();
 
 </script>

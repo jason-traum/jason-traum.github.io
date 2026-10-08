@@ -1857,18 +1857,21 @@ document.querySelectorAll('.tube').forEach(function (b) {
   var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var wells = [].slice.call(mx.querySelectorAll('.well')), t = mx.querySelector('.mx-t');
   var paint = mx.querySelector('.mx-paint'), sa = mx.querySelector('.mx-a'), sb = mx.querySelector('.mx-b'), swirl = mx.querySelector('.mx-swirl');
-  var screen = mx.querySelector('.mx-screen'), live = mx.querySelector('.mx-live');
-  var pick = [1, 5], n = D.colors.length;
+  var cell = mx.querySelector('.mx-cell'), sw = mx.querySelector('.mx-sw'), live = mx.querySelector('.mx-live');
+  var strip = [].slice.call(mx.querySelectorAll('.mx-strip i'));
+  var pick = [1, 5], n = D.colors.length, xl = false;
   function draw(animate) {
     if (pick[0] === pick[1]) pick[1] = (pick[1] + 1) % n;
     var k = +t.value, key = pick[0] + '-' + pick[1];
-    var p = D.paint[key][k], s = D.screen[key][k];
+    var ramp = (xl ? D.screen : D.paint)[key], p = D.paint[key][k], s = D.screen[key][k];
+    strip.forEach(function (c, j) { c.style.backgroundColor = ramp[j]; c.classList.toggle('on', j === k); });
+    if (cell) cell.style.fill = s;
     wells.forEach(function (w, i) {
       w.querySelector('path').style.fill = D.colors[pick[i]];
       w.setAttribute('aria-label', (i ? 'Second' : 'First') + ' color: ' + D.names[pick[i]] + '. Tap for the next color, or drag a color here.');
     });
-    paint.style.fill = p; screen.style.backgroundColor = s;
-    live.textContent = D.names[pick[0]] + ' and ' + D.names[pick[1]] + ' mix to ' + p + ' as paint and ' + s + ' on a screen.';
+    paint.style.fill = p;
+    live.textContent = D.names[pick[0]] + ' and ' + D.names[pick[1]] + ' mix to ' + (xl ? s + ' the way Excel blends them.' : p + ' as paint.');
     sa.style.fill = D.colors[pick[0]]; sb.style.fill = D.colors[pick[1]];
     if (animate && !calm && swirl.animate) {
       swirl.animate([{ transform: 'rotate(0deg) scale(1)', opacity: 1 }, { transform: 'rotate(300deg) scale(.6)', opacity: 0 }],
@@ -1891,6 +1894,12 @@ document.querySelectorAll('.tube').forEach(function (b) {
     c.addEventListener('dragstart', function (e) { e.dataTransfer.setData('text/plain', c.getAttribute('data-hex')); });
   });
   t.addEventListener('input', function () { draw(false); });
+  if (sw) sw.addEventListener('click', function () {
+    xl = !xl; sw.setAttribute('aria-checked', xl ? 'true' : 'false'); mx.classList.toggle('xl', xl);
+    swirl.style.opacity = ''; draw(!xl);
+  });
+  var stripEl = mx.querySelector('.mx-strip');
+  if (stripEl) stripEl.addEventListener('click', function (e) { var j = strip.indexOf(e.target); if (j >= 0) { t.value = j; draw(false); } });
   var seen = false;
   if (window.IntersectionObserver) {
     var io = new IntersectionObserver(function (es) { if (es[0].isIntersecting && !seen) { seen = true; draw(true); io.disconnect(); } }, { threshold: 0.6 });
@@ -1941,6 +1950,229 @@ document.querySelectorAll('.tube').forEach(function (b) {
   window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(draw); } }, { passive: true });
   window.addEventListener('resize', draw);
   draw();
+})();
+
+// Oct 7: the easel on About me. Paint on a small canvas with the palette; strokes mix like real paint (Kubelka-Munk, the
+// tables from Spectral.js, MIT, ship as #kmdata). The brush carries paint, runs low, and picks up what it drags through.
+(function () {
+  var ez = document.getElementById('easel'), kd = document.getElementById('kmdata');
+  if (!ez || !kd) return;
+  var T; try { T = JSON.parse(kd.textContent); } catch (e) { return; }
+  var cv = ez.querySelector('canvas'), ctx = cv.getContext && cv.getContext('2d');
+  if (!ctx) return;
+  var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var W = cv.width, H = cv.height, N = 38, B = T.B, CMF = T.CMF, M = T.M;
+  var PAPER = [243, 241, 236];
+  function unc(x) { x /= 255; return x > 0.04045 ? Math.pow((x + 0.055) / 1.055, 2.4) : x / 12.92; }
+  function cmp(x) { x = x > 0.0031308 ? 1.055 * Math.pow(x, 1 / 2.4) - 0.055 : x * 12.92; return x <= 0 ? 0 : x >= 1 ? 255 : x * 255; }
+  var cache = new Map();
+  function spec(r, g, b) {
+    r = r | 0; g = g | 0; b = b | 0;
+    var key = (r << 16) | (g << 8) | b, o = cache.get(key);
+    if (o) return o;
+    var lr = unc(r), lg = unc(g), lb = unc(b), w = Math.min(lr, lg, lb);
+    lr -= w; lg -= w; lb -= w;
+    var c = Math.min(lg, lb), m = Math.min(lr, lb), y = Math.min(lr, lg);
+    var rr = Math.max(0, Math.min(lr - lb, lr - lg)), gg = Math.max(0, Math.min(lg - lb, lg - lr)), bb = Math.max(0, Math.min(lb - lg, lb - lr));
+    var ks = new Float32Array(N), lum = 0;
+    for (var i = 0; i < N; i++) {
+      var R = Math.max(1e-6, w * B[0][i] + c * B[1][i] + m * B[2][i] + y * B[3][i] + rr * B[4][i] + gg * B[5][i] + bb * B[6][i]);
+      ks[i] = (1 - R) * (1 - R) / (2 * R); lum += CMF[1][i] * R;
+    }
+    o = { ks: ks, lum: Math.max(1e-6, lum) };
+    if (cache.size > 40000) cache.clear();
+    cache.set(key, o); return o;
+  }
+  // t is the share of b, from 0 to 1. Same weighting as Spectral.js: share squared times luminance.
+  function mix(a, b, t, out) {
+    var A = spec(a[0], a[1], a[2]), Bc = spec(b[0], b[1], b[2]);
+    var ca = (1 - t) * (1 - t) * A.lum, cb = t * t * Bc.lum, tot = ca + cb, X = 0, Y = 0, Z = 0;
+    for (var i = 0; i < N; i++) {
+      var k = (A.ks[i] * ca + Bc.ks[i] * cb) / tot, R = 1 + k - Math.sqrt(k * k + 2 * k);
+      X += CMF[0][i] * R; Y += CMF[1][i] * R; Z += CMF[2][i] * R;
+    }
+    out[0] = cmp(M[0][0] * X + M[0][1] * Y + M[0][2] * Z);
+    out[1] = cmp(M[1][0] * X + M[1][1] * Y + M[1][2] * Z);
+    out[2] = cmp(M[2][0] * X + M[2][1] * Y + M[2][2] * Z);
+    return out;
+  }
+  var col = new Float32Array(W * H * 3), amt = new Float32Array(W * H), grain = new Float32Array(W * H);
+  for (var gy = 0; gy < H; gy++) for (var gx = 0; gx < W; gx++) {
+    grain[gy * W + gx] = 2.2 * (Math.sin(gx * 1.9) * Math.sin(gy * 1.9)) + (Math.random() - 0.5) * 3;
+  }
+  var img = ctx.createImageData(W, H), px = img.data;
+  var dirty = [0, 0, W, H], queued = false;
+  function mark(x0, y0, x1, y1) {
+    if (!dirty) dirty = [x0, y0, x1, y1];
+    else { dirty[0] = Math.min(dirty[0], x0); dirty[1] = Math.min(dirty[1], y0); dirty[2] = Math.max(dirty[2], x1); dirty[3] = Math.max(dirty[3], y1); }
+    if (!queued) { queued = true; requestAnimationFrame(render); }
+  }
+  function render() {
+    queued = false; if (!dirty) return;
+    var x0 = Math.max(0, dirty[0] - 1), y0 = Math.max(0, dirty[1] - 1), x1 = Math.min(W, dirty[2] + 1), y1 = Math.min(H, dirty[3] + 1);
+    dirty = null;
+    for (var y = y0; y < y1; y++) for (var x = x0; x < x1; x++) {
+      var i = y * W + x, a = Math.min(1, amt[i] * 2.8), j = i * 3, q = i * 4;
+      // A little light from the top left on the ridges of thick paint.
+      var sh = 0;
+      if (x > 0 && y > 0 && x < W - 1 && y < H - 1) sh = (amt[i - 1] - amt[i + 1] + amt[i - W] - amt[i + W]) * 22;
+      var g = grain[i] * (1 - 0.6 * a) + sh;
+      px[q] = PAPER[0] * (1 - a) + col[j] * a + g;
+      px[q + 1] = PAPER[1] * (1 - a) + col[j + 1] * a + g;
+      px[q + 2] = PAPER[2] * (1 - a) + col[j + 2] * a + g;
+      px[q + 3] = 255;
+    }
+    ctx.putImageData(img, 0, 0, x0, y0, x1 - x0, y1 - y0);
+  }
+  function hex(h) { return [1, 3, 5].map(function (k) { return parseInt(h.slice(k, k + 2), 16); }); }
+  var RAD = 11, brush = { c: hex('#3296FE'), load: 1 }, bristle = new Float32Array(2 * RAD + 3), tmp = [0, 0, 0], pick = [0, 0, 0];
+  function newStroke() { for (var k = 0; k < bristle.length; k++) bristle[k] = 0.3 + Math.random() * 0.7; }
+  function dab(cx, cy, dx, dy) {
+    var x0 = Math.max(0, Math.floor(cx - RAD)), x1 = Math.min(W - 1, Math.ceil(cx + RAD));
+    var y0 = Math.max(0, Math.floor(cy - RAD)), y1 = Math.min(H - 1, Math.ceil(cy + RAD));
+    var pr = 0, pg = 0, pb = 0, pw = 0;
+    for (var y = y0; y <= y1; y++) for (var x = x0; x <= x1; x++) {
+      var ox = x - cx, oy = y - cy, d2 = (ox * ox + oy * oy) / (RAD * RAD);
+      if (d2 >= 1) continue;
+      var i = y * W + x, j = i * 3, fall = 1 - d2;
+      var br = bristle[Math.max(0, Math.min(bristle.length - 1, Math.round(-ox * dy + oy * dx + RAD + 1)))];
+      var wet = amt[i] > 0.02, load = wet ? brush.load + 0.3 * (1 - brush.load) : brush.load;
+      var dep = fall * br * load * 0.34;
+      if (dep < 0.004) continue;
+      if (wet) {
+        pr += col[j] * fall * amt[i]; pg += col[j + 1] * fall * amt[i]; pb += col[j + 2] * fall * amt[i]; pw += fall * amt[i];
+        var share = dep / (amt[i] + dep);
+        if (share > 0.015) { tmp[0] = col[j]; tmp[1] = col[j + 1]; tmp[2] = col[j + 2]; mix(tmp, brush.c, share, tmp); col[j] = tmp[0]; col[j + 1] = tmp[1]; col[j + 2] = tmp[2]; }
+      } else { col[j] = brush.c[0]; col[j + 1] = brush.c[1]; col[j + 2] = brush.c[2]; }
+      amt[i] = Math.min(1.1, amt[i] + dep * 0.8);
+    }
+    if (pw > 0) {
+      pick[0] = pr / pw; pick[1] = pg / pw; pick[2] = pb / pw;
+      mix(brush.c, pick, Math.min(0.05, 0.0005 * pw), brush.c);
+    }
+    brush.load = Math.max(0, brush.load * 0.994);
+    mark(x0, y0, x1 + 1, y1 + 1);
+  }
+  var last = null;
+  function to(x, y) {
+    if (!last) { last = [x, y, 1, 0]; dab(x, y, 1, 0); return; }
+    var dx = x - last[0], dy = y - last[1], L = Math.sqrt(dx * dx + dy * dy);
+    if (L < 1.5) return;
+    var ux = dx / L, uy = dy / L, steps = Math.floor(L / 1.5);
+    for (var s = 1; s <= steps; s++) dab(last[0] + ux * s * 1.5, last[1] + uy * s * 1.5, ux, uy);
+    last = [last[0] + ux * steps * 1.5, last[1] + uy * steps * 1.5, ux, uy];
+  }
+  function at(e) { var r = cv.getBoundingClientRect(); return [(e.clientX - r.left) * W / r.width, (e.clientY - r.top) * H / r.height]; }
+  var down = false, touched = false;
+  cv.addEventListener('pointerdown', function (e) {
+    down = true; touched = true; last = null; newStroke();
+    try { cv.setPointerCapture(e.pointerId); } catch (er) {}
+    var p = at(e); to(p[0], p[1]); e.preventDefault();
+  });
+  cv.addEventListener('pointermove', function (e) {
+    if (!down) return;
+    var es = e.getCoalescedEvents ? e.getCoalescedEvents() : [e];
+    if (!es.length) es = [e];
+    es.forEach(function (ev) { var p = at(ev); to(p[0], p[1]); });
+  });
+  ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(function (t) { cv.addEventListener(t, function () { down = false; last = null; }); });
+  var paints = [].slice.call(ez.querySelectorAll('.ez-p'));
+  function choose(b) {
+    paints.forEach(function (o) { o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); });
+    brush.c = hex(b.getAttribute('data-c')); brush.load = 1;
+  }
+  paints.forEach(function (b) { b.addEventListener('click', function () { choose(b); }); });
+  ez.querySelector('.ez-x').addEventListener('click', function () { col.fill(0); amt.fill(0); mark(0, 0, W, H); });
+  // First look: two strokes cross, so the place they meet shows the mix.
+  function demo() {
+    var strokes = [
+      { c: '#3296FE', pts: function (t) { return [40 + t * 300, 105 + Math.sin(t * 5) * 22]; } },
+      { c: '#DA9408', pts: function (t) { return [110 + t * 230, 250 - t * 190 + Math.sin(t * 4) * 10]; } }
+    ];
+    var k = 0;
+    function run(s, done) {
+      brush.c = hex(s.c); brush.load = 1; newStroke(); last = null;
+      if (calm) { for (var t = 0; t <= 1; t += 0.004) { var p = s.pts(t); to(p[0], p[1]); } done(); return; }
+      var t0 = null;
+      function f(now) {
+        if (touched) return;
+        if (t0 === null) t0 = now;
+        var t = Math.min(1, (now - t0) / 1100), p = s.pts(t * t * (3 - 2 * t)); to(p[0], p[1]);
+        if (t < 1) requestAnimationFrame(f); else done();
+      }
+      requestAnimationFrame(f);
+    }
+    run(strokes[0], function () { if (touched) return; setTimeout(function () { if (!touched) run(strokes[1], function () { last = null; choose(paints[1] || paints[0]); }); }, calm ? 0 : 250); });
+  }
+  mark(0, 0, W, H);
+  if (window.IntersectionObserver && !calm) {
+    var io = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { io.disconnect(); if (!touched) demo(); } }, { threshold: 0.6 });
+    io.observe(cv);
+  } else demo();
+})();
+
+// Oct 7: the heatmap on Research. Tap either end color to cycle through the palette; the switch flips between Excel's
+// straight RGB blend and Jason's script (OKLCH: lightness and chroma blended, hue the short way, chroma pulled in to fit).
+(function () {
+  var hm = document.getElementById('hm'), dd = document.getElementById('hmdata');
+  if (!hm || !dd) return;
+  var P; try { P = JSON.parse(dd.textContent); } catch (e) { return; }
+  var sw = hm.querySelector('.hm-sw'), ends = [].slice.call(hm.querySelectorAll('.hm-c'));
+  var cells = [].slice.call(hm.querySelectorAll('td[data-t]')), leg = [].slice.call(hm.querySelectorAll('.hm-leg i'));
+  var pick = ends.map(function (b) { return +b.getAttribute('data-i'); }), mine = true;
+  function rgb(h) { return [1, 3, 5].map(function (k) { return parseInt(h.slice(k, k + 2), 16); }); }
+  function lin(c) { c /= 255; return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); }
+  function gam(c) { c = c <= 0.0031308 ? c * 12.92 : 1.055 * Math.pow(c, 1 / 2.4) - 0.055; return c * 255; }
+  function oklab(h) {
+    var c = rgb(h).map(lin), r = c[0], g = c[1], b = c[2];
+    var l = Math.cbrt(0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b), m = Math.cbrt(0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b), s = Math.cbrt(0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b);
+    return [0.2104542553 * l + 0.7936177850 * m - 0.0040720468 * s, 1.9779984951 * l - 2.4285922050 * m + 0.4505937099 * s, 0.0259040371 * l + 0.7827717662 * m - 0.8086757660 * s];
+  }
+  function toRgb(L, a, b) {
+    var l = Math.pow(L + 0.3963377774 * a + 0.2158037573 * b, 3), m = Math.pow(L - 0.1055613458 * a - 0.0638541728 * b, 3), s = Math.pow(L - 0.0894841775 * a - 1.2914855480 * b, 3);
+    return [gam(4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s), gam(-1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s), gam(-0.0041960863 * l - 0.7034186147 * m + 1.7076147010 * s)];
+  }
+  function script(h1, h2, t) {
+    var A = oklab(h1), B = oklab(h2), C1 = Math.hypot(A[1], A[2]), C2 = Math.hypot(B[1], B[2]), H1 = Math.atan2(A[2], A[1]), H2 = Math.atan2(B[2], B[1]);
+    var d = ((H2 - H1 + Math.PI) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI) - Math.PI;
+    var L = A[0] + (B[0] - A[0]) * t, C = C1 + (C2 - C1) * t, H = H1 + d * t, o;
+    for (;;) { o = toRgb(L, C * Math.cos(H), C * Math.sin(H)); if (o.every(function (v) { return v >= -0.5 && v <= 255.5; }) || C < 0.001) break; C *= 0.97; }
+    return o.map(function (v) { return Math.max(0, Math.min(255, Math.round(v))); });
+  }
+  function excel(h1, h2, t) { var a = rgb(h1), b = rgb(h2); return a.map(function (v, k) { return Math.round(v + (b[k] - v) * t); }); }
+  function css(c) { return 'rgb(' + c.join(',') + ')'; }
+  function hx(c) { return '#' + c.map(function (v) { return ('0' + v.toString(16)).slice(-2); }).join(''); }
+  var wl = { xl: [hm.querySelector('.w-xl'), hm.querySelector('.w-xld')], me: [hm.querySelector('.w-me'), hm.querySelector('.w-med')] };
+  function wheel(path, dots, f, h1, h2) {
+    if (!path || !dots) return;
+    var d = '', circles = dots.querySelectorAll('circle');
+    for (var k = 0; k <= 10; k++) {
+      var c = f(h1, h2, k / 10), o = oklab(hx(c)), x = o[1] / 0.21, y = -o[2] / 0.21;
+      d += (k ? ' L' : 'M') + x.toFixed(3) + ' ' + y.toFixed(3);
+      if (circles[k]) { circles[k].setAttribute('cx', x.toFixed(3)); circles[k].setAttribute('cy', y.toFixed(3)); circles[k].style.fill = css(c); }
+    }
+    path.setAttribute('d', d);
+  }
+  function draw() {
+    var h1 = P[pick[0]], h2 = P[pick[1]], f = mine ? script : excel;
+    ends.forEach(function (b, k) { b.style.background = P[pick[k]]; });
+    cells.forEach(function (td) {
+      var c = f(h1, h2, +td.getAttribute('data-t')), y = 0.2126 * lin(c[0]) + 0.7152 * lin(c[1]) + 0.0722 * lin(c[2]);
+      td.style.backgroundColor = css(c); td.classList.toggle('cm-dk', y > 0.3);
+    });
+    leg.forEach(function (i, k) { i.style.backgroundColor = css(f(h1, h2, k / (leg.length - 1))); });
+    wheel(wl.xl[0], wl.xl[1], excel, h1, h2); wheel(wl.me[0], wl.me[1], script, h1, h2);
+    hm.classList.toggle('xl', !mine);
+  }
+  ends.forEach(function (b, k) {
+    b.addEventListener('click', function () {
+      do { pick[k] = (pick[k] + 1) % P.length; } while (pick[k] === pick[1 - k]);
+      var lab = b.getAttribute('aria-label').replace(/: [^.]+\./, ': ' + (b.getAttribute('data-names') || '').split('|')[pick[k]] + '.');
+      if (b.getAttribute('data-names')) b.setAttribute('aria-label', lab);
+      draw();
+    });
+  });
+  sw.addEventListener('click', function () { mine = !mine; sw.setAttribute('aria-checked', mine ? 'true' : 'false'); draw(); });
 })();
 
 </script>
