@@ -1880,7 +1880,23 @@ details.more > p + p { margin-top: 12px; }
 // Embedded demos on project pages grow to fit their content (same origin only).
 (function () {
   document.querySelectorAll('iframe[data-autoh]').forEach(function (f) {
-    function fit() { try { var d = f.contentDocument; if (d && d.body) f.style.height = Math.ceil(d.body.getBoundingClientRect().height + (parseFloat(getComputedStyle(d.body).marginTop) || 0) + (parseFloat(getComputedStyle(d.body).marginBottom) || 0)) + 'px'; } catch (e) { /* cross-origin: keep fixed height */ } }
+    // Oct 7: Jason: no scrolling inside the embedded apps, and the whole app always shows. The frame takes the app's full
+    // height and the app's own scrollbars are turned off. Works for every demo on this origin (the DrinkDock embeds, and
+    // 5K 5 Bars and In., which live on the same github.io site); anything else keeps its fixed height.
+    function fit() { try { var d = f.contentDocument; if (d && d.body) {
+      d.documentElement.style.overflow = 'hidden'; d.body.style.overflow = 'hidden';
+      // Measure the content, not the body: an app whose body is at least the window tall would otherwise grow the frame
+      // a little more every time it's measured.
+      var bs = d.defaultView.getComputedStyle(d.body), h = 0;
+      [].forEach.call(d.body.children, function (c) {
+        var cs = d.defaultView.getComputedStyle(c);
+        if (cs.position === 'fixed' || cs.display === 'none' || c.tagName === 'SCRIPT') return;
+        h = Math.max(h, c.getBoundingClientRect().bottom + (parseFloat(cs.marginBottom) || 0));
+      });
+      h += (d.defaultView.scrollY || 0) + (parseFloat(bs.paddingBottom) || 0) + (parseFloat(bs.borderBottomWidth) || 0) + (parseFloat(bs.marginBottom) || 0);
+      if (!h) return;
+      var fs = getComputedStyle(f), edge = (parseFloat(fs.borderTopWidth) || 0) + (parseFloat(fs.borderBottomWidth) || 0);
+      f.style.height = Math.ceil(h + edge) + 'px'; } } catch (e) { /* cross-origin: keep fixed height */ } }
     f.addEventListener('load', function () {
       fit();
       try { new ResizeObserver(fit).observe(f.contentDocument.body); } catch (e) { /* ignore */ }

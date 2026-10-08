@@ -1572,7 +1572,7 @@ details.more > p + p { margin-top: 12px; }
       <article class="made-item" id="analytics">
       <h3 class="made-h">The analytics package, from 10 days to 3</h3>
       <p class="made-lead">I led the automation of our thousand-slide monthly analytics package. The code took a few weeks. Getting people to trust it took about three months.</p>
-      <!--flow--><figure class="flow" id="flow"><div class="flow-row"><p class="flow-lab"><b>Before</b><span>14 business days, about 50 hours</span></p><div class="flow-track"><div class="flow-bar" role="img" aria-label="Before: 14 business days. Making the slides took 10, then review and legal took about 4 more. About 50 hours of work." style="flex:14"><i class="a" style="flex:10"><span>10 days</span></i><i class="b" style="flex:4"></i></div><i class="flow-gap" style="flex:0"></i></div></div><div class="flow-row"><p class="flow-lab"><b>After</b><span>4 business days, about 14 hours</span></p><div class="flow-track"><div class="flow-bar" role="img" aria-label="After: 4 business days. Making the slides took 3, then review and legal took about 1 more. About 14 hours of work." style="flex:4"><i class="a" style="flex:3"><span>3 days</span></i><i class="b" style="flex:1"></i></div><i class="flow-gap" style="flex:10"></i></div></div><p class="flow-key"><i class="a"></i>Making the slides <i class="b"></i>Review and legal</p><figcaption>Simplified from memory, so the days and hours are rough.</figcaption></figure><!--/flow-->
+      <!--flow--><figure class="flow" id="flow"><div class="flow-row"><p class="flow-lab"><b>Before</b><span>14 business days, about 50 hours</span></p><div class="flow-track"><div class="flow-bar" role="img" aria-label="Before: 14 business days. Making the slides took 10, then review and legal took about 4 more. About 50 hours of work." style="flex:14"><i class="a" style="flex:10"><span>10 days</span></i><i class="b" style="flex:4"></i></div><i class="flow-gap" style="flex:0"></i></div></div><div class="flow-row"><p class="flow-lab"><b>After</b><span>4 business days, about 14 hours</span></p><div class="flow-track"><div class="flow-bar" role="img" aria-label="After: 4 business days. Making the slides took 3, then review and legal took about 1 more. About 14 hours of work." style="flex:4"><i class="a" style="flex:3"><span>3 days</span></i><i class="b" style="flex:1"></i></div><i class="flow-gap" style="flex:10"></i></div></div><p class="flow-key"><i class="a"></i>Making the slides <i class="b"></i>Review and legal</p></figure><!--/flow-->
       <details class="more"><summary>How I got people to trust it</summary><p>It pulled more than 4,000 data fields from Bloomberg, FactSet and team workbooks that were all built differently. Senior people worried they&rsquo;d lose the ability to fix numbers by hand, and they&rsquo;d seen improvements fail before. So I split it into modules that could run on their own, logged every step, and ran it next to the old process until the numbers matched, sitting with people one at a time. The skeptics ended up shaping the checks. I wrote a one-page runbook so anyone could run it, and it&rsquo;s still running without me.</p><p>I also moved the whole chartbook into the new brand template and redrew a lot of its charts so they were easier to read.</p></details>
       </article>
       <article class="made-item">
@@ -2008,7 +2008,23 @@ details.more > p + p { margin-top: 12px; }
 // Embedded demos on project pages grow to fit their content (same origin only).
 (function () {
   document.querySelectorAll('iframe[data-autoh]').forEach(function (f) {
-    function fit() { try { var d = f.contentDocument; if (d && d.body) f.style.height = Math.ceil(d.body.getBoundingClientRect().height + (parseFloat(getComputedStyle(d.body).marginTop) || 0) + (parseFloat(getComputedStyle(d.body).marginBottom) || 0)) + 'px'; } catch (e) { /* cross-origin: keep fixed height */ } }
+    // Oct 7: Jason: no scrolling inside the embedded apps, and the whole app always shows. The frame takes the app's full
+    // height and the app's own scrollbars are turned off. Works for every demo on this origin (the DrinkDock embeds, and
+    // 5K 5 Bars and In., which live on the same github.io site); anything else keeps its fixed height.
+    function fit() { try { var d = f.contentDocument; if (d && d.body) {
+      d.documentElement.style.overflow = 'hidden'; d.body.style.overflow = 'hidden';
+      // Measure the content, not the body: an app whose body is at least the window tall would otherwise grow the frame
+      // a little more every time it's measured.
+      var bs = d.defaultView.getComputedStyle(d.body), h = 0;
+      [].forEach.call(d.body.children, function (c) {
+        var cs = d.defaultView.getComputedStyle(c);
+        if (cs.position === 'fixed' || cs.display === 'none' || c.tagName === 'SCRIPT') return;
+        h = Math.max(h, c.getBoundingClientRect().bottom + (parseFloat(cs.marginBottom) || 0));
+      });
+      h += (d.defaultView.scrollY || 0) + (parseFloat(bs.paddingBottom) || 0) + (parseFloat(bs.borderBottomWidth) || 0) + (parseFloat(bs.marginBottom) || 0);
+      if (!h) return;
+      var fs = getComputedStyle(f), edge = (parseFloat(fs.borderTopWidth) || 0) + (parseFloat(fs.borderBottomWidth) || 0);
+      f.style.height = Math.ceil(h + edge) + 'px'; } } catch (e) { /* cross-origin: keep fixed height */ } }
     f.addEventListener('load', function () {
       fit();
       try { new ResizeObserver(fit).observe(f.contentDocument.body); } catch (e) { /* ignore */ }
