@@ -49,7 +49,7 @@
   color-scheme: dark;
 }
 :root {
-  --paper: #141619; --surface: #1C1F23; --ink: #E7ECF1; --ink-2: #C8D0D8; --muted: #9AA5B2; --ink-strong: #FFFFFF; --gal-wall: #3A3833; --gal-floor: #2A2420; --gal-base: #47443E; --gal-wood: #5B4636; --gal-wood-2: #4B3A2D; --gal-person: #A9A398; --gal-frame: #0B0C0E; --gal-mat: #F3F1EC; --gal-tape: #E9E0C6; --gal-leaf: #6E7D5C; --gal-books: #6B7480;
+  --paper: #141619; --surface: #1C1F23; --ink: #E7ECF1; --ink-2: #C8D0D8; --muted: #9AA5B2; --ink-strong: #FFFFFF; --gal-wall: #D8D2C8; --gal-floor: #8F7A64; --gal-base: #E6E1D9; --gal-wood: #5B4636; --gal-wood-2: #4B3A2D; --gal-person: #6F6A63; --gal-frame: #0B0C0E; --gal-mat: #F3F1EC; --gal-tape: #E9E0C6; --gal-leaf: #6E7D5C; --gal-books: #6B7480;
   --rule: #2A2E33; --rule-strong: #B9C3CE; --olive: #7FAEE0; --signal: #5CC495; --signal-ink: #141619;
   --frame: #06090D; --mat: #E6E9EC; --shot-border: #2A2E33;
   --c-msblue: #6FA0D6; --c-razz: #5AAEFF; --c-jade: #5CC495; --c-amethyst: #A593EC; --c-carrot: #E8834F; --c-honey: #E8AE2E; --c-magenta: #E56A9C; --c-grey: #A3A5AE;
@@ -763,6 +763,8 @@ a.sn:hover .dot { background: var(--c-msblue); }
 .sn:focus-visible, .tiles a:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; border-radius: 4px; }
 .who .yr { font-size: 14px; font-weight: 600; color: var(--muted); font-variant-numeric: tabular-nums; }
 .who .hl { font-size: 14px; line-height: 1.45; color: var(--ink-2); }
+.ai-link { display: inline-block; margin-top: 8px; font-size: 14px; font-weight: 600; color: var(--ink); text-decoration: underline; text-decoration-color: var(--c-msblue); text-decoration-thickness: 1.5px; text-underline-offset: 4px; }
+.ai-link::after { content: '\00a0\2192'; }
 .tiles { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 22px 16px; }
 .tiles a { display: flex; flex-direction: column; gap: 6px; width: 216px; text-decoration: none; color: var(--ink); }
 .tiles img, .tiles .pal { display: block; width: 216px; height: 162px; object-fit: cover; border-radius: 6px; border: 1px solid var(--rule); }
@@ -999,6 +1001,8 @@ body:has(.pager) .colophon, body:has(.proj-more) .colophon { border-top: 0; }
   border: 3px solid var(--gal-frame); background: var(--gal-frame); box-shadow: 0 6px 14px rgba(0, 0, 0, .45); cursor: grab; touch-action: none;
   transform: rotate(var(--rot, 0deg)); transition: transform .55s cubic-bezier(.3, 1.5, .5, 1); z-index: 2; }
 .gal-p img { display: block; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+/* Oct 8 (Astra): on a phone the smallest frames are about 19 by 15px, so each one gets an invisible margin to grab. */
+@media (max-width: 700px) { .gal-p::after { content: ''; position: absolute; inset: -9px; } }
 .gal-p.gal-mat { border-width: 2px; padding: calc(var(--w) * .07 * 1%); background: var(--gal-mat); aspect-ratio: auto; height: auto; }
 .gal-p.gal-mat img { height: auto; aspect-ratio: var(--ar); }
 .gal-p.dragging { cursor: grabbing; transition: none; z-index: 4; box-shadow: 0 14px 26px rgba(0, 0, 0, .55); }
@@ -1019,7 +1023,7 @@ body:has(.pager) .colophon, body:has(.proj-more) .colophon { border-top: 0; }
 .gal-p.gal-pin { border: 0; background: none; overflow: visible; box-shadow: 0 3px 8px rgba(0, 0, 0, .35); }
 .gal-tape.l { top: -5%; left: -10%; width: 34%; height: 7%; transform: rotate(-38deg); }
 .gal-tape.r { top: -5%; left: auto; right: -10%; width: 34%; height: 7%; transform: rotate(38deg); }
-.gal-person { position: absolute; bottom: 7%; height: 61.6%; left: calc(var(--px, 5) * 1%); fill: var(--gal-wall); stroke: var(--gal-person); stroke-width: 1.6; stroke-linejoin: round; pointer-events: none; z-index: 3;
+.gal-person { position: absolute; bottom: 7%; height: 61.6%; left: calc(var(--px, 5) * 1%); fill: var(--gal-wall); stroke: var(--gal-person); stroke-width: 1.6; stroke-linejoin: round; pointer-events: none; z-index: 1000;
   transition: left 1.5s ease-in-out; }
 .gal-person.walk { animation: gal-bob .38s ease-in-out infinite alternate; }
 @keyframes gal-bob { from { translate: 0 0; } to { translate: 0 -1.2%; } }
@@ -1028,6 +1032,8 @@ body:has(.pager) .colophon, body:has(.proj-more) .colophon { border-top: 0; }
 .gal-run { appearance: none; font: inherit; font-size: 14px; font-weight: 600; color: var(--paper); background: var(--c-magenta); border: 0; border-radius: 999px; padding: 7px 14px; cursor: pointer; }
 .gal-run:hover { filter: brightness(1.08); }
 .gal-run:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.gal-send { appearance: none; background: none; border: 0; padding: 7px 2px; font: inherit; font-size: 14px; font-weight: 600; color: var(--ink); text-decoration: underline; text-decoration-color: var(--c-magenta); text-decoration-thickness: 1.5px; text-underline-offset: 4px; cursor: pointer; }
+.gal-send:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; border-radius: 4px; }
 .gal-why { color: var(--ink-2); }
 @media (prefers-reduced-motion: reduce) { .gal-p, .gal-crooked, .gal-person { transition: none; } .gal-person.walk { animation: none; } }
 
@@ -1459,7 +1465,8 @@ details.more > p + p { margin-top: 12px; }
     <section class="exhibit" id="col-log" aria-labelledby="log2-h" style="--c: var(--c-msblue)">
       <header><h2 class="ext" id="log2-h">What changed and when</h2></header>
       <div class="table-wrap">
-        <ol class="timeline"><li><span class="tl-d">Sep 27, 2026</span><span class="tl-t">First direction: a holdings report.</span></li><li><span class="tl-d">Sep 28, 2026</span><span class="tl-t">All the copy got rewritten from my own sentences. Moved to the chartbook look and added the build log.</span></li><li><span class="tl-d">Sep 29, 2026</span><span class="tl-t">Went live on GitHub Pages. Added the skills cloud. Switched to dark only.</span></li><li><span class="tl-d">Oct 4, 2026</span><span class="tl-t">Rebuilt the Walldrobe page and moved Walldrobe second, after Dreamy.</span></li><li><span class="tl-d">Oct 5, 2026</span><span class="tl-t">The redesign after the research: my background in the first sentence, projects first, the palette band in place of decoration, a graphite background, and two new pages, How I use AI and this one.</span></li><li><span class="tl-d">Oct 6, 2026</span><span class="tl-t">After a friend&rsquo;s review, the site became a book: three chapters with a next page at the end of each, and Background on its own page. The main page is now a map of my path, with every page on the site hanging off the stop where I made it, then the projects and a contents list.</span></li><li><span class="tl-d">Oct 7, 2026</span><span class="tl-t">Research opens with pictures, About me with skills, and How I use AI with four calls I made.</span></li></ol>
+        <ol class="timeline"><li><span class="tl-d">Sep 27, 2026</span><span class="tl-t">First direction: a holdings report.</span></li><li><span class="tl-d">Sep 28, 2026</span><span class="tl-t">All the copy got rewritten from my own sentences. Moved to the chartbook look and added the build log.</span></li><li><span class="tl-d">Sep 29, 2026</span><span class="tl-t">Went live on GitHub Pages. Added the skills cloud. Switched to dark only.</span></li><li><span class="tl-d">Oct 4, 2026</span><span class="tl-t">Rebuilt the Walldrobe page and moved Walldrobe second, after Dreamy.</span></li><li><span class="tl-d">Oct 5, 2026</span><span class="tl-t">The redesign after the research: my background in the first sentence, projects first, the palette band in place of decoration, a graphite background, and two new pages, How I use AI and this one.</span></li><li><span class="tl-d">Oct 6, 2026</span><span class="tl-t">After a friend&rsquo;s review, the site became a book: three chapters with a next page at the end of each, and Background on its own page. The main page became a map of my path.</span></li><li><span class="tl-d">Oct 7, 2026</span><span class="tl-t">Research opens with pictures, About me with skills, and How I use AI with four calls I made.</span></li>
+<li><span class="tl-d">Oct 8, 2026</span><span class="tl-t">A friend said it felt like a maze, so the projects moved onto the map, the contents list went away, and each skill got one line.</span></li></ol>
       </div>
     </section>
 
@@ -1838,9 +1845,59 @@ details.more > p + p { margin-top: 12px; }
       if (!h) return;
       var fs = getComputedStyle(f), edge = (parseFloat(fs.borderTopWidth) || 0) + (parseFloat(fs.borderBottomWidth) || 0);
       f.style.height = Math.ceil(h + edge) + 'px'; } } catch (e) { /* cross-origin: keep fixed height */ } }
+    // Oct 8 (Astra's review): the apps were built for a phone screen, so their "full screen" sizes (100svh and the like)
+    // became the whole frame once it grew to the app's height. That left the 5K race with a long blank tail and In.'s
+    // sheets opening below the visitor's screen. In the frame, screen-sized rules use the visitor's real screen height,
+    // and when a popup opens the page scrolls to it and moves focus into it.
+    function adapt(d) {
+      var vh = window.innerHeight, css = [];
+      [].forEach.call(d.styleSheets, function (sh) {
+        var rs; try { rs = sh.cssRules; } catch (e) { return; }
+        [].forEach.call(rs || [], function (r) {
+          if (!r.style || !r.selectorText) return;
+          ['height', 'min-height', 'max-height'].forEach(function (p) {
+            var v = r.style.getPropertyValue(p);
+            if (!/\d[dsl]?vh/.test(v)) return;
+            var px = v.replace(/(-?[\d.]+)[dsl]?vh/g, function (m, n) { return (parseFloat(n) * vh / 100) + 'px'; });
+            css.push(r.selectorText + '{' + p + ':' + px + ' !important}');
+          });
+        });
+      });
+      if (!css.length) return;
+      var st = d.createElement('style'); st.setAttribute('data-embed', ''); st.textContent = css.join('\n'); d.head.appendChild(st);
+    }
+    var shown = null;
+    function reveal(d) {
+      var w = d.defaultView, pop = null;
+      [].forEach.call(d.body.querySelectorAll('*'), function (el) {
+        if (pop) return;
+        var cs = w.getComputedStyle(el);
+        if (cs.position !== 'fixed' || cs.display === 'none' || cs.visibility === 'hidden') return;
+        var r = el.getBoundingClientRect();
+        if (r.height > 200 && r.width > 200 && el.firstElementChild) pop = el;
+      });
+      if (pop === shown) return;
+      shown = pop;
+      if (!pop) return;
+      // The popup's own box (a sheet at the bottom, or a card in the middle), not the dimmed layer around it.
+      var box = pop.firstElementChild.getBoundingClientRect(), fr = f.getBoundingClientRect();
+      var top = window.scrollY + fr.top + box.top, room = window.innerHeight;
+      var y = box.height < room - 32 ? top - (room - box.height) / 2 : top - 16;
+      window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+      if (!pop.contains(d.activeElement)) {
+        var t = pop.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        if (t) { try { t.focus({ preventScroll: true }); } catch (e) { t.focus(); } }
+      }
+    }
     f.addEventListener('load', function () {
+      try { adapt(f.contentDocument); } catch (e) { /* cross-origin */ }
       fit();
-      try { new ResizeObserver(fit).observe(f.contentDocument.body); } catch (e) { /* ignore */ }
+      try {
+        var d = f.contentDocument;
+        new ResizeObserver(fit).observe(d.body);
+        var q = false;
+        new MutationObserver(function () { if (q) return; q = true; requestAnimationFrame(function () { q = false; fit(); reveal(d); }); }).observe(d.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['class', 'hidden', 'open', 'style'] });
+      } catch (e) { /* ignore */ }
     });
   });
 })();
@@ -2065,16 +2122,16 @@ details.more > p + p { margin-top: 12px; }
   if (!run || !walls.length) return;
   var at = 0, busy = false;
   run.hidden = false;
-  run.addEventListener('click', function () {
-    if (busy) return; busy = true;
-    at = (at + 1) % walls.length;
-    var wall = walls[at], old = [].slice.call(room.querySelectorAll('.gal-p')), calm = still.matches;
+  // Hang wall k. `calm` skips the animation (reduced motion, or rebuilding a wall someone sent me).
+  function hang(k, calm, done) {
+    at = k;
+    var wall = walls[at], old = [].slice.call(room.querySelectorAll('.gal-p'));
     old.forEach(function (p, i) {
       if (calm || !p.animate) { p.remove(); return; }
       p.animate([{ opacity: 1, transform: 'rotate(var(--rot, 0deg))' }, { opacity: 0, transform: 'scale(.92)' }], { duration: 260, delay: i * 30, easing: 'ease-in', fill: 'forwards' })
         .onfinish = function () { p.remove(); };
     });
-    setTimeout(function () {
+    function build() {
       var made = wall.p.map(function (it, i) {
         var b = document.createElement('button');
         b.type = 'button'; b.className = 'gal-p gal-wd';
@@ -2087,16 +2144,118 @@ details.more > p + p { margin-top: 12px; }
         return b;
       });
       // Step back to the left to look at the new wall.
-      var to = 4;
       if (person) {
         if (!calm) person.classList.add('walk');
-        person.style.setProperty('--px', to.toFixed(2));
+        person.style.setProperty('--px', '4');
         clearTimeout(person._t); person._t = setTimeout(function () { person.classList.remove('walk'); }, calm ? 0 : 1500);
       }
       if (why) why.textContent = wall.note || '';
-      setTimeout(function () { busy = false; }, calm ? 0 : 120 + made.length * 90 + 300);
-    }, calm ? 0 : 260 + old.length * 30);
+      if (done) done(made);
+      return made;
+    }
+    if (calm) return build();
+    setTimeout(function () { var made = build(); setTimeout(function () { busy = false; }, 120 + made.length * 90 + 300); }, 260 + old.length * 30);
+  }
+  run.addEventListener('click', function () {
+    if (busy) return; busy = true;
+    var calm = still.matches;
+    hang((at + 1) % walls.length, calm);
+    if (calm) busy = false;
   });
+
+  // Oct 8 (Jason): "Think you can do better?" Rehang it, then send me your wall. The link in the email rebuilds the
+  // wall exactly as you left it, and a picture of it goes on your clipboard (or downloads) to paste in.
+  var send = document.querySelector('.gal-send');
+  function frames() { return [].slice.call(room.querySelectorAll('.gal-p')); }
+  function stateLink() {
+    var pos = frames().map(function (p) { return num(p, '--x').toFixed(1) + ',' + num(p, '--y').toFixed(1); }).join(';');
+    return location.origin + location.pathname + '#wall=' + at + ':' + pos;
+  }
+  function restore() {
+    var m = /#wall=(\d+):([\d.,;-]+)/.exec(location.hash);
+    if (!m || !walls[+m[1]]) return;
+    var pos = m[2].split(';').map(function (t) { return t.split(',').map(Number); });
+    hang(+m[1], true);
+    frames().forEach(function (p, i) {
+      if (!pos[i] || pos[i].some(isNaN)) return;
+      var xy = clampXY(p, pos[i][0], pos[i][1]);
+      p.style.setProperty('--x', xy[0].toFixed(2)); p.style.setProperty('--y', xy[1].toFixed(2));
+    });
+    if (why) why.textContent = 'Someone rehung this wall and sent it to me.';
+    setTimeout(function () { room.scrollIntoView({ block: 'center' }); }, 300);
+  }
+  // Draw the room as it looks right now: the wall and furniture, each frame and mat, the art, and the person.
+  function svgImage(svg, cb) {
+    var c = svg.cloneNode(true), src = svg.querySelectorAll('*'), dst = c.querySelectorAll('*');
+    function paint(from, to) {
+      var cs = getComputedStyle(from);
+      ['fill', 'stroke', 'stroke-width', 'opacity', 'stroke-linecap', 'stroke-linejoin'].forEach(function (k) { to.setAttribute(k, cs.getPropertyValue(k)); });
+    }
+    paint(svg, c);
+    for (var i = 0; i < src.length; i++) paint(src[i], dst[i]);
+    var r = svg.getBoundingClientRect();
+    c.setAttribute('width', r.width); c.setAttribute('height', r.height);
+    c.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    var im = new Image();
+    im.onload = function () { cb(im); }; im.onerror = function () { cb(null); };
+    im.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(new XMLSerializer().serializeToString(c));
+  }
+  function snapshot(cb) {
+    var R = room.getBoundingClientRect(), k = Math.min(2, 1600 / R.width), cv = document.createElement('canvas');
+    cv.width = Math.round(R.width * k); cv.height = Math.round(R.height * k);
+    var g = cv.getContext('2d');
+    g.scale(k, k);
+    g.fillStyle = getComputedStyle(room).backgroundColor; g.fillRect(0, 0, R.width, R.height);
+    function box(el) { var b = el.getBoundingClientRect(); return [b.left - R.left, b.top - R.top, b.width, b.height]; }
+    function fill(el) { var c = getComputedStyle(el).backgroundColor; if (c && c !== 'transparent' && !/rgba\(.*, 0\)$/.test(c)) { var b = box(el); g.fillStyle = c; g.fillRect(b[0], b[1], b[2], b[3]); } }
+    function cover(im) {
+      var b = box(im), iw = im.naturalWidth, ih = im.naturalHeight;
+      if (!iw || !ih) return;
+      var s = Math.max(b[2] / iw, b[3] / ih), sw = b[2] / s, sh = b[3] / s;
+      g.drawImage(im, (iw - sw) / 2, (ih - sh) / 2, sw, sh, b[0], b[1], b[2], b[3]);
+    }
+    var bg = room.querySelector('.gal-bg');
+    svgImage(bg, function (bgi) {
+      if (bgi) { var b = box(bg); g.drawImage(bgi, b[0], b[1], b[2], b[3]); }
+      frames().sort(function (a, b) { return (+a.style.zIndex || 0) - (+b.style.zIndex || 0); }).forEach(function (p) {
+        var b = box(p);
+        g.save(); g.shadowColor = 'rgba(0,0,0,.45)'; g.shadowBlur = 14; g.shadowOffsetY = 6;
+        g.fillStyle = getComputedStyle(p).backgroundColor; g.fillRect(b[0], b[1], b[2], b[3]); g.restore();
+        p.querySelectorAll('*').forEach(function (el) { if (el.tagName === 'IMG') cover(el); else fill(el); });
+      });
+      svgImage(person, function (pi) {
+        if (pi) { var b = box(person); g.drawImage(pi, b[0], b[1], b[2], b[3]); }
+        g.font = '600 13px system-ui, sans-serif'; g.fillStyle = 'rgba(231,236,241,.7)'; g.textAlign = 'right';
+        g.fillText('jason-traum.github.io', R.width - 12, R.height - 12);
+        cv.toBlob(function (blob) { cb(blob); }, 'image/png');
+      });
+    });
+  }
+  if (send) {
+    send.hidden = false;
+    send.addEventListener('click', function () {
+      var link = stateLink(), how = 'download';
+      var pic = new Promise(function (res) { snapshot(res); });
+      var copied = Promise.resolve(false);
+      try {
+        if (navigator.clipboard && window.ClipboardItem) copied = navigator.clipboard.write([new ClipboardItem({ 'image/png': pic })]).then(function () { return true; }, function () { return false; });
+      } catch (e) { copied = Promise.resolve(false); }
+      copied.then(function (ok) {
+        if (!ok) {
+          pic.then(function (blob) {
+            if (!blob) return;
+            var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'my-wall.png';
+            document.body.appendChild(a); a.click(); a.remove(); setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000);
+          });
+        }
+        var shot = ok ? 'A screenshot is on my clipboard. I’ll paste it here.' : 'A screenshot just downloaded as my-wall.png. I’ll attach it.';
+        var body = 'Jason,\n\nNo offense to Walldrobe, but I hung it better. Here’s my wall:\n' + link + '\n\n' + shot + '\n\n';
+        location.href = 'mailto:jtraum@wharton.upenn.edu?subject=' + encodeURIComponent('I rehung your wall. It’s better now.') + '&body=' + encodeURIComponent(body);
+        if (why) why.textContent = ok ? 'Your email app should open with a draft. The picture is on your clipboard.' : 'Your email app should open with a draft. The picture downloaded as my-wall.png.';
+      });
+    });
+  }
+  restore();
 })();
 
 // Bad taste mode on the "after" palette chart: same data, every chart crime at once.
@@ -2348,17 +2507,23 @@ document.querySelectorAll('.tube').forEach(function (b) {
   draw();
 })();
 
-// Oct 7: the easel on About me. Paint on a small canvas with the palette; strokes mix like real paint (Kubelka-Munk, the
-// tables from Spectral.js, MIT, ship as #kmdata). The brush carries paint, runs low, and picks up what it drags through.
-(function () {
+// Oct 8: the easel on About me draws like soft oil pastels (Jason: "it should be like soft oil pastels"). Wax catches the
+// paper's tooth first, so a light first pass leaves the paper showing through, and going over it again fills it in. Each new
+// layer covers most of what's under it but blends into it, and the stick's tip picks up the color it drags through, so it
+// smears like the real thing until it's back on clean paper. Colors mix with Kubelka-Munk (tables from Spectral.js, MIT, #kmdata).
+function easelPastel() {
   var ez = document.getElementById('easel'), kd = document.getElementById('kmdata');
   if (!ez || !kd) return;
   var T; try { T = JSON.parse(kd.textContent); } catch (e) { return; }
   var cv = ez.querySelector('canvas'), ctx = cv.getContext && cv.getContext('2d');
   if (!ctx) return;
   var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var W = cv.width, H = cv.height, N = 38, B = T.B, CMF = T.CMF, M = T.M;
-  var PAPER = [243, 241, 236];
+  // Draw at the screen's real resolution so the wax and the paper grain stay crisp.
+  var cw = cv.getBoundingClientRect().width || 400, dpr = Math.min(2, window.devicePixelRatio || 1);
+  var W = Math.max(320, Math.min(1000, Math.round(cw * dpr))), H = Math.round(W * 3 / 4);
+  cv.width = W; cv.height = H;
+  var S = W / 400; // demo and stick sizes are written for a 400 wide canvas
+  var N = 38, B = T.B, CMF = T.CMF, M = T.M;
   function unc(x) { x /= 255; return x > 0.04045 ? Math.pow((x + 0.055) / 1.055, 2.4) : x / 12.92; }
   function cmp(x) { x = x > 0.0031308 ? 1.055 * Math.pow(x, 1 / 2.4) - 0.055 : x * 12.92; return x <= 0 ? 0 : x >= 1 ? 255 : x * 255; }
   var cache = new Map();
@@ -2376,11 +2541,13 @@ document.querySelectorAll('.tube').forEach(function (b) {
       ks[i] = (1 - R) * (1 - R) / (2 * R); lum += CMF[1][i] * R;
     }
     o = { ks: ks, lum: Math.max(1e-6, lum) };
-    if (cache.size > 40000) cache.clear();
+    if (cache.size > 60000) cache.clear();
     cache.set(key, o); return o;
   }
   // t is the share of b, from 0 to 1. Same weighting as Spectral.js: share squared times luminance.
   function mix(a, b, t, out) {
+    if (t <= 0.002) { out[0] = a[0]; out[1] = a[1]; out[2] = a[2]; return out; }
+    if (t >= 0.998) { out[0] = b[0]; out[1] = b[1]; out[2] = b[2]; return out; }
     var A = spec(a[0], a[1], a[2]), Bc = spec(b[0], b[1], b[2]);
     var ca = (1 - t) * (1 - t) * A.lum, cb = t * t * Bc.lum, tot = ca + cb, X = 0, Y = 0, Z = 0;
     for (var i = 0; i < N; i++) {
@@ -2392,10 +2559,32 @@ document.querySelectorAll('.tube').forEach(function (b) {
     out[2] = cmp(M[2][0] * X + M[2][1] * Y + M[2][2] * Z);
     return out;
   }
-  var col = new Float32Array(W * H * 3), amt = new Float32Array(W * H), grain = new Float32Array(W * H);
-  for (var gy = 0; gy < H; gy++) for (var gx = 0; gx < W; gx++) {
-    grain[gy * W + gx] = 2.2 * (Math.sin(gx * 1.9) * Math.sin(gy * 1.9)) + (Math.random() - 0.5) * 3;
+  // Paper tooth: a few octaves of value noise, fine enough to read as cold-press paper. 1 = a peak the wax catches first.
+  var seed = 7;
+  function rnd() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
+  function octave(cell) {
+    var gw = Math.ceil(W / cell) + 2, gh = Math.ceil(H / cell) + 2, L = new Float32Array(gw * gh), out = new Float32Array(W * H);
+    for (var k = 0; k < L.length; k++) L[k] = rnd();
+    for (var y = 0; y < H; y++) {
+      var fy = y / cell, iy = fy | 0, ty = fy - iy; ty = ty * ty * (3 - 2 * ty);
+      for (var x = 0; x < W; x++) {
+        var fx = x / cell, ix = fx | 0, tx = fx - ix; tx = tx * tx * (3 - 2 * tx);
+        var a = L[iy * gw + ix], b = L[iy * gw + ix + 1], c = L[(iy + 1) * gw + ix], d = L[(iy + 1) * gw + ix + 1];
+        out[y * W + x] = (a + (b - a) * tx) * (1 - ty) + (c + (d - c) * tx) * ty;
+      }
+    }
+    return out;
   }
+  var g1 = octave(1.2 * S), g2 = octave(2.6 * S), g3 = octave(8 * S), grain = new Float32Array(W * H);
+  for (var gi = 0; gi < grain.length; gi++) {
+    var v = 0.5 * g1[gi] + 0.35 * g2[gi] + 0.15 * g3[gi];
+    v = (v - 0.5) * 2.2 + 0.5; grain[gi] = v < 0 ? 0 : v > 1 ? 1 : v;
+  }
+  g1 = g2 = g3 = null;
+  var PAPER = [244, 241, 234];
+  var col = new Float32Array(W * H * 3), wax = new Float32Array(W * H);
+  // Wax under each pixel when the current stroke started, so one pass can only lay down so much.
+  var base = new Float32Array(W * H), sid = new Uint16Array(W * H), stroke = 0;
   var img = ctx.createImageData(W, H), px = img.data;
   var dirty = [0, 0, W, H], queued = false;
   function mark(x0, y0, x1, y1) {
@@ -2405,63 +2594,104 @@ document.querySelectorAll('.tube').forEach(function (b) {
   }
   function render() {
     queued = false; if (!dirty) return;
-    var x0 = Math.max(0, dirty[0] - 1), y0 = Math.max(0, dirty[1] - 1), x1 = Math.min(W, dirty[2] + 1), y1 = Math.min(H, dirty[3] + 1);
+    var x0 = Math.max(0, dirty[0] - 2), y0 = Math.max(0, dirty[1] - 2), x1 = Math.min(W, dirty[2] + 2), y1 = Math.min(H, dirty[3] + 2);
     dirty = null;
     for (var y = y0; y < y1; y++) for (var x = x0; x < x1; x++) {
-      var i = y * W + x, a = Math.min(1, amt[i] * 2.8), j = i * 3, q = i * 4;
-      // A little light from the top left on the ridges of thick paint.
+      var i = y * W + x, j = i * 3, q = i * 4, g = grain[i], h = wax[i];
+      // Bare paper: its grain shows as a faint shadow in the valleys.
+      var pr = PAPER[0] - (1 - g) * 14, pg = PAPER[1] - (1 - g) * 14, pb = PAPER[2] - (1 - g) * 12;
+      if (h <= 0) { px[q] = pr; px[q + 1] = pg; px[q + 2] = pb; px[q + 3] = 255; continue; }
+      // Wax is opaque once it's there; the thinnest crumbs at the edge of a stroke let a little paper through.
+      var a = h > 0.25 ? 1 : h / 0.25; a = a * a * (3 - 2 * a);
+      // Thin wax still shows the tooth under it; thick wax goes smooth and catches light on its ridges.
+      var tex = (g - 0.5) * 30 * Math.max(0, 1 - h * 1.4);
       var sh = 0;
-      if (x > 0 && y > 0 && x < W - 1 && y < H - 1) sh = (amt[i - 1] - amt[i + 1] + amt[i - W] - amt[i + W]) * 22;
-      var g = grain[i] * (1 - 0.6 * a) + sh;
-      px[q] = PAPER[0] * (1 - a) + col[j] * a + g;
-      px[q + 1] = PAPER[1] * (1 - a) + col[j + 1] * a + g;
-      px[q + 2] = PAPER[2] * (1 - a) + col[j + 2] * a + g;
+      if (x > 0 && y > 0 && x < W - 1 && y < H - 1) sh = (wax[i - 1] - wax[i + 1] + wax[i - W] - wax[i + W]) * 22 / S;
+      var lit = tex + sh;
+      px[q] = pr * (1 - a) + (col[j] + lit) * a;
+      px[q + 1] = pg * (1 - a) + (col[j + 1] + lit) * a;
+      px[q + 2] = pb * (1 - a) + (col[j + 2] + lit) * a;
       px[q + 3] = 255;
     }
     ctx.putImageData(img, 0, 0, x0, y0, x1 - x0, y1 - y0);
   }
   function hex(h) { return [1, 3, 5].map(function (k) { return parseInt(h.slice(k, k + 2), 16); }); }
-  var RAD = 11, brush = { c: hex('#3296FE'), load: 1 }, bristle = new Float32Array(2 * RAD + 3), tmp = [0, 0, 0], pick = [0, 0, 0];
-  function newStroke() { for (var k = 0; k < bristle.length; k++) bristle[k] = 0.3 + Math.random() * 0.7; }
-  function dab(cx, cy, dx, dy) {
-    var x0 = Math.max(0, Math.floor(cx - RAD)), x1 = Math.min(W - 1, Math.ceil(cx + RAD));
-    var y0 = Math.max(0, Math.floor(cy - RAD)), y1 = Math.min(H - 1, Math.ceil(cy + RAD));
-    var pr = 0, pg = 0, pb = 0, pw = 0;
+  // The stick: its own color, and the tip, which gets dirty from what it pushes through and cleans up on fresh paper.
+  // Really soft pastel (Jason: "almost paint"): it goes on thick and buttery, covers the paper in one pass except at the
+  // ragged edges, leaves ridges along the stroke, and drags the color under it along like wet paint.
+  var R = 10 * S, stick = { c: hex('#3296FE'), tip: hex('#3296FE') }, tmp = [0, 0, 0], drag = [0, 0, 0], press = 0.85;
+  var RN = 64, ridge = new Float32Array(RN);
+  function newRidges() {
+    var v = 0;
+    for (var k = 0; k < RN; k++) { v = v * 0.55 + (Math.random() - 0.5); ridge[k] = v; }
+  }
+  newRidges();
+  function dab(cx, cy, ux, uy) {
+    var r = R * (0.8 + 0.35 * press), x0 = Math.max(0, Math.floor(cx - r)), x1 = Math.min(W - 1, Math.ceil(cx + r));
+    var y0 = Math.max(0, Math.floor(cy - r)), y1 = Math.min(H - 1, Math.ceil(cy + r));
+    var sr = 0, sg = 0, sb = 0, sw = 0, seen = 0, back = r * 0.45;
     for (var y = y0; y <= y1; y++) for (var x = x0; x <= x1; x++) {
-      var ox = x - cx, oy = y - cy, d2 = (ox * ox + oy * oy) / (RAD * RAD);
-      if (d2 >= 1) continue;
-      var i = y * W + x, j = i * 3, fall = 1 - d2;
-      var br = bristle[Math.max(0, Math.min(bristle.length - 1, Math.round(-ox * dy + oy * dx + RAD + 1)))];
-      var wet = amt[i] > 0.02, load = wet ? brush.load + 0.3 * (1 - brush.load) : brush.load;
-      var dep = fall * br * load * 0.5;
-      if (dep < 0.004) continue;
-      if (wet) {
-        pr += col[j] * fall * amt[i]; pg += col[j + 1] * fall * amt[i]; pb += col[j + 2] * fall * amt[i]; pw += fall * amt[i];
-        var share = dep / (amt[i] * 0.55 + dep);
-        if (share > 0.015) { tmp[0] = col[j]; tmp[1] = col[j + 1]; tmp[2] = col[j + 2]; mix(tmp, brush.c, share, tmp); col[j] = tmp[0]; col[j + 1] = tmp[1]; col[j + 2] = tmp[2]; }
-      } else { col[j] = brush.c[0]; col[j + 1] = brush.c[1]; col[j + 2] = brush.c[2]; }
-      amt[i] = Math.min(1.1, amt[i] + dep * 0.8);
+      var ox = x - cx, oy = y - cy, d = Math.sqrt(ox * ox + oy * oy) / r;
+      if (d >= 1) continue;
+      var i = y * W + x, j = i * 3, h = wax[i], gr = grain[i];
+      if (sid[i] !== stroke) { sid[i] = stroke; base[i] = h; }
+      // How hard the stick presses here: flat in the middle, rounding off at the edge.
+      var p = d < 0.55 ? 1 : 1 - (d - 0.55) / 0.45; p = p * p * (3 - 2 * p) * press;
+      // Across the stroke the stick leaves ridges, like the grooves a soft stick drags into its own wax.
+      var across = (-ox * uy + oy * ux) / r, rk = ridge[Math.max(0, Math.min(RN - 1, Math.round((across + 1) * 0.5 * (RN - 1))))];
+      // Only the thin edge of the stroke skips over the paper's valleys; the middle covers completely.
+      var reach = p * 1.6 + Math.min(base[i], 1) * 0.8 - (1 - gr) * 0.75;
+      var fill = reach <= 0 ? 0 : reach >= 0.3 ? 1 : reach / 0.3;
+      seen += p;
+      if (h > 0.02) { var wgt = p * Math.min(h, 1); sr += col[j] * wgt; sg += col[j + 1] * wgt; sb += col[j + 2] * wgt; sw += wgt; }
+      // Push the wax that's already here forward a little, the way wet paint smears.
+      if (h > 0.05 && p > 0.2) {
+        var bx = Math.round(x - ux * back), by = Math.round(y - uy * back);
+        if (bx >= 0 && by >= 0 && bx < W && by < H) {
+          var bi = by * W + bx;
+          if (wax[bi] > 0.05) {
+            var bj = bi * 3, sm = 0.14 * p;
+            drag[0] = col[bj]; drag[1] = col[bj + 1]; drag[2] = col[bj + 2];
+            tmp[0] = col[j]; tmp[1] = col[j + 1]; tmp[2] = col[j + 2]; mix(tmp, drag, sm, tmp);
+            col[j] = tmp[0]; col[j + 1] = tmp[1]; col[j + 2] = tmp[2];
+          }
+        }
+      }
+      var dep = base[i] + fill * (0.55 + 0.16 * rk) - h;
+      if (dep <= 0.002) continue;
+      dep = Math.min(dep, 0.14);
+      if (h < 0.03) { col[j] = stick.tip[0]; col[j + 1] = stick.tip[1]; col[j + 2] = stick.tip[2]; }
+      else {
+        // Wet into wet: the new color and the one under it work into each other, a bit more on the paper's peaks.
+        var share = dep * 2.4 / (h + dep * 2.4) * Math.min(1, 0.55 + 0.9 * gr);
+        tmp[0] = col[j]; tmp[1] = col[j + 1]; tmp[2] = col[j + 2]; mix(tmp, stick.tip, share, tmp);
+        col[j] = tmp[0]; col[j + 1] = tmp[1]; col[j + 2] = tmp[2];
+      }
+      wax[i] = Math.min(2.2, h + dep);
     }
-    if (pw > 0) {
-      pick[0] = pr / pw; pick[1] = pg / pw; pick[2] = pb / pw;
-      mix(brush.c, pick, Math.min(0.03, 0.0003 * pw) * (1 - 0.7 * brush.load), brush.c);
+    // The tip picks up what it pushed through, then wears back to its own color on clean paper.
+    // (A plain blend here: the tip's color only steers what gets laid down next.)
+    var cover = seen > 0 ? Math.min(1, sw / seen) : 0, k1 = 0.025 * cover, k2 = 0.01 + 0.12 * (1 - cover);
+    for (var c3 = 0; c3 < 3; c3++) {
+      if (sw > 0) stick.tip[c3] += ([sr, sg, sb][c3] / sw - stick.tip[c3]) * k1;
+      stick.tip[c3] += (stick.c[c3] - stick.tip[c3]) * k2;
     }
-    brush.load = Math.max(0, brush.load * 0.994);
     mark(x0, y0, x1 + 1, y1 + 1);
   }
   var last = null;
   function to(x, y) {
-    if (!last) { last = [x, y, 1, 0]; dab(x, y, 1, 0); return; }
-    var dx = x - last[0], dy = y - last[1], L = Math.sqrt(dx * dx + dy * dy);
-    if (L < 1.5) return;
-    var ux = dx / L, uy = dy / L, steps = Math.floor(L / 1.5);
-    for (var s = 1; s <= steps; s++) dab(last[0] + ux * s * 1.5, last[1] + uy * s * 1.5, ux, uy);
-    last = [last[0] + ux * steps * 1.5, last[1] + uy * steps * 1.5, ux, uy];
+    if (!last) { last = [x, y]; dab(x, y, 1, 0); return; }
+    var dx = x - last[0], dy = y - last[1], L = Math.sqrt(dx * dx + dy * dy), step = Math.max(1, R * 0.22);
+    if (L < step) return;
+    var ux = dx / L, uy = dy / L, n = Math.floor(L / step);
+    for (var s = 1; s <= n; s++) dab(last[0] + ux * s * step, last[1] + uy * s * step, ux, uy);
+    last = [last[0] + ux * n * step, last[1] + uy * n * step];
   }
   function at(e) { var r = cv.getBoundingClientRect(); return [(e.clientX - r.left) * W / r.width, (e.clientY - r.top) * H / r.height]; }
+  function pressure(e) { return e.pointerType === 'pen' && e.pressure > 0 ? 0.45 + 0.6 * e.pressure : 0.85; }
   var down = false, touched = false;
   cv.addEventListener('pointerdown', function (e) {
-    down = true; touched = true; last = null; newStroke();
+    down = true; touched = true; last = null; press = pressure(e); stroke = (stroke + 1) % 65535 || 1; newRidges();
     try { cv.setPointerCapture(e.pointerId); } catch (er) {}
     var p = at(e); to(p[0], p[1]); e.preventDefault();
   });
@@ -2469,43 +2699,48 @@ document.querySelectorAll('.tube').forEach(function (b) {
     if (!down) return;
     var es = e.getCoalescedEvents ? e.getCoalescedEvents() : [e];
     if (!es.length) es = [e];
-    es.forEach(function (ev) { var p = at(ev); to(p[0], p[1]); });
+    es.forEach(function (ev) { press = pressure(ev); var p = at(ev); to(p[0], p[1]); });
   });
   ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(function (t) { cv.addEventListener(t, function () { down = false; last = null; }); });
-  var paints = [].slice.call(ez.querySelectorAll('.ez-p'));
+  var sticks = [].slice.call(ez.querySelectorAll('.ez-p'));
   function choose(b) {
-    paints.forEach(function (o) { o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); });
-    brush.c = hex(b.getAttribute('data-c')); brush.load = 1;
+    sticks.forEach(function (o) { o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); });
+    stick.c = hex(b.getAttribute('data-c')); stick.tip = stick.c.slice();
   }
-  paints.forEach(function (b) { b.addEventListener('click', function () { choose(b); }); });
-  ez.querySelector('.ez-x').addEventListener('click', function () { col.fill(0); amt.fill(0); mark(0, 0, W, H); });
-  // First look: two strokes cross, so the place they meet shows the mix.
+  sticks.forEach(function (b) { b.addEventListener('click', function () { choose(b); }); });
+  ez.querySelector('.ez-x').addEventListener('click', function () { col.fill(0); wax.fill(0); sid.fill(0); mark(0, 0, W, H); });
+  // First look: a blue scribble, then honey across it, so the place they meet shows the blend.
   function demo() {
     var strokes = [
-      { c: '#3296FE', pts: function (t) { return [40 + t * 300, 105 + Math.sin(t * 5) * 22]; } },
-      { c: '#DA9408', pts: function (t) { return [110 + t * 230, 250 - t * 190 + Math.sin(t * 4) * 10]; } }
+      { c: '#3296FE', pts: function (t) { return [S * (40 + t * 300), S * (110 + Math.sin(t * 5) * 22)]; } },
+      { c: '#3296FE', pts: function (t) { return [S * (60 + t * 270), S * (126 + Math.sin(t * 5 + 0.4) * 20)]; } },
+      { c: '#DA9408', pts: function (t) { return [S * (110 + t * 230), S * (250 - t * 190 + Math.sin(t * 4) * 10)]; } }
     ];
-    var k = 0;
-    function run(s, done) {
-      brush.c = hex(s.c); brush.load = 1; newStroke(); last = null;
-      if (calm) { for (var t = 0; t <= 1; t += 0.004) { var p = s.pts(t); to(p[0], p[1]); } done(); return; }
+    function run(k) {
+      if (k >= strokes.length) { last = null; choose(sticks[1] || sticks[0]); return; }
+      var s = strokes[k]; stick.c = hex(s.c); stick.tip = stick.c.slice(); last = null; press = 0.85; stroke = (stroke + 1) % 65535 || 1; newRidges();
+      var next = function () { if (!touched) setTimeout(function () { if (!touched) run(k + 1); }, calm ? 0 : 200); };
+      if (calm) { for (var t = 0; t <= 1; t += 0.004) { var p = s.pts(t); to(p[0], p[1]); } next(); return; }
       var t0 = null;
       function f(now) {
         if (touched) return;
         if (t0 === null) t0 = now;
-        var t = Math.min(1, (now - t0) / 1100), p = s.pts(t * t * (3 - 2 * t)); to(p[0], p[1]);
-        if (t < 1) requestAnimationFrame(f); else done();
+        var t = Math.min(1, (now - t0) / 900), p = s.pts(t * t * (3 - 2 * t)); to(p[0], p[1]);
+        if (t < 1) requestAnimationFrame(f); else next();
       }
       requestAnimationFrame(f);
     }
-    run(strokes[0], function () { if (touched) return; setTimeout(function () { if (!touched) run(strokes[1], function () { last = null; choose(paints[1] || paints[0]); }); }, calm ? 0 : 250); });
+    run(0);
   }
   mark(0, 0, W, H);
   if (window.IntersectionObserver && !calm) {
     var io = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { io.disconnect(); if (!touched) demo(); } }, { threshold: 0.6 });
     io.observe(cv);
   } else demo();
-})();
+}
+
+// Oct 8: Jason compared the two brushes and picked the soft pastel ("A is wayyy better") over Fluid Paint.
+easelPastel();
 
 // Oct 7: the heatmap on Research. Tap either end color to cycle through the palette; the switch flips between Excel's
 // straight RGB blend and Jason's script (OKLCH: lightness and chroma blended, hue the short way, chroma pulled in to fit).

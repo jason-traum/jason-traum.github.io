@@ -40,7 +40,7 @@
   color-scheme: dark;
 }
 :root {
-  --paper: #141619; --surface: #1C1F23; --ink: #E7ECF1; --ink-2: #C8D0D8; --muted: #9AA5B2; --ink-strong: #FFFFFF; --gal-wall: #3A3833; --gal-floor: #2A2420; --gal-base: #47443E; --gal-wood: #5B4636; --gal-wood-2: #4B3A2D; --gal-person: #A9A398; --gal-frame: #0B0C0E; --gal-mat: #F3F1EC; --gal-tape: #E9E0C6; --gal-leaf: #6E7D5C; --gal-books: #6B7480;
+  --paper: #141619; --surface: #1C1F23; --ink: #E7ECF1; --ink-2: #C8D0D8; --muted: #9AA5B2; --ink-strong: #FFFFFF; --gal-wall: #D8D2C8; --gal-floor: #8F7A64; --gal-base: #E6E1D9; --gal-wood: #5B4636; --gal-wood-2: #4B3A2D; --gal-person: #6F6A63; --gal-frame: #0B0C0E; --gal-mat: #F3F1EC; --gal-tape: #E9E0C6; --gal-leaf: #6E7D5C; --gal-books: #6B7480;
   --rule: #2A2E33; --rule-strong: #B9C3CE; --olive: #7FAEE0; --signal: #5CC495; --signal-ink: #141619;
   --frame: #06090D; --mat: #E6E9EC; --shot-border: #2A2E33;
   --c-msblue: #6FA0D6; --c-razz: #5AAEFF; --c-jade: #5CC495; --c-amethyst: #A593EC; --c-carrot: #E8834F; --c-honey: #E8AE2E; --c-magenta: #E56A9C; --c-grey: #A3A5AE;
@@ -754,6 +754,8 @@ a.sn:hover .dot { background: var(--c-msblue); }
 .sn:focus-visible, .tiles a:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; border-radius: 4px; }
 .who .yr { font-size: 14px; font-weight: 600; color: var(--muted); font-variant-numeric: tabular-nums; }
 .who .hl { font-size: 14px; line-height: 1.45; color: var(--ink-2); }
+.ai-link { display: inline-block; margin-top: 8px; font-size: 14px; font-weight: 600; color: var(--ink); text-decoration: underline; text-decoration-color: var(--c-msblue); text-decoration-thickness: 1.5px; text-underline-offset: 4px; }
+.ai-link::after { content: '\00a0\2192'; }
 .tiles { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 22px 16px; }
 .tiles a { display: flex; flex-direction: column; gap: 6px; width: 216px; text-decoration: none; color: var(--ink); }
 .tiles img, .tiles .pal { display: block; width: 216px; height: 162px; object-fit: cover; border-radius: 6px; border: 1px solid var(--rule); }
@@ -990,6 +992,8 @@ body:has(.pager) .colophon, body:has(.proj-more) .colophon { border-top: 0; }
   border: 3px solid var(--gal-frame); background: var(--gal-frame); box-shadow: 0 6px 14px rgba(0, 0, 0, .45); cursor: grab; touch-action: none;
   transform: rotate(var(--rot, 0deg)); transition: transform .55s cubic-bezier(.3, 1.5, .5, 1); z-index: 2; }
 .gal-p img { display: block; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+/* Oct 8 (Astra): on a phone the smallest frames are about 19 by 15px, so each one gets an invisible margin to grab. */
+@media (max-width: 700px) { .gal-p::after { content: ''; position: absolute; inset: -9px; } }
 .gal-p.gal-mat { border-width: 2px; padding: calc(var(--w) * .07 * 1%); background: var(--gal-mat); aspect-ratio: auto; height: auto; }
 .gal-p.gal-mat img { height: auto; aspect-ratio: var(--ar); }
 .gal-p.dragging { cursor: grabbing; transition: none; z-index: 4; box-shadow: 0 14px 26px rgba(0, 0, 0, .55); }
@@ -1010,7 +1014,7 @@ body:has(.pager) .colophon, body:has(.proj-more) .colophon { border-top: 0; }
 .gal-p.gal-pin { border: 0; background: none; overflow: visible; box-shadow: 0 3px 8px rgba(0, 0, 0, .35); }
 .gal-tape.l { top: -5%; left: -10%; width: 34%; height: 7%; transform: rotate(-38deg); }
 .gal-tape.r { top: -5%; left: auto; right: -10%; width: 34%; height: 7%; transform: rotate(38deg); }
-.gal-person { position: absolute; bottom: 7%; height: 61.6%; left: calc(var(--px, 5) * 1%); fill: var(--gal-wall); stroke: var(--gal-person); stroke-width: 1.6; stroke-linejoin: round; pointer-events: none; z-index: 3;
+.gal-person { position: absolute; bottom: 7%; height: 61.6%; left: calc(var(--px, 5) * 1%); fill: var(--gal-wall); stroke: var(--gal-person); stroke-width: 1.6; stroke-linejoin: round; pointer-events: none; z-index: 1000;
   transition: left 1.5s ease-in-out; }
 .gal-person.walk { animation: gal-bob .38s ease-in-out infinite alternate; }
 @keyframes gal-bob { from { translate: 0 0; } to { translate: 0 -1.2%; } }
@@ -1019,6 +1023,8 @@ body:has(.pager) .colophon, body:has(.proj-more) .colophon { border-top: 0; }
 .gal-run { appearance: none; font: inherit; font-size: 14px; font-weight: 600; color: var(--paper); background: var(--c-magenta); border: 0; border-radius: 999px; padding: 7px 14px; cursor: pointer; }
 .gal-run:hover { filter: brightness(1.08); }
 .gal-run:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.gal-send { appearance: none; background: none; border: 0; padding: 7px 2px; font: inherit; font-size: 14px; font-weight: 600; color: var(--ink); text-decoration: underline; text-decoration-color: var(--c-magenta); text-decoration-thickness: 1.5px; text-underline-offset: 4px; cursor: pointer; }
+.gal-send:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; border-radius: 4px; }
 .gal-why { color: var(--ink-2); }
 @media (prefers-reduced-motion: reduce) { .gal-p, .gal-crooked, .gal-person { transition: none; } .gal-person.walk { animation: none; } }
 

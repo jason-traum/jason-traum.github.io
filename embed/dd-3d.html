@@ -32,6 +32,10 @@
     want = b.dataset.model;
     btns.forEach(x => x.setAttribute('aria-pressed', String(x === b)));
     if (api) api.show(want); else host.querySelector('.viewer-poster').src = 'https://getdrinkdock.com/img/product/' + (want === 'one' ? 'one-studio' : want) + '.webp';
+    // Keep the name read out in step with the machine on screen (Astra, Oct 8).
+    const label = 'DrinkDock ' + b.textContent.trim() + ' vending machine';
+    host.setAttribute('role', 'img'); host.setAttribute('aria-label', label);
+    const poster = host.querySelector('.viewer-poster'); if (poster) poster.alt = label;
   }));
   if (matchMedia('(pointer: coarse)').matches) (document.querySelector('.viewer-hint')||{}).textContent = matchMedia('(prefers-reduced-motion: reduce)').matches ? 'Use the buttons to switch machines.' : 'It turns on its own.';
 </script>
