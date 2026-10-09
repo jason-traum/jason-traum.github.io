@@ -49,7 +49,7 @@
   color-scheme: dark;
 }
 :root {
-  --paper: #141619; --surface: #1C1F23; --ink: #E7ECF1; --ink-2: #C8D0D8; --muted: #9AA5B2; --ink-strong: #FFFFFF; --gal-wall: #D8D2C8; --gal-floor: #8F7A64; --gal-base: #E6E1D9; --gal-wood: #5B4636; --gal-wood-2: #4B3A2D; --gal-person: #6F6A63; --gal-frame: #0B0C0E; --gal-mat: #F3F1EC; --gal-tape: #E9E0C6; --gal-leaf: #6E7D5C; --gal-books: #6B7480;
+  --paper: #141619; --surface: #1C1F23; --ink: #E7ECF1; --ink-2: #C8D0D8; --muted: #9AA5B2; --ink-strong: #FFFFFF; --gal-wall: #D8D2C8; --gal-floor: #8F7A64; --gal-base: #E6E1D9; --gal-wood: #5B4636; --gal-wood-2: #4B3A2D; --gal-person: #6F6A63; --gal-frame: #0B0C0E; --gal-mat: #F3F1EC; --gal-tape: #E9E0C6; --gal-leaf: #6E7D5C; --gal-books: #6B7480; --gal-bk-klein: #002FA7; --gal-bk-geo: #E9E0CC; --gal-bk-dyn: #1F2A44; --gal-bk-run: #3E6F52; --gal-bk-gilt: #C9A24B; --gal-bk-cream: #F1ECE0; --gal-bk-ink: #2B2A28; --gal-bk-ink-2: #857A66;
   --rule: #2A2E33; --rule-strong: #B9C3CE; --olive: #7FAEE0; --signal: #5CC495; --signal-ink: #141619;
   --frame: #06090D; --mat: #E6E9EC; --shot-border: #2A2E33;
   --c-msblue: #6FA0D6; --c-razz: #5AAEFF; --c-jade: #5CC495; --c-amethyst: #A593EC; --c-carrot: #E8834F; --c-honey: #E8AE2E; --c-magenta: #E56A9C; --c-grey: #A3A5AE;
@@ -933,8 +933,13 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
 .topbar .label:not(.tb-name) a { view-transition-name: jt-name; display: inline-block; }
 .topbar .tb-name { opacity: 0; pointer-events: none; transition: opacity .25s ease; }
 .topbar .tb-name.on { opacity: 1; pointer-events: auto; }
-::view-transition-group(jt-name) { animation-duration: .45s; animation-timing-function: cubic-bezier(.2,.7,.2,1); }
-::view-transition-old(root), ::view-transition-new(root) { animation-duration: .25s; }
+/* Oct 8 (Jason: "a bit janky"): the small and big name now share weight and tracking, and each snapshot keeps its own
+   shape (height 100%, width auto) instead of being stretched to the other's box, so the morph is a clean scale. */
+.topbar .label a { font-weight: 800; letter-spacing: -0.02em; line-height: 0.92; }
+.name { width: fit-content; }
+::view-transition-group(jt-name) { animation-duration: .42s; animation-timing-function: cubic-bezier(.4,0,.2,1); }
+::view-transition-old(jt-name), ::view-transition-new(jt-name) { height: 100%; width: auto; animation-duration: .42s; animation-timing-function: cubic-bezier(.4,0,.2,1); }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: .3s; }
 @media (prefers-reduced-motion: reduce) { ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; } }
 
 /* Things I've built: one project per row until there's room for two (Astra review, Oct 7: at 768px the text got 110px) */
@@ -997,6 +1002,12 @@ body:has(.pager) .colophon, body:has(.proj-more) .colophon { border-top: 0; }
 .gal-bg { position: absolute; inset: 0; width: 100%; height: 100%; }
 .gal-wall { fill: var(--gal-wall); } .gal-floor { fill: var(--gal-floor); } .gal-base { fill: var(--gal-base); }
 .gal-cred rect { fill: var(--gal-wood); } .gal-cred-line rect { fill: var(--gal-wood-2); } .gal-vase path { fill: var(--gal-mat); opacity: .85; } .gal-vase .stem { fill: none; stroke: var(--gal-leaf); stroke-width: 3; stroke-linecap: round; opacity: 1; } .gal-books rect { fill: var(--gal-books); }
+/* books on the credenza (tools/gen_books.py) */
+.gal-books .bk-klein .sp { fill: var(--gal-bk-klein); } .gal-books .bk-geo .sp { fill: var(--gal-bk-geo); } .gal-books .bk-dyn .sp { fill: var(--gal-bk-dyn); } .gal-books .bk-run .sp { fill: var(--gal-bk-run); }
+.gal-books .bd { fill: var(--gal-bk-gilt); opacity: .7; } .gal-books .bk-klein .bd { opacity: 0; } .gal-books .bk-geo .bd { fill: var(--gal-bk-ink-2); opacity: .5; }
+.gal-books .sh { fill: url(#bk-round); }
+.gal-books .ti { fill: var(--gal-bk-cream); } .gal-books .bk-dyn .ti { fill: var(--gal-bk-gilt); } .gal-books .bk-geo .ti { fill: var(--gal-bk-ink); }
+.gal-books .au { font: 600 2.3px var(--body); letter-spacing: .25px; fill: var(--gal-bk-cream); opacity: .75; } .gal-books .bk-geo .au { fill: var(--gal-bk-ink-2); opacity: 1; }
 .gal-p { position: absolute; left: calc(var(--x) * 1%); top: calc(var(--y) * 1%); width: calc(var(--w) * 1%); aspect-ratio: var(--ar); padding: 0; margin: 0;
   border: 3px solid var(--gal-frame); background: var(--gal-frame); box-shadow: 0 6px 14px rgba(0, 0, 0, .45); cursor: grab; touch-action: none;
   transform: rotate(var(--rot, 0deg)); transition: transform .55s cubic-bezier(.3, 1.5, .5, 1); z-index: 2; }
@@ -1214,7 +1225,7 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
 .pg-background { --ht-ink: var(--c-magenta); --ht-paper: var(--gal-mat); }
 canvas.ht { position: absolute; pointer-events: none; opacity: 0; z-index: 1; }
 canvas.ht.on { opacity: 1; }
-canvas.ht.on.dev { opacity: 0; transition: opacity 1.2s cubic-bezier(.4,0,.2,1); }
+canvas.ht.on.dev { opacity: 0; transition: opacity .5s cubic-bezier(.4,0,.2,1); }
 @media (prefers-reduced-motion: reduce) { canvas.ht { display: none; } }
 
 /* Oct 7: some photos open with more: the story behind them, sometimes a second picture. A small dot marks them on the wall. */
@@ -1427,6 +1438,7 @@ details.more > p + p { margin-top: 12px; }
 }
 
 </style>
+<script>(function(){function pick(){var c=null;[document.querySelector('.name'),document.querySelector('.topbar .label a')].forEach(function(el){if(!el)return;var r=el.getBoundingClientRect(),w=el.closest('.tb-name'),s=r.width>0&&r.bottom>0&&r.top<innerHeight&&!(w&&!w.classList.contains('on'));el.style.viewTransitionName=!c&&s?'jt-name':'none';if(!c&&s)c=el;});}addEventListener('pageswap',pick);addEventListener('pagereveal',pick);})();</script>
 </head>
 <body class="pg pg-ai">
 <a class="skip" href="#main">Skip to content</a>
@@ -2214,6 +2226,8 @@ details.more > p + p { margin-top: 12px; }
     function paint(from, to) {
       var cs = getComputedStyle(from);
       ['fill', 'stroke', 'stroke-width', 'opacity', 'stroke-linecap', 'stroke-linejoin'].forEach(function (k) { to.setAttribute(k, cs.getPropertyValue(k)); });
+      // Book titles: the picture can't reach the page's fonts or CSS variables, so spell the font out with a plain fallback.
+      if (to.tagName === 'text') to.setAttribute('style', 'font-family:Arial,Helvetica,sans-serif;font-size:' + cs.fontSize + ';font-weight:' + cs.fontWeight + ';letter-spacing:' + cs.letterSpacing);
     }
     paint(svg, c);
     for (var i = 0; i < src.length; i++) paint(src[i], dst[i]);
@@ -2258,12 +2272,15 @@ details.more > p + p { margin-top: 12px; }
   if (send) {
     send.hidden = false;
     send.addEventListener('click', function () {
-      var link = stateLink(), how = 'download';
+      var link = stateLink();
       var pic = new Promise(function (res) { snapshot(res); });
       var copied = Promise.resolve(false);
       try {
         if (navigator.clipboard && window.ClipboardItem) copied = navigator.clipboard.write([new ClipboardItem({ 'image/png': pic })]).then(function () { return true; }, function () { return false; });
       } catch (e) { copied = Promise.resolve(false); }
+      // Open the draft right away, inside the click. Safari blocks a mailto that opens after waiting on the picture.
+      var body = 'Jason,\n\nNo offense to Walldrobe, but I hung it better. Here’s my wall:\n' + link + '\n\nI’ll paste a picture of it here.\n\n';
+      location.href = 'mailto:jtraum@wharton.upenn.edu?subject=' + encodeURIComponent('I rehung your wall. It’s better now.') + '&body=' + encodeURIComponent(body);
       copied.then(function (ok) {
         if (!ok) {
           pic.then(function (blob) {
@@ -2272,9 +2289,6 @@ details.more > p + p { margin-top: 12px; }
             document.body.appendChild(a); a.click(); a.remove(); setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000);
           });
         }
-        var shot = ok ? 'A screenshot is on my clipboard. I’ll paste it here.' : 'A screenshot just downloaded as my-wall.png. I’ll attach it.';
-        var body = 'Jason,\n\nNo offense to Walldrobe, but I hung it better. Here’s my wall:\n' + link + '\n\n' + shot + '\n\n';
-        location.href = 'mailto:jtraum@wharton.upenn.edu?subject=' + encodeURIComponent('I rehung your wall. It’s better now.') + '&body=' + encodeURIComponent(body);
         if (why) why.textContent = ok ? 'Your email app should open with a draft. The picture is on your clipboard.' : 'Your email app should open with a draft. The picture downloaded as my-wall.png.';
       });
     });
@@ -2403,8 +2417,8 @@ document.querySelectorAll('.tube').forEach(function (b) {
     o.done = true;
     setTimeout(function () {
       o.c.classList.add('dev');
-      setTimeout(function () { if (o.c.parentNode) o.c.parentNode.removeChild(o.c); }, 1500);
-    }, 650 + Math.random() * 350);
+      setTimeout(function () { if (o.c.parentNode) o.c.parentNode.removeChild(o.c); }, 700);
+    }, 180 + Math.random() * 160);  // Oct 8 (Jason): faster; was 650 to 1000ms, then a 1.2s fade
   }
 
   var io = new IntersectionObserver(function (es) {
@@ -2413,7 +2427,7 @@ document.querySelectorAll('.tube').forEach(function (b) {
       var o = items.filter(function (x) { return x.img === e.target; })[0];
       if (o) { o.seen = true; io.unobserve(e.target); maybe(o); }
     });
-  }, { threshold: 0.4 });
+  }, { threshold: 0.25 });
   items.forEach(function (o) { io.observe(o.img); });
 
   if (window.ResizeObserver) {
