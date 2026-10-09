@@ -20,7 +20,7 @@
   --ink-strong: #000000;
   --rule: #D9DEE4;
   --rule-strong: #14212E;
-  --olive: #275C90;          /* MS Blue: links, focus, the report band */
+  --blue-soft: #275C90;          /* MS Blue: links, focus, the report band */
   --signal: #39A174;         /* Jade: live marker */
   --signal-ink: #FFFFFF;
   --frame: #1D232B;
@@ -41,7 +41,7 @@
 }
 :root {
   --paper: #141619; --surface: #1C1F23; --ink: #E7ECF1; --ink-2: #C8D0D8; --muted: #9AA5B2; --ink-strong: #FFFFFF; --gal-wall: #D8D2C8; --gal-floor: #8F7A64; --gal-base: #E6E1D9; --gal-wood: #5B4636; --gal-wood-2: #4B3A2D; --gal-person: #6F6A63; --gal-frame: #0B0C0E; --gal-mat: #F3F1EC; --gal-tape: #E9E0C6; --gal-leaf: #6E7D5C; --gal-books: #6B7480; --gal-bk-klein: #002FA7; --gal-bk-geo: #E9E0CC; --gal-bk-dyn: #1F2A44; --gal-bk-run: #3E6F52; --gal-bk-gilt: #C9A24B; --gal-bk-cream: #F1ECE0; --gal-bk-ink: #2B2A28; --gal-bk-ink-2: #857A66;
-  --rule: #2A2E33; --rule-strong: #B9C3CE; --olive: #7FAEE0; --signal: #5CC495; --signal-ink: #141619;
+  --rule: #2A2E33; --rule-strong: #B9C3CE; --blue-soft: #7FAEE0; /* Oct 9 rule: Blue Razz (--c-razz) for lines, dots, bars, underlines and outlines; this soft blue for blue text and anything with text on it */ --signal: #5CC495; --signal-ink: #141619;
   --frame: #06090D; --mat: #E6E9EC; --shot-border: #2A2E33;
   --c-msblue: #6FA0D6; --c-razz: #3296FE; --c-jade: #5CC495; --c-amethyst: #A593EC; --c-carrot: #E8834F; --c-honey: #E8AE2E; --c-magenta: #E56A9C; --c-grey: #A3A5AE;
   --k-build: #3296FE; --k-res: #5CC495;
@@ -72,8 +72,8 @@ a {
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
 }
-a:hover { color: var(--olive); text-decoration-thickness: 2px; }
-:focus-visible { outline: 2px solid var(--olive); outline-offset: 3px; border-radius: 2px; }
+a:hover { color: var(--blue-soft); text-decoration-thickness: 2px; }
+:focus-visible { outline: 2px solid var(--c-razz); outline-offset: 3px; border-radius: 2px; }
 ::selection { background: var(--signal); color: var(--signal-ink); }
 
 .sr-only {
@@ -109,7 +109,7 @@ a:hover { color: var(--olive); text-decoration-thickness: 2px; }
 }
 .toplinks { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; }
 .toplinks a { color: var(--ink-2); text-decoration: none; display: inline-block; padding-block: 12px; margin-block: -12px; }
-.toplinks a:hover { color: var(--olive); text-decoration: underline; }
+.toplinks a:hover { color: var(--blue-soft); text-decoration: underline; }
 
 /* Intro */
 .intro { padding-block: 36px 64px; }
@@ -175,10 +175,10 @@ button.copy:hover { background: var(--ink); color: var(--paper); }
 .holdings td.s { font-size: 14px; color: var(--ink-2); white-space: nowrap; }
 .holdings td.d { font-family: var(--mono); font-size: 13px; color: var(--ink-2); white-space: nowrap; }
 .holdings td.d { text-align: right; padding-right: 0; font-variant-numeric: tabular-nums; }
-.mk { display: inline-block; width: 9px; height: 9px; margin-right: 9px; vertical-align: 0; border: 1.5px solid var(--olive); }
+.mk { display: inline-block; width: 9px; height: 9px; margin-right: 9px; vertical-align: 0; border: 1.5px solid var(--c-razz); }
 .mk-live { background: var(--signal); }
-.mk-use { background: var(--olive); }
-.mk-paused { background: linear-gradient(90deg, var(--olive) 50%, transparent 50%); }
+.mk-use { background: var(--c-razz); }
+.mk-paused { background: linear-gradient(90deg, var(--c-razz) 50%, transparent 50%); }
 .mk-concept { border-color: var(--muted); }
 @media (max-width: 699px) {
   .holdings thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
@@ -253,7 +253,7 @@ button.copy:hover { background: var(--ink); color: var(--paper); }
   font-family: var(--mono); font-size: 13px; line-height: 1.5;
   max-width: 42em;
 }
-.wiring dt { color: var(--olive); font-weight: 500; }
+.wiring dt { color: var(--blue-soft); font-weight: 500; }
 .wiring dd { margin: 0; color: var(--ink-2); }
 @media (max-width: 480px) { .wiring { grid-template-columns: 1fr; gap: 2px; } .wiring dd { margin-bottom: 8px; } }
 
@@ -355,7 +355,7 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 }
 .highlights { margin: 26px 0 0; padding: 0; list-style: none; display: grid; gap: 12px; max-width: 46em; }
 .highlights li { position: relative; padding-left: 20px; color: var(--ink-2); }
-.highlights li::before { content: ""; position: absolute; left: 0; top: 0.68em; width: 8px; height: 1.5px; background: var(--olive); }
+.highlights li::before { content: ""; position: absolute; left: 0; top: 0.68em; width: 8px; height: 1.5px; background: var(--c-razz); }
 
 .outside { display: grid; gap: 22px; align-items: start; }
 .outside-text { display: grid; gap: 14px; max-width: 46em; }
@@ -424,7 +424,7 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .name span { display: inline; }
 .p-name { font-weight: 900; letter-spacing: -0.03em; }
 .contact-big { font-weight: 800; }
-.exn { color: var(--c, var(--olive)); font-weight: 800; }
+.exn { color: var(--c, var(--blue-soft)); font-weight: 800; }
 .ext { font-size: clamp(1.25rem, 2.4vw, 1.6rem); font-weight: 800; letter-spacing: -0.015em; line-height: 1.2; max-width: 30em; margin: 4px 0 0; text-wrap: balance; }
 .src { font-size: 13px; color: var(--muted); border-top: 1px solid var(--rule); padding-top: 7px; margin-top: 10px; max-width: 52em; }
 .exhibit { padding-block: 56px; border-top: 1px solid var(--rule); }
@@ -500,7 +500,7 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .kview { display: none; justify-content: flex-end; margin: -8px 0 6px; }
 .kswitch { appearance: none; background: none; font: inherit; font-size: 13.5px; font-weight: 600; color: var(--ink); border: 1px solid var(--rule-strong); border-radius: 6px; padding: 8px 12px; min-height: 40px; cursor: pointer; }
 .kswitch:hover { background: var(--ink); color: var(--paper); }
-.kswitch:focus-visible { outline: 2px solid var(--olive); outline-offset: 2px; }
+.kswitch:focus-visible { outline: 2px solid var(--c-razz); outline-offset: 2px; }
 .skills.kjs .kview { display: flex; }
 .skills:not(.kjs) .kcloudview { display: none; }
 .skills.kjs .klist { display: none; }
@@ -533,9 +533,9 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 
 /* See-it column and the demo link by the intro */
 .holdings td.d.see { font-family: inherit; font-size: 14px; }
-.cta { display: inline-flex; align-items: center; min-height: 40px; padding: 8px 14px; border-radius: 6px; background: var(--olive); color: var(--paper); font-weight: 700; font-size: 14.5px; text-decoration: none; }
+.cta { display: inline-flex; align-items: center; min-height: 40px; padding: 8px 14px; border-radius: 6px; background: var(--blue-soft); color: var(--paper); font-weight: 700; font-size: 14.5px; text-decoration: none; }
 .cta:hover { color: var(--paper); text-decoration: underline; }
-.cta:focus-visible { outline: 2px solid var(--olive); outline-offset: 3px; }
+.cta:focus-visible { outline: 2px solid var(--c-razz); outline-offset: 3px; }
 @media (pointer: coarse) { .cta { min-height: 44px; } }
 
 .cta-row { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 10px; }

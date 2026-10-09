@@ -33,7 +33,7 @@
   --ink-strong: #000000;
   --rule: #D9DEE4;
   --rule-strong: #14212E;
-  --olive: #275C90;          /* MS Blue: links, focus, the report band */
+  --blue-soft: #275C90;          /* MS Blue: links, focus, the report band */
   --signal: #39A174;         /* Jade: live marker */
   --signal-ink: #FFFFFF;
   --frame: #1D232B;
@@ -54,7 +54,7 @@
 }
 :root {
   --paper: #141619; --surface: #1C1F23; --ink: #E7ECF1; --ink-2: #C8D0D8; --muted: #9AA5B2; --ink-strong: #FFFFFF; --gal-wall: #D8D2C8; --gal-floor: #8F7A64; --gal-base: #E6E1D9; --gal-wood: #5B4636; --gal-wood-2: #4B3A2D; --gal-person: #6F6A63; --gal-frame: #0B0C0E; --gal-mat: #F3F1EC; --gal-tape: #E9E0C6; --gal-leaf: #6E7D5C; --gal-books: #6B7480; --gal-bk-klein: #002FA7; --gal-bk-geo: #E9E0CC; --gal-bk-dyn: #1F2A44; --gal-bk-run: #3E6F52; --gal-bk-gilt: #C9A24B; --gal-bk-cream: #F1ECE0; --gal-bk-ink: #2B2A28; --gal-bk-ink-2: #857A66;
-  --rule: #2A2E33; --rule-strong: #B9C3CE; --olive: #7FAEE0; --signal: #5CC495; --signal-ink: #141619;
+  --rule: #2A2E33; --rule-strong: #B9C3CE; --blue-soft: #7FAEE0; /* Oct 9 rule: Blue Razz (--c-razz) for lines, dots, bars, underlines and outlines; this soft blue for blue text and anything with text on it */ --signal: #5CC495; --signal-ink: #141619;
   --frame: #06090D; --mat: #E6E9EC; --shot-border: #2A2E33;
   --c-msblue: #6FA0D6; --c-razz: #3296FE; --c-jade: #5CC495; --c-amethyst: #A593EC; --c-carrot: #E8834F; --c-honey: #E8AE2E; --c-magenta: #E56A9C; --c-grey: #A3A5AE;
   --k-build: #3296FE; --k-res: #5CC495;
@@ -85,8 +85,8 @@ a {
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
 }
-a:hover { color: var(--olive); text-decoration-thickness: 2px; }
-:focus-visible { outline: 2px solid var(--olive); outline-offset: 3px; border-radius: 2px; }
+a:hover { color: var(--blue-soft); text-decoration-thickness: 2px; }
+:focus-visible { outline: 2px solid var(--c-razz); outline-offset: 3px; border-radius: 2px; }
 ::selection { background: var(--signal); color: var(--signal-ink); }
 
 .sr-only {
@@ -122,7 +122,7 @@ a:hover { color: var(--olive); text-decoration-thickness: 2px; }
 }
 .toplinks { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; }
 .toplinks a { color: var(--ink-2); text-decoration: none; display: inline-block; padding-block: 12px; margin-block: -12px; }
-.toplinks a:hover { color: var(--olive); text-decoration: underline; }
+.toplinks a:hover { color: var(--blue-soft); text-decoration: underline; }
 
 /* Intro */
 .intro { padding-block: 36px 64px; }
@@ -188,10 +188,10 @@ button.copy:hover { background: var(--ink); color: var(--paper); }
 .holdings td.s { font-size: 14px; color: var(--ink-2); white-space: nowrap; }
 .holdings td.d { font-family: var(--mono); font-size: 13px; color: var(--ink-2); white-space: nowrap; }
 .holdings td.d { text-align: right; padding-right: 0; font-variant-numeric: tabular-nums; }
-.mk { display: inline-block; width: 9px; height: 9px; margin-right: 9px; vertical-align: 0; border: 1.5px solid var(--olive); }
+.mk { display: inline-block; width: 9px; height: 9px; margin-right: 9px; vertical-align: 0; border: 1.5px solid var(--c-razz); }
 .mk-live { background: var(--signal); }
-.mk-use { background: var(--olive); }
-.mk-paused { background: linear-gradient(90deg, var(--olive) 50%, transparent 50%); }
+.mk-use { background: var(--c-razz); }
+.mk-paused { background: linear-gradient(90deg, var(--c-razz) 50%, transparent 50%); }
 .mk-concept { border-color: var(--muted); }
 @media (max-width: 699px) {
   .holdings thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
@@ -266,7 +266,7 @@ button.copy:hover { background: var(--ink); color: var(--paper); }
   font-family: var(--mono); font-size: 13px; line-height: 1.5;
   max-width: 42em;
 }
-.wiring dt { color: var(--olive); font-weight: 500; }
+.wiring dt { color: var(--blue-soft); font-weight: 500; }
 .wiring dd { margin: 0; color: var(--ink-2); }
 @media (max-width: 480px) { .wiring { grid-template-columns: 1fr; gap: 2px; } .wiring dd { margin-bottom: 8px; } }
 
@@ -368,7 +368,7 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 }
 .highlights { margin: 26px 0 0; padding: 0; list-style: none; display: grid; gap: 12px; max-width: 46em; }
 .highlights li { position: relative; padding-left: 20px; color: var(--ink-2); }
-.highlights li::before { content: ""; position: absolute; left: 0; top: 0.68em; width: 8px; height: 1.5px; background: var(--olive); }
+.highlights li::before { content: ""; position: absolute; left: 0; top: 0.68em; width: 8px; height: 1.5px; background: var(--c-razz); }
 
 .outside { display: grid; gap: 22px; align-items: start; }
 .outside-text { display: grid; gap: 14px; max-width: 46em; }
@@ -437,7 +437,7 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .name span { display: inline; }
 .p-name { font-weight: 900; letter-spacing: -0.03em; }
 .contact-big { font-weight: 800; }
-.exn { color: var(--c, var(--olive)); font-weight: 800; }
+.exn { color: var(--c, var(--blue-soft)); font-weight: 800; }
 .ext { font-size: clamp(1.25rem, 2.4vw, 1.6rem); font-weight: 800; letter-spacing: -0.015em; line-height: 1.2; max-width: 30em; margin: 4px 0 0; text-wrap: balance; }
 .src { font-size: 13px; color: var(--muted); border-top: 1px solid var(--rule); padding-top: 7px; margin-top: 10px; max-width: 52em; }
 .exhibit { padding-block: 56px; border-top: 1px solid var(--rule); }
@@ -513,7 +513,7 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .kview { display: none; justify-content: flex-end; margin: -8px 0 6px; }
 .kswitch { appearance: none; background: none; font: inherit; font-size: 13.5px; font-weight: 600; color: var(--ink); border: 1px solid var(--rule-strong); border-radius: 6px; padding: 8px 12px; min-height: 40px; cursor: pointer; }
 .kswitch:hover { background: var(--ink); color: var(--paper); }
-.kswitch:focus-visible { outline: 2px solid var(--olive); outline-offset: 2px; }
+.kswitch:focus-visible { outline: 2px solid var(--c-razz); outline-offset: 2px; }
 .skills.kjs .kview { display: flex; }
 .skills:not(.kjs) .kcloudview { display: none; }
 .skills.kjs .klist { display: none; }
@@ -546,9 +546,9 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 
 /* See-it column and the demo link by the intro */
 .holdings td.d.see { font-family: inherit; font-size: 14px; }
-.cta { display: inline-flex; align-items: center; min-height: 40px; padding: 8px 14px; border-radius: 6px; background: var(--olive); color: var(--paper); font-weight: 700; font-size: 14.5px; text-decoration: none; }
+.cta { display: inline-flex; align-items: center; min-height: 40px; padding: 8px 14px; border-radius: 6px; background: var(--blue-soft); color: var(--paper); font-weight: 700; font-size: 14.5px; text-decoration: none; }
 .cta:hover { color: var(--paper); text-decoration: underline; }
-.cta:focus-visible { outline: 2px solid var(--olive); outline-offset: 3px; }
+.cta:focus-visible { outline: 2px solid var(--c-razz); outline-offset: 3px; }
 @media (pointer: coarse) { .cta { min-height: 44px; } }
 
 .cta-row { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 10px; }
@@ -1137,7 +1137,7 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
         </div>
         <div class="intro-body">
           <p class="lede">I&rsquo;m a first-year MBA at Wharton. Before this I spent six years doing quant and macro research, four at Morgan Stanley and two at Guggenheim. At Brown, I studied applied math and economics.</p>
-          <p class="hero-p hero-ms">At Morgan Stanley I led my team&rsquo;s move to GenAI and became the guy people came to when they couldn&rsquo;t get it to do what they needed. On the side I built Dreamy, an AI running coach, with <a href="ai.html">Claude Code</a>.</p>
+          <p class="hero-p hero-ms">At Morgan Stanley I worked on our model portfolios and research, and became the guy people came to when they couldn&rsquo;t get GenAI to do what they needed. On the side I built Dreamy, an AI running coach, with <a href="ai.html">Claude Code</a>.</p>
           <p class="hero-p hero-ask">At Wharton I&rsquo;m building all the time, all that jawn. I&rsquo;m looking for a Summer 2027 internship in AI product, strategy or deployment in New York.</p>
           <div class="cta-row"><a class="cta" href="dreamy.html#builder">Try the Dreamy demo</a><a class="cta cta-2" href="ai.html">How I use AI</a></div>
           <div class="contact-line">
@@ -1156,8 +1156,8 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
       <ol class="path">
         <li class="stop"><div class="who"><a class="sn" href="research.html#background"><span class="dot" aria-hidden="true"></span><span class="st">Brown</span></a><span class="yr">2020</span><span class="hl">Applied math and economics, and a summer at Goldman Sachs in market risk</span></div></li>
         <li class="stop"><div class="who"><a class="sn" href="research.html#background"><span class="dot" aria-hidden="true"></span><span class="st">Guggenheim</span></a><span class="yr">2020 to 2022</span><span class="hl">Investment analyst in the Portfolio Construction Group</span></div></li>
-        <li class="stop"><div class="who"><a class="sn" href="research.html#background"><span class="dot" aria-hidden="true"></span><span class="st">Morgan Stanley</span></a><span class="yr">2022 to 2026</span><span class="hl">I was one of two people writing the daily market note for about 25,000 financial advisors, and did the research behind what they told their clients</span><a class="ai-link" href="research.html#ms">How I used AI at Morgan Stanley</a></div><ul class="tiles"><li style="--k: var(--k-res)"><a href="research.html#palette"><span class="pal" aria-hidden="true"><b style="flex:5.0 1 0"><i style="flex:58 1 0;background:#275C90"></i><i style="flex:14 1 0;background:#7395B7"></i><i style="flex:14 1 0;background:#ADC1D5"></i><i style="flex:14 1 0;background:#1B4065"></i></b><b style="flex:4.0 1 0"><i style="flex:58 1 0;background:#3296FE"></i><i style="flex:14 1 0;background:#7ABBFE"></i><i style="flex:14 1 0;background:#B1D7FF"></i><i style="flex:14 1 0;background:#2369B2"></i></b><b style="flex:2.4 1 0"><i style="flex:58 1 0;background:#39A174"></i><i style="flex:14 1 0;background:#7EC2A5"></i><i style="flex:14 1 0;background:#B4DBCA"></i><i style="flex:14 1 0;background:#287151"></i></b><b style="flex:2.2 1 0"><i style="flex:58 1 0;background:#8771D7"></i><i style="flex:14 1 0;background:#B1A3E5"></i><i style="flex:14 1 0;background:#D1C9F0"></i><i style="flex:14 1 0;background:#5E4F96"></i></b><b style="flex:0.7 1 0"><i style="flex:58 1 0;background:#CF612F"></i><i style="flex:14 1 0;background:#E09878"></i><i style="flex:14 1 0;background:#EDC3B0"></i><i style="flex:14 1 0;background:#914421"></i></b><b style="flex:0.7 1 0"><i style="flex:58 1 0;background:#DA9408"></i><i style="flex:14 1 0;background:#E7B95E"></i><i style="flex:14 1 0;background:#F1D6A1"></i><i style="flex:14 1 0;background:#996806"></i></b><b style="flex:1.6 1 0"><i style="flex:58 1 0;background:#BF2C6E"></i><i style="flex:14 1 0;background:#D576A1"></i><i style="flex:14 1 0;background:#E7AFC8"></i><i style="flex:14 1 0;background:#861F4D"></i></b><b style="flex:1.4 1 0"><i style="flex:58 1 0;background:#95949B"></i><i style="flex:14 1 0;background:#BAB9BE"></i><i style="flex:14 1 0;background:#D7D6D9"></i><i style="flex:14 1 0;background:#68686C"></i></b></span><span class="cap"><i aria-hidden="true"></i>The chart palette</span></a></li><li style="--k: var(--k-res)"><a href="research.html#reports"><img src="img/map-reports.webp" width="456" height="342" alt="The first pages of four Global Investment Committee reports" loading="lazy" decoding="async" style="background-color:#959798"><span class="cap"><i aria-hidden="true"></i>Public reports</span></a></li></ul></li>
-        <li class="stop"><div class="who"><span class="sn"><span class="dot" aria-hidden="true"></span><span class="st">Building on the side</span></span><span class="yr">2024 to 2026</span><span class="hl">Apps I built outside of work while I was at Morgan Stanley, including Dreamy, my AI running coach</span><a class="ai-link" href="ai.html">How I use AI for building</a></div><ul class="tiles"><li style="--k: var(--k-build)"><a href="dreamy.html"><img src="img/map-builder.webp" width="432" height="324" alt="Dreamy's week builder with the long run on Saturday" loading="lazy" decoding="async" style="background-color:#1E2534"><span class="cap"><i aria-hidden="true"></i>Dreamy</span><span class="ln">AI running coach that plans around the days you can&rsquo;t run</span><span class="stat">Beta done; I still use it</span></a></li><li style="--k: var(--k-build)"><a href="https://jason-traum.github.io/running-pace-adjuster/"><img src="img/map-hap.webp" width="432" height="324" alt="The Heat Adjusted Pace app" loading="lazy" decoding="async" style="background-color:#EBF2F4"><span class="cap"><i aria-hidden="true"></i>Heat Adjusted Pace</span><span class="ln">My first web app, June 2024, before I was using Claude Code</span><span class="stat">Kept up to show where I started</span></a></li></ul></li>
+        <li class="stop"><div class="who"><a class="sn" href="research.html#background"><span class="dot" aria-hidden="true"></span><span class="st">Morgan Stanley</span></a><span class="yr">2022 to 2026</span><span class="hl">I worked on our model portfolios and co-wrote the daily market note for about 25,000 financial advisors</span></div><ul class="tiles"><li style="--k: var(--k-res)"><a href="research.html#palette"><span class="pal" aria-hidden="true"><b style="flex:5.0 1 0"><i style="flex:58 1 0;background:#275C90"></i><i style="flex:14 1 0;background:#7395B7"></i><i style="flex:14 1 0;background:#ADC1D5"></i><i style="flex:14 1 0;background:#1B4065"></i></b><b style="flex:4.0 1 0"><i style="flex:58 1 0;background:#3296FE"></i><i style="flex:14 1 0;background:#7ABBFE"></i><i style="flex:14 1 0;background:#B1D7FF"></i><i style="flex:14 1 0;background:#2369B2"></i></b><b style="flex:2.4 1 0"><i style="flex:58 1 0;background:#39A174"></i><i style="flex:14 1 0;background:#7EC2A5"></i><i style="flex:14 1 0;background:#B4DBCA"></i><i style="flex:14 1 0;background:#287151"></i></b><b style="flex:2.2 1 0"><i style="flex:58 1 0;background:#8771D7"></i><i style="flex:14 1 0;background:#B1A3E5"></i><i style="flex:14 1 0;background:#D1C9F0"></i><i style="flex:14 1 0;background:#5E4F96"></i></b><b style="flex:0.7 1 0"><i style="flex:58 1 0;background:#CF612F"></i><i style="flex:14 1 0;background:#E09878"></i><i style="flex:14 1 0;background:#EDC3B0"></i><i style="flex:14 1 0;background:#914421"></i></b><b style="flex:0.7 1 0"><i style="flex:58 1 0;background:#DA9408"></i><i style="flex:14 1 0;background:#E7B95E"></i><i style="flex:14 1 0;background:#F1D6A1"></i><i style="flex:14 1 0;background:#996806"></i></b><b style="flex:1.6 1 0"><i style="flex:58 1 0;background:#BF2C6E"></i><i style="flex:14 1 0;background:#D576A1"></i><i style="flex:14 1 0;background:#E7AFC8"></i><i style="flex:14 1 0;background:#861F4D"></i></b><b style="flex:1.4 1 0"><i style="flex:58 1 0;background:#95949B"></i><i style="flex:14 1 0;background:#BAB9BE"></i><i style="flex:14 1 0;background:#D7D6D9"></i><i style="flex:14 1 0;background:#68686C"></i></b></span><span class="cap"><i aria-hidden="true"></i>The chart palette</span></a></li><li style="--k: var(--k-res)"><a href="research.html#reports"><img src="img/map-reports.webp" width="456" height="342" alt="The first pages of four Global Investment Committee reports" loading="lazy" decoding="async" style="background-color:#959798"><span class="cap"><i aria-hidden="true"></i>Public reports</span></a></li></ul></li>
+        <li class="stop"><div class="who"><span class="sn"><span class="dot" aria-hidden="true"></span><span class="st">Building on the side</span></span><span class="yr">2024 to 2026</span><span class="hl">Apps I built outside of work while I was at Morgan Stanley, including Dreamy, my AI running coach</span></div><ul class="tiles"><li style="--k: var(--k-build)"><a href="dreamy.html"><img src="img/map-builder.webp" width="432" height="324" alt="Dreamy's week builder with the long run on Saturday" loading="lazy" decoding="async" style="background-color:#1E2534"><span class="cap"><i aria-hidden="true"></i>Dreamy</span><span class="ln">AI running coach that plans around the days you can&rsquo;t run</span><span class="stat">Beta done; I still use it</span></a></li><li style="--k: var(--k-build)"><a href="https://jason-traum.github.io/running-pace-adjuster/"><img src="img/map-hap.webp" width="432" height="324" alt="The Heat Adjusted Pace app" loading="lazy" decoding="async" style="background-color:#EBF2F4"><span class="cap"><i aria-hidden="true"></i>Heat Adjusted Pace</span><span class="ln">My first web app, June 2024, before I was using Claude Code</span><span class="stat">Kept up to show where I started</span></a></li></ul></li>
         <li class="stop"><div class="who"><span class="sn"><span class="dot" aria-hidden="true"></span><span class="st">Wharton</span></span><span class="yr">2026 to 2028</span><span class="hl">MBA, and what I&rsquo;m building next</span></div><ul class="tiles"><li style="--k: var(--k-build)"><a href="projects/drinkdock.html"><img src="img/map-drinkdock.webp" width="432" height="324" alt="DrinkDock: the kiosk in a bar, a 3D render" loading="lazy" decoding="async" style="background-color:#524A40"><span class="cap"><i aria-hidden="true"></i>DrinkDock</span><span class="ln">Age-verified vending machine for canned drinks at busy bars and hotels. I&rsquo;m the CTO</span><span class="stat">First of 20 in our class pitch</span></a></li><li style="--k: var(--k-build)"><a href="projects/walldrobe.html"><img src="img/map-walldrobe.webp" width="432" height="324" alt="Walldrobe: framed prints drawn on a photo of a wall" loading="lazy" decoding="async" style="background-color:#979FA1"><span class="cap"><i aria-hidden="true"></i>Walldrobe</span><span class="ln">Photograph a wall, get a plan for the art and frames</span><span class="stat">Live</span></a></li><li style="--k: var(--k-build)"><a href="projects/wharton-os.html"><img src="img/map-whartonos.webp" width="432" height="324" alt="The Wharton OS write-up" loading="lazy" decoding="async" style="background-color:#202226"><span class="cap"><i aria-hidden="true"></i>Wharton OS</span><span class="ln">How I use Claude Code and Obsidian to keep track of school</span><span class="stat">In use every day</span></a></li><li style="--k: var(--k-build)"><a href="projects/in.html"><img src="img/map-in.webp" width="432" height="324" alt="In.: a morning run with I'm in, Maybe and Not going" loading="lazy" decoding="async" style="background-color:#DBDFDE"><span class="cap"><i aria-hidden="true"></i>In.</span><span class="ln">Plan tomorrow&rsquo;s run with other Wharton and Penn grad runners</span><span class="stat">Live, in testing</span></a></li><li style="--k: var(--k-res)"><a href="research.html#pivot"><img src="img/map-sim.webp" width="432" height="324" alt="The retail strategy sim replay, round 0" loading="lazy" decoding="async" style="background-color:#212528"><span class="cap"><i aria-hidden="true"></i>The retail strategy sim</span><span class="stat">Best score in the course</span></a></li><li style="--k: var(--k-build)"><a href="projects/5k-5-bars.html"><img src="img/map-5k.webp" width="432" height="324" alt="5K 5 Bars: the race screen and its big check-in button" loading="lazy" decoding="async" style="background-color:#B0B1BC"><span class="cap"><i aria-hidden="true"></i>5K 5 Bars</span><span class="ln">Race-day app for our run club&rsquo;s bar crawl</span><span class="stat">Live</span></a></li></ul></li>
         <li class="stop end"><div class="who"><a class="sn" href="#contact"><span class="dot" aria-hidden="true"></span><span class="st">Next</span></a><span class="hl">AI product, strategy and deployment roles in New York</span></div></li>
       </ol>
