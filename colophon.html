@@ -50,10 +50,10 @@
 }
 :root {
   --paper: #141619; --surface: #1C1F23; --ink: #E7ECF1; --ink-2: #C8D0D8; --muted: #9AA5B2; --ink-strong: #FFFFFF; --gal-wall: #D8D2C8; --gal-floor: #8F7A64; --gal-base: #E6E1D9; --gal-wood: #5B4636; --gal-wood-2: #4B3A2D; --gal-person: #6F6A63; --gal-frame: #0B0C0E; --gal-mat: #F3F1EC; --gal-tape: #E9E0C6; --gal-leaf: #6E7D5C; --gal-books: #6B7480; --gal-bk-klein: #002FA7; --gal-bk-geo: #E9E0CC; --gal-bk-dyn: #1F2A44; --gal-bk-run: #3E6F52; --gal-bk-gilt: #C9A24B; --gal-bk-cream: #F1ECE0; --gal-bk-ink: #2B2A28; --gal-bk-ink-2: #857A66;
-  --rule: #2A2E33; --rule-strong: #B9C3CE; --olive: #7FAEE0; --signal: #5CC495; --signal-ink: #141619;
+  --rule: #2A2E33; --rule-strong: #B9C3CE; --olive: #3296FE; --signal: #5CC495; --signal-ink: #141619;
   --frame: #06090D; --mat: #E6E9EC; --shot-border: #2A2E33;
-  --c-msblue: #6FA0D6; --c-razz: #5AAEFF; --c-jade: #5CC495; --c-amethyst: #A593EC; --c-carrot: #E8834F; --c-honey: #E8AE2E; --c-magenta: #E56A9C; --c-grey: #A3A5AE;
-  --k-build: #5AAEFF; --k-res: #5CC495;
+  --c-msblue: #6FA0D6; --c-razz: #3296FE; --c-jade: #5CC495; --c-amethyst: #A593EC; --c-carrot: #E8834F; --c-honey: #E8AE2E; --c-magenta: #E56A9C; --c-grey: #A3A5AE;
+  --k-build: #3296FE; --k-res: #5CC495;
   --dd-a: #4F8FE0; --dd-b: #D9713C; --dd-grid: #272B31;
   --ex-card: #FFFFFF; --ex-ink: #111111; --ex-grid: #A9A9A9; --ex-a-fill: #29A3A3; --ex-a-line: #145F6B; --ex-a-key: #3BC3A3; --ex-b-fill: #B2CDE4; --ex-b-line: #005AA4;
   color-scheme: dark;
@@ -428,7 +428,7 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .pubs { margin-top: 22px; max-width: 46em; color: var(--ink-2); }
 
 /* ---------- Chartbook layer ---------- */
-.progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; background: var(--c-msblue); transform-origin: 0 50%; transform: scaleX(var(--p, 0)); z-index: 50; pointer-events: none; }
+.progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; background: var(--c-razz); transform-origin: 0 50%; transform: scaleX(var(--p, 0)); z-index: 50; pointer-events: none; }
 .name { font-weight: 900; letter-spacing: -0.04em; line-height: 0.9; font-size: clamp(3rem, 10vw, 7.4rem); }
 .name span { display: inline; }
 .p-name { font-weight: 900; letter-spacing: -0.03em; }
@@ -476,7 +476,7 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 
 /* skills */
 :root { --k-msblue: #1B436D; --k-razz: #1F72D0; --k-jade: #23774F; --k-amethyst: #6450B8; --k-carrot: #B04A1C; --k-honey: #8A5E00; --k-magenta: #BF2C6E; --k-grey: #5B5A61; }
-:root { --k-msblue: #8DB4E6; --k-razz: #4FA8FF; --k-jade: #5CC495; --k-amethyst: #A593EC; --k-carrot: #E8834F; --k-honey: #E8AE2E; --k-magenta: #E56A9C; --k-grey: #A3A5AE; }
+:root { --k-msblue: #8DB4E6; --k-razz: #3296FE; --k-jade: #5CC495; --k-amethyst: #A593EC; --k-carrot: #E8834F; --k-honey: #E8AE2E; --k-magenta: #E56A9C; --k-grey: #A3A5AE; }
 .kcloud { position: relative; }
 .kgroup { list-style: none; margin: 0 0 10px; padding: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 14px; }
 .kgroup li::before { content: none; }
@@ -742,28 +742,28 @@ strong.res { font-weight: 700; color: var(--ink-strong); }
 .kinds i { width: 10px; height: 10px; }
 .path { list-style: none; margin: 30px 0 0; padding: 0; }
 .stop { position: relative; padding: 0 0 36px 40px; display: grid; grid-template-columns: 230px minmax(0, 1fr); column-gap: 28px; row-gap: 14px; align-items: start; }
-.stop:not(.end)::after { content: ''; position: absolute; left: 11px; top: 12px; width: 3px; height: 100%; background: var(--c-msblue); }
+.stop:not(.end)::after { content: ''; position: absolute; left: 11px; top: 12px; width: 3px; height: 100%; background: var(--c-razz); }
 .stop.end { padding-bottom: 4px; }
 .who { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
 .sn { display: flex; align-items: center; min-height: 25px; text-decoration: none; color: var(--ink); }
-.sn .dot { position: absolute; left: 0; top: 0; width: 25px; height: 25px; border-radius: 50%; background: var(--paper); border: 3px solid var(--c-msblue); z-index: 1; }
-.stop.end .dot { background: var(--c-msblue); }
+.sn .dot { position: absolute; left: 0; top: 0; width: 25px; height: 25px; border-radius: 50%; background: var(--paper); border: 3px solid var(--c-razz); z-index: 1; }
+.stop.end .dot { background: var(--c-razz); }
 .sn .st { font-size: 18px; font-weight: 800; letter-spacing: -0.01em; line-height: 1.2; text-decoration: underline; text-decoration-color: var(--rule-strong); text-decoration-thickness: 1px; text-underline-offset: 4px; }
 span.sn .st { text-decoration: none; }
-a.sn:hover .st { text-decoration-color: var(--c-msblue); }
-a.sn:hover .dot { background: var(--c-msblue); }
+a.sn:hover .st { text-decoration-color: var(--c-razz); }
+a.sn:hover .dot { background: var(--c-razz); }
 /* Oct 7: the path draws itself as you scroll, top to bottom, in time order. Without JS or with reduced motion it is simply drawn. */
 .path.drawing .stop:not(.end)::before { content: ''; position: absolute; left: 11px; top: 12px; width: 3px; height: 100%; background: var(--rule); }
 .path.drawing .stop:not(.end)::after { transform: scaleY(var(--fill, 0)); transform-origin: top; }
 .path.drawing .sn .dot { border-color: var(--rule); transition: border-color .3s ease, background-color .3s ease; }
-.path.drawing .stop.lit .sn .dot { border-color: var(--c-msblue); }
+.path.drawing .stop.lit .sn .dot { border-color: var(--c-razz); }
 .path.drawing .stop.end:not(.lit) .dot { background: var(--paper); }
 .path.drawing .tiles { opacity: .35; transition: opacity .6s ease; }
 .path.drawing .stop.lit .tiles { opacity: 1; }
 .sn:focus-visible, .tiles a:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; border-radius: 4px; }
 .who .yr { font-size: 14px; font-weight: 600; color: var(--muted); font-variant-numeric: tabular-nums; }
 .who .hl { font-size: 14px; line-height: 1.45; color: var(--ink-2); }
-.ai-link { display: inline-block; margin-top: 8px; font-size: 14px; font-weight: 600; color: var(--ink); text-decoration: underline; text-decoration-color: var(--c-msblue); text-decoration-thickness: 1.5px; text-underline-offset: 4px; }
+.ai-link { display: inline-block; margin-top: 8px; font-size: 14px; font-weight: 600; color: var(--ink); text-decoration: underline; text-decoration-color: var(--c-razz); text-decoration-thickness: 1.5px; text-underline-offset: 4px; }
 .ai-link::after { content: '\00a0\2192'; }
 .tiles { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 22px 16px; }
 .tiles a { display: flex; flex-direction: column; gap: 6px; width: 216px; text-decoration: none; color: var(--ink); }
