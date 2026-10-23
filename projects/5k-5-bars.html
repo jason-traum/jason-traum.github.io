@@ -538,6 +538,7 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 }
 @media (pointer: coarse) { .kchip, .kswitch { min-height: 44px; } }
 @media (prefers-reduced-motion: reduce) { .kcloud.placed { transition: none; } }
+@media (max-width: 699px) { .kcloud:not(.placed) .kgroup { justify-content: center; gap: 6px 14px; margin: 0 0 18px; } }
 /* /skills */
 
 /* See-it column and the demo link by the intro */
@@ -1162,7 +1163,7 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
 -- Other runners see when and where you checked in,
 -- not how far off your GPS was.
 grant select (id, runner_id, stop, kind, at, verified, source, created_at)
-  on public.taps to authenticated;</code></pre></div></div><div class="feat has-fig phone"><div class="feat-text"><h3>A demo you can open from a link</h3><p>The demo has 14 sample runners and a simulated location. Nothing is saved. A Demo button jumps to any point in the race and switches your location and signal.</p><p>My screenshot test uses the same controls to go through every screen in light and dark, and fails if anything scrolls sideways or throws an error.</p></div><figure class="feat-fig feat-frame phone"><iframe scrolling="no" src="https://jason-traum.github.io/wrtc-5k5bars/?demo" title="5K 5 Bars demo" loading="lazy" allow="screen-wake-lock" style="height:1820px" data-autoh></iframe><figcaption>The live demo. Tap Demo to jump around the race.</figcaption></figure></div><div class="feat has-fig phone"><div class="feat-text"><h3>Everyone starts their own clock</h3><p>My first plan started everyone at the organizer's GO. I changed it the same day, because not everyone leaves at once and a late starter would have looked slow.</p><p>Now GO only opens the start, each runner taps Start when they set off, and Test my location tells you before you go whether your GPS is good enough to check in.</p></div><figure class="feat-fig phone"><img width="600" height="1200" src="../img/5k-ready.webp" alt="Start line screen at Rittenhouse Square with a big Start button, Already at PHS Garden, and a location test that passed." loading="lazy" decoding="async" style="background-color:#362A3B"><figcaption>The start line, with the location test.</figcaption></figure></div><div class="feat has-fig phone"><div class="feat-text"><h3>Setting up the course</h3><p>The organizer places each bar by searching OpenStreetMap, pasting coordinates or standing there, instead of dragging pins.</p><p>Test a check-in tells you whether a tap would count from where you're standing, so you can set each bar's radius while walking the course.</p></div><figure class="feat-fig phone"><img width="600" height="1200" src="../img/5k-organizer.webp" alt="Organizer screen: the start is open, the course as chips for each bar, and a map with numbered stops." loading="lazy" decoding="async" style="background-color:#273046"><figcaption>The organizer screen.</figcaption></figure></div></section><!--/deep-->
+  on public.taps to authenticated;</code></pre></div></div><div class="feat has-fig phone"><div class="feat-text"><h3>A demo you can open from a link</h3><p>The demo has 14 sample runners and a simulated location. Nothing is saved. A Demo button jumps to any point in the race and switches your location and signal.</p><p>My screenshot test uses the same controls to go through every screen in light and dark, and fails if anything scrolls sideways or throws an error.</p></div><figure class="feat-fig feat-frame phone"><iframe scrolling="no" src="https://jason-traum.github.io/wrtc-5k5bars/?demo" title="5K 5 Bars demo" loading="lazy" allow="screen-wake-lock" style="height:1820px" data-autoh></iframe><figcaption>The live demo. Tap Demo to jump around the race.</figcaption></figure></div><div class="feat has-fig phone"><div class="feat-text"><h3>Everyone starts their own clock</h3><p>My first plan started everyone at the organizer's GO. I changed it the same day, because not everyone leaves at once and a late starter would have looked slow.</p><p>Now GO only opens the start, each runner taps Start when they set off, and Test my location tells you before you go whether your GPS is good enough to check in.</p></div><figure class="feat-fig phone"><img width="600" height="1200" src="../img/5k-ready.webp" alt="Start line screen at Rittenhouse Square with a big Start button, Already at PHS Garden, and a location test that passed." loading="lazy" decoding="async" style="background-color:#362A3A"><figcaption>The start line, with the location test.</figcaption></figure></div><div class="feat has-fig phone"><div class="feat-text"><h3>Setting up the course</h3><p>The organizer places each bar by searching OpenStreetMap, pasting coordinates or standing there, instead of dragging pins.</p><p>Test a check-in tells you whether a tap would count from where you're standing, so you can set each bar's radius while walking the course.</p></div><figure class="feat-fig phone"><img width="600" height="1200" src="../img/5k-organizer.webp" alt="Organizer screen: the start is open, the course as chips for each bar, and a map with numbered stops." loading="lazy" decoding="async" style="background-color:#273046"><figcaption>The organizer screen.</figcaption></figure></div></section><!--/deep-->
 
     <p class="proj-more"><a href="../#path">Everything I&rsquo;ve built</a></p>
   </main>
@@ -1286,6 +1287,16 @@ grant select (id, runner_id, stop, kind, at, verified, source, created_at)
       var W = box.clientWidth;
       if (!W) return;
       lastW = W;
+      // Oct 18: on a phone, show the words as plain wrapped rows by group instead of the packed cloud.
+      // The packed cloud broke on iPhone Safari (one word on top, a big gap, the rest piled up at the bottom).
+      if (W < 700) {
+        box.classList.remove('placed');
+        words.forEach(function (el) { el.style.transform = ''; el.style.opacity = ''; el.style.fontSize = ''; el.style.zIndex = ''; });
+        box.style.height = '';
+        chipRow.style.gridTemplateColumns = '';
+        rects = [];
+        return;
+      }
       box.classList.add('placed');
       var vertical = W < 700;
       var PX = vertical ? 4 : 7, PY = vertical ? 2 : 4;
@@ -1380,6 +1391,7 @@ grant select (id, runner_id, stop, kind, at, verified, source, created_at)
       }
       function frame(now) {
         raf = 0;
+        if (!box.classList.contains('placed')) return;
         if (still.matches) { st.forEach(function (w) { w.el.style.transform = 'translate(' + w.q.bx + 'px,' + w.q.by + 'px)'; w.el.style.zIndex = ''; }); return; }
         var t = (now - t0) / 1000, R = box.clientWidth < 700 ? 70 : 120, busy = false;
         var r = box.getBoundingClientRect(), vh = window.innerHeight || 800;

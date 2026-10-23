@@ -538,6 +538,7 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 }
 @media (pointer: coarse) { .kchip, .kswitch { min-height: 44px; } }
 @media (prefers-reduced-motion: reduce) { .kcloud.placed { transition: none; } }
+@media (max-width: 699px) { .kcloud:not(.placed) .kgroup { justify-content: center; gap: 6px 14px; margin: 0 0 18px; } }
 /* /skills */
 
 /* See-it column and the demo link by the intro */
@@ -1741,6 +1742,16 @@ details.more > p + p { margin-top: 12px; }
       var W = box.clientWidth;
       if (!W) return;
       lastW = W;
+      // Oct 18: on a phone, show the words as plain wrapped rows by group instead of the packed cloud.
+      // The packed cloud broke on iPhone Safari (one word on top, a big gap, the rest piled up at the bottom).
+      if (W < 700) {
+        box.classList.remove('placed');
+        words.forEach(function (el) { el.style.transform = ''; el.style.opacity = ''; el.style.fontSize = ''; el.style.zIndex = ''; });
+        box.style.height = '';
+        chipRow.style.gridTemplateColumns = '';
+        rects = [];
+        return;
+      }
       box.classList.add('placed');
       var vertical = W < 700;
       var PX = vertical ? 4 : 7, PY = vertical ? 2 : 4;
@@ -1835,6 +1846,7 @@ details.more > p + p { margin-top: 12px; }
       }
       function frame(now) {
         raf = 0;
+        if (!box.classList.contains('placed')) return;
         if (still.matches) { st.forEach(function (w) { w.el.style.transform = 'translate(' + w.q.bx + 'px,' + w.q.by + 'px)'; w.el.style.zIndex = ''; }); return; }
         var t = (now - t0) / 1000, R = box.clientWidth < 700 ? 70 : 120, busy = false;
         var r = box.getBoundingClientRect(), vh = window.innerHeight || 800;

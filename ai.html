@@ -538,6 +538,7 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 }
 @media (pointer: coarse) { .kchip, .kswitch { min-height: 44px; } }
 @media (prefers-reduced-motion: reduce) { .kcloud.placed { transition: none; } }
+@media (max-width: 699px) { .kcloud:not(.placed) .kgroup { justify-content: center; gap: 6px 14px; margin: 0 0 18px; } }
 /* /skills */
 
 /* See-it column and the demo link by the intro */
@@ -1469,7 +1470,7 @@ details.more > p + p { margin-top: 12px; }
     <section class="section ai-part" id="ms" aria-labelledby="ms-h">
       <h2 class="stop-h" id="ms-h">At Morgan Stanley</h2>
       <p class="made-lead"><b class="tk">I led my team&rsquo;s move to GenAI and became the guy people came to when they couldn&rsquo;t get it to do what they needed.</b></p>
-      <p class="made-p">We used it for research, brainstorming and drafting, and the time it saved went into deeper work, not fewer hours. We built about eight internal AI agents, and I built several myself. When I saw people stuck on something slow or digging around to find things, I&rsquo;d build an agent for it or help them rework how they did it. One automated a really manual part of making our chartbook, one came up with chart ideas from news, market moves and advisor feedback, and one was a house-style writing assistant that up to about 20 people used. I also sat on our AI working group and utilization committees, and the agents I built at a firm hackathon got picked up by my team.</p>
+      <p class="made-p">We used it for research, brainstorming and drafting, and the time it saved went into deeper work, not fewer hours. We built internal AI agents, and I built several myself. When I saw people stuck on something slow or digging around to find things, I&rsquo;d build an agent for it or help them rework how they did it. One automated a really manual part of making our chartbook, one came up with chart ideas from news, market moves and advisor feedback, and one was a house-style writing assistant that up to about 20 people used. I also sat on our AI working group and utilization committees, and the agents I built at a firm hackathon got picked up by my team.</p>
       <details class="more"><summary>Five things I used it for</summary>
       <div class="table-wrap">
         <table class="ledger">
@@ -1664,6 +1665,16 @@ details.more > p + p { margin-top: 12px; }
       var W = box.clientWidth;
       if (!W) return;
       lastW = W;
+      // Oct 18: on a phone, show the words as plain wrapped rows by group instead of the packed cloud.
+      // The packed cloud broke on iPhone Safari (one word on top, a big gap, the rest piled up at the bottom).
+      if (W < 700) {
+        box.classList.remove('placed');
+        words.forEach(function (el) { el.style.transform = ''; el.style.opacity = ''; el.style.fontSize = ''; el.style.zIndex = ''; });
+        box.style.height = '';
+        chipRow.style.gridTemplateColumns = '';
+        rects = [];
+        return;
+      }
       box.classList.add('placed');
       var vertical = W < 700;
       var PX = vertical ? 4 : 7, PY = vertical ? 2 : 4;
@@ -1758,6 +1769,7 @@ details.more > p + p { margin-top: 12px; }
       }
       function frame(now) {
         raf = 0;
+        if (!box.classList.contains('placed')) return;
         if (still.matches) { st.forEach(function (w) { w.el.style.transform = 'translate(' + w.q.bx + 'px,' + w.q.by + 'px)'; w.el.style.zIndex = ''; }); return; }
         var t = (now - t0) / 1000, R = box.clientWidth < 700 ? 70 : 120, busy = false;
         var r = box.getBoundingClientRect(), vh = window.innerHeight || 800;

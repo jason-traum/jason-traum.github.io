@@ -542,6 +542,7 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 }
 @media (pointer: coarse) { .kchip, .kswitch { min-height: 44px; } }
 @media (prefers-reduced-motion: reduce) { .kcloud.placed { transition: none; } }
+@media (max-width: 699px) { .kcloud:not(.placed) .kgroup { justify-content: center; gap: 6px 14px; margin: 0 0 18px; } }
 /* /skills */
 
 /* See-it column and the demo link by the intro */
@@ -1161,7 +1162,6 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
         <li class="stop"><div class="who"><span class="sn"><span class="dot" aria-hidden="true"></span><span class="st">Wharton</span></span><span class="yr">2026 to 2028</span><span class="hl">MBA, and what I&rsquo;m building next</span></div><ul class="tiles"><li style="--k: var(--k-build)"><a href="projects/drinkdock.html"><img src="img/map-drinkdock.webp" width="432" height="324" alt="DrinkDock: the kiosk in a bar, a 3D render" loading="lazy" decoding="async" style="background-color:#524A40"><span class="cap"><i aria-hidden="true"></i>DrinkDock</span><span class="ln">Age-verified vending machine for canned drinks at busy bars and hotels. I&rsquo;m the CTO</span><span class="stat">First of 20 in our class pitch</span></a></li><li style="--k: var(--k-build)"><a href="projects/walldrobe.html"><img src="img/map-walldrobe.webp" width="432" height="324" alt="Walldrobe: framed prints drawn on a photo of a wall" loading="lazy" decoding="async" style="background-color:#979FA1"><span class="cap"><i aria-hidden="true"></i>Walldrobe</span><span class="ln">Photograph a wall, get a plan for the art and frames</span><span class="stat">Live</span></a></li><li style="--k: var(--k-build)"><a href="projects/wharton-os.html"><img src="img/map-whartonos.webp" width="432" height="324" alt="The Wharton OS write-up" loading="lazy" decoding="async" style="background-color:#202226"><span class="cap"><i aria-hidden="true"></i>Wharton OS</span><span class="ln">How I use Claude Code and Obsidian to keep track of school</span><span class="stat">In use every day</span></a></li><li style="--k: var(--k-build)"><a href="projects/in.html"><img src="img/map-in.webp" width="432" height="324" alt="In.: a morning run with I'm in, Maybe and Not going" loading="lazy" decoding="async" style="background-color:#DBDFDE"><span class="cap"><i aria-hidden="true"></i>In.</span><span class="ln">Plan tomorrow&rsquo;s run with other Wharton and Penn grad runners</span><span class="stat">Live, in testing</span></a></li><li style="--k: var(--k-res)"><a href="research.html#pivot"><img src="img/map-sim.webp" width="432" height="324" alt="The retail strategy sim replay, round 0" loading="lazy" decoding="async" style="background-color:#212528"><span class="cap"><i aria-hidden="true"></i>The retail strategy sim</span><span class="stat">Best score in the course</span></a></li><li style="--k: var(--k-build)"><a href="projects/5k-5-bars.html"><img src="img/map-5k.webp" width="432" height="324" alt="5K 5 Bars: the race screen and its big check-in button" loading="lazy" decoding="async" style="background-color:#B0B1BC"><span class="cap"><i aria-hidden="true"></i>5K 5 Bars</span><span class="ln">Race-day app for our run club&rsquo;s bar crawl</span><span class="stat">Live</span></a></li></ul></li>
         <li class="stop end"><div class="who"><a class="sn" href="#contact"><span class="dot" aria-hidden="true"></span><span class="st">Next</span></a><span class="hl">AI product, strategy and deployment roles</span></div></li>
       </ol>
-      <p class="src">Status as of October 7, 2026.</p>
     </section><!--/path-->
 
 
@@ -1302,6 +1302,16 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
       var W = box.clientWidth;
       if (!W) return;
       lastW = W;
+      // Oct 18: on a phone, show the words as plain wrapped rows by group instead of the packed cloud.
+      // The packed cloud broke on iPhone Safari (one word on top, a big gap, the rest piled up at the bottom).
+      if (W < 700) {
+        box.classList.remove('placed');
+        words.forEach(function (el) { el.style.transform = ''; el.style.opacity = ''; el.style.fontSize = ''; el.style.zIndex = ''; });
+        box.style.height = '';
+        chipRow.style.gridTemplateColumns = '';
+        rects = [];
+        return;
+      }
       box.classList.add('placed');
       var vertical = W < 700;
       var PX = vertical ? 4 : 7, PY = vertical ? 2 : 4;
@@ -1396,6 +1406,7 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
       }
       function frame(now) {
         raf = 0;
+        if (!box.classList.contains('placed')) return;
         if (still.matches) { st.forEach(function (w) { w.el.style.transform = 'translate(' + w.q.bx + 'px,' + w.q.by + 'px)'; w.el.style.zIndex = ''; }); return; }
         var t = (now - t0) / 1000, R = box.clientWidth < 700 ? 70 : 120, busy = false;
         var r = box.getBoundingClientRect(), vh = window.innerHeight || 800;
