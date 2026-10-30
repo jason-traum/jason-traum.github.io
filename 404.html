@@ -1092,6 +1092,11 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
 .route-nav li.here a { color: var(--ink, #E7ECF1); font-weight: 700; }
 .route-nav li.here i { background: var(--pc); box-shadow: 0 0 0 3px color-mix(in srgb, var(--pc) 30%, transparent); }
 .route-nav li.here a { text-decoration: underline; text-decoration-color: var(--pc); text-decoration-thickness: 2px; text-underline-offset: 6px; }
+/* Oct 30: plain links, like the wireframe Jason pointed at; the current page keeps its colored underline */
+.route-nav ol { gap: 4px 22px; }
+.route-nav li + li::before { content: none; }
+.route-nav i { display: none; }
+.route-nav li.here a { font-weight: 700; }
 .route-nav a:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; border-radius: 4px; }
 @media (max-width: 759px) {
   .route-nav ol { gap: 0 14px; }
@@ -1272,6 +1277,7 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
 .d-cell { grid-column: 2; min-width: 0; }
 .d-cell + .d-cell { margin-top: 22px; }
 .start-js .day[data-side="ms"] .d-w, .start-js .day[data-side="w"] .d-ms { display: none; }
+@media (max-width: 899px) { .start-js .day[data-side="ms"] .d-wonly { display: none; } }  /* a time with nothing at Morgan Stanley (Night, Oct 30) */
 .start-js .d-cell + .d-cell { margin-top: 0; }
 html:not(.start-js) .d-ms .d-h::before { content: 'At Morgan Stanley: '; color: var(--muted); }
 html:not(.start-js) .d-w .d-h::before { content: 'At Wharton: '; color: var(--muted); }
@@ -1279,6 +1285,8 @@ html:not(.start-js) .d-w .d-h::before { content: 'At Wharton: '; color: var(--mu
 .d-p { margin: 0; max-width: 40em; color: var(--ink-2); font-size: 15.5px; line-height: 1.55; }
 .d-go { display: inline-flex; align-items: center; min-height: 40px; margin-top: 4px; font-weight: 700; font-size: 15px; }
 .d-go::after { content: '\00a0\2192'; }
+.d-also { list-style: none; margin: 14px 0 0; padding: 12px 0 0; border-top: 1px solid var(--rule); display: grid; gap: 8px; max-width: 40em; color: var(--muted); font-size: 15px; line-height: 1.5; }
+.d-also a { color: var(--ink-2); font-weight: 700; }
 .d-btn { margin-top: 12px; }
 .d-code { margin: 4px 0 10px; }
 .d-code code { display: inline-block; font-family: var(--mono); font-size: 13px; line-height: 1.5; padding: 6px 10px; border-radius: 6px; background: var(--surface); border: 1px solid var(--rule); color: var(--ink); overflow-wrap: anywhere; }
@@ -1341,6 +1349,72 @@ html:not(.start-js) .d-w .d-h::before { content: 'At Wharton: '; color: var(--mu
 .cta-row { align-items: flex-start; }
 .d-map img { max-height: 280px; object-position: center top; aspect-ratio: 1000 / 800; }
 
+
+/* Oct 30, after Jason pointed at the wireframe ("You don't think this is cleaner? You just made it"): Start matches it.
+   The hero is the name, credentials and one row of buttons and links, with the photo on the right. */
+.hero2 { padding-block: 40px 28px; }
+.h2-grid { display: grid; grid-template-columns: minmax(0, 1fr) 210px; gap: 44px; align-items: center; }
+.hero2 .name { font-size: clamp(2.8rem, 6.4vw, 4.6rem); line-height: 0.95; margin: 0; }
+.hero2 .tagline.creds { margin-top: 14px; }
+.hero2 .cta-row { margin-top: 24px; align-items: center; gap: 10px 12px; }
+.hero2 .cta { border-radius: 999px; padding: 8px 18px; }
+.h2-l { font-size: 14.5px; font-weight: 600; margin-left: 4px; }
+.h2-photo { display: block; width: 210px; height: 210px; object-fit: cover; object-position: center 30%; border-radius: 14px; }
+@media (max-width: 699px) {
+  .h2-grid { grid-template-columns: 76px minmax(0, 1fr); gap: 16px; }
+  .h2-photo { grid-row: 1; grid-column: 1; width: 76px; height: 76px; border-radius: 10px; align-self: start; margin-top: 4px; }
+  .h2-txt { display: contents; }
+  .hero2 .name { grid-column: 2; grid-row: 1; align-self: center; font-size: clamp(2.1rem, 10vw, 2.8rem); }
+  .hero2 .tagline.creds, .hero2 .cta-row { grid-column: 1 / -1; }
+  .hero2 .tagline.creds { margin-top: 0; }
+  .hero2 .cta-row { margin-top: 4px; }
+}
+/* the palette as a thin line under the hero; its story lives on Research */
+#band { margin: 6px 0 0; }
+#band .band-strip { height: 6px; border-radius: 3px; pointer-events: none; }
+#band .band-strip .bs { pointer-events: none; }
+#band figcaption { display: none; }
+/* case studies: pictures, no boxes */
+.case { padding: 0; border: 0; background: none; border-radius: 0; gap: 8px; overflow: visible; }
+.case:hover { border: 0; }
+.case-pic { border-radius: 12px; border: 1px solid var(--rule); margin-bottom: 6px; }
+.case:hover .case-pic { border-color: var(--rule-strong); }
+.case-h, .case-l { padding: 0; }
+.case-h::after { content: none; }
+/* the day: a spine down the middle with the times on it */
+@media (min-width: 900px) {
+  .d-head { border-bottom: 0; }
+  .d-row { border-top: 0 !important; border-bottom: 0 !important; padding: 0; }
+  .d-row .d-cell { padding-block: 16px 22px; }
+  .d-t { position: relative; align-self: stretch; padding-top: 18px; font-size: 12.5px; color: var(--c-msblue); }
+  .d-t::before { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: var(--rule-strong); opacity: .35; }
+  .d-t span { position: relative; background: var(--paper); padding: 2px 4px; }
+}
+/* the path map across the page on a laptop: stops on one line, the things I built under each */
+@media (min-width: 1000px) {
+  #path .work-note, #path .kinds { display: none; }
+  #path .path { position: relative; display: grid; grid-template-columns: .55fr .7fr 1.2fr 1.2fr 2.1fr .75fr; column-gap: 18px; margin-top: 26px; }
+  #path .path::before { content: ''; position: absolute; left: 10px; right: 12%; top: 9px; height: 2px; background: var(--c-razz); opacity: .7; }
+  #path .stop { display: block; padding: 32px 0 0; min-width: 0; }
+  #path .stop::before, #path .stop::after { content: none !important; }
+  #path .sn .dot { width: 20px; height: 20px; border-width: 3px; }
+  #path .sn .st { font-size: 15.5px; }
+  #path .who { gap: 2px; }
+  #path .who .yr { font-size: 12.5px; font-family: var(--mono); font-weight: 400; }
+  #path .who .hl { display: none; }
+  #path .stop.end .who .hl { display: block; font-size: 12.5px; color: var(--muted); font-family: var(--mono); }
+  #path .tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 8px; margin-top: 12px; }
+  #path .stop:nth-child(5) .tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  #path .tiles a { width: auto; gap: 4px; }
+  #path .tiles img, #path .tiles .pal { width: 100%; height: auto; aspect-ratio: 4 / 3; }
+  #path .tiles .cap { font-size: 12.5px; line-height: 1.25; font-weight: 600; gap: 5px; }
+  #path .tiles .cap i { width: 7px; height: 7px; }
+  #path .tiles .ln { display: none; }
+  #path .tiles .stat { padding-left: 12px; font-size: 11.5px; }
+  #path.exhibit, .path.drawing .tiles { opacity: 1; }
+}
+@media (max-width: 699px) { .hero2 .cta { padding: 7px 14px; font-size: 14px; } .hero2 .cta-row { gap: 8px 10px; } .h2-l { margin-left: 0; } }
+.g-t .g-num { fill: var(--paper); font-weight: 800; font-size: 12px; }
 
 .nf { padding-block: 18vh 12vh; display: grid; gap: 18px; }
 </style>
