@@ -448,7 +448,7 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .deep-link { border-color: var(--c, var(--ink)); }
 
 /* Exhibit 1: the build log */
-.log-wrap { display: grid; grid-template-columns: minmax(0, 21fr) minmax(0, 18fr); gap: 20px; }
+.log-wrap { display: grid; grid-template-columns: minmax(0, var(--w1, 21fr)) minmax(0, var(--w2, 18fr)); gap: 20px; }
 @media (max-width: 859px) { .log-wrap { grid-template-columns: minmax(0, 1fr); gap: 14px; } }
 .log { width: 100%; border-collapse: collapse; table-layout: fixed; }
 .log th { font-weight: 500; font-size: 11.5px; color: var(--muted); padding: 0; white-space: nowrap; overflow: visible; }
@@ -463,6 +463,12 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 
 .d-dreamy { background: var(--c-msblue); } .d-in { background: var(--c-jade); } .d-5k { background: var(--c-carrot); }
 .d-dd { background: var(--c-amethyst); } .d-wd { background: var(--c-magenta); } .d-other { background: var(--c-grey); } .d-ink { background: var(--ink-2); }
+/* Oct 30: a day on more than one thing is a split circle, one slice per thing, with a thin gap in the page color */
+.log td i.pie { background: none; overflow: visible; }
+.log td i.pie svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.pie path { stroke: var(--paper); stroke-width: 0.12; stroke-linejoin: round; }
+.pie .d-dreamy { fill: var(--c-msblue); } .pie .d-in { fill: var(--c-jade); } .pie .d-5k { fill: var(--c-carrot); }
+.pie .d-dd { fill: var(--c-amethyst); } .pie .d-wd { fill: var(--c-magenta); } .pie .d-other { fill: var(--c-grey); }
 
 /* a ring around the day: honey for a race, ink for my first day at Wharton. A code dot, if any, sits inside it. */
 .log td.mark::after { content: ''; position: absolute; inset: 0; margin: auto; width: 74%; aspect-ratio: 1; border-radius: 50%; border: 2px solid var(--ring); box-sizing: border-box; pointer-events: none; }
@@ -474,6 +480,8 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .log-key i.chat { width: 8px; height: 8px; }
 .log-key.k2 { margin-top: -4px; color: var(--muted); }
 
+/* Oct 30 (Jason picked "two color families"): photo finder people (kept outside the skills block, which gen_skills.py rewrites), shades of Blue Razz, MS Blue and Jade from the palette band */
+:root { --pf-1: #3296FE; --pf-2: #5CC495; --pf-3: #B1D7FF; --pf-4: #287151; --pf-5: #2369B2; --pf-6: #B4DBCA; --pf-7: #7ABBFE; --pf-8: #39A174; --pf-9: #6FA0D6; --pf-10: #7EC2A5; --pf-11: #7395B7; }
 /* skills */
 :root { --k-msblue: #1B436D; --k-razz: #1F72D0; --k-jade: #23774F; --k-amethyst: #6450B8; --k-carrot: #B04A1C; --k-honey: #8A5E00; --k-magenta: #BF2C6E; --k-grey: #5B5A61; }
 :root { --k-msblue: #8DB4E6; --k-razz: #3296FE; --k-jade: #5CC495; --k-amethyst: #A593EC; --k-carrot: #E8834F; --k-honey: #E8AE2E; --k-magenta: #E56A9C; --k-grey: #A3A5AE; }
@@ -1278,29 +1286,27 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
 .d-tog button { appearance: none; font: inherit; font-size: 15px; font-weight: 700; min-height: 40px; padding: 0 16px; border: 0; border-radius: 999px; background: none; color: var(--ink-2); cursor: pointer; }
 .d-tog button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
 .d-tog button:focus-visible { outline: 2px solid var(--c-razz); outline-offset: 2px; }
-.d-head { display: none; }
-.d-rows { list-style: none; margin: 22px 0 0; padding: 0; }
-.d-row { display: grid; grid-template-columns: 76px minmax(0, 1fr); column-gap: 16px; padding: 18px 0; border-top: 1px solid var(--rule); }
-.d-row:last-child { border-bottom: 1px solid var(--rule); }
-.d-t { grid-row: 1 / span 2; font-size: 14px; font-weight: 700; color: var(--muted); padding-top: 3px; }
-.d-cell { grid-column: 2; min-width: 0; }
-.d-cell + .d-cell { margin-top: 22px; }
+/* Oct 30: two timed stories, one per place (Kelly and Jason's read-through) */
+.d-colh { margin: 22px 0 0; font-size: 15px; font-weight: 700; color: var(--ink); }
+.start-js .d-colh { display: none; }
+.d-line { list-style: none; margin: 12px 0 0; padding: 0; }
+.d-item { display: grid; grid-template-columns: 76px minmax(0, 1fr); column-gap: 14px; padding: 18px 0; border-top: 1px solid var(--rule); }
+.d-item:last-child { border-bottom: 1px solid var(--rule); }
+.d-t { font-size: 14px; font-weight: 700; color: var(--muted); padding-top: 3px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.d-cell { min-width: 0; }
 .start-js .day[data-side="ms"] .d-w, .start-js .day[data-side="w"] .d-ms { display: none; }
-@media (max-width: 899px) { .start-js .day[data-side="ms"] .d-wonly { display: none; } }  /* a time with nothing at Morgan Stanley (Night, Oct 30) */
-.start-js .d-cell + .d-cell { margin-top: 0; }
-html:not(.start-js) .d-ms .d-h::before { content: 'At Morgan Stanley: '; color: var(--muted); }
-html:not(.start-js) .d-w .d-h::before { content: 'At Wharton: '; color: var(--muted); }
+.start-js .d-line { margin-top: 22px; }
 .d-h { margin: 0 0 6px; font-size: 1.06rem; font-weight: 800; letter-spacing: -0.01em; line-height: 1.3; color: var(--ink); }
 .d-p { margin: 0; max-width: 40em; color: var(--ink-2); font-size: 15.5px; line-height: 1.55; }
 .d-go { display: inline-flex; align-items: center; min-height: 40px; margin-top: 4px; font-weight: 700; font-size: 15px; }
 .d-go::after { content: '\00a0\2192'; }
-.d-also { list-style: none; margin: 14px 0 0; padding: 12px 0 0; border-top: 1px solid var(--rule); display: grid; gap: 8px; max-width: 40em; color: var(--muted); font-size: 15px; line-height: 1.5; }
-.d-also a { color: var(--ink-2); font-weight: 700; }
 .d-btn { margin-top: 12px; }
 .d-code { margin: 4px 0 10px; }
 .d-code code { display: inline-block; font-family: var(--mono); font-size: 13px; line-height: 1.5; padding: 6px 10px; border-radius: 6px; background: var(--surface); border: 1px solid var(--rule); color: var(--ink); overflow-wrap: anywhere; }
 .d-heat { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 6px 10px; max-width: 360px; margin: 4px 0 12px; font-size: 13px; font-weight: 700; color: var(--muted); }
 .d-heat i { display: block; height: 16px; border-radius: 4px; }
+.d-heat i.d-steps { display: flex; overflow: hidden; }
+.d-steps b { flex: 1 1 0; }
 .d-spark { display: block; width: 100%; max-width: 240px; height: auto; margin: 2px 0 10px; }
 .d-spark polyline { fill: none; stroke: var(--c-jade); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
 .d-spark circle { fill: var(--c-jade); stroke: var(--paper); stroke-width: 2; }
@@ -1309,16 +1315,10 @@ html:not(.start-js) .d-w .d-h::before { content: 'At Wharton: '; color: var(--mu
 .d-map:hover { border-color: var(--rule-strong); }
 @media (min-width: 900px) {
   .start-js .d-tog { display: none; }
-  .d-head { display: grid; grid-template-columns: minmax(0, 1fr) 96px minmax(0, 1fr); margin: 24px 0 0; padding-bottom: 10px; font-size: 15px; color: var(--ink); }
-  .d-head b:last-child { padding-left: 0; }
-  .d-rows { margin-top: 0; }
-  .d-row { grid-template-columns: minmax(0, 1fr) 96px minmax(0, 1fr); column-gap: 0; padding: 22px 0; }
-  .d-t { grid-row: 1; grid-column: 2; text-align: center; padding-top: 2px; }
-  .d-ms { grid-column: 1; grid-row: 1; padding-right: 24px; }
-  .d-w { grid-column: 3; grid-row: 1; padding-left: 24px; }
+  .d-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 48px; align-items: start; }
   .start-js .day[data-side] .d-ms, .start-js .day[data-side] .d-w { display: block; }
-  .d-cell + .d-cell { margin-top: 0; }
-  html:not(.start-js) .d-h::before { content: none; }
+  .start-js .d-colh { display: block; }
+  .start-js .d-line { margin-top: 12px; }
 }
 
 /* outside work */
@@ -1382,6 +1382,11 @@ html:not(.start-js) .d-w .d-h::before { content: 'At Wharton: '; color: var(--mu
 #band { margin: 6px 0 0; }
 #band .band-strip { height: 6px; border-radius: 3px; pointer-events: none; }
 #band .band-strip .bs { pointer-events: none; }
+/* Oct 30, Jason: "just do the full color no more scale here.. it looks weird otherwise": in the thin strip each stripe
+   is its one full color (no tints under it), and the first stripe doesn't grow as if it were picked */
+#band .bs i { display: none; }
+#band .bs i:first-child { display: block; top: 0; bottom: 0; height: auto; }
+#band .bs[aria-pressed="true"] { flex-grow: var(--w); }
 #band figcaption { display: none; }
 /* case studies: pictures, no boxes */
 .case { padding: 0; border: 0; background: none; border-radius: 0; gap: 8px; overflow: visible; }
@@ -1390,15 +1395,15 @@ html:not(.start-js) .d-w .d-h::before { content: 'At Wharton: '; color: var(--mu
 .case:hover .case-pic { border-color: var(--rule-strong); }
 .case-h, .case-l { padding: 0; }
 .case-h::after { content: none; }
-/* the day: a spine down the middle with the times on it */
-@media (min-width: 900px) {
-  .d-head { border-bottom: 0; }
-  .d-row { border-top: 0 !important; border-bottom: 0 !important; padding: 0; }
-  .d-row .d-cell { padding-block: 16px 22px; }
-  .d-t { position: relative; align-self: stretch; padding-top: 18px; font-size: 12.5px; color: var(--c-msblue); }
-  .d-t::before { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: var(--rule-strong); opacity: .35; }
-  .d-t span { position: relative; background: var(--paper); padding: 2px 4px; }
-}
+/* Oct 30, Kelly via Jason: "Put the Morgan Stanley above the picture" (phone). One column: name, then picture, then line,
+   with more room between cases so the next picture doesn't read as part of the case above it. */
+@media (max-width: 759px) { .case-h { order: -1; } .case-list { gap: 34px; } }
+/* the day: each story has its times on the left and a thin spine between the times and the moments */
+.d-line { position: relative; }
+.d-line::before { content: ''; position: absolute; left: 83px; top: 6px; bottom: 6px; width: 1px; background: var(--rule-strong); opacity: .35; }
+.d-item { border-top: 0; padding: 14px 0 20px; }
+.d-item:last-child { border-bottom: 0; }
+.d-t { color: var(--c-msblue); font-size: 13.5px; }
 /* the path map across the page on a laptop: stops on one line, the things I built under each */
 @media (min-width: 1000px) {
   #path .work-note, #path .kinds { display: none; }
@@ -1424,6 +1429,37 @@ html:not(.start-js) .d-w .d-h::before { content: 'At Wharton: '; color: var(--mu
 }
 @media (max-width: 699px) { .hero2 .cta { padding: 7px 14px; font-size: 14px; } .hero2 .cta-row { gap: 8px 10px; } .h2-l { margin-left: 0; } }
 .g-t .g-num { fill: var(--paper); font-weight: 800; font-size: 12px; }
+
+/* Oct 30 (Kelly and Jason): the case study pages get a switcher at the top, so a case page doesn't read as still being on Start */
+.case-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 6px 0 22px; font-size: 14px; }
+.case-nav span { color: var(--muted); font-weight: 700; margin-right: 4px; }
+.case-nav a { display: inline-flex; align-items: center; min-height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--rule); color: var(--ink-2); font-weight: 700; text-decoration: none; }
+.case-nav a:hover { border-color: var(--rule-strong); color: var(--ink); }
+.case-nav a[aria-current="page"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+.case-nav + .project { padding-top: 0; }
+.case-nav + .project .p-head { margin-top: 8px; }
+@media (max-width: 520px) { .case-nav { gap: 6px; } .case-nav a { padding: 0 12px; min-height: 34px; } }
+
+/* Oct 30: photo finder people in two color families, blue and green, a different shade each (pf.js ranks them by photos); me in Honey on photo tags */
+.pf-ini.pc1, .pf-tags i.pc1 { background: var(--pf-1); color: var(--paper); }
+.pf-ini.pc2, .pf-tags i.pc2 { background: var(--pf-2); color: var(--paper); }
+.pf-ini.pc3, .pf-tags i.pc3 { background: var(--pf-3); color: var(--paper); }
+.pf-ini.pc4, .pf-tags i.pc4 { background: var(--pf-4); color: var(--ink); }
+.pf-ini.pc5, .pf-tags i.pc5 { background: var(--pf-5); color: var(--ink); }
+.pf-ini.pc6, .pf-tags i.pc6 { background: var(--pf-6); color: var(--paper); }
+.pf-ini.pc7, .pf-tags i.pc7 { background: var(--pf-7); color: var(--paper); }
+.pf-ini.pc8, .pf-tags i.pc8 { background: var(--pf-8); color: var(--paper); }
+.pf-ini.pc9, .pf-tags i.pc9 { background: var(--pf-9); color: var(--paper); }
+.pf-ini.pc10, .pf-tags i.pc10 { background: var(--pf-10); color: var(--paper); }
+.pf-ini.pc11, .pf-tags i.pc11 { background: var(--pf-11); color: var(--paper); }
+.pf-tags i.pc-me { background: var(--c-honey); color: var(--paper); }
+
+/* Oct 30: the extra place names on the photo finder map show on wider screens only */
+@media (max-width: 700px) { .pf-map .x { display: none; } }
+/* Oct 30, Jason: "sizes should be standardized": every person card the same height, cards fill their grid row */
+.pf-people { align-items: stretch; grid-auto-rows: 1fr; }
+.pf-people li { display: flex; }
+.pf-person { min-height: 84px; height: 100%; }
 
 </style>
 <script>(function(){function pick(){var c=null;[document.querySelector('.name'),document.querySelector('.topbar .label a')].forEach(function(el){if(!el)return;var r=el.getBoundingClientRect(),w=el.closest('.tb-name'),s=r.width>0&&r.bottom>0&&r.top<innerHeight&&!(w&&!w.classList.contains('on'));el.style.viewTransitionName=!c&&s?'jt-name':'none';if(!c&&s)c=el;});}addEventListener('pageswap',pick);addEventListener('pagereveal',pick);})();</script>
@@ -2831,7 +2867,7 @@ easelPastel();
   io.observe(f);
 })();
 /* The photo finder, inside its dive-in on the AI page. A slice of the public Dolomites Photo Finder:
-   real tags, scores, edit notes and Strava tracks (data/pf-slice.json, embedded as #pf-data).
+   real tags, scores, edit notes (shown only from the scoring call) and Strava tracks (data/pf-slice.json, embedded as #pf-data).
    Views: Map (photos pinned to each day's route), People (tap one or more), Photos (grid with stacks).
    window.PF.show(what) is called by the "Show me" buttons next to each call. */
 (function () {
@@ -2840,6 +2876,7 @@ easelPastel();
   var DAY = { 1: ['Sun', 'Tofana ferrata and cave'], 2: ['Mon', 'Alta Via 1 to Croda da Lago'], 3: ['Tue', 'Hut down to San Vito'], 4: ['Wed', 'Via ferrata above San Vito'], 5: ['Thu', 'Lagazuoi ferrata and tunnels'] };
   var FACE = { f: 'face', s: 'side', b: 'from behind', h: 'face hidden' };
   var S = { view: 'map', who: [], face: '', day: 2, open: null };
+  var PC = {};  // person id -> color class (see build)
   var VIEW = root.querySelector('.pf-view');
   function $(s) { return s === '.pf-view' ? VIEW : root.querySelector(s); }
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
@@ -2867,7 +2904,8 @@ easelPastel();
       }
       out.push({ p: p, n: 1 });
     });
-    return out;
+    // Oct 30 (Jason: "can we also try to put the best photos first?"): highest score first; ties keep time order
+    return out.map(function (e, i) { return [e, i]; }).sort(function (a, b) { return (b[0].p.s || 0) - (a[0].p.s || 0) || a[1] - b[1]; }).map(function (x) { return x[0]; });
   }
 
   // ---- photos grid
@@ -2876,7 +2914,7 @@ easelPastel();
     var rows = p.pp.filter(function (x) { return x[0] && (sel === null || sel.indexOf(x[0]) >= 0) && (!S.face || x[1] === S.face); });
     if (!S.who.length && !S.face) return '';
     var more = rows.length > 3 ? rows.length - 2 : 0; if (more) rows = rows.slice(0, 2);
-    return '<span class="pf-tags">' + rows.map(function (x) { return '<i>' + esc(x[0]) + ' · ' + FACE[x[1]] + (x[2] ? '' : ' ?') + '</i>'; }).join('') + (more ? '<i>+' + more + ' more</i>' : '') + '</span>';
+    return '<span class="pf-tags">' + rows.map(function (x) { return '<i' + (PC[x[0]] ? ' class="' + PC[x[0]] + '"' : '') + '>' + esc(x[0]) + ' · ' + FACE[x[1]] + (x[2] ? '' : ' ?') + '</i>'; }).join('') + (more ? '<i>+' + more + ' more</i>' : '') + '</span>';
   }
   function drawGrid() {
     var L = list();
@@ -2895,12 +2933,13 @@ easelPastel();
     $('.pf-people').innerHTML = DATA.people.map(function (q) {
       var id = q[0], c = counts[id] || { n: 0, b: 0 };
       return '<li><button type="button" class="pf-person" data-v="' + id + '" aria-pressed="' + (S.who.indexOf(id) >= 0) + '">'
-        + (q[1] ? '<img src="img/pf/me.webp" alt="">' : '<span class="pf-ini">' + id + '</span>')
-        + '<span><b>' + (q[1] ? 'Me' : id) + '</b><small>' + c.n + ' photos, ' + c.b + ' from behind</small></span></button></li>';
+        + (q[1] ? '<img src="img/pf/me.webp" alt="">' : '<span class="pf-ini' + (PC[id] ? ' ' + PC[id] : '') + '">' + id + '</span>')
+        + '<span><b>' + (q[1] ? 'Me' : id) + '</b><small>' + c.n + ' photos' + (c.b ? ', ' + c.b + ' from behind' : '') + '</small></span></button></li>';
     }).join('');
     var n = S.who.length;
     $('.pf-psel').textContent = n === 0 ? 'Tap one person for their photos, or two for photos of them together. Counts are for this slice.'
       : n === 1 ? 'Showing photos with ' + (S.who[0] === 'Me' ? 'me' : S.who[0]) + '. Tap someone else to find the two of you together.'
+      : n === 2 ? 'Showing photos of ' + S.who.map(function (x) { return x === 'Me' ? 'me' : x; }).sort(function (a, b) { return a === 'me' ? -1 : b === 'me' ? 1 : 0; }).join(' and ') + ' together.'
       : 'Showing photos with all ' + n + ' of them together.';
   }
 
@@ -2923,7 +2962,15 @@ easelPastel();
       s += '<path class="pf-tr d' + d + (on ? ' on' : '') + '" d="M' + T[d].map(function (a) { return m.X(a[1]).toFixed(1) + ' ' + m.Y(a[0]).toFixed(1); }).join('L') + '"/>';
     });
     var labels = [[T[2][0], 'Passo Falzarego'], [T[2][T[2].length - 1], 'Croda da Lago'], [T[3][T[3].length - 1], 'San Vito di Cadore'], [T[5].reduce(function (a, b) { return b[2] > a[2] ? b : a; }), 'Lagazuoi'], [T[1].reduce(function (a, b) { return b[2] > a[2] ? b : a; }), 'Tofana']];
-    labels.forEach(function (l) { var x = m.X(l[0][1]), y = m.Y(l[0][0]), r = x > m.W * 0.62; s += '<circle class="pf-pl" cx="' + x + '" cy="' + y + '" r="3"/><text class="pf-lab" x="' + (r ? x - 7 : x + 7) + '" y="' + (y - 7) + '" text-anchor="' + (r ? 'end' : 'start') + '">' + l[1] + '</text>'; });
+    // Oct 30 (Jason: "add like 2-5 more spots on the map? at least for computer view"): places named in the photo notes,
+    // pinned to the route point where those photos were taken. Hidden on narrow screens (.pf-lab.x).
+    var near = function (d, lat, lon) { return T[d].reduce(function (a, b) { return Math.hypot(b[0] - lat, (b[1] - lon) * 0.69) < Math.hypot(a[0] - lat, (a[1] - lon) * 0.69) ? b : a; }); };
+    // [point, name, x offset, y offset]: Passo Giau clears its big photo dot, the cave label goes under Tofana's
+    var extra = [[near(2, 46.48799, 12.0514), 'Passo Giau', 22, 5], [near(2, 46.47234, 12.07577), 'Mondeval', 7, -7], [near(1, 46.5344, 12.05551), 'Tofana cave', -6, 26], [[46.5405, 12.1357], 'Cortina', 7, 4]];  // Cortina: the town center, Jason asked for it
+    labels.concat(extra.map(function (l) { return [l[0], l[1], 'x', l[2], l[3]]; })).forEach(function (l) {
+      var x = m.X(l[0][1]), y = m.Y(l[0][0]), r = !l[2] && x > m.W * 0.62, c = l[2] ? ' ' + l[2] : '', dx = l[2] ? l[3] : 7, dy = l[2] ? l[4] : -7;
+      s += '<circle class="pf-pl' + c + '" cx="' + x + '" cy="' + y + '" r="3"/><text class="pf-lab' + c + '" x="' + (r ? x - 7 : x + dx) + '" y="' + (y + dy) + '" text-anchor="' + (r ? 'end' : 'start') + '">' + l[1] + '</text>';
+    });
     var cell = 18, cl = {}, keys = [];
     DATA.photos.forEach(function (p) {
       if (!p.ll || !pass(p)) return;
@@ -2981,7 +3028,7 @@ easelPastel();
     v.innerHTML = '<div class="pf-v-pic"><img src="' + big(p) + '" alt="' + esc(p.sub) + '"></div>'
       + '<div class="pf-v-info"><button type="button" class="pf-v-x" aria-label="Close the photo">×</button>'
       + '<p class="pf-v-h"><b class="pf-v-s">' + (p.s || '') + '</b><span>' + esc(p.sub) + '<small>' + DAY[p.d][0] + ' ' + p.t + (p.alt ? ', ' + p.alt + ' m' : '') + (p.km != null ? ', km ' + p.km : '') + '</small></span></p>'
-      + '<dl><dt>Why this score</dt><dd>' + esc(p.why) + '</dd>' + (p.ed ? '<dt>Edit</dt><dd>' + esc(p.ed) + '</dd>' : '') + '</dl>'
+      + '<dl><dt>Why this score</dt><dd>' + esc(p.why) + '</dd>' + (S.edits && p.ed ? '<dt>Edit</dt><dd>' + esc(p.ed) + '</dd>' : '') + '</dl>'  // Oct 30, Jason: edits only after "Show me" on the scoring call
       + (ppl ? '<p class="pf-v-ppl">' + ppl + '</p>' : '')
       + (frames && frames.length > 1 ? '<p class="pf-v-sub">' + frames.length + ' frames of this shot. The best is outlined.</p><ul class="pf-frames">' + frames.map(function (q) { return '<li><button type="button" class="' + (q.stb ? 'best ' : '') + (q === p ? 'cur' : '') + '" data-k="' + q.k + '"><img src="' + thumb(q) + '" alt="' + esc(q.sub) + '"><span>' + (q.s || '') + '</span></button></li>'; }).join('') + '</ul>' : '')
       + mini + '</div>';
@@ -3005,9 +3052,14 @@ easelPastel();
   function build() {
     if (built) return; built = true;
     DATA = JSON.parse(document.getElementById('pf-data').textContent);
+    // Oct 30, Jason picked "two color families": everyone else gets their own shade of blue or green, most photos first,
+    // alternating family and lightness so neighbors differ (start.css .pc1 to .pc11); me in Honey on photo tags
+    var cnt = {}; DATA.photos.forEach(function (p) { p.pp.forEach(function (x) { if (x[0] && x[0] !== 'Me') cnt[x[0]] = (cnt[x[0]] || 0) + 1; }); });
+    Object.keys(cnt).sort(function (a, b) { return cnt[b] - cnt[a]; }).slice(0, 11).forEach(function (id, i) { PC[id] = 'pc' + (i + 1); });
+    PC.Me = 'pc-me';
     // the photo viewer sits on top of the whole dive-in, not inside its sticky column
     var dv = root.closest('.dive'); if (dv) dv.appendChild($('.pf-view'));
-    root.querySelector('.pf-tabs').onclick = function (ev) { var b = ev.target.closest('[data-view]'); if (!b) return; S.view = b.getAttribute('data-view'); closePhoto(); draw(); };
+    root.querySelector('.pf-tabs').onclick = function (ev) { var b = ev.target.closest('[data-view]'); if (!b) return; S.edits = false; S.view = b.getAttribute('data-view'); closePhoto(); draw(); };
     root.querySelector('.pf-face').onclick = function (ev) { var b = ev.target.closest('button'); if (!b) return; S.face = b.getAttribute('data-f') || ''; draw(); };
     $('.pf-days').onclick = function (ev) { var b = ev.target.closest('[data-d]'); if (!b) return; var d = +b.getAttribute('data-d'); S.day = S.day === d ? 0 : d; drawMap(); };
     $('.pf-people').onclick = function (ev) {
@@ -3027,7 +3079,7 @@ easelPastel();
   window.PF = {
     build: build,
     show: function (what) {
-      build(); closePhoto();
+      build(); closePhoto(); S.edits = what === 'score';
       if (what === 'behind') { S.view = 'photos'; S.who = []; S.face = 'b'; }
       if (what === 'facing') { S.view = 'photos'; S.who = ['Me']; S.face = ''; }
       if (what === 'map') { S.view = 'map'; S.who = []; S.face = ''; S.day = 2; }

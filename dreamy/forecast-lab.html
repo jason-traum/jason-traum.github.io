@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Forecast Lab</title>
+<link rel="icon" href="data:,">
+<style>
+:root{
+  --bg:#0a0a0f;--s1:#141420;--s2:#1a1a24;--s3:#282836;
+  --t1:#ededf2;--t2:#b8b8c8;--t3:#8888a0;
+  --b1:#333345;--b2:#42425a;
+  --accent:#7c6cf0;--glow:#a78bfa;
+  --worse:#e04545;
+  --d5k:#2f8fc4;--d10k:#8b5cf6;--dhm:#c07a12;--dm:#d42a5c;
+  --head:"Manrope",-apple-system,system-ui,sans-serif;
+  --body:"Inter",-apple-system,system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{color-scheme:dark}
+body{margin:0;background:var(--bg);color:var(--t1);font-family:var(--body);font-size:15px;line-height:1.5;-webkit-text-size-adjust:100%}
+.num,td,th,.stat b,svg text{font-variant-numeric:tabular-nums}
+main{max-width:1080px;margin:0 auto;padding:40px 16px 32px}
+h1,h2{font-family:var(--head);letter-spacing:-0.02em;margin:0}
+h1{font-size:34px;line-height:1.1}
+h2{font-size:21px;line-height:1.25}
+.sub{color:var(--t2);margin:8px 0 0}
+.tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--glow);border:1px solid var(--b2);border-radius:999px;padding:2px 8px;vertical-align:middle;margin-left:8px}
+section{margin-top:56px}
+.shead{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 0}
+.line{color:var(--t2);margin:6px 0 16px;font-size:14px}
+.stats{display:flex;flex-wrap:wrap;gap:28px 40px;margin-top:20px}
+.stat b{display:block;font-family:var(--body);font-size:30px;font-weight:600;line-height:1.1}
+.stat span{color:var(--t3);font-size:13px}
+.panel{background:var(--s1);border:1px solid var(--b1);border-radius:12px;padding:16px}
+.chart{width:100%;min-width:0;overflow:hidden}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;color:var(--t2);margin-bottom:10px}
+.legend i{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:middle;margin-right:6px}
+.legend i.dot{width:9px;height:9px;border-radius:50%}
+.legend i.area{height:9px;opacity:.5}
+.legend i.dash{background:none!important;border-top:2px dashed var(--t2);height:0}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:16px;border:1px solid var(--b1);border-radius:12px}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{padding:8px 10px;text-align:right;white-space:nowrap;border-bottom:1px solid var(--b1)}
+th{color:var(--t3);font-weight:500;font-size:12px;background:var(--s2)}
+th:first-child,td:first-child{text-align:left}
+tr:last-child td{border-bottom:none}
+td small{color:var(--t3);font-size:11px;display:block}
+td.wrap{white-space:normal;min-width:180px}
+.muted{color:var(--t3)}
+.hi{color:var(--glow);font-weight:600}
+.bad{color:#f07070}
+.btns{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.btns button{font:inherit;font-size:13px;color:var(--t2);background:var(--s2);border:1px solid var(--b1);border-radius:8px;padding:5px 12px;cursor:pointer;transition:opacity .15s}
+.btns button[aria-pressed="true"]{color:var(--t1);border-color:var(--accent);background:var(--s3)}
+.arch{display:grid;grid-template-columns:minmax(96px,170px) 1fr 56px 46px;gap:6px 10px;align-items:center;font-size:13px}
+.arch .h{color:var(--t3);font-size:12px}
+.arch .bar{position:relative;height:18px}
+.arch .bar div{position:absolute;left:0;top:3px;height:12px;border-radius:0 4px 4px 0;background:var(--accent)}
+.arch .bar span{position:absolute;top:0;font-size:12px;color:var(--t1)}
+.arch .r{text-align:right}
+.two{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:820px){.two{grid-template-columns:1.2fr 1fr}}
+.cap{font-size:12px;color:var(--t3);margin:0 0 8px}
+footer{margin-top:64px;padding-top:16px;border-top:1px solid var(--b1);color:var(--t3);font-size:12px}
+@media(max-width:480px){h1{font-size:28px}.stat b{font-size:24px}.stats{gap:20px 28px}.panel{padding:12px}}
+</style>
+</head>
+<body><p style="margin:0;padding:14px 20px 0;font:600 14px Inter,system-ui,sans-serif"><a href="../dreamy.html#deeper" style="color:inherit;text-underline-offset:3px">Back to Dreamy</a></p>
+<main>
+<header>
+  <div style="display:flex;flex-wrap:wrap;align-items:center;gap:0 10px"><h1 style="margin-right:0">Forecast Lab</h1><span class="tag">Synthetic</span></div>
+  <p class="sub">Every engine change replays fake runners through the real app and is scored against a known truth.</p>
+</header>
+
+<section id="setup">
+  <div class="shead"><h2>Setup</h2><span class="tag">Synthetic</span></div>
+  <p class="line">Error = 100 x ln(forecast / truth). Positive is slower than the truth.</p>
+  <div class="stats" id="stats"></div>
+</section>
+
+<section id="ladder">
+  <div class="shead"><h2>Error, step by step</h2><span class="tag">Synthetic</span></div>
+  <p class="line">Engine forecast error (MAE %) after each merged change, same runners every time.</p>
+  <div class="panel">
+    <div class="legend" id="ladder-legend"></div>
+    <div class="chart" id="ladder-chart"></div>
+  </div>
+  <div class="scroll"><table id="ladder-table"></table></div>
+</section>
+
+<section id="rejected">
+  <div class="shead"><h2>Tested, not merged</h2><span class="tag">Synthetic</span></div>
+  <p class="line">A change merges only if its error change has a 90% interval entirely below zero.</p>
+  <div class="panel">
+    <div class="legend" id="arms-legend"></div>
+    <div class="chart" id="arms-chart"></div>
+  </div>
+  <div class="scroll"><table id="arms-table"></table></div>
+</section>
+
+<section id="baselines">
+  <div class="shead"><h2>Against simple baselines</h2><span class="tag">Synthetic</span></div>
+  <p class="line">Baselines need a recent race; "no estimate" is the share of forecasts they could not make.</p>
+  <p class="cap">All rows each method could score. Highlighted: a baseline beating the engine.</p>
+  <div class="scroll" style="margin-top:0"><table id="base-table"></table></div>
+  <p class="cap" style="margin-top:20px">Same runner, date and distance only. Skill above zero means the engine is better.</p>
+  <div class="scroll" style="margin-top:0"><table id="h2h-table"></table></div>
+</section>
+
+<section id="archetypes">
+  <div class="shead"><h2>By runner type</h2><span class="tag">Synthetic</span></div>
+  <p class="line">Three runners per type. The two alternate worlds break the engine's own assumptions.</p>
+  <div class="panel"><div class="arch" id="arch"></div></div>
+</section>
+
+<section id="calibration">
+  <div class="shead"><h2>Ranges</h2><span class="tag">Synthetic</span></div>
+  <p class="line">How often the truth falls inside the forecast range, against the stated rate.</p>
+  <div class="two">
+    <div class="panel">
+      <p class="cap">Coverage by distance</p>
+      <div class="legend" id="cal-legend"></div>
+      <div class="chart" id="cal-chart"></div>
+    </div>
+    <div class="panel">
+      <p class="cap">Where the truth landed in the forecast distribution (PIT)</p>
+      <div class="legend" id="pit-legend"></div>
+      <div class="chart" id="pit-chart"></div>
+    </div>
+  </div>
+  <div class="scroll"><table id="cal-table"></table></div>
+</section>
+
+<section id="example">
+  <div class="shead"><h2 id="ex-title">One runner</h2><span class="tag">Synthetic</span></div>
+  <p class="line" id="ex-line"></p>
+  <div class="panel">
+    <div class="btns" id="ex-btns" role="group" aria-label="Distance"></div>
+    <div class="legend" id="ex-legend"></div>
+    <div class="chart" id="ex-chart"></div>
+  </div>
+</section>
+
+<footer>Synthetic runners from the Dreamy Forecast Lab</footer>
+</main>
+
+<script type="application/json" id="lab-data">{"setup":{"runners":33,"archetypes":11,"perArchetype":3,"months":15,"forecastDates":462,"scoredRows":13398,"engineRows":1848,"failed":0},"ladder":[{"label":"Start","note":null,"n":1840,"all":{"mae":11.379425,"bias":-7.556278,"lo":8.3997,"hi":14.903512},"dist":{"5K":{"mae":9.565032,"bias":-2.119192,"lo":7.146591,"hi":12.271061},"10K":{"mae":9.679301,"bias":-5.820064,"lo":6.814962,"hi":12.780726},"HM":{"mae":10.849388,"bias":-7.922742,"lo":7.734617,"hi":14.286901},"M":{"mae":15.423978,"bias":-14.363113,"lo":11.911885,"hi":19.519211}}},{"label":"Heart-rate and model fixes","note":null,"n":1848,"all":{"mae":7.292276,"bias":1.540135,"lo":6.032889,"hi":8.783801},"dist":{"5K":{"mae":8.067078,"bias":5.058382,"lo":6.658531,"hi":9.567848},"10K":{"mae":6.635244,"bias":2.385464,"lo":5.26292,"hi":8.094275},"HM":{"mae":6.855777,"bias":1.791992,"lo":5.379293,"hi":8.451992},"M":{"mae":7.611007,"bias":-3.075296,"lo":5.642274,"hi":9.696188}},"delta":{"d":-4.099223,"lo":-6.819724,"hi":-1.652962}},{"label":"Race floor fix","note":"Merged together with the next step","n":1848,"all":{"mae":7.646185,"bias":2.890146,"lo":6.404136,"hi":9.043281},"dist":{"5K":{"mae":8.894396,"bias":6.124767,"lo":7.647307,"hi":10.322964},"10K":{"mae":7.154485,"bias":3.499734,"lo":5.86548,"hi":8.555145},"HM":{"mae":7.37637,"bias":3.194756,"lo":5.977732,"hi":8.852806},"M":{"mae":7.159489,"bias":-1.258671,"lo":5.286006,"hi":9.173547}},"delta":{"d":0.353909,"lo":0.170559,"hi":0.541906}},{"label":"Short-distance bias fix","note":null,"n":1848,"all":{"mae":6.564685,"bias":1.76635,"lo":5.454683,"hi":7.875216},"dist":{"5K":{"mae":7.437679,"bias":4.673541,"lo":6.397833,"hi":8.603794},"10K":{"mae":6.171946,"bias":2.60567,"lo":5.075316,"hi":7.3699},"HM":{"mae":6.26673,"bias":2.185455,"lo":5.023929,"hi":7.564166},"M":{"mae":6.382386,"bias":-2.399266,"lo":4.594132,"hi":8.345292}},"delta":{"d":-1.0815,"lo":-1.506423,"hi":-0.697611}},{"label":"Distance fall-off","note":null,"n":1848,"all":{"mae":6.057127,"bias":1.274721,"lo":4.892193,"hi":7.485612},"dist":{"5K":{"mae":6.74478,"bias":3.305707,"lo":5.613533,"hi":8.009378},"10K":{"mae":5.718486,"bias":1.774506,"lo":4.499418,"hi":7.011668},"HM":{"mae":5.640181,"bias":0.829866,"lo":4.279802,"hi":7.081379},"M":{"mae":6.125062,"bias":-0.811196,"lo":4.507142,"hi":7.937777}},"delta":{"d":-0.507558,"lo":-0.697626,"hi":-0.313722}},{"label":"5K race anchoring","note":null,"n":1848,"all":{"mae":5.924259,"bias":1.080033,"lo":4.738648,"hi":7.393091},"dist":{"5K":{"mae":6.264363,"bias":2.62906,"lo":5.120643,"hi":7.535662},"10K":{"mae":5.719326,"bias":1.742864,"lo":4.504183,"hi":7.016641},"HM":{"mae":5.600968,"bias":0.799585,"lo":4.251288,"hi":7.044628},"M":{"mae":6.112379,"bias":-0.851377,"lo":4.492627,"hi":7.918857}},"delta":{"d":-0.132868,"lo":-0.180318,"hi":-0.085936},"today":true}],"arms":[{"label":"Weather measured against a reference day","why":"Held: more forecasts failed","dist":{"5K":{"d":0.639929,"lo":0.136336,"hi":1.132303},"10K":{"d":0.146999,"lo":-0.289893,"hi":0.592331},"HM":{"d":-0.026367,"lo":-0.483822,"hi":0.442122},"M":{"d":-0.83538,"lo":-1.284083,"hi":-0.356165}},"all":{"d":-0.018705,"lo":-0.418539,"hi":0.373391,"n":1792},"cov80":{"ctl":0.697987,"arm":0.6566},"noForecast":{"ctl":8,"arm":52},"controlLabel":"Start"},{"label":"Race floor fades with the race’s age","why":"Worse than the floor fix alone","dist":{"5K":{"d":0.250081,"lo":0.154769,"hi":0.363678},"10K":{"d":0.161227,"lo":0.064358,"hi":0.290933},"HM":{"d":0.085015,"lo":0.018306,"hi":0.16962},"M":{"d":0.017587,"lo":-0.011993,"hi":0.048756}},"all":{"d":0.128478,"lo":0.064114,"hi":0.208866,"n":1848},"cov80":{"ctl":0.742965,"arm":0.736472},"noForecast":{"ctl":0,"arm":0},"controlLabel":"Race floor fix"},{"label":"Threshold factor inside the race anchor","why":"5K worse, nothing better","dist":{"5K":{"d":0.219117,"lo":0.007517,"hi":0.514505},"10K":{"d":0.233796,"lo":-0.056606,"hi":0.629774},"HM":{"d":0.290024,"lo":-0.006834,"hi":0.704968},"M":{"d":0.093514,"lo":-0.111393,"hi":0.323009}},"all":{"d":0.209113,"lo":-0.035065,"hi":0.532229,"n":1848},"cov80":{"ctl":0.742965,"arm":0.737013},"noForecast":{"ctl":0,"arm":0},"controlLabel":"Race floor fix"},{"label":"Same, without the critical-speed share","why":"Worse","dist":{"5K":{"d":0.132912,"lo":0.051799,"hi":0.231714},"10K":{"d":0.10246,"lo":-0.007327,"hi":0.238822},"HM":{"d":0.175835,"lo":0.066117,"hi":0.31409},"M":{"d":0.165742,"lo":0.014021,"hi":0.352025}},"all":{"d":0.144237,"lo":0.036225,"hi":0.280497,"n":1848},"cov80":{"ctl":0.742965,"arm":0.737554},"noForecast":{"ctl":0,"arm":0},"controlLabel":"Race floor fix"},{"label":"Workout classifier rewrite","why":"No proven gain","dist":{"5K":{"d":-0.47139,"lo":-0.975856,"hi":0.062278},"10K":{"d":-0.226848,"lo":-0.732018,"hi":0.33516},"HM":{"d":-0.272379,"lo":-0.873443,"hi":0.393167},"M":{"d":-0.066876,"lo":-0.640419,"hi":0.535795}},"all":{"d":-0.259373,"lo":-0.805033,"hi":0.326108,"n":1848},"cov80":{"ctl":0.742965,"arm":0.794372},"noForecast":{"ctl":0,"arm":0},"controlLabel":"Race floor fix"},{"label":"Easy to steady boundary moved","why":"Labels only, no forecast change","dist":{"5K":{"d":0.009977,"lo":0.000914,"hi":0.020659},"10K":{"d":0.005664,"lo":-0.004633,"hi":0.016509},"HM":{"d":0.004567,"lo":-0.003522,"hi":0.014693},"M":{"d":-0.019683,"lo":-0.048761,"hi":-0.000346}},"all":{"d":0.000131,"lo":-0.007304,"hi":0.008417,"n":1848},"cov80":{"ctl":0.794372,"arm":0.795455},"noForecast":{"ctl":0,"arm":0},"controlLabel":"Workout classifier rewrite"},{"label":"Classifier rewrite on today’s engine","why":"Worse, mostly runners without heart rate","dist":{"5K":{"d":0.758074,"lo":0.126071,"hi":1.545388},"10K":{"d":0.746136,"lo":0.144735,"hi":1.546161},"HM":{"d":0.822413,"lo":0.146845,"hi":1.729091},"M":{"d":0.925122,"lo":0.23083,"hi":1.912057}},"all":{"d":0.812936,"lo":0.173843,"hi":1.665185,"n":1848},"cov80":{"ctl":0.801948,"arm":0.801407},"noForecast":{"ctl":0,"arm":0},"controlLabel":"Distance fall-off"},{"label":"Heart-rate VO2max time conversion","why":"No proven gain","dist":{"5K":{"d":-0.012238,"lo":-0.068843,"hi":0.049213},"10K":{"d":-0.021181,"lo":-0.056905,"hi":0.006004},"HM":{"d":-0.016915,"lo":-0.05067,"hi":0.006039},"M":{"d":-0.057186,"lo":-0.149255,"hi":0.027778}},"all":{"d":-0.02688,"lo":-0.062077,"hi":0.001711,"n":1848},"cov80":{"ctl":0.801948,"arm":0.8079},"noForecast":{"ctl":0,"arm":0},"controlLabel":"Distance fall-off"},{"label":"Race anchoring weights","why":"Marathon worse","dist":{"5K":{"d":-0.532016,"lo":-0.704058,"hi":-0.361343},"10K":{"d":-0.074438,"lo":-0.266744,"hi":0.142419},"HM":{"d":-0.052642,"lo":-0.20518,"hi":0.109804},"M":{"d":1.49763,"lo":0.675276,"hi":2.293002}},"all":{"d":0.209633,"lo":-0.023592,"hi":0.437218,"n":1848},"cov80":{"ctl":0.801948,"arm":0.795455},"noForecast":{"ctl":0,"arm":0},"controlLabel":"Distance fall-off"},{"label":"Range: outlier trim","why":"Ranges moved under a point","dist":{"5K":{"d":-0.001857,"lo":-0.006593,"hi":0.001906},"10K":{"d":-0.010112,"lo":-0.027868,"hi":3.5e-05},"HM":{"d":-0.010542,"lo":-0.024304,"hi":0.000866},"M":{"d":-0.023659,"lo":-0.05861,"hi":-0.000235}},"all":{"d":-0.011543,"lo":-0.028594,"hi":0.000364,"n":1848},"cov80":{"ctl":0.71158,"arm":0.71158},"noForecast":{"ctl":0,"arm":0},"controlLabel":"Range test control"},{"label":"Range: fitted spread","why":"Ranges moved under a point","dist":{"5K":{"d":0.0,"lo":0.0,"hi":0.0},"10K":{"d":0.0,"lo":0.0,"hi":0.0},"HM":{"d":0.0,"lo":0.0,"hi":0.0},"M":{"d":0.0,"lo":0.0,"hi":0.0}},"all":{"d":0.0,"lo":0.0,"hi":0.0,"n":1848},"cov80":{"ctl":0.71158,"arm":0.710498},"noForecast":{"ctl":0,"arm":0},"controlLabel":"Range test control"},{"label":"Range: fitted spread plus fraction","why":"Ranges moved under a point","dist":{"5K":{"d":0.0,"lo":0.0,"hi":0.0},"10K":{"d":0.0,"lo":0.0,"hi":0.0},"HM":{"d":0.0,"lo":0.0,"hi":0.0},"M":{"d":0.0,"lo":0.0,"hi":0.0}},"all":{"d":0.0,"lo":0.0,"hi":0.0,"n":1848},"cov80":{"ctl":0.71158,"arm":0.709957},"noForecast":{"ctl":0,"arm":0},"controlLabel":"Range test control"},{"label":"Range: between-race spread","why":"Ranges moved under a point","dist":{"5K":{"d":-0.001103,"lo":-0.005661,"hi":0.002259},"10K":{"d":0.003427,"lo":-0.000486,"hi":0.00767},"HM":{"d":0.031366,"lo":0.009753,"hi":0.058961},"M":{"d":-0.023783,"lo":-0.055528,"hi":0.010163}},"all":{"d":0.002477,"lo":-0.005633,"hi":0.011956,"n":1848},"cov80":{"ctl":0.71158,"arm":0.708874},"noForecast":{"ctl":0,"arm":0},"controlLabel":"Range test control"}],"baselines":[{"key":"P1","label":"Dreamy engine","mae":5.924259,"lo":4.738648,"hi":7.393091,"bias":1.080033,"noEst":0,"n":1848,"scored":1848,"dist":{"5K":{"mae":6.264363,"bias":2.62906,"noEst":0},"10K":{"mae":5.719326,"bias":1.742864,"noEst":0},"HM":{"mae":5.600968,"bias":0.799585,"noEst":0},"M":{"mae":6.112379,"bias":-0.851377,"noEst":0}}},{"key":"daniels","label":"Daniels VDOT","mae":6.016468,"lo":5.058148,"hi":7.169363,"bias":4.289501,"noEst":38.528139,"n":2310,"scored":1420,"dist":{"5K":{"mae":7.136304,"bias":6.969838,"noEst":38.528139},"10K":{"mae":5.328668,"bias":4.601239,"noEst":38.528139},"HM":{"mae":5.228624,"bias":4.04433,"noEst":38.528139},"M":{"mae":4.4307,"bias":-1.077095,"noEst":38.528139}}},{"key":"riegel","label":"Riegel","mae":6.775834,"lo":5.767832,"hi":7.94315,"bias":5.31995,"noEst":38.528139,"n":2310,"scored":1420,"dist":{"5K":{"mae":6.95473,"bias":6.787088,"noEst":38.528139},"10K":{"mae":5.506191,"bias":4.915101,"noEst":38.528139},"HM":{"mae":5.113986,"bias":3.934289,"noEst":38.528139},"M":{"mae":4.420886,"bias":-0.775532,"noEst":38.528139}}},{"key":"persistence","label":"Persistence","mae":6.899434,"lo":6.100501,"hi":7.65045,"bias":6.791319,"noEst":77.402597,"n":2310,"scored":522,"dist":{"5K":{"mae":6.694392,"bias":6.524037,"noEst":76.623377},"10K":{"mae":7.606423,"bias":7.606423,"noEst":69.047619},"HM":{"mae":5.861987,"bias":5.670842,"noEst":56.926407},"M":{"mae":8.599912,"bias":8.599912,"noEst":84.848485}}}],"h2h":[{"label":"Daniels VDOT","cells":{"all":{"n":1136,"athletes":25,"eng":3.162984,"base":5.531074,"skill":0.420292,"lo":0.323621,"hi":0.504259},"5K":{"n":284,"athletes":25,"eng":3.346608,"base":7.136304,"skill":0.552938,"lo":0.46812,"hi":0.615683},"10K":{"n":284,"athletes":25,"eng":3.073897,"base":5.328668,"skill":0.445177,"lo":0.314348,"hi":0.540615},"HM":{"n":284,"athletes":25,"eng":2.869383,"base":5.228624,"skill":0.457544,"lo":0.349202,"hi":0.542883},"M":{"n":284,"athletes":25,"eng":3.362049,"base":4.4307,"skill":0.132756,"lo":-0.136456,"hi":0.312621}}},{"label":"Riegel","cells":{"all":{"n":1136,"athletes":25,"eng":3.162984,"base":5.498948,"skill":0.416905,"lo":0.32464,"hi":0.499654},"5K":{"n":284,"athletes":25,"eng":3.346608,"base":6.95473,"skill":0.541266,"lo":0.45754,"hi":0.604894},"10K":{"n":284,"athletes":25,"eng":3.073897,"base":5.506191,"skill":0.463064,"lo":0.339876,"hi":0.55357},"HM":{"n":284,"athletes":25,"eng":2.869383,"base":5.113986,"skill":0.445384,"lo":0.340875,"hi":0.529838},"M":{"n":284,"athletes":25,"eng":3.362049,"base":4.420886,"skill":0.130831,"lo":-0.129951,"hi":0.308535}}},{"label":"Persistence","cells":{"all":{"n":520,"athletes":25,"eng":2.970562,"base":6.883158,"skill":0.587829,"lo":0.541569,"hi":0.622339},"5K":{"n":108,"athletes":12,"eng":3.668716,"base":6.694392,"skill":0.570024,"lo":0.509195,"hi":0.634077},"10K":{"n":143,"athletes":13,"eng":2.766756,"base":7.606423,"skill":0.642913,"lo":0.600989,"hi":0.684416},"HM":{"n":199,"athletes":18,"eng":2.549651,"base":5.861987,"skill":0.559167,"lo":0.472842,"hi":0.624794},"M":{"n":70,"athletes":9,"eng":3.506345,"base":8.599912,"skill":0.565225,"lo":0.368019,"hi":0.665439}}}],"archetypes":[{"key":"fast_adapter","label":"Fast adapter","alt":false,"mae":2.770099,"bias":2.016701,"cov80":0.97619,"n":168,"danielsNoEst":28.571429},{"key":"race_rich_veteran","label":"Race-rich veteran","alt":false,"mae":3.071689,"bias":2.613589,"cov80":0.982143,"n":168,"danielsNoEst":2.380952},{"key":"world_log_decay","label":"Alt world: log decay","alt":true,"mae":3.238505,"bias":2.891298,"cov80":0.97619,"n":168,"danielsNoEst":0},{"key":"fragile_speedster","label":"Fragile speedster","alt":false,"mae":3.675245,"bias":2.404744,"cov80":0.946429,"n":168,"danielsNoEst":4.761905},{"key":"non_responder","label":"Non-responder","alt":false,"mae":4.040264,"bias":3.507329,"cov80":0.958333,"n":168,"danielsNoEst":26.190476},{"key":"diesel","label":"Diesel","alt":false,"mae":4.178037,"bias":2.238861,"cov80":0.934524,"n":168,"danielsNoEst":21.428571},{"key":"world_nonlinear_fatigue","label":"Alt world: nonlinear fatigue","alt":true,"mae":4.404342,"bias":1.806931,"cov80":0.863095,"n":168,"danielsNoEst":23.809524},{"key":"workout_heavy","label":"Workout heavy","alt":false,"mae":5.321559,"bias":4.257387,"cov80":0.880952,"n":168,"danielsNoEst":69.047619},{"key":"no_hr","label":"No heart rate","alt":false,"mae":7.947902,"bias":7.490513,"cov80":0.613095,"n":168,"danielsNoEst":47.619048},{"key":"easy_only","label":"Easy miles only","alt":false,"mae":8.036006,"bias":1.134728,"cov80":0.702381,"n":168,"danielsNoEst":100},{"key":"beginner_no_races","label":"Beginner, no races","alt":false,"mae":18.483202,"bias":-18.481722,"cov80":0.035714,"n":168,"danielsNoEst":100}],"calibration":[{"key":"All","c50":0.631494,"c80":0.806277,"n":1848},{"key":"5K","c50":0.551948,"c80":0.751082,"n":462},{"key":"10K","c50":0.612554,"c80":0.792208,"n":462},{"key":"HM","c50":0.638528,"c80":0.822511,"n":462},{"key":"M","c50":0.722944,"c80":0.859307,"n":462}],"pit":[234,158,200,344,341,245,66,35,21,204],"example":{"name":"Tess Tendonitis","archetype":"Fragile speedster","window":{"start":"2025-03-01","end":"2026-05-31"},"defaultDist":"10K","truth":[{"date":"2025-03-29","5K":1145.7193,"10K":2539.642046,"HM":5777.072481,"M":12670.03492},{"date":"2025-05-01","5K":1138.23742,"10K":2523.997707,"HM":5742.515934,"M":12588.482315},{"date":"2025-05-03","5K":1136.361427,"10K":2520.075021,"HM":5733.851119,"M":12568.048292},{"date":"2025-05-29","5K":1112.421191,"10K":2470.014369,"HM":5623.270246,"M":12307.784064},{"date":"2025-06-01","5K":1113.335454,"10K":2471.92622,"HM":5627.493473,"M":12317.706384},{"date":"2025-06-29","5K":1225.407607,"10K":2706.248076,"HM":6145.065451,"M":13544.396644},{"date":"2025-07-01","5K":1225.50017,"10K":2706.441581,"HM":6145.492836,"M":13545.418488},{"date":"2025-07-29","5K":1185.183169,"10K":2622.154295,"HM":5959.326945,"M":13101.716876},{"date":"2025-08-01","5K":1179.82771,"10K":2610.957447,"HM":5934.595697,"M":13042.983873},{"date":"2025-08-03","5K":1182.905429,"10K":2617.392163,"HM":5948.808518,"M":13076.731192},{"date":"2025-08-29","5K":1194.159521,"10K":2640.921126,"HM":6000.778164,"M":13200.267544},{"date":"2025-09-01","5K":1217.927539,"10K":2690.610779,"HM":6110.52793,"M":13461.86951},{"date":"2025-09-21","5K":1262.085896,"10K":2782.921033,"HM":6314.40584,"M":13950.453875},{"date":"2025-09-29","5K":1252.156866,"10K":2762.165863,"HM":6268.566539,"M":13840.302857},{"date":"2025-10-01","5K":1250.040846,"10K":2757.742574,"HM":6258.797316,"M":13816.850139},{"date":"2025-10-19","5K":1202.128903,"10K":2657.582324,"HM":6037.578183,"M":13287.876068},{"date":"2025-10-29","5K":1170.084383,"10K":2590.586324,"HM":5889.600166,"M":12936.251845},{"date":"2025-11-01","5K":1173.891164,"10K":2598.545516,"HM":5907.180416,"M":12977.933964},{"date":"2025-11-29","5K":1148.947401,"10K":2546.391787,"HM":5791.981777,"M":12705.249555},{"date":"2025-11-30","5K":1152.95232,"10K":2554.765719,"HM":5810.478609,"M":12748.962085},{"date":"2025-12-01","5K":1155.402817,"10K":2559.889447,"HM":5821.796151,"M":12775.721548},{"date":"2025-12-29","5K":1149.538069,"10K":2547.626827,"HM":5794.709812,"M":12711.694868},{"date":"2026-01-01","5K":1147.308551,"10K":2542.96507,"HM":5784.412613,"M":12687.369568},{"date":"2026-01-04","5K":1143.130178,"10K":2534.228322,"HM":5765.114227,"M":12641.803094},{"date":"2026-01-29","5K":1146.333944,"10K":2540.927229,"HM":5779.911287,"M":12676.738615},{"date":"2026-02-01","5K":1148.41221,"10K":2545.272743,"HM":5789.509959,"M":12699.410095},{"date":"2026-02-21","5K":1152.079978,"10K":2552.941737,"HM":5806.449698,"M":12739.438481},{"date":"2026-03-01","5K":1156.453936,"10K":2562.087215,"HM":5826.650677,"M":12787.202811},{"date":"2026-03-22","5K":1128.112563,"10K":2502.826477,"HM":5695.750567,"M":12478.266573},{"date":"2026-03-29","5K":1136.527105,"10K":2520.421455,"HM":5734.616357,"M":12569.852697},{"date":"2026-04-01","5K":1138.030814,"10K":2523.565696,"HM":5741.561667,"M":12586.231601},{"date":"2026-04-29","5K":1125.709848,"10K":2497.802274,"HM":5684.652453,"M":12452.135893},{"date":"2026-05-01","5K":1125.471361,"10K":2497.303582,"HM":5683.550876,"M":12449.542739},{"date":"2026-05-02","5K":1119.38674,"10K":2484.580159,"HM":5655.44555,"M":12383.413752},{"date":"2026-05-29","5K":1133.231533,"10K":2513.530396,"HM":5719.394654,"M":12533.969083},{"date":"2026-06-01","5K":1134.292246,"10K":2515.74836,"HM":5724.293936,"M":12545.516658},{"date":"2026-06-29","5K":1125.101799,"10K":2496.530806,"HM":5681.843864,"M":12445.524552}],"forecasts":[{"date":"2025-05-01","5K":{"p10":1004.109279,"p50":1209.36349,"p90":1365.167428},"10K":{"p10":2130.616402,"p50":2572.209792,"p90":2904.308047},"HM":{"p10":4930.760105,"p50":5869.82066,"p90":6593.595209},"M":{"p10":10317.909757,"p50":12653.284308,"p90":15082.77843}},{"date":"2025-06-01","5K":{"p10":1040.147679,"p50":1200.558525,"p90":1363.125608},"10K":{"p10":2202.383313,"p50":2550.478352,"p90":2842.164688},"HM":{"p10":4882.700039,"p50":5691.36936,"p90":6459.240503},"M":{"p10":10096.66188,"p50":12313.203662,"p90":14774.355835}},{"date":"2025-07-01","5K":{"p10":871.482808,"p50":1234.322483,"p90":1532.367974},"10K":{"p10":1996.534941,"p50":2607.26116,"p90":3389.35736},"HM":{"p10":5019.203867,"p50":6004.010329,"p90":7065.143899},"M":{"p10":10322.504837,"p50":13292.193943,"p90":16252.025078}},{"date":"2025-08-01","5K":{"p10":998.205093,"p50":1217.16801,"p90":1416.591106},"10K":{"p10":2173.035511,"p50":2593.261937,"p90":3082.629071},"HM":{"p10":5223.190889,"p50":5985.318811,"p90":6822.100286},"M":{"p10":10521.985249,"p50":13107.723952,"p90":15811.408199}},{"date":"2025-09-01","5K":{"p10":965.950367,"p50":1216.718411,"p90":1443.71472},"10K":{"p10":2131.595479,"p50":2600.573997,"p90":3176.305797},"HM":{"p10":5001.384921,"p50":6005.086012,"p90":7066.632022},"M":{"p10":10144.588832,"p50":13212.712229,"p90":16517.017662}},{"date":"2025-10-01","5K":{"p10":957.542859,"p50":1248.321711,"p90":1470.904137},"10K":{"p10":2125.242005,"p50":2659.447867,"p90":3248.537413},"HM":{"p10":5168.498773,"p50":6092.888014,"p90":7063.822595},"M":{"p10":10688.142171,"p50":13480.154254,"p90":16382.591301}},{"date":"2025-11-01","5K":{"p10":1037.029621,"p50":1205.061549,"p90":1385.476847},"10K":{"p10":2270.085814,"p50":2635.36985,"p90":2964.832205},"HM":{"p10":5229.696267,"p50":6007.251529,"p90":6696.04461},"M":{"p10":10892.650219,"p50":13121.585357,"p90":15586.206036}},{"date":"2025-12-01","5K":{"p10":1070.14663,"p50":1218.686839,"p90":1350.319124},"10K":{"p10":2334.557523,"p50":2652.861594,"p90":2919.575434},"HM":{"p10":5350.248946,"p50":5984.915191,"p90":6551.532888},"M":{"p10":11389.238724,"p50":13138.205713,"p90":15107.335445}},{"date":"2026-01-01","5K":{"p10":1081.297869,"p50":1212.827556,"p90":1327.159188},"10K":{"p10":2353.421376,"p50":2615.940846,"p90":2862.269077},"HM":{"p10":5397.846286,"p50":5927.63064,"p90":6497.629893},"M":{"p10":11445.295926,"p50":13123.562549,"p90":15130.730217}},{"date":"2026-02-01","5K":{"p10":1099.884067,"p50":1213.832675,"p90":1318.320962},"10K":{"p10":2374.352464,"p50":2619.413626,"p90":2846.721336},"HM":{"p10":5386.73783,"p50":5941.705139,"p90":6507.00887},"M":{"p10":11309.406853,"p50":13140.313786,"p90":15189.797933}},{"date":"2026-03-01","5K":{"p10":1088.296321,"p50":1221.205,"p90":1332.725939},"10K":{"p10":2386.357313,"p50":2644.699108,"p90":2878.422023},"HM":{"p10":5440.440651,"p50":6012.300001,"p90":6593.31165},"M":{"p10":11282.278592,"p50":13333.903605,"p90":15470.667931}},{"date":"2026-04-01","5K":{"p10":1089.300736,"p50":1200.069457,"p90":1289.683727},"10K":{"p10":2372.465456,"p50":2582.063341,"p90":2788.43325},"HM":{"p10":5350.680273,"p50":5875.489155,"p90":6394.158817},"M":{"p10":11225.610962,"p50":13154.631655,"p90":15141.503073}},{"date":"2026-05-01","5K":{"p10":1125.957024,"p50":1188.888819,"p90":1267.10809},"10K":{"p10":2433.90102,"p50":2574.163555,"p90":2720.744134},"HM":{"p10":5383.243901,"p50":5864.351323,"p90":6339.357395},"M":{"p10":11116.443702,"p50":12780.066653,"p90":14653.366824}},{"date":"2026-06-01","5K":{"p10":1109.805833,"p50":1200.005656,"p90":1272.89046},"10K":{"p10":2381.58946,"p50":2574.477151,"p90":2769.438296},"HM":{"p10":5282.977855,"p50":5811.678971,"p90":6401.590099},"M":{"p10":10767.100328,"p50":12844.263713,"p90":15007.99127}}],"races":[{"date":"2025-03-29","distance":"5K","name":"Harbor 5K Classic","chip":1220},{"date":"2025-05-03","distance":"5K","name":"Harbor 5K Classic","chip":1200},{"date":"2025-06-29","distance":"10K","name":"Harbor 10K","chip":2905},{"date":"2025-08-03","distance":"10K","name":"Bridge 10K","chip":2785},{"date":"2025-09-21","distance":"10K","name":"Ridge 10K","chip":2945},{"date":"2025-10-19","distance":"5K","name":"Park 5K","chip":1285},{"date":"2025-11-30","distance":"10K","name":"Harbor 10K","chip":2830},{"date":"2026-01-04","distance":"5K","name":"Turkey Trot 5K","chip":1230},{"date":"2026-02-21","distance":"10K","name":"Valentine 10K","chip":2755},{"date":"2026-03-22","distance":"10K","name":"Ridge 10K","chip":2605},{"date":"2026-05-02","distance":"5K","name":"Park 5K","chip":1255}]}}</script>
+<script>
+(function(){
+"use strict";
+var D = JSON.parse(document.getElementById("lab-data").textContent);
+var NS = "http://www.w3.org/2000/svg";
+var DISTS = ["5K","10K","HM","M"];
+var DCOL = {"5K":"var(--d5k)","10K":"var(--d10k)","HM":"var(--dhm)","M":"var(--dm)"};
+var DNAME = {"5K":"5K","10K":"10K","HM":"Half","M":"Marathon"};
+
+function $(id){return document.getElementById(id);}
+function s(tag, attrs, parent, text){
+  var e = document.createElementNS(NS, tag);
+  for (var k in attrs) if (attrs[k] !== null && attrs[k] !== undefined) e.setAttribute(k, attrs[k]);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function tip(el, text){ s("title", {}, el, text); }
+function f1(x){return x === null || x === undefined ? "-" : x.toFixed(1);}
+function f2(x){return x.toFixed(2);}
+function sg(x, nd){var v = x.toFixed(nd); if (Number(v) === 0) v = (0).toFixed(nd); return (Number(v) > 0 ? "+" : "") + v;}
+function pct(x){return Math.round(x * 100) + "%";}
+function fmtInt(n){return n.toLocaleString("en-US");}
+function hms(sec){
+  sec = Math.round(sec); var h = Math.floor(sec/3600), m = Math.floor((sec%3600)/60), ss = sec%60;
+  var p = function(v){return (v < 10 ? "0" : "") + v;};
+  return h ? h + ":" + p(m) + ":" + p(ss) : m + ":" + p(ss);
+}
+function width(el){return Math.max(280, Math.floor(el.clientWidth));}
+function svgFor(el, w, h){ el.textContent = ""; return s("svg", {viewBox:"0 0 " + w + " " + h, width:w, height:h, role:"img"}, el); }
+function legend(el, items){
+  el.textContent = "";
+  items.forEach(function(it){
+    var sp = document.createElement("span");
+    var i = document.createElement("i"); i.className = it.cls || ""; i.style.background = it.color; sp.appendChild(i);
+    sp.appendChild(document.createTextNode(it.label)); el.appendChild(sp);
+  });
+}
+function wrapWords(text, maxChars){
+  var words = text.split(" "), lines = [], cur = "";
+  words.forEach(function(w){ if ((cur + " " + w).trim().length > maxChars && cur) { lines.push(cur); cur = w; } else cur = (cur + " " + w).trim(); });
+  if (cur) lines.push(cur);
+  return lines;
+}
+function niceTicks(lo, hi, n){
+  var span = hi - lo, step = Math.pow(10, Math.floor(Math.log10(span / n))), err = span / n / step;
+  if (err >= 7.5) step *= 10; else if (err >= 3.5) step *= 5; else if (err >= 1.5) step *= 2;
+  var out = []; for (var v = Math.ceil(lo / step) * step; v <= hi + 1e-9; v += step) out.push(+v.toFixed(10));
+  return out;
+}
+function td(tr, html, cls){ var c = document.createElement("td"); c.innerHTML = html; if (cls) c.className = cls; tr.appendChild(c); return c; }
+function th(tr, html){ var c = document.createElement("th"); c.innerHTML = html; tr.appendChild(c); return c; }
+function esc(t){ return String(t).replace(/[&<>"]/g, function(ch){ return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[ch]; }); }
+
+/* ---------- 1 setup ---------- */
+(function(){
+  var S = D.setup, el = $("stats");
+  [[S.runners, "runners"], [S.archetypes, "runner types, " + S.perArchetype + " each"], [S.months, "months simulated each"],
+   [S.forecastDates, "forecast dates"], [S.scoredRows, "scored forecasts, all methods"], [S.engineRows, "scored engine forecasts"]]
+  .forEach(function(x){ var d = document.createElement("div"); d.className = "stat"; d.innerHTML = "<b>" + fmtInt(x[0]) + "</b><span>" + esc(x[1]) + "</span>"; el.appendChild(d); });
+})();
+
+/* ---------- 2 ladder ---------- */
+function drawLadder(){
+  var el = $("ladder-chart"), W = width(el), narrow = W < 520;
+  var steps = D.ladder, n = steps.length;
+  var m = {l:34, r:narrow ? 44 : 70, t:10, b:narrow ? 30 : 54}, H = narrow ? 280 : 330;
+  var svg = svgFor(el, W, H), iw = W - m.l - m.r, ih = H - m.t - m.b;
+  var ymax = 0; steps.forEach(function(st){ ymax = Math.max(ymax, st.all.hi); DISTS.forEach(function(d){ ymax = Math.max(ymax, st.dist[d].mae); }); });
+  ymax = Math.ceil(ymax / 2) * 2;
+  var x = function(i){ return m.l + (n === 1 ? iw / 2 : i * iw / (n - 1)); }, y = function(v){ return m.t + ih - v / ymax * ih; };
+  niceTicks(0, ymax, 4).forEach(function(t){
+    s("line", {x1:m.l, x2:W - m.r, y1:y(t), y2:y(t), stroke:"var(--b1)", "stroke-width":1}, svg);
+    s("text", {x:m.l - 6, y:y(t) + 4, "text-anchor":"end", fill:"var(--t3)", "font-size":11}, svg, t + "%");
+  });
+  // distance lines
+  var ends = [];
+  DISTS.forEach(function(d){
+    var pts = steps.map(function(st, i){ return x(i) + "," + y(st.dist[d].mae); }).join(" ");
+    s("polyline", {points:pts, fill:"none", stroke:DCOL[d], "stroke-width":2, "stroke-linejoin":"round", opacity:.9}, svg);
+    steps.forEach(function(st, i){
+      var c = s("circle", {cx:x(i), cy:y(st.dist[d].mae), r:4, fill:DCOL[d], stroke:"var(--s1)", "stroke-width":2}, svg);
+      tip(c, st.label + ", " + DNAME[d] + ": " + f1(st.dist[d].mae) + "% (90% CI " + f1(st.dist[d].lo) + " to " + f1(st.dist[d].hi) + ")");
+    });
+    ends.push({d:d, y:y(steps[n - 1].dist[d].mae)});
+  });
+  // overall with CI
+  steps.forEach(function(st, i){
+    var g = s("g", {}, svg);
+    s("line", {x1:x(i), x2:x(i), y1:y(st.all.lo), y2:y(st.all.hi), stroke:"var(--t1)", "stroke-width":2, "stroke-linecap":"round"}, g);
+    s("line", {x1:x(i) - 5, x2:x(i) + 5, y1:y(st.all.lo), y2:y(st.all.lo), stroke:"var(--t1)", "stroke-width":2}, g);
+    s("line", {x1:x(i) - 5, x2:x(i) + 5, y1:y(st.all.hi), y2:y(st.all.hi), stroke:"var(--t1)", "stroke-width":2}, g);
+    s("rect", {x:x(i) - 6, y:y(st.all.mae) - 6, width:12, height:12, rx:2, fill:"var(--t1)", stroke:"var(--s1)", "stroke-width":2}, g);
+    s("text", {x:x(i) + (i === n - 1 ? -10 : 10), y:y(st.all.mae) - 8, "text-anchor":i === n - 1 ? "end" : "start", fill:"var(--t1)", "font-size":12, "font-weight":600}, g, f1(st.all.mae));
+    s("rect", {x:x(i) - 14, y:m.t, width:28, height:ih, fill:"transparent"}, g);
+    tip(g, st.label + ", all distances: " + f1(st.all.mae) + "% (90% CI " + f1(st.all.lo) + " to " + f1(st.all.hi) + ")");
+  });
+  ends.push({d:"All", y:y(steps[n - 1].all.mae)});
+  ends.sort(function(a, b){ return a.y - b.y; });
+  for (var k = 1; k < ends.length; k++) if (ends[k].y - ends[k - 1].y < 13) ends[k].y = ends[k - 1].y + 13;
+  ends.forEach(function(e){ s("text", {x:W - m.r + 8, y:e.y + 4, fill:"var(--t2)", "font-size":11}, svg, e.d === "All" ? "All" : narrow ? e.d : DNAME[e.d]); });
+  // x labels
+  var maxc = Math.max(8, Math.floor(iw / (n - 1) / 6.4));
+  steps.forEach(function(st, i){
+    var lines = narrow ? [String(i + 1)] : wrapWords(st.label + (st.today ? " (today)" : ""), maxc);
+    var anchor = i === 0 ? "start" : i === n - 1 ? "end" : "middle", xx = i === 0 ? x(i) - 6 : i === n - 1 ? x(i) + 6 : x(i);
+    var t = s("text", {x:xx, y:H - m.b + 18, "text-anchor":anchor, fill:st.today ? "var(--t1)" : "var(--t2)", "font-size":11}, svg);
+    lines.forEach(function(ln, j){ s("tspan", {x:xx, dy:j ? 13 : 0}, t, ln); });
+  });
+}
+legend($("ladder-legend"), [{label:"All distances, 90% CI", color:"var(--t1)", cls:"dot"}].concat(DISTS.map(function(d){ return {label:DNAME[d], color:DCOL[d]}; })));
+(function(){
+  var t = $("ladder-table"), hr = document.createElement("tr");
+  ["Step", "MAE all (90% CI)", "Change vs previous (90% CI)", "Bias"].concat(DISTS.map(function(d){ return DNAME[d]; })).forEach(function(h){ th(hr, h); });
+  t.appendChild(hr);
+  D.ladder.forEach(function(st, i){
+    var tr = document.createElement("tr");
+    td(tr, "<span class='muted'>" + (i + 1) + "</span>&nbsp; " + esc(st.label) + (st.today ? " <span class='muted'>(today)</span>" : "") + (st.note ? "<small>" + esc(st.note) + "</small>" : ""));
+    td(tr, f1(st.all.mae) + "<small>" + f1(st.all.lo) + " to " + f1(st.all.hi) + "</small>");
+    td(tr, st.delta ? "<span class='" + ({worse:"bad", better:"hi", none:""})[verdict(st.delta)] + "'>" + sg(st.delta.d, 2) + "</span><small>" + sg(st.delta.lo, 2) + " to " + sg(st.delta.hi, 2) + "</small>" : "<span class='muted'>-</span>");
+    td(tr, sg(st.all.bias, 1));
+    DISTS.forEach(function(d){ var c = st.dist[d]; td(tr, f1(c.mae) + "<small>" + f1(c.lo) + " to " + f1(c.hi) + "</small>"); });
+    t.appendChild(tr);
+  });
+})();
+
+/* ---------- 3 not merged ---------- */
+function verdict(a){ var lo = +a.lo.toFixed(2), hi = +a.hi.toFixed(2); return lo > 0 ? "worse" : hi < 0 ? "better" : "none"; }
+function drawArms(){
+  var el = $("arms-chart"), W = width(el), rows = D.arms, rowH = 46, m = {l:8, r:8, t:22, b:24};
+  var H = m.t + rows.length * rowH + m.b, svg = svgFor(el, W, H), iw = W - m.l - m.r;
+  var lo = 0, hi = 0; rows.forEach(function(a){ lo = Math.min(lo, a.all.lo); hi = Math.max(hi, a.all.hi); });
+  lo = Math.floor(lo * 2) / 2 - 0.25; hi = Math.ceil(hi * 2) / 2 + 0.25;
+  var x = function(v){ return m.l + (v - lo) / (hi - lo) * iw; };
+  niceTicks(lo, hi, narrowTicks(W)).forEach(function(t){
+    s("line", {x1:x(t), x2:x(t), y1:m.t, y2:H - m.b, stroke:t === 0 ? "var(--t3)" : "var(--b1)", "stroke-width":1, "stroke-dasharray":t === 0 ? "4 3" : null}, svg);
+    s("text", {x:x(t), y:H - m.b + 16, "text-anchor":"middle", fill:"var(--t3)", "font-size":11}, svg, (t > 0 ? "+" : "") + t);
+  });
+  s("text", {x:x(0) - 6, y:12, "text-anchor":"end", fill:"var(--t3)", "font-size":11}, svg, "better");
+  s("text", {x:x(0) + 6, y:12, "text-anchor":"start", fill:"var(--t3)", "font-size":11}, svg, "worse");
+  rows.forEach(function(a, i){
+    var y0 = m.t + i * rowH, yc = y0 + 32, v = verdict(a.all), col = v === "worse" ? "var(--worse)" : "var(--t2)";
+    var g = s("g", {}, svg);
+    s("text", {x:m.l, y:y0 + 14, fill:"var(--t1)", "font-size":12}, g, a.label);
+    s("line", {x1:x(a.all.lo), x2:x(a.all.hi), y1:yc, y2:yc, stroke:col, "stroke-width":2, "stroke-linecap":"round"}, g);
+    s("circle", {cx:x(a.all.d), cy:yc, r:4.5, fill:col, stroke:"var(--s1)", "stroke-width":2}, g);
+    s("rect", {x:m.l, y:y0, width:iw, height:rowH, fill:"transparent"}, g);
+    tip(g, a.label + ": " + sg(a.all.d, 2) + " MAE points (90% CI " + sg(a.all.lo, 2) + " to " + sg(a.all.hi, 2) + "). " + a.why);
+  });
+}
+function narrowTicks(W){ return W < 520 ? 4 : 7; }
+legend($("arms-legend"), [{label:"Change in MAE vs its control, 90% CI", color:"var(--t2)", cls:"dot"}, {label:"Interval entirely above zero: worse", color:"var(--worse)", cls:"dot"}]);
+(function(){
+  var t = $("arms-table"), hr = document.createElement("tr");
+  ["Change tested", "Compared with", "MAE change all (90% CI)"].concat(DISTS.map(function(d){ return DNAME[d]; })).concat(["80% range coverage", "Forecasts missing", "Verdict"]).forEach(function(h){ th(hr, h); });
+  t.appendChild(hr);
+  function cell(c){ var v = verdict(c); return "<span class='" + (v === "worse" ? "bad" : v === "better" ? "hi" : "") + "'>" + sg(c.d, 2) + "</span><small>" + sg(c.lo, 2) + " to " + sg(c.hi, 2) + "</small>"; }
+  D.arms.forEach(function(a){
+    var tr = document.createElement("tr");
+    td(tr, esc(a.label)); td(tr, esc(a.controlLabel), "muted");
+    td(tr, cell(a.all));
+    DISTS.forEach(function(d){ td(tr, cell(a.dist[d])); });
+    td(tr, pct(a.cov80.ctl) + " to " + pct(a.cov80.arm));
+    td(tr, a.noForecast.ctl === a.noForecast.arm ? String(a.noForecast.arm) : a.noForecast.ctl + " to " + a.noForecast.arm);
+    td(tr, esc(a.why), "wrap");
+    t.appendChild(tr);
+  });
+})();
+
+/* ---------- 4 baselines ---------- */
+(function(){
+  var t = $("base-table"), hr = document.createElement("tr"), eng = D.baselines[0];
+  ["Method", "MAE all (90% CI)", "Bias", "No estimate"].concat(DISTS.map(function(d){ return DNAME[d]; })).forEach(function(h){ th(hr, h); });
+  t.appendChild(hr);
+  D.baselines.forEach(function(b, i){
+    var tr = document.createElement("tr");
+    td(tr, esc(b.label));
+    td(tr, "<span class='" + (i && b.mae < eng.mae ? "hi" : "") + "'>" + f1(b.mae) + "</span><small>" + f1(b.lo) + " to " + f1(b.hi) + "</small>");
+    td(tr, sg(b.bias, 1));
+    td(tr, Math.round(b.noEst) + "%");
+    DISTS.forEach(function(d){
+      var c = b.dist[d], beat = i && c.mae < eng.dist[d].mae;
+      td(tr, "<span class='" + (beat ? "hi" : "") + "'>" + f1(c.mae) + "</span><small>" + Math.round(c.noEst) + "% no est.</small>");
+    });
+    t.appendChild(tr);
+  });
+  var h = $("h2h-table"), hr2 = document.createElement("tr");
+  ["Engine vs", "All"].concat(DISTS.map(function(d){ return DNAME[d]; })).forEach(function(x){ th(hr2, x); });
+  h.appendChild(hr2);
+  D.h2h.forEach(function(b){
+    var tr = document.createElement("tr");
+    td(tr, esc(b.label));
+    ["all"].concat(DISTS).forEach(function(d){
+      var c = b.cells[d]; if (!c) { td(tr, "-"); return; }
+      var tie = c.lo <= 0;
+      td(tr, f1(c.eng) + " vs " + "<span class='" + (c.base < c.eng ? "hi" : "") + "'>" + f1(c.base) + "</span>" +
+        "<small>skill " + f2(c.skill) + " (" + f2(c.lo) + " to " + f2(c.hi) + ")" + (tie ? ", tie" : "") + "</small><small>n " + fmtInt(c.n) + ", " + c.athletes + " runners</small>");
+    });
+    h.appendChild(tr);
+  });
+})();
+
+/* ---------- 5 archetypes ---------- */
+(function(){
+  var el = $("arch"), max = 0;
+  D.archetypes.forEach(function(a){ max = Math.max(max, a.mae); });
+  ["Runner type", "MAE %", "Bias", "80% in range"].forEach(function(h, i){ var d = document.createElement("div"); d.className = "h" + (i > 1 ? " r" : ""); d.textContent = h; el.appendChild(d); });
+  D.archetypes.forEach(function(a){
+    var l = document.createElement("div"); l.textContent = a.label; if (a.alt) l.className = "muted"; el.appendChild(l);
+    var b = document.createElement("div"); b.className = "bar"; b.title = a.label + ": MAE " + f1(a.mae) + "%, bias " + sg(a.bias, 1) + "%, " + a.n + " forecasts";
+    var fill = document.createElement("div"), frac = a.mae / max * 0.8; fill.style.width = (frac * 78) + "%"; b.appendChild(fill);
+    var v = document.createElement("span"); v.className = "num"; v.textContent = f1(a.mae); v.style.left = "calc(" + (frac * 78) + "% + 6px)"; b.appendChild(v);
+    el.appendChild(b);
+    var bi = document.createElement("div"); bi.className = "r num"; bi.textContent = sg(a.bias, 1); el.appendChild(bi);
+    var c = document.createElement("div"); c.className = "r num"; c.textContent = pct(a.cov80); el.appendChild(c);
+  });
+})();
+
+/* ---------- 6 calibration ---------- */
+function drawCal(){
+  var el = $("cal-chart"), W = width(el), H = 240, m = {l:36, r:12, t:12, b:28};
+  var svg = svgFor(el, W, H), iw = W - m.l - m.r, ih = H - m.t - m.b, C = D.calibration;
+  var y = function(v){ return m.t + ih - (v - 30) / 70 * ih; }, bw = iw / C.length, x = function(i){ return m.l + bw * (i + .5); };
+  [30, 50, 70, 80, 90, 100].forEach(function(t){
+    if (t === 50 || t === 80) return;
+    s("line", {x1:m.l, x2:W - m.r, y1:y(t), y2:y(t), stroke:"var(--b1)"}, svg);
+    s("text", {x:m.l - 6, y:y(t) + 4, "text-anchor":"end", fill:"var(--t3)", "font-size":11}, svg, t + "%");
+  });
+  [[50, "var(--d5k)"], [80, "var(--dhm)"]].forEach(function(z){
+    s("line", {x1:m.l, x2:W - m.r, y1:y(z[0]), y2:y(z[0]), stroke:z[1], "stroke-dasharray":"5 4", opacity:.8}, svg);
+    s("text", {x:m.l - 6, y:y(z[0]) + 4, "text-anchor":"end", fill:"var(--t2)", "font-size":11}, svg, z[0] + "%");
+  });
+  C.forEach(function(c, i){
+    s("text", {x:x(i), y:H - 8, "text-anchor":"middle", fill:c.key === "All" ? "var(--t1)" : "var(--t2)", "font-size":11}, svg, c.key === "All" ? "All" : DNAME[c.key]);
+    [["c50", "var(--d5k)", -7, "50% range"], ["c80", "var(--dhm)", 7, "80% range"]].forEach(function(q){
+      var v = c[q[0]] * 100, g = s("g", {}, svg);
+      s("line", {x1:x(i) + q[2], x2:x(i) + q[2], y1:y(q[0] === "c50" ? 50 : 80), y2:y(v), stroke:q[1], "stroke-width":2, opacity:.5}, g);
+      s("circle", {cx:x(i) + q[2], cy:y(v), r:5, fill:q[1], stroke:"var(--s1)", "stroke-width":2}, g);
+      tip(g, (c.key === "All" ? "All distances" : DNAME[c.key]) + ", " + q[3] + ": truth inside " + v.toFixed(1) + "% of " + fmtInt(c.n) + " forecasts");
+    });
+  });
+}
+legend($("cal-legend"), [{label:"50% range", color:"var(--d5k)", cls:"dot"}, {label:"80% range", color:"var(--dhm)", cls:"dot"}, {label:"Stated rate", color:"var(--t2)", cls:"dash"}]);
+function drawPit(){
+  var el = $("pit-chart"), W = width(el), H = 240, m = {l:36, r:12, t:12, b:40};
+  var svg = svgFor(el, W, H), iw = W - m.l - m.r, ih = H - m.t - m.b, P = D.pit;
+  var tot = P.reduce(function(a, b){ return a + b; }, 0), ideal = tot / P.length, max = Math.max.apply(null, P.concat([ideal]));
+  var ymax = Math.ceil(max / 50) * 50, y = function(v){ return m.t + ih - v / ymax * ih; }, bw = iw / P.length;
+  niceTicks(0, ymax, 4).forEach(function(t){
+    s("line", {x1:m.l, x2:W - m.r, y1:y(t), y2:y(t), stroke:"var(--b1)"}, svg);
+    s("text", {x:m.l - 6, y:y(t) + 4, "text-anchor":"end", fill:"var(--t3)", "font-size":11}, svg, t);
+  });
+  P.forEach(function(v, i){
+    var x0 = m.l + i * bw + 1, w = bw - 2, top = y(v), h = m.t + ih - top, r = Math.min(4, w / 2, h);
+    var d = "M" + x0 + "," + (m.t + ih) + "V" + (top + r) + "Q" + x0 + "," + top + " " + (x0 + r) + "," + top + "H" + (x0 + w - r) + "Q" + (x0 + w) + "," + top + " " + (x0 + w) + "," + (top + r) + "V" + (m.t + ih) + "Z";
+    var p = s("path", {d:d, fill:"var(--accent)"}, svg);
+    tip(p, "PIT " + (i / 10).toFixed(1) + " to " + ((i + 1) / 10).toFixed(1) + ": " + v + " forecasts");
+  });
+  s("line", {x1:m.l, x2:W - m.r, y1:y(ideal), y2:y(ideal), stroke:"var(--t1)", "stroke-dasharray":"5 4"}, svg);
+  s("text", {x:W - m.r, y:y(ideal) - 6, "text-anchor":"end", fill:"var(--t1)", "font-size":11}, svg, "flat = calibrated");
+  ["0", "0.5", "1"].forEach(function(lb, i){ s("text", {x:m.l + i * iw / 2, y:m.t + ih + 15, "text-anchor":i === 0 ? "start" : i === 2 ? "end" : "middle", fill:"var(--t3)", "font-size":11}, svg, lb); });
+  s("text", {x:m.l, y:H - 4, fill:"var(--t2)", "font-size":11}, svg, "truth faster");
+  s("text", {x:W - m.r, y:H - 4, "text-anchor":"end", fill:"var(--t2)", "font-size":11}, svg, "truth slower");
+}
+legend($("pit-legend"), [{label:"Forecasts per bin", color:"var(--accent)", cls:"dot"}, {label:"Calibrated", color:"var(--t1)", cls:"dash"}]);
+(function(){
+  var t = $("cal-table"), hr = document.createElement("tr");
+  ["Distance", "50% range holds truth", "80% range holds truth", "Forecasts"].forEach(function(h){ th(hr, h); });
+  t.appendChild(hr);
+  D.calibration.forEach(function(c){
+    var tr = document.createElement("tr");
+    td(tr, c.key === "All" ? "All" : DNAME[c.key]); td(tr, (c.c50 * 100).toFixed(1) + "%"); td(tr, (c.c80 * 100).toFixed(1) + "%"); td(tr, fmtInt(c.n));
+    t.appendChild(tr);
+  });
+})();
+
+/* ---------- 7 example ---------- */
+var EX = D.example, exDist = EX.defaultDist;
+$("ex-title").textContent = EX.name;
+$("ex-line").textContent = EX.archetype + ". Forecast range against the true race time over the simulated months.";
+(function(){
+  var b = $("ex-btns");
+  DISTS.forEach(function(d){
+    var btn = document.createElement("button"); btn.type = "button"; btn.textContent = DNAME[d];
+    btn.setAttribute("aria-pressed", d === exDist ? "true" : "false");
+    btn.addEventListener("click", function(){ exDist = d; Array.prototype.forEach.call(b.children, function(c){ c.setAttribute("aria-pressed", c === btn ? "true" : "false"); }); drawEx(); });
+    b.appendChild(btn);
+  });
+})();
+legend($("ex-legend"), [{label:"Higher is faster", color:"transparent"}, {label:"Forecast p10 to p90", color:"var(--accent)", cls:"area"}, {label:"Forecast p50", color:"var(--glow)"}, {label:"True time", color:"var(--t1)"}, {label:"Race at this distance (chip)", color:"var(--dhm)", cls:"dot"}, {label:"Other races", color:"var(--t3)", cls:"dot"}]);
+function dms(str){ var p = str.split("-"); return Date.UTC(+p[0], +p[1] - 1, +p[2]); }
+function drawEx(){
+  var el = $("ex-chart"), W = width(el), narrow = W < 520, H = narrow ? 300 : 340, m = {l:narrow ? 48 : 56, r:12, t:12, b:44};
+  var svg = svgFor(el, W, H), iw = W - m.l - m.r, ih = H - m.t - m.b, d = exDist;
+  var fc = EX.forecasts.filter(function(f){ return f[d]; }), tr = EX.truth;
+  var races = EX.races.filter(function(r){ return r.distance === d && r.chip; });
+  var t0 = dms(EX.window.start), t1 = Math.max(dms(EX.window.end), dms(fc[fc.length - 1].date), dms(tr[tr.length - 1].date));
+  var lo = Infinity, hi = -Infinity;
+  fc.forEach(function(f){ lo = Math.min(lo, f[d].p10); hi = Math.max(hi, f[d].p90); });
+  tr.forEach(function(t){ lo = Math.min(lo, t[d]); hi = Math.max(hi, t[d]); });
+  races.forEach(function(r){ lo = Math.min(lo, r.chip); hi = Math.max(hi, r.chip); });
+  var pad = (hi - lo) * 0.06; lo -= pad; hi += pad;
+  var x = function(ms){ return m.l + (ms - t0) / (t1 - t0) * iw; }, y = function(v){ return m.t + (v - lo) / (hi - lo) * ih; };
+  // y ticks in seconds, nice steps; faster times at the top
+  var span = hi - lo, steps = [10, 15, 30, 60, 120, 300, 600, 900, 1800], st = steps[steps.length - 1];
+  for (var i = 0; i < steps.length; i++) if (span / steps[i] <= (narrow ? 6 : 7)) { st = steps[i]; break; }
+  for (var v = Math.ceil(lo / st) * st; v <= hi; v += st) {
+    s("line", {x1:m.l, x2:W - m.r, y1:y(v), y2:y(v), stroke:"var(--b1)"}, svg);
+    s("text", {x:m.l - 6, y:y(v) + 4, "text-anchor":"end", fill:"var(--t3)", "font-size":11}, svg, hms(v));
+  }
+  // month ticks every 3 months
+  var dt = new Date(t0);
+  for (var k = 0; k < 24; k++) {
+    var ms = Date.UTC(dt.getUTCFullYear(), dt.getUTCMonth() + k, 1); if (ms > t1) break;
+    var mon = new Date(ms).getUTCMonth(); if (mon % 3 !== 2 && k !== 0) continue;
+    if (k === 0 && mon % 3 !== 2) continue;
+    s("line", {x1:x(ms), x2:x(ms), y1:m.t + ih, y2:m.t + ih + 4, stroke:"var(--t3)"}, svg);
+    s("text", {x:x(ms), y:m.t + ih + 16, "text-anchor":"middle", fill:"var(--t3)", "font-size":11}, svg,
+      ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][mon] + (narrow ? " " + String(new Date(ms).getUTCFullYear()).slice(2) : " " + new Date(ms).getUTCFullYear()));
+  }
+  // band
+  var up = fc.map(function(f){ return x(dms(f.date)) + "," + y(f[d].p10); });
+  var dn = fc.slice().reverse().map(function(f){ return x(dms(f.date)) + "," + y(f[d].p90); });
+  s("polygon", {points:up.concat(dn).join(" "), fill:"var(--accent)", opacity:.22}, svg);
+  // truth
+  s("polyline", {points:tr.map(function(t){ return x(dms(t.date)) + "," + y(t[d]); }).join(" "), fill:"none", stroke:"var(--t1)", "stroke-width":2, "stroke-linejoin":"round"}, svg);
+  // p50
+  s("polyline", {points:fc.map(function(f){ return x(dms(f.date)) + "," + y(f[d].p50); }).join(" "), fill:"none", stroke:"var(--glow)", "stroke-width":2, "stroke-linejoin":"round"}, svg);
+  var truthAt = {}; tr.forEach(function(t){ truthAt[t.date] = t[d]; });
+  fc.forEach(function(f){
+    var g = s("g", {}, svg);
+    s("circle", {cx:x(dms(f.date)), cy:y(f[d].p50), r:4, fill:"var(--glow)", stroke:"var(--s1)", "stroke-width":2}, g);
+    s("circle", {cx:x(dms(f.date)), cy:y(f[d].p50), r:12, fill:"transparent"}, g);
+    tip(g, f.date + ": forecast " + hms(f[d].p50) + " (" + hms(f[d].p10) + " to " + hms(f[d].p90) + ")" + (truthAt[f.date] ? ", true " + hms(truthAt[f.date]) : ""));
+  });
+  // races: all as ticks on the axis, this distance as dots at chip time
+  EX.races.forEach(function(r){
+    var xx = x(dms(r.date)), same = r.distance === d;
+    var tk = s("path", {d:"M" + (xx - 4) + "," + (m.t + ih + 30) + "L" + (xx + 4) + "," + (m.t + ih + 30) + "L" + xx + "," + (m.t + ih + 23) + "Z", fill:same ? "var(--dhm)" : "var(--t3)"}, svg);
+    tip(tk, r.date + ": " + r.name + (r.chip ? ", " + hms(r.chip) : ""));
+  });
+  races.forEach(function(r){
+    var g = s("g", {}, svg);
+    s("circle", {cx:x(dms(r.date)), cy:y(r.chip), r:5, fill:"var(--dhm)", stroke:"var(--s1)", "stroke-width":2}, g);
+    s("circle", {cx:x(dms(r.date)), cy:y(r.chip), r:12, fill:"transparent"}, g);
+    tip(g, r.date + ": " + r.name + ", " + hms(r.chip));
+  });
+}
+
+function drawAll(){ drawLadder(); drawArms(); drawCal(); drawPit(); drawEx(); }
+drawAll();
+var rt = null, lastW = window.innerWidth;
+window.addEventListener("resize", function(){ if (window.innerWidth === lastW) return; lastW = window.innerWidth; clearTimeout(rt); rt = setTimeout(drawAll, 120); });
+})();
+</script>
+</body>
+</html>

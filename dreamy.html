@@ -644,6 +644,8 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
 .cmm { display: grid; gap: 22px; margin-top: 30px; max-width: 980px; font: 15px/1.55 var(--body); color: var(--t0); }
 .cmm .controls {display: grid; gap: 10px; }
 .cmm .caption {margin: 0; min-height: 3em; max-width: 60ch; font: 600 clamp(1.05rem, 2.2vw, 1.3rem)/1.4 var(--display); color: var(--t0); letter-spacing: -0.01em; transition: opacity .35s ease; }
+/* Oct 30: on the chart, as a banner in the brand color, so it reads while you watch the dots */
+.cmm .mapcard .caption {display: flex; align-items: center; max-width: none; min-height: 0; padding: 12px 16px; border-radius: 12px; background: rgba(167, 139, 250, .13); border: 1px solid rgba(167, 139, 250, .5); font-size: clamp(1.08rem, 2.3vw, 1.38rem); color: var(--t0); }
 .cmm .caption.fade {opacity: 0; }
 .cmm .plot.hl-focus .pt.match .dot {box-shadow: 0 0 0 3px var(--s0), 0 0 0 5px var(--t0); }
 .cmm .plot.hl-focus.mine-match svg.lines, .cmm .plot.hl-focus.mine-match .vpt {opacity: 1; }
@@ -882,6 +884,18 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
   .route-nav i { width: 8px; height: 8px; }
 }
 
+
+/* Oct 30: the deep dive links and the case study switcher (same look as the rest of the site) */
+.deeper { list-style: none; margin: 16px 0 10px; padding: 0; display: grid; gap: 12px; }
+@media (min-width: 760px) { .deeper { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.deeper a { display: grid; gap: 4px; height: 100%; padding: 16px 18px; border-radius: 12px; border: 1px solid var(--b2); color: inherit; text-decoration: none; }
+.deeper a:hover { border-color: var(--brand); }
+.deeper b { font-size: 16px; } .deeper b::after { content: '\00a0\2192'; color: var(--t3); }
+.deeper span { font-size: 14.5px; color: var(--t2); line-height: 1.5; }
+.case-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 18px 0 0; font-size: 14px; }
+.case-nav span { color: var(--t3); font-weight: 700; margin-right: 4px; }
+.case-nav a { display: inline-flex; align-items: center; min-height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--b2); color: var(--t2); font-weight: 700; text-decoration: none; }
+.case-nav a[aria-current="page"] { background: #E7ECF1; border-color: #E7ECF1; color: #141619; }
 </style>
 </head>
 <body>
@@ -893,6 +907,7 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
   <nav class="route-nav" aria-label="Where you are on the site"><ol><li class="here" data-stop="start" style="--pc: #E7ECF1"><a href="./"><i aria-hidden="true"></i><span>Start</span></a></li><li data-stop="ai.html" style="--pc: #A593EC"><a href="ai.html"><i aria-hidden="true"></i><span>How I use AI</span></a></li><li data-stop="research.html" style="--pc: #5CC495"><a href="research.html"><i aria-hidden="true"></i><span>Research and strategy</span></a></li><li data-stop="background.html" style="--pc: #E56A9C"><a href="background.html"><i aria-hidden="true"></i><span>About me</span></a></li><li data-stop="contact" style="--pc: #E7ECF1"><a href="./#contact"><i aria-hidden="true"></i><span>Get in touch</span></a></li></ol></nav>
 
   <main>
+    <nav class="case-nav" aria-label="Case studies"><span>Case studies</span><a href="dreamy.html" aria-current="page">Dreamy</a><a href="projects/wharton-os.html">Wharton OS</a><a href="morgan-stanley.html">Morgan Stanley</a></nav>
     <section class="hero" aria-labelledby="h1">
       <canvas id="stars" aria-hidden="true"></canvas>
       <h1 id="h1">How I built Dreamy</h1>
@@ -900,7 +915,7 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
       <p class="lead">Dreamy is an AI running coach I built with Claude Code over twelve weeks while I was still working full time at Morgan Stanley. It's for people like me who don't have a reliable 9 to 5, have a busy social life, and still want to run their best marathon. It's technical on purpose: it explains the science behind each workout so you learn to coach yourself. Dreamy's plans come from rules taken from the research, it analyzes every run you sync from Strava, and it works around the days you can't run.</p>
       <p class="beta-line">15 runners trained on Dreamy through full race cycles, in the app or on plans I made with its engine. <strong><a href="#beta">14 of the 15 rated it above the coach or app they used before.</a></strong> <a href="#stopped">What it didn&rsquo;t prove</a></p>
       <p class="hero-meta"><span>I still use it</span><span>TypeScript, Next.js, Postgres, Anthropic API</span><span><a href="https://www.getdreamy.run">getdreamy.run</a> (invite-only)</span></p>
-      <nav class="toc" aria-label="On this page"><a href="#start">Why I built it</a><a href="#market">The market</a><a href="#forecast">The forecast</a><a href="#engine">How it sees you</a><a href="#days">The plan</a><a href="#research">The research</a><a href="#lab">Testing it</a><a href="#how">The LLM</a><a href="#beta">The beta</a><a href="#build">Claude Code</a><a href="#stopped">Why I stopped</a></nav>
+      <nav class="toc" aria-label="On this page"><a href="#start">Why I built it</a><a href="#market">The market</a><a href="#forecast">The forecast</a><a href="#engine">How it sees you</a><a href="#days">The plan</a><a href="#research">The research</a><a href="#lab">Testing it</a><a href="#deeper">Go deeper</a><a href="#how">The LLM</a><a href="#beta">The beta</a><a href="#build">Claude Code</a><a href="#stopped">Why I stopped</a></nav>
     </section>
 
     <section class="sec" id="start" aria-labelledby="start-h">
@@ -1204,6 +1219,13 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
         </figure>
         <p class="intro">Two kinds of runners are still far off. Without a heart-rate strap, forecasts come out 12 to 16 percent too slow from the 5K to the half. For beginners who never race, they come out 27 percent too fast at the marathon, and there&rsquo;s no race to check them against.</p>
       </div>
+    </section>
+
+<!-- Oct 30, Jason: "a few more things for you to add to the dreamy for deep dives" (pages from the stride-os site exports) -->
+    <section class="sec" id="deeper" aria-labelledby="deeper-h">
+      <h2 id="deeper-h">Go deeper</h2>
+      <ul class="deeper"><li><a href="dreamy/forecast-lab.html"><b>Forecast Lab</b><span>Every engine change, scored against fake runners with a known truth.</span></a></li><li><a href="dreamy/forecast-explorer.html"><b>Forecast explorer</b><span>Pick a runner and a distance to see each model&rsquo;s estimate, the blend and the true time.</span></a></li><li><a href="dreamy/data-flow.html"><b>From run file to race forecast</b><span>One run, traced from the watch file to the final forecast.</span></a></li><li><a href="dreamy/weather-model.html"><b>Weather and hills</b><span>How heat, humidity and hills change a pace.</span></a></li></ul>
+      <p class="small">The Lab pages use synthetic runners.</p>
     </section>
 
     <section class="sec" id="how" aria-labelledby="how-h">
@@ -2666,9 +2688,21 @@ window.MAP_NOTE = 'Apps that build plans from your data with their own math exis
     { d: '2026-06-01', sel: 'strava', ids: ['google', 'corosai', 'strava', 'whoop', 'apple'], c: 'Spring 2026: the big platforms hand your data to a chatbot.' },
     { d: '2026-10-28', sel: 'dreamy', ids: ['dreamy'], c: 'Today, Dreamy is the only filled dot in the top right: published rules on your whole history, and AI only explains them.' }];
   var capEl = document.getElementById('cmm-cap'), replayBtn = document.getElementById('cmm-replay');
+  // Oct 30, Jason: the story line "needs to pop more.. i can barely see it? should it be coming up over the chart then
+  // disappearing": it sits right on top of the chart now, comes up with each step and fades before the next one.
+  (function () { var card = document.querySelector('#cmm .mapcard'), row = card && card.querySelector('.hl-row'); if (row) row.after(capEl); })();
+  var capOut = null;
+  // Reserve the tallest step's height so the chart never jumps as the line changes length.
+  function sizeCap() {
+    if (!capEl.isConnected || !capEl.offsetWidth) return;
+    var keep = capEl.textContent, h = 0; capEl.style.minHeight = '';
+    BEATS.forEach(function (B) { capEl.textContent = B.c; h = Math.max(h, capEl.offsetHeight); });
+    capEl.textContent = keep; capEl.style.minHeight = h + 'px';
+  }
   var TOUR_MS = 330, HOLD = 2900, beat = 0, holdTimer = null, touring = false;
   function setCap(text) {
-    if (capEl.textContent === text) return;
+    clearTimeout(capOut);
+    if (capEl.textContent === text) { capEl.classList.remove('fade'); return; }
     capEl.classList.add('fade');
     setTimeout(function () { capEl.textContent = text; capEl.classList.remove('fade'); }, reduce ? 0 : 220);
   }
@@ -2678,12 +2712,13 @@ window.MAP_NOTE = 'Apps that build plans from your data with their own math exis
     selected = B.sel; setHL('focus'); setCap(B.c); render(+range.value);
   }
   function setEnd() { playBtn.textContent = 'Play again'; replayBtn.hidden = true; }
-  function pauseTour() { touring = false; if (raf) { cancelAnimationFrame(raf); raf = null; } clearTimeout(holdTimer); if (+range.value >= NOW - 0.02) setEnd(); else { playBtn.textContent = 'Play'; replayBtn.hidden = false; } }
+  function pauseTour() { touring = false; if (raf) { cancelAnimationFrame(raf); raf = null; } clearTimeout(holdTimer); clearTimeout(capOut); capEl.classList.remove('fade'); if (+range.value >= NOW - 0.02) setEnd(); else { playBtn.textContent = 'Play'; replayBtn.hidden = false; } }
   function runBeat() {
     if (!touring) return;
     var target = Math.min(NOW, T(BEATS[beat].d));
     animateTo(target, TOUR_MS, function () {
       showBeat(beat);
+      if (!reduce && beat < BEATS.length - 1) capOut = setTimeout(function () { if (touring) capEl.classList.add('fade'); }, HOLD - 450);
       holdTimer = setTimeout(function () {
         if (!touring) return;
         if (beat < BEATS.length - 1) { beat++; setHL(null); render(+range.value); runBeat(); }
@@ -2706,6 +2741,9 @@ window.MAP_NOTE = 'Apps that build plans from your data with their own math exis
   plot.addEventListener('click', function () { if (touring) pauseTour(); }, true);
   // Starts when the map scrolls into view, once.
   setT(0); capEl.textContent = BEATS[0].c; playBtn.textContent = 'Play';
+  sizeCap(); var capW = innerWidth;
+  window.addEventListener('resize', function () { if (innerWidth !== capW) { capW = innerWidth; sizeCap(); } });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(sizeCap);
   var started = false;
   function go() { if (started) return; started = true; startTour(true); }
   if ('IntersectionObserver' in window) {

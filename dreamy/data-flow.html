@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="data:,">
+<title>Data flow</title>
+<style>
+:root{
+  --bg:#0a0a0f;--s1:#141420;--s2:#1a1a24;--s3:#282836;
+  --t1:#ededf2;--t2:#b8b8c8;--t3:#8888a0;--b1:#333345;--b2:#42425a;
+  --acc:#7c6cf0;--glow:#a78bfa;
+  --z-recovery:#8a9bb8;--z-easy:#5ea8c8;--z-steady:#0ea5e9;--z-marathon:#3b82f6;--z-tempo:#6366f1;--z-threshold:#8b5cf6;--z-interval:#e04545;--z-repetition:#d42a5c;
+  --hr:#e04545;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--t1)}
+body{font-family:"Inter",-apple-system,system-ui,sans-serif;font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:"Manrope",-apple-system,system-ui,sans-serif;letter-spacing:-0.01em;margin:0}
+.num,td,.v{font-variant-numeric:tabular-nums}
+.wrap{max-width:880px;margin:0 auto;padding:0 16px 48px}
+header.top{padding:32px 0 12px}
+header.top h1{font-size:30px;font-weight:800}
+.who{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-top:10px;color:var(--t2);font-size:14px}
+.tag{display:inline-block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--glow);border:1px solid var(--b2);border-radius:999px;padding:2px 8px;white-space:nowrap}
+.map{position:sticky;top:0;z-index:5;background:rgba(10,10,15,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--b1);margin:0 -16px;padding:8px 16px}
+.map .row{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.map .row::-webkit-scrollbar{display:none}
+.map a{flex:0 0 auto;font-size:12px;color:var(--t3);text-decoration:none;border:1px solid var(--b1);border-radius:6px;padding:4px 8px;white-space:nowrap;transition:opacity .2s,color .2s,border-color .2s}
+.map a.on{color:var(--t1);border-color:var(--acc)}
+.map a .k{color:var(--t3);margin-right:4px}
+.map .sep{flex:0 0 auto;align-self:center;width:1px;height:16px;background:var(--b2);margin:0 4px}
+.part{margin:36px 0 12px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.part h2{font-size:20px;font-weight:700}
+.part .sub{color:var(--t3);font-size:13px}
+.pick{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 16px}
+.pick button{font:inherit;font-size:13px;color:var(--t2);background:var(--s1);border:1px solid var(--b1);border-radius:8px;padding:8px 12px;cursor:pointer;text-align:left;transition:opacity .2s,border-color .2s,color .2s}
+.pick button.on{color:var(--t1);border-color:var(--acc)}
+.pick button .d{display:block;font-size:11px;color:var(--t3)}
+.flow{position:relative}
+.stage{position:relative;background:var(--s1);border:1px solid var(--b1);border-radius:12px;padding:16px;margin:0 0 22px;scroll-margin-top:56px}
+.stage::after{content:"";position:absolute;left:28px;bottom:-23px;width:1px;height:22px;background:var(--b2)}
+.stage.last::after{display:none}
+.sh{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.sh .n{font-size:12px;color:var(--t3);font-variant-numeric:tabular-nums;min-width:20px}
+.sh h3{font-size:16px;font-weight:700}
+.sh .src{margin-left:auto;font-size:11px;color:var(--t3);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;overflow-wrap:anywhere}
+.line{color:var(--t2);font-size:13px;margin:6px 0 0 30px}
+.io{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;margin-top:12px;align-items:stretch}
+.io .box{background:var(--s2);border:1px solid var(--b1);border-radius:8px;padding:10px 12px;min-width:0}
+.io .arrow{align-self:center;color:var(--t3);font-size:18px}
+.lbl{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--t3);margin-bottom:6px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;font-size:13px}
+.kv .k{color:var(--t3)}
+.kv .v{color:var(--t1);text-align:right;overflow-wrap:anywhere}
+.kv .v.hi{color:var(--glow);font-weight:600}
+@media (max-width:560px){.io{grid-template-columns:1fr}.io .arrow{transform:rotate(90deg);justify-self:center;line-height:1}.sh .src{margin-left:30px;flex:0 1 calc(100% - 30px)}}
+.viz{margin-top:12px;background:var(--s2);border:1px solid var(--b1);border-radius:8px;padding:10px 12px}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--t2);margin-top:6px}
+.legend i{display:inline-block;width:10px;height:3px;border-radius:2px;vertical-align:middle;margin-right:5px}
+.legend i.sq{height:10px;width:10px;border-radius:2px}
+svg{display:block;width:100%;overflow:visible}
+.ax{font-size:11px;color:var(--t3);display:flex;justify-content:space-between;margin-top:4px;font-variant-numeric:tabular-nums}
+.strip{display:flex;height:22px;border-radius:4px;overflow:hidden;gap:1px;background:var(--bg)}
+.strip div{min-width:1px}
+.lapgrid{display:grid;gap:3px;margin-top:8px;font-size:12px}
+.laprow{display:grid;grid-template-columns:28px 1fr 64px 40px;gap:8px;align-items:center;font-variant-numeric:tabular-nums}
+.laprow .bar{height:10px;border-radius:2px;background:var(--b2)}
+.laprow .t{color:var(--t3);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{font-size:12px;border:1px solid var(--b1);border-radius:6px;padding:3px 8px;color:var(--t2);background:var(--s2);font-variant-numeric:tabular-nums}
+.chip b{color:var(--t1);font-weight:600}
+.dots{display:grid;gap:6px}
+.drow{display:grid;grid-template-columns:150px 1fr 54px;gap:10px;align-items:center;font-size:12px}
+.drow .nm{color:var(--t2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.drow .nm.off{color:var(--t3)}
+.track{position:relative;height:18px;border-radius:3px;background:linear-gradient(var(--b1),var(--b1)) center/100% 1px no-repeat}
+.dot{position:absolute;top:50%;transform:translate(-50%,-50%);border-radius:50%;background:var(--acc)}
+.dot.hollow{background:transparent;border:1.5px solid var(--t3)}
+.vline{position:absolute;top:-3px;bottom:-3px;width:1.5px;background:var(--glow);transform:translateX(-50%)}
+.drow .w{text-align:right;color:var(--t2);font-variant-numeric:tabular-nums}
+@media (max-width:560px){.drow{grid-template-columns:96px 1fr 44px;gap:6px}}
+.share{display:flex;height:16px;border-radius:4px;overflow:hidden;gap:1px;margin-top:8px}
+.wf{display:grid;gap:8px}
+.wrow{display:grid;grid-template-columns:120px 1fr 92px;gap:10px;align-items:center;font-size:12px}
+.wrow .nm{color:var(--t2)}
+.wrow .val{text-align:right;font-variant-numeric:tabular-nums;color:var(--t1)}
+.wrow .val small{display:block;color:var(--t3);font-size:11px}
+.wtrack{position:relative;height:20px;background:linear-gradient(var(--b1),var(--b1)) center/100% 1px no-repeat}
+.wbar{position:absolute;top:3px;height:14px;border-radius:2px;background:var(--acc)}
+.wbar.zero{background:transparent;border-left:1.5px dashed var(--t3);border-radius:0}
+.wpt{position:absolute;top:50%;width:10px;height:10px;border-radius:50%;transform:translate(-50%,-50%);background:var(--t1)}
+@media (max-width:560px){.wrow{grid-template-columns:78px 1fr 70px;gap:6px}}
+.band{position:absolute;top:4px;height:12px;border-radius:6px;background:rgba(124,108,240,.28);border:1px solid var(--acc)}
+.mk{position:absolute;top:-2px;bottom:-2px;width:2px;transform:translateX(-50%)}
+.end{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
+.end .box{background:var(--s2);border:1px solid var(--b1);border-radius:8px;padding:10px 12px;min-width:0}
+.end .big{font-size:24px;font-weight:700;font-family:"Manrope",-apple-system,system-ui,sans-serif;font-variant-numeric:tabular-nums}
+.end .sm{font-size:12px;color:var(--t3)}
+@media (max-width:560px){.end{grid-template-columns:1fr}}
+.note{font-size:12px;color:var(--t3);margin-top:8px}
+.bridge{margin:4px 0 26px 0;padding:12px 16px;border:1px dashed var(--b2);border-radius:12px;color:var(--t2);font-size:13px;display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center}
+.bridge b{color:var(--t1);font-variant-numeric:tabular-nums}
+footer{color:var(--t3);font-size:12px;border-top:1px solid var(--b1);padding-top:14px;margin-top:28px}
+</style>
+</head>
+<body><p style="margin:0;padding:14px 20px 0;font:600 14px Inter,system-ui,sans-serif"><a href="../dreamy.html#deeper" style="color:inherit;text-underline-offset:3px">Back to Dreamy</a></p>
+<div class="wrap">
+  <header class="top">
+    <h1>From run file to race forecast</h1>
+    <div class="who" id="who"></div>
+  </header>
+  <nav class="map" aria-label="Stages"><div class="row" id="map"></div></nav>
+
+  <div class="part"><h2>One run</h2><span class="tag">Synthetic</span></div>
+  <div class="pick" id="pick"></div>
+  <div class="flow" id="runflow"></div>
+
+  <div class="bridge" id="bridge"></div>
+
+  <div class="part"><h2>The forecast</h2><span class="tag">Synthetic</span><span class="sub" id="fsub"></span></div>
+  <div class="flow" id="fcflow"></div>
+
+  <footer>Synthetic runners from the Dreamy Forecast Lab. Computed from the Dreamy engine code.</footer>
+</div>
+<script>
+const D = /*DATA*/{"runner":{"name":"Bib Hoarder","archetype":"Race-rich veteran","sex":"female","age":41,"device":"Garmin Forerunner 55","runsPerWeek":5,"races":15,"raceResults":14,"activities":308,"window":{"start":"2025-03-01","end":"2026-05-31"}},"workouts":[{"key":"vo2","truthKind":"vo2","confusionForKind":{"vo2 -> interval":12,"vo2 -> race":2},"raw":{"id":1007000252,"name":"7x1k @ 5k pace","date":"2026-03-10","startLocal":"2026-03-10T06:39:06Z","distanceM":10748.3,"movingS":3480,"elapsedS":3480,"avgHr":136.4,"maxHr":168,"elevGainM":141.4,"device":"Garmin Forerunner 55","workoutTypeField":3,"laps":15,"samples":696,"streams":["time","distance","velocity_smooth","altitude","cadence","grade_smooth","heartrate"],"stravaBestEfforts":7},"trace":[[0,838.2,78,40.2],[30,529.4,103,39.8],[60,514.2,115,39.4],[90,527.7,129,39.6],[120,529.4,121,38.8],[150,553,123,36.9],[180,572.7,129,38.9],[210,570.7,135,43.6],[240,654.2,136,49],[270,553,136,51.6],[300,512.5,130,51.8],[330,509.3,133,51.7],[360,483.3,134,51.5],[390,547.4,131,49.1],[420,512.5,131,47.2],[450,560.7,133,49.5],[480,576.8,133,53.4],[510,506.1,131,56.2],[540,474.7,130,54.6],[570,591.7,133,51.5],[600,534.7,130,49],[630,507.7,133,45.4],[660,502.9,127,40.9],[690,525.9,134,39.7],[720,585.2,132,42.4],[750,541.9,131,44.7],[780,509.3,130,43.9],[810,529.4,127,40.3],[840,512.5,131,37.8],[870,479,132,35.9],[900,489.2,134,32.7],[930,420.2,150,31.9],[960,483.3,163,37.4],[990,448.3,164,42.1],[1020,408.5,164,41.5],[1050,415.9,155,39.9],[1080,486.2,153,39.9],[1110,777.5,135,39.5],[1140,724.9,116,39.2],[1170,874.6,110,40.1],[1200,770,109,43.2],[1230,483.3,147,49.8],[1260,433.8,148,53.9],[1290,391.6,154,52.6],[1320,391.6,154,51],[1350,402.3,159,50.2],[1380,470.6,156,47.8],[1410,833.9,132,48.3],[1440,755.6,113,50.5],[1470,851.5,117,53.1],[1500,619,106,55.1],[1530,399.3,137,53.3],[1560,392.5,153,47.9],[1590,407.4,157,44.3],[1620,411.6,157,40.2],[1650,402.3,159,38.3],[1680,493.7,160,41.7],[1710,851.5,136,43.5],[1740,812.8,117,43.4],[1770,638.6,106,41.4],[1800,667.8,103,38.3],[1830,415.9,140,34.8],[1860,397.4,150,33.7],[1890,412.7,154,32.1],[1920,458.5,163,35.7],[1950,481.8,162,41.8],[1980,483.3,165,43.9],[2010,752,132,42.5],[2040,715.3,116,41.1],[2070,785,111,40.7],[2100,681.9,111,41.3],[2130,438.5,137,42.2],[2160,458.5,154,43.7],[2190,486.2,163,49],[2220,463.8,164,55.2],[2250,391.6,163,55.1],[2280,443.3,157,51.3],[2310,738.2,133,50.1],[2340,646.3,118,49.9],[2370,734.9,108,49.1],[2400,728.2,106,48.1],[2430,444.6,138,48.9],[2460,449.5,157,52.9],[2490,396.4,156,53.8],[2520,366.6,149,47.5],[2550,401.3,159,42.2],[2580,458.5,154,40.1],[2610,715.3,131,38.1],[2640,865.2,114,37],[2670,796.7,107,37.3],[2700,738.2,108,39],[2730,461.1,139,41.8],[2760,419.1,153,39.3],[2790,405.4,157,33.9],[2820,407.4,160,32.7],[2850,420.2,152,33.5],[2880,452.1,156,34.8],[2910,676.2,145,38.5],[2940,684.8,141,43.1],[2970,534.7,135,45.8],[3000,525.9,130,44.8],[3030,520.8,138,42.3],[3060,602.7,128,42.8],[3090,602.7,130,44.4],[3120,553,122,45.6],[3150,578.9,127,47.4],[3180,576.8,129,50.9],[3210,656.9,132,55.3],[3240,562.7,132,57.7],[3270,556.9,128,55.6],[3300,506.1,126,51.3],[3330,549.3,128,49.2],[3360,556.9,130,49.1],[3390,493.7,133,48.8],[3420,515.8,133,48.5],[3450,607.3,132,50.1]],"convert":{"date":"2026-03-10","distanceMiles":6.68,"durationMinutes":58,"avgPaceSeconds":521,"workoutType":"race","avgHeartRate":136,"elevationGainFeet":464,"startTimeLocal":"06:39"},"weather":{"tempF":32,"feelsLikeF":25,"humidityPct":63,"windMph":4,"conditions":"cloudy"},"segments":[{"n":1,"miles":1.7,"sec":900,"pace":530,"hr":129,"lapType":"work","zone":"steady","conf":0.8},{"n":2,"miles":0.42,"sec":180,"pace":427,"hr":157,"lapType":"work","zone":"interval","conf":0.3},{"n":3,"miles":0.15,"sec":120,"pace":776,"hr":121,"lapType":"recovery","zone":"recovery","conf":0.7},{"n":4,"miles":0.42,"sec":180,"pace":431,"hr":150,"lapType":"work","zone":"interval","conf":0.3},{"n":5,"miles":0.16,"sec":120,"pace":757,"hr":125,"lapType":"recovery","zone":"recovery","conf":0.7},{"n":6,"miles":0.44,"sec":180,"pace":414,"hr":150,"lapType":"work","zone":"interval","conf":0.2},{"n":7,"miles":0.16,"sec":120,"pace":749,"hr":123,"lapType":"recovery","zone":"recovery","conf":0.7},{"n":8,"miles":0.42,"sec":180,"pace":432,"hr":151,"lapType":"work","zone":"interval","conf":0.3},{"n":9,"miles":0.17,"sec":120,"pace":714,"hr":125,"lapType":"recovery","zone":"recovery","conf":0.7},{"n":10,"miles":0.41,"sec":180,"pace":441,"hr":153,"lapType":"work","zone":"interval","conf":0.3},{"n":11,"miles":0.17,"sec":120,"pace":716,"hr":123,"lapType":"recovery","zone":"recovery","conf":0.7},{"n":12,"miles":0.43,"sec":180,"pace":422,"hr":149,"lapType":"work","zone":"interval","conf":0.3},{"n":13,"miles":0.16,"sec":120,"pace":756,"hr":121,"lapType":"recovery","zone":"recovery","conf":0.7},{"n":14,"miles":0.43,"sec":180,"pace":422,"hr":149,"lapType":"work","zone":"interval","conf":0.3},{"n":15,"miles":1.06,"sec":600,"pace":566,"hr":132,"lapType":"steady","zone":"cooldown","conf":0.5}],"condition":{"raw":521,"adjusted":512,"weatherSec":4,"elevationSec":5,"classifierSec":12},"classifier":{"settingsVdot":46.7,"settingsVdotFromEval":"2026-03-01","zonePaces":{"easy":554,"marathon":457,"tempo":444,"threshold":434,"interval":401},"resolvedZones":{"recovery":644,"easy":566,"steady":489,"marathon":469,"tempo":456,"threshold":446,"interval":413},"zoneDist":{"recovery":12,"easy":0,"steady":15,"marathon":0,"tempo":0,"threshold":0,"interval":21,"warmup":0,"cooldown":10,"anomaly":0},"initialType":"race","storedType":"race","autoCategory":"race","autoConfidence":0.98},"load":{"trimp":92},"signals":{"hrMaxUsed":179,"hrRestUsed":60,"hrReservePct":0.6386554621848739,"velocityMpm":189.70609037328094,"paceAdjSec":12,"isSteadyState":false,"efficiencyFactor":1.394897723332948,"effectiveVo2max":null,"decoupling":null},"bestEfforts":[{"label":"400m","meters":400,"seconds":100.23589475055587,"pace":403.28408714464894,"startM":4634.387047500815,"avgHr":149.54545454545453},{"label":"800m","meters":800,"seconds":217.56817186331068,"pace":437.67645213312545,"startM":2585.99277249204,"avgHr":152.06666666666666},{"label":"1K","meters":1000,"seconds":281.4071233961911,"pace":452.87973996642614,"startM":2399.49329373343,"avgHr":147.55172413793105},{"label":"1mi","meters":1609.34,"seconds":473.1021805008602,"pace":473.1021805008602,"startM":4616.387097808296,"avgHr":144.8125},{"label":"2mi","meters":3218.69,"seconds":995.6795983252305,"pace":497.8382524470286,"startM":2071.394210726996,"avgHr":140.84577114427861},{"label":"5K","meters":5000,"seconds":1571.2255608917776,"pace":505.7272288331146,"startM":3839.289269694002,"avgHr":140.40189873417722},{"label":"10K","meters":10000,"seconds":3216.106081914059,"pace":517.5808161867571,"startM":735.4979443804699,"avgHr":137.56124031007752}]},{"key":"long","truthKind":"long","confusionForKind":{"long -> long":22,"long -> marathon":3,"long -> medium_long":20,"long -> steady":1},"raw":{"id":1007000268,"name":"Morning Run","date":"2026-03-29","startLocal":"2026-03-29T06:36:58Z","distanceM":24684.5,"movingS":7920,"elapsedS":7920,"avgHr":136.1,"maxHr":149,"elevGainM":192.8,"device":"Garmin Forerunner 55","workoutTypeField":0,"laps":16,"samples":1584,"streams":["time","distance","velocity_smooth","altitude","cadence","grade_smooth","heartrate"],"stravaBestEfforts":11},"trace":[[0,1072.9,69,34.5],[30,504.5,110,33.8],[60,455.9,125,31.6],[90,498.2,123,29.4],[120,506.1,131,29.4],[150,549.3,133,30.7],[180,486.2,135,32.7],[210,531.1,126,32.2],[240,529.4,128,29.5],[270,474.7,133,26.5],[300,531.1,130,24.7],[330,480.4,135,23.1],[360,529.4,133,22.3],[390,504.5,135,22.1],[420,502.9,135,23.2],[450,572.7,136,24.8],[480,509.3,134,25.9],[510,538.2,134,24.7],[540,514.2,131,22.2],[570,507.7,131,21.3],[600,492.2,132,22.2],[630,556.9,135,25.6],[660,543.7,138,28.3],[690,589.5,133,30.2],[720,532.9,136,31.1],[750,512.5,141,31.6],[780,496.7,130,31.9],[810,524.2,129,31.3],[840,529.4,134,30.1],[870,541.9,129,29.6],[900,549.3,126,31.2],[930,556.9,130,33.5],[960,541.9,138,35.5],[990,541.9,138,34.6],[1020,474.7,134,31.3],[1050,514.2,129,27.8],[1080,529.4,133,26.1],[1110,527.7,133,25.7],[1140,507.7,132,25.4],[1170,519.1,127,25.1],[1200,495.2,132,25.4],[1230,504.5,132,25.6],[1260,480.4,138,24.9],[1290,522.5,135,22.5],[1320,495.2,127,19.6],[1350,510.9,134,19.2],[1380,553,138,21.2],[1410,531.1,140,24.7],[1440,486.2,140,27.3],[1470,534.7,141,28.3],[1500,498.2,135,28.1],[1530,515.8,135,27.8],[1560,504.5,137,27.9],[1590,543.7,137,28.3],[1620,477.5,131,29],[1650,532.9,135,30.3],[1680,515.8,131,33.3],[1710,534.7,134,35.7],[1740,498.2,136,36.2],[1770,474.7,145,33.5],[1800,476.1,138,30],[1830,469.2,139,28.4],[1860,531.1,136,28.7],[1890,515.8,138,29.4],[1920,510.9,127,29.2],[1950,495.2,140,28.5],[1980,509.3,131,27.5],[2010,522.5,134,26],[2040,455.9,131,23.5],[2070,471.9,130,20.8],[2100,510.9,137,19.4],[2130,556.9,138,21.1],[2160,568.7,143,24.2],[2190,531.1,141,26.4],[2220,486.2,139,26.4],[2250,492.2,139,24.8],[2280,509.3,134,23.9],[2310,540,137,24.4],[2340,543.7,139,25.7],[2370,519.1,134,27.5],[2400,564.7,132,29.6],[2430,549.3,136,31.7],[2460,538.2,134,33.6],[2490,517.5,136,34.7],[2520,467.8,132,33.6],[2550,515.8,133,30.9],[2580,498.2,143,29.4],[2610,534.7,139,30.1],[2640,558.8,140,31.7],[2670,477.5,135,32.6],[2700,466.5,138,32.2],[2730,480.4,135,30.5],[2760,489.2,132,28.2],[2790,466.5,136,26.1],[2820,495.2,134,23.6],[2850,487.7,139,21.7],[2880,507.7,137,22],[2910,536.4,138,23.9],[2940,532.9,136,25.5],[2970,515.8,134,25.3],[3000,469.2,133,22.9],[3030,520.8,131,20.8],[3060,469.2,134,21],[3090,545.5,135,22.6],[3120,534.7,132,25.1],[3150,519.1,135,26.8],[3180,587.4,139,28.4],[3210,529.4,131,30.3],[3240,583.1,135,31.7],[3270,492.2,134,31.5],[3300,495.2,140,29.8],[3330,532.9,135,29],[3360,514.2,139,30],[3390,520.8,145,32.9],[3420,525.9,136,35.2],[3450,504.5,139,35],[3480,489.2,131,32.9],[3510,483.3,135,30.2],[3540,506.1,140,28.3],[3570,507.7,137,27],[3600,525.9,135,26],[3630,495.2,134,25.3],[3660,517.5,138,26.3],[3690,519.1,142,27.1],[3720,507.7,139,26.2],[3750,487.7,131,23.4],[3780,514.2,133,20],[3810,545.5,138,19],[3840,611.9,130,20.6],[3870,568.7,135,22.7],[3900,512.5,136,24.6],[3930,510.9,136,26.1],[3960,541.9,133,26.9],[3990,531.1,135,27.7],[4020,520.8,125,28],[4050,531.1,129,27.5],[4080,540,132,27.1],[4110,545.5,132,28.3],[4140,572.7,133,31],[4170,541.9,141,34],[4200,517.5,141,35.7],[4230,510.9,135,35],[4260,487.7,135,32.4],[4290,502.9,132,30.2],[4320,489.2,137,29.7],[4350,507.7,138,30.1],[4380,524.2,132,30.4],[4410,520.8,136,29.8],[4440,520.8,131,29.9],[4470,489.2,135,29.3],[4500,495.2,133,27.4],[4530,489.2,142,23.6],[4560,496.7,132,20.7],[4590,520.8,136,20.5],[4620,504.5,134,22.7],[4650,587.4,136,24.6],[4680,541.9,139,25.5],[4710,450.8,139,25],[4740,534.7,136,24],[4770,506.1,141,23.6],[4800,443.3,139,23.6],[4830,499.8,140,24.2],[4860,512.5,140,25.4],[4890,536.4,137,28.1],[4920,514.2,139,31.2],[4950,556.9,142,33.9],[4980,501.4,142,33.9],[5010,471.9,139,31.9],[5040,527.7,136,30.1],[5070,549.3,132,29.5],[5100,549.3,140,31.2],[5130,556.9,138,32.4],[5160,490.7,138,33],[5190,524.2,135,32.9],[5220,578.9,139,32.2],[5250,498.2,136,30.6],[5280,487.7,137,28.1],[5310,489.2,132,24.7],[5340,504.5,133,22.6],[5370,527.7,137,23.2],[5400,553,139,24.8],[5430,556.9,138,26.2],[5460,506.1,134,25.3],[5490,496.7,142,23.3],[5520,524.2,135,21.4],[5550,520.8,136,21.1],[5580,492.2,142,21.5],[5610,532.9,138,22.7],[5640,510.9,135,24.4],[5670,534.7,140,27],[5700,507.7,142,29.6],[5730,512.5,136,31],[5760,545.5,140,30],[5790,507.7,140,28.2],[5820,465.1,136,27.9],[5850,551.1,141,29.7],[5880,570.7,140,32.3],[5910,585.2,142,34.2],[5940,514.2,135,34.2],[5970,499.8,133,33.4],[6000,517.5,135,32.1],[6030,492.2,136,30.5],[6060,489.2,137,28.2],[6090,519.1,140,26.2],[6120,467.8,138,26.2],[6150,532.9,136,27.6],[6180,531.1,136,28.8],[6210,501.4,141,28],[6240,498.2,133,24.7],[6270,465.1,132,21.2],[6300,507.7,145,20.2],[6330,499.8,137,21],[6360,540,144,22.7],[6390,541.9,141,23.7],[6420,510.9,142,25.3],[6450,543.7,140,26.4],[6480,531.1,137,27.3],[6510,501.4,133,26.6],[6540,517.5,136,25.5],[6570,527.7,134,25.2],[6600,568.7,137,27.1],[6630,581,136,30.5],[6660,519.1,137,33.5],[6690,541.9,135,34.6],[6720,499.8,139,34.1],[6750,524.2,138,32.3],[6780,517.5,136,31.3],[6810,501.4,140,30.5],[6840,495.2,144,29.6],[6870,498.2,139,29.4],[6900,524.2,143,30.2],[6930,517.5,140,31],[6960,495.2,140,30.4],[6990,459.8,135,27.3],[7020,445.8,143,23.1],[7050,507.7,140,21.1],[7080,492.2,144,21.8],[7110,556.9,143,23.5],[7140,522.5,136,24.5],[7170,512.5,131,24.3],[7200,489.2,134,24],[7230,484.7,137,23.9],[7260,489.2,138,23.4],[7290,509.3,138,22.3],[7320,532.9,137,22.4],[7350,531.1,137,24.4],[7380,568.7,137,27.8],[7410,572.7,137,30.9],[7440,554.9,140,32.4],[7470,510.9,136,31.8],[7500,501.4,134,30.2],[7530,480.4,134,29.8],[7560,507.7,141,30.4],[7590,506.1,138,31.7],[7620,531.1,137,32.5],[7650,527.7,140,32.9],[7680,554.9,140,33.5],[7710,525.9,136,33.3],[7740,462.5,137,31.4],[7770,477.5,136,27.7],[7800,458.5,136,24.4],[7830,495.2,137,23.7],[7860,520.8,141,25.4],[7890,554.9,144,26.6]],"convert":{"date":"2026-03-29","distanceMiles":15.34,"durationMinutes":132,"avgPaceSeconds":516,"workoutType":"easy","avgHeartRate":136,"elevationGainFeet":633,"startTimeLocal":"06:36"},"weather":{"tempF":38,"feelsLikeF":30,"humidityPct":73,"windMph":7,"conditions":"cloudy"},"segments":[{"n":1,"miles":1.01,"sec":520,"pace":517,"hr":129,"lapType":"steady","zone":"steady","conf":1},{"n":2,"miles":1,"sec":530,"pace":529,"hr":134,"lapType":"warmup","zone":"steady","conf":1},{"n":3,"miles":1,"sec":510,"pace":511,"hr":135,"lapType":"steady","zone":"steady","conf":1},{"n":4,"miles":1,"sec":510,"pace":508,"hr":135,"lapType":"steady","zone":"steady","conf":1},{"n":5,"miles":0.99,"sec":515,"pace":519,"hr":137,"lapType":"steady","zone":"steady","conf":1},{"n":6,"miles":1.01,"sec":510,"pace":506,"hr":136,"lapType":"work","zone":"steady","conf":1},{"n":7,"miles":1,"sec":520,"pace":519,"hr":137,"lapType":"steady","zone":"steady","conf":1},{"n":8,"miles":1,"sec":520,"pace":521,"hr":134,"lapType":"steady","zone":"steady","conf":1},{"n":9,"miles":0.99,"sec":510,"pace":513,"hr":136,"lapType":"steady","zone":"steady","conf":1},{"n":10,"miles":1,"sec":525,"pace":523,"hr":138,"lapType":"steady","zone":"steady","conf":1},{"n":11,"miles":1,"sec":515,"pace":516,"hr":137,"lapType":"steady","zone":"steady","conf":1},{"n":12,"miles":1,"sec":515,"pace":514,"hr":139,"lapType":"steady","zone":"steady","conf":1},{"n":13,"miles":1,"sec":520,"pace":520,"hr":138,"lapType":"steady","zone":"steady","conf":1},{"n":14,"miles":1.01,"sec":505,"pace":502,"hr":139,"lapType":"work","zone":"steady","conf":0.9},{"n":15,"miles":0.99,"sec":520,"pace":523,"hr":138,"lapType":"steady","zone":"steady","conf":1},{"n":16,"miles":0.33,"sec":175,"pace":523,"hr":139,"lapType":"steady","zone":"steady","conf":0.9}],"condition":{"raw":516,"adjusted":508,"weatherSec":6,"elevationSec":2,"classifierSec":10},"classifier":{"settingsVdot":46.7,"settingsVdotFromEval":"2026-03-01","zonePaces":{"easy":554,"marathon":457,"tempo":444,"threshold":434,"interval":401},"resolvedZones":{"recovery":642,"easy":564,"steady":487,"marathon":467,"tempo":454,"threshold":444,"interval":411},"zoneDist":{"recovery":0,"easy":0,"steady":132,"marathon":0,"tempo":0,"threshold":0,"interval":0,"warmup":0,"cooldown":0,"anomaly":0},"initialType":"easy","storedType":"long","autoCategory":"long_run","autoConfidence":0.9},"load":{"trimp":210},"signals":{"hrMaxUsed":179,"hrRestUsed":60,"hrReservePct":0.6386554621848739,"velocityMpm":190.83083003952567,"paceAdjSec":10,"isSteadyState":true,"efficiencyFactor":1.4031678679376887,"effectiveVo2max":51.20608476320522,"decoupling":{"pct":2.84,"efFirst":1.3939870438452768,"efSecond":1.3543648139552427,"segs":15,"source":"segments"}},"bestEfforts":[{"label":"400m","meters":400,"seconds":119.9099752852785,"pace":482.43979906402524,"startM":5355.48503212727,"avgHr":137.24},{"label":"800m","meters":800,"seconds":244.82418702772156,"pace":492.50669643899175,"startM":21231.94065953248,"avgHr":140.16},{"label":"1K","meters":1000,"seconds":307.02539719871584,"pace":494.10825272778135,"startM":20958.341424206177,"avgHr":139.6031746031746},{"label":"1mi","meters":1609.34,"seconds":500.9749993021733,"pace":500.9749993021733,"startM":20958.341424206177,"avgHr":138.87254901960785},{"label":"2mi","meters":3218.69,"seconds":1018.6582304308154,"pace":509.32753280419314,"startM":3313.6907386724174,"avgHr":135.31219512195122},{"label":"5K","meters":5000,"seconds":1585.8771725969987,"pace":510.44311378945076,"startM":4581.387195628396,"avgHr":136.23824451410658},{"label":"10K","meters":10000,"seconds":3194.668912055964,"pace":514.1308466928144,"startM":4424.487634141929,"avgHr":135.9984375},{"label":"Half Marathon","meters":21097.5,"seconds":6751.475882358228,"pace":515.0098446031232,"startM":3231.290968968882,"avgHr":136.84319526627218}]}],"forecast":{"evalDate":"2026-04-01","targetDate":"2026-04-12","distance":"10K","targetRaceName":"Valentine 10K","targetPriority":"B","data":{"workouts":268,"workoutsWithHr":268,"raceResults":11,"lastRaceResultDate":"2026-03-21","workoutsLabeledRace":14,"autoExcluded":2},"workoutsAnalyzed":247,"tier":3,"confidence":0.656,"fitness":{"ctl":40.2,"atl":42.4,"tsb":-2.2,"weeklyMileage":43.8},"signals":{"csMps":3.4177344616656313,"csLower":3.3493797724323184,"csUpper":3.4860891508989442,"dPrime":114.9441833929608,"ltPace":444.92,"ltConfidence":0.743,"vo2maxVdot":51.75,"durabilityBreakpointMiles":4.3828571428571435,"csPath":"segment_ols","csEfforts":5,"ltPath":"threshold_detector","ltWorkouts":5,"evidence":{"hrEffortsWholeRun":50,"hrEffortsSegment":0,"intervalPeaksSegment":31,"intervalPeaksRunDetectorDistance":0,"intervalPeaksRunQuarterFallback":0}},"models":[{"id":"hrVo2max","label":"HR VO2max","estimate":2444,"vdot":50.89930427289372,"weight":0.008140399558833066,"baseWeight":0.12,"confidence":0.175,"sigma":73.32,"share":0.018018205147095154},{"id":"criticalSpeed","label":"Critical Speed","estimate":2793,"vdot":43.5,"weight":0.05226774149287141,"baseWeight":0.12,"confidence":0.6,"sigma":50.273999999999994,"share":0.11569099059418875},{"id":"trainingTrajectory","label":"Training Trajectory","estimate":2624,"vdot":46.8,"weight":0.035096623667732994,"baseWeight":0.08,"confidence":0.4387347417905439,"sigma":78.72,"share":0.07768392210299076},{"id":"personalDurationCurve","label":"Personal Duration Curve","estimate":2648,"vdot":46.3,"weight":0.08913531655530738,"baseWeight":0.13,"confidence":0.6889329585607396,"sigma":60.871900342664716,"share":0.19729478976275522},{"id":"danielsBaseline","label":"Daniels Baseline","estimate":2654,"vdot":46.3,"weight":0.00668136072420681,"baseWeight":0.1,"confidence":0.06733234897197798,"sigma":79.61999999999999,"share":0.014788724720504997},{"id":"unifiedRaceAnchor","label":"Unified Race Anchor","estimate":2626,"vdot":46.8,"weight":0.2575042479349658,"baseWeight":0.38,"confidence":0.6776427577235942,"sigma":77.46875878893418,"share":0.5699676449549832},{"id":"tandaRegression","label":"Tanda Marathon Regression","estimate":2662,"vdot":46,"weight":0.00296179346841461,"baseWeight":0.02,"confidence":0.15,"sigma":80,"share":0.006555722717481821},{"id":"raceVdot","label":"Race VDOT","estimate":2730,"vdot":44.63487398078741,"weight":0,"baseWeight":0,"confidence":0.6700519716356794,"sigma":32.76,"share":0},{"id":"historicalBlockComparison","label":"Historical Block Comparison","estimate":2560,"vdot":49.8,"weight":0,"baseWeight":0,"confidence":0.6,"sigma":71.68,"share":0},{"id":"durabilityDecay","label":"Durability Decay","estimate":2620,"vdot":46.9,"weight":0.04067729058429631,"baseWeight":0.05,"confidence":0.8135458116859261,"sigma":65.5,"share":null}],"modelsWithoutEstimate":[{"id":"intervalPeaks","label":"Interval Peaks"},{"id":"comparableRunners","label":"Comparable Runners"}],"weightSum":0.4517874834023321,"weightedMean":2646.8762899330363,"anchor":{"trainingRefVdot":44.216824962256034,"components":{"hrVo2max":56.450208628736775,"intervalPeak":45.4,"csProxy":33.445356776,"ltProxy":47.7},"anchorCount":12,"acceptedCount":12,"raw":2732.881895929471,"floored":2626,"clamp":true,"floorSeconds":2626,"floorVdot":46.7,"floorSourceKind":"race","floorSourceMeters":21097,"estimate":2626},"steps":{"blend":{"seconds":2646.8762899330363,"mean":2646.8762899330363,"sigma":163.8498283388085,"p10":2512.523929834468,"p25":2574.7859095983263,"p50":2642.1921791740556,"p75":2716.309665325298,"p90":2796.8261368351727},"floor":{"fired":true,"skipReason":null,"floorSeconds":2626,"floorVdot":46.7,"source":"best clean race in 18mo: River Half Marathon","sourceKind":"race","sourceMeters":21097,"strength":0.3,"beforeSeconds":2646.8762899330363,"afterSeconds":2640.6134029531254},"afterFloor":{"seconds":2640.6134029531254,"mean":2640.6134029531254,"sigma":163.462136265527,"p10":2506.5789397090425,"p25":2568.6935987447314,"p50":2635.9403754685677,"p75":2709.8824890718874,"p90":2790.2084471214225},"durability":{"applied":true,"skipReason":null,"discount":-0.003854581168592617,"timePenaltyFraction":-0.006028636021100226,"durabilityScore":0.7569720779061745,"beforeSeconds":2640.6134029531254,"afterSeconds":2624.694105874282},"afterDurability":{"seconds":2624.694105874282,"mean":2624.694105874282,"sigma":175.3758730128166,"p10":2491.467687623381,"p25":2553.207879988169,"p50":2620.0492503715454,"p75":2693.5455938853197,"p90":2773.3872959707282},"varianceMultiplier":1.2,"specificityWidthScale":1.038515379681453,"final":{"seconds":2624.694105874282,"mean":2624.694105874282,"sigma":218.55664961864585,"p10":2458.6648846741605,"p25":2535.6066518525495,"p50":2618.905601223094,"p75":2710.498100930381,"p90":2809.998303597151}},"recomputed":{"floorStrength":0.3,"floorAfter":2640.6134029531254,"durAfter":2624.694105874282,"finalP10":2458.664884674161,"finalP90":2809.998303597151,"formPct":-2.16},"headline":{"seconds":2624.694105874282,"p10":2458.6648846741605,"p50":2618.905601223094,"p90":2809.998303597151,"vdot":46.8,"formAdjustmentPct":-2.2},"truth":{"raceTimeS":2870,"idealTimeS":2774.7726431779774,"wbgt":1.7370459154756124,"tempF":35.97677456882683,"trueRaceDay":2774.7726431779774,"trueRestedRaceDay":2663.6720054233365,"trueOnEvalDate":2820.3720436592785,"scored":2688.6981941602025,"hill":1.0222674832755436}}}/*END-DATA*/;
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+  var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+  function fmtT(s) {
+    if (s == null || !isFinite(s)) return 'n/a';
+    s = Math.round(s); var h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), x = s % 60;
+    return h ? h + ':' + pad(m) + ':' + pad(x) : m + ':' + pad(x);
+  }
+  function fmtP(s) { return s == null ? 'n/a' : fmtT(s) + ' /mi'; }
+  function r(n, d) { if (n == null || !isFinite(n)) return 'n/a'; var f = Math.pow(10, d || 0); return (Math.round(n * f) / f).toFixed(d || 0); }
+  function sgn(n, d) { var t = r(n, d); return (n > 0 ? '+' : n < 0 ? '−' : '') + t.replace('-', ''); }
+  var MI = 1609.34;
+  var ZC = { recovery: 'var(--z-recovery)', easy: 'var(--z-easy)', steady: 'var(--z-steady)', marathon: 'var(--z-marathon)', tempo: 'var(--z-tempo)', threshold: 'var(--z-threshold)', interval: 'var(--z-interval)', repetition: 'var(--z-repetition)', warmup: 'var(--b2)', cooldown: 'var(--b2)', anomaly: 'var(--s3)' };
+  var LAPC = { work: 'var(--t1)', steady: 'var(--t3)', recovery: 'var(--b2)', warmup: 'var(--s3)', cooldown: 'var(--s3)' };
+
+  function kv(rows) {
+    return '<div class="kv">' + rows.map(function (x) {
+      return '<span class="k">' + esc(x[0]) + '</span><span class="v' + (x[2] ? ' hi' : '') + '">' + esc(x[1]) + '</span>';
+    }).join('') + '</div>';
+  }
+  function io(inRows, outRows, inLbl, outLbl) {
+    return '<div class="io"><div class="box"><div class="lbl">' + (inLbl || 'In') + '</div>' + kv(inRows) + '</div><div class="arrow" aria-hidden="true">→</div><div class="box"><div class="lbl">' + (outLbl || 'Out') + '</div>' + kv(outRows) + '</div></div>';
+  }
+  function stage(id, n, title, src, line, body, last) {
+    return '<section class="stage' + (last ? ' last' : '') + '" id="' + id + '"><div class="sh"><span class="n">' + n + '</span><h3>' + esc(title) + '</h3>' + (src ? '<span class="src">' + esc(src) + '</span>' : '') + '</div>' + (line ? '<div class="line">' + esc(line) + '</div>' : '') + body + '</section>';
+  }
+
+  // ── header ──
+  var R = D.runner;
+  $('who').innerHTML = '<span><b style="color:var(--t1)">' + esc(R.name) + '</b></span><span>' + esc(R.archetype) + '</span><span class="num">' + esc(R.sex) + ', ' + R.age + '</span><span class="num">' + R.activities + ' runs, ' + R.raceResults + ' race results</span><span>' + esc(R.device) + '</span><span class="tag">Synthetic</span>';
+
+  var RUN_STAGES = [['r1', 'Run file'], ['r2', 'Import'], ['r3', 'Weather'], ['r4', 'Laps'], ['r5', 'Conditions'], ['r6', 'Classifier'], ['r7', 'Load'], ['r8', 'Signals'], ['r9', 'Best efforts']];
+  var FC_STAGES = [['f1', 'Fitness'], ['f2', 'Signals'], ['f3', 'Models'], ['f4', 'Race anchor'], ['f5', 'Blend'], ['f6', 'Adjustments'], ['f7', 'Range'], ['f8', 'Truth']];
+  function buildMap() {
+    var h = RUN_STAGES.map(function (s, i) { return '<a href="#' + s[0] + '" data-id="' + s[0] + '"><span class="k">' + (i + 1) + '</span>' + s[1] + '</a>'; }).join('');
+    h += '<span class="sep" aria-hidden="true"></span>';
+    h += FC_STAGES.map(function (s, i) { return '<a href="#' + s[0] + '" data-id="' + s[0] + '"><span class="k">' + (RUN_STAGES.length + i + 1) + '</span>' + s[1] + '</a>'; }).join('');
+    $('map').innerHTML = h;
+  }
+
+  // ── run trace ──
+  function traceSvg(w) {
+    var pts = w.trace, T = pts[pts.length - 1][0] || 1;
+    var paces = pts.map(function (p) { return p[1]; }).filter(function (x) { return x != null; }).sort(function (a, b) { return a - b; });
+    var pLo = paces[Math.floor(paces.length * 0.02)], pHi = paces[Math.floor(paces.length * 0.98)];
+    pLo = Math.floor(pLo / 30) * 30; pHi = Math.ceil(pHi / 30) * 30; if (pHi - pLo < 60) pHi = pLo + 60;
+    var hrs = pts.map(function (p) { return p[2]; }).filter(function (x) { return x != null; });
+    var hLo = Math.floor(Math.min.apply(null, hrs) / 10) * 10, hHi = Math.ceil(Math.max.apply(null, hrs) / 10) * 10;
+    var W = 600, H = 150;
+    var x = function (t) { return (t / T) * W; };
+    var yp = function (p) { var c = Math.max(pLo, Math.min(pHi, p)); return ((c - pLo) / (pHi - pLo)) * (H - 8) + 4; }; // faster pace higher
+    var yh = function (h) { return H - 4 - ((h - hLo) / (hHi - hLo)) * (H - 8); };
+    var dp = '', pen = false;
+    pts.forEach(function (p) { if (p[1] == null) { pen = false; return; } dp += (pen ? 'L' : 'M') + x(p[0]).toFixed(1) + ' ' + yp(p[1]).toFixed(1); pen = true; });
+    var dh = '', pen2 = false;
+    pts.forEach(function (p) { if (p[2] == null) { pen2 = false; return; } dh += (pen2 ? 'L' : 'M') + x(p[0]).toFixed(1) + ' ' + yh(p[2]).toFixed(1); pen2 = true; });
+    return '<svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none" style="height:150px" role="img" aria-label="Pace and heart rate over time">' +
+      '<path d="' + dp + '" fill="none" stroke="var(--glow)" stroke-width="1.5" vector-effect="non-scaling-stroke"/>' +
+      '<path d="' + dh + '" fill="none" stroke="var(--hr)" stroke-width="1.2" stroke-opacity=".85" vector-effect="non-scaling-stroke"/></svg>' +
+      '<div class="ax"><span>0:00</span><span>' + fmtT(T) + '</span></div>' +
+      '<div class="legend"><span><i style="background:var(--glow)"></i>Pace ' + fmtT(pLo) + ' to ' + fmtT(pHi) + ' /mi (faster up)</span><span><i style="background:var(--hr)"></i>Heart rate ' + hLo + ' to ' + hHi + ' bpm</span><span>30 s samples</span></div>';
+  }
+
+  function renderRun(i) {
+    var w = D.workouts[i], c = w.convert, s = w.signals, cl = w.classifier;
+    var h = '';
+    h += stage('r1', 1, 'Run file', 'Strava activity, laps, 5 s streams', null,
+      io([['Distance', r(w.raw.distanceM, 1) + ' m'], ['Moving time', r(w.raw.movingS) + ' s'], ['Elapsed', r(w.raw.elapsedS) + ' s'], ['Avg HR', r(w.raw.avgHr, 1)], ['Max HR', r(w.raw.maxHr)]],
+        [['Name', w.raw.name], ['Laps', w.raw.laps], ['Stream samples', w.raw.samples], ['Streams', w.raw.streams.length], ['Elevation gain', r(w.raw.elevGainM, 1) + ' m']], 'Summary', 'Detail') +
+      '<div class="viz">' + traceSvg(w) + '</div>');
+
+    h += stage('r2', 2, 'Import', 'convertStravaActivity', null,
+      io([['Distance', r(w.raw.distanceM, 1) + ' m'], ['Moving time', r(w.raw.movingS) + ' s'], ['Name', w.raw.name], ['Strava type field', String(w.raw.workoutTypeField)]],
+        [['Distance', r(c.distanceMiles, 2) + ' mi'], ['Duration', r(c.durationMinutes, 2) + ' min'], ['Avg pace', fmtP(c.avgPaceSeconds)], ['Avg HR', r(c.avgHeartRate)], ['Elevation', r(c.elevationGainFeet) + ' ft'], ['First label', c.workoutType, true]]));
+
+    var wx = w.weather || {};
+    h += stage('r3', 3, 'Weather', 'fetchHistoricalWeather', null,
+      io([['Date', c.date], ['Start', c.startTimeLocal], ['Duration', r(c.durationMinutes) + ' min']],
+        [['Temperature', r(wx.tempF) + ' °F'], ['Feels like', r(wx.feelsLikeF) + ' °F'], ['Humidity', r(wx.humidityPct) + '%'], ['Wind', r(wx.windMph) + ' mph'], ['Sky', wx.conditions || 'n/a']]));
+
+    var maxPace = Math.max.apply(null, w.segments.map(function (x) { return x.pace; }));
+    var minPace = Math.min.apply(null, w.segments.map(function (x) { return x.pace; }));
+    var laps = '<div class="lapgrid">' + w.segments.map(function (x) {
+      var f = maxPace === minPace ? 1 : 0.25 + 0.75 * (maxPace - x.pace) / (maxPace - minPace);
+      return '<div class="laprow"><span class="t">' + x.n + '</span><div><div class="bar" style="width:' + (f * 100).toFixed(1) + '%;background:' + (LAPC[x.lapType] || 'var(--b2)') + '"></div></div><span class="num">' + fmtT(x.pace) + '</span><span class="t">' + esc(x.lapType) + '</span></div>';
+    }).join('') + '</div>';
+    var lapCounts = {}; w.segments.forEach(function (x) { lapCounts[x.lapType] = (lapCounts[x.lapType] || 0) + 1; });
+    h += stage('r4', 4, 'Laps to segments', 'convertStravaLap, classifyLaps', null,
+      io([['Laps', w.segments.length], ['Fastest lap', fmtP(minPace)], ['Slowest lap', fmtP(maxPace)]],
+        Object.keys(lapCounts).map(function (k) { return [k, lapCounts[k]]; }), 'In', 'Segment roles') +
+      '<div class="viz"><div class="lbl">Lap pace (longer bar = faster)</div>' + laps + '</div>');
+
+    var cd = w.condition;
+    h += stage('r5', 5, 'Condition adjustment', 'computeConditionAdjustment', null,
+      io([['Raw pace', fmtP(cd.raw)], ['Temperature', r(wx.tempF) + ' °F'], ['Humidity', r(wx.humidityPct) + '%'], ['Elevation', r(c.elevationGainFeet) + ' ft']],
+        [['Weather', sgn(-cd.weatherSec, 1) + ' s/mi'], ['Elevation', sgn(-cd.elevationSec, 1) + ' s/mi'], ['Perfect-day pace', fmtP(cd.adjusted), true], ['Classifier allowance', r(cd.classifierSec) + ' s/mi']]));
+
+    var zd = cl.zoneDist, zkeys = ['warmup', 'recovery', 'easy', 'steady', 'marathon', 'tempo', 'threshold', 'interval', 'cooldown', 'anomaly'];
+    var zt = zkeys.reduce(function (a, k) { return a + (zd[k] || 0); }, 0) || 1;
+    var strip = '<div class="strip">' + w.segments.map(function (x) {
+      return '<div title="' + esc(x.zone) + '" style="flex:' + x.sec + ' 0 0;background:' + (ZC[x.zone] || 'var(--s3)') + '"></div>';
+    }).join('') + '</div>';
+    var zl = zkeys.filter(function (k) { return zd[k] > 0; }).map(function (k) { return '<span><i class="sq" style="background:' + ZC[k] + '"></i>' + k + ' ' + r(zd[k], 1) + ' min</span>'; }).join('');
+    var conf = Object.keys(w.confusionForKind).map(function (k) { return '<span class="chip">' + esc(k.replace(' -> ', ' as ')) + ' <b>' + w.confusionForKind[k] + '</b></span>'; }).join('');
+    h += stage('r6', 6, 'Classifier', 'classifySplitEffortsWithZones, deriveWorkoutType', null,
+      io([['First label', cl.initialType], ['VDOT for zones', r(cl.settingsVdot, 1)], ['Threshold pace', fmtP(cl.zonePaces.threshold)], ['Easy pace', fmtP(cl.zonePaces.easy)]],
+        [['Stored type', cl.storedType, true], ['Run category', cl.autoCategory], ['Interval min', r(zd.interval, 1)], ['Steady min', r(zd.steady, 1)]]) +
+      '<div class="viz"><div class="lbl">Each lap’s zone, by duration</div>' + strip + '<div class="legend">' + zl + '</div>' +
+      '<div class="lbl" style="margin-top:10px">Lab: every ' + esc(w.truthKind) + ' session this runner logged, as stored</div><div class="chips">' + conf + '</div></div>');
+
+    h += stage('r7', 7, 'Training load', 'computeTRIMP', null,
+      io([['Duration', r(c.durationMinutes, 1) + ' min'], ['Avg HR', r(c.avgHeartRate)], ['Max HR used', r(s.hrMaxUsed)], ['Resting HR used', r(s.hrRestUsed)]],
+        [['TRIMP', r(w.load.trimp), true]]));
+
+    var dec = s.decoupling;
+    h += stage('r8', 8, 'Fitness signals', 'fitness-signals core', null,
+      io([['Stored type', cl.storedType], ['Steady state', s.isSteadyState ? 'yes' : 'no'], ['Pace allowance', r(s.paceAdjSec, 1) + ' s/mi'], ['Speed', r(s.velocityMpm, 1) + ' m/min']],
+        [['HR reserve', s.hrReservePct == null ? 'n/a' : r(s.hrReservePct * 100, 1) + '%'], ['Efficiency factor', r(s.efficiencyFactor, 3), true], ['Decoupling', dec ? r(dec.pct, 2) + '%' : 'skipped'], ['Effective VO2max', s.effectiveVo2max == null ? 'skipped' : r(s.effectiveVo2max, 1)]]));
+
+    var be = w.bestEfforts.map(function (e) { return '<span class="chip">' + esc(e.label) + ' <b>' + fmtT(e.seconds) + '</b>' + (e.avgHr ? ' · ' + r(e.avgHr) + ' bpm' : '') + '</span>'; }).join('');
+    h += stage('r9', 9, 'Best efforts', 'extractBestEffortsFromStream', null,
+      io([['Stream points', w.raw.samples], ['Distance', r(c.distanceMiles, 2) + ' mi']], [['Efforts found', w.bestEfforts.length, true]]) +
+      '<div class="chips">' + be + '</div>', true);
+    $('runflow').innerHTML = h;
+  }
+
+  function renderPick() {
+    $('pick').innerHTML = D.workouts.map(function (w, i) {
+      return '<button type="button" data-i="' + i + '" class="' + (i === 0 ? 'on' : '') + '">' + esc(w.raw.name) + '<span class="d">' + esc(w.raw.date) + ' · ' + r(w.convert.distanceMiles, 1) + ' mi</span></button>';
+    }).join('');
+    $('pick').addEventListener('click', function (e) {
+      var b = e.target.closest('button'); if (!b) return;
+      Array.prototype.forEach.call($('pick').children, function (x) { x.classList.toggle('on', x === b); });
+      renderRun(+b.getAttribute('data-i'));
+    });
+  }
+
+  // ── forecast ──
+  function renderForecast() {
+    var F = D.forecast, S = F.steps, h = '';
+    $('fsub').textContent = F.evalDate + ' · ' + F.distance + ' · ' + F.targetRaceName + ' on ' + F.targetDate;
+    $('bridge').innerHTML = '<span>By ' + esc(F.evalDate) + '</span><span><b>' + F.data.workouts + '</b> stored runs</span><span><b>' + F.data.workoutsWithHr + '</b> with HR</span><span><b>' + F.data.raceResults + '</b> race results</span><span><b>' + F.data.workoutsLabeledRace + '</b> runs labeled race</span><span class="tag">Synthetic</span>';
+
+    var fi = F.fitness;
+    h += stage('f1', 10, 'Fitness and fatigue', 'computeFitnessState', null,
+      io([['Runs analyzed', F.workoutsAnalyzed], ['Weekly miles', r(fi.weeklyMileage, 1)]], [['Fitness (CTL)', r(fi.ctl, 1)], ['Fatigue (ATL)', r(fi.atl, 1)], ['Form (TSB)', r(fi.tsb, 1), true]]));
+
+    var sg = F.signals;
+    h += stage('f2', 11, 'Signals', 'compute-athlete-state inputs', null,
+      io([['CS efforts', sg.csEfforts + ' (' + sg.csPath + ')'], ['Threshold runs', sg.ltWorkouts + ' (' + sg.ltPath + ')'], ['HR efforts', sg.evidence.hrEffortsWholeRun], ['Interval reps', sg.evidence.intervalPeaksSegment]],
+        [['Critical speed', r(sg.csMps, 2) + ' m/s · ' + fmtP(MI / sg.csMps)], ["D'", r(sg.dPrime) + ' m'], ['Threshold pace', fmtP(sg.ltPace)], ['VO2max (VDOT)', r(sg.vo2maxVdot, 1)], ['Durability break', r(sg.durabilityBreakpointMiles, 1) + ' mi']]));
+
+    // model dot plot
+    var ms = F.models.slice().sort(function (a, b) { return a.estimate - b.estimate; });
+    var lo = Math.min.apply(null, ms.map(function (m) { return m.estimate; }).concat([F.truth.scored, S.final.seconds]));
+    var hi = Math.max.apply(null, ms.map(function (m) { return m.estimate; }).concat([F.truth.raceTimeS]));
+    var span = hi - lo; lo -= span * 0.05; hi += span * 0.05;
+    var X = function (t) { return ((t - lo) / (hi - lo) * 100).toFixed(2) + '%'; };
+    var maxShare = Math.max.apply(null, ms.map(function (m) { return m.share || 0; }));
+    var rows = ms.map(function (m) {
+      var off = m.id === 'durabilityDecay' || !(m.weight > 0);
+      var size = off ? 9 : 7 + 15 * Math.sqrt((m.share || 0) / maxShare);
+      return '<div class="drow"><span class="nm' + (off ? ' off' : '') + '" title="' + esc(m.label) + '">' + esc(m.label) + '</span><div class="track"><span class="vline" style="left:' + X(S.blend.seconds) + '"></span><span class="dot' + (off ? ' hollow' : '') + '" style="left:' + X(m.estimate) + ';width:' + size.toFixed(1) + 'px;height:' + size.toFixed(1) + 'px"></span></div><span class="w">' + fmtT(m.estimate) + '</span></div>';
+    }).join('');
+    var nm = F.modelsWithoutEstimate.map(function (m) { return esc(m.label); }).join(', ');
+    h += stage('f3', 12, 'Model estimates', 'forecast-orchestrator: 11 models', null,
+      io([['Models run', F.models.length + F.modelsWithoutEstimate.length], ['No estimate', F.modelsWithoutEstimate.length]], [['Fastest', fmtT(ms[0].estimate)], ['Slowest', fmtT(ms[ms.length - 1].estimate)], ['Blend', fmtT(S.blend.seconds), true]]) +
+      '<div class="viz"><div class="dots">' + rows + '</div><div class="ax"><span>' + fmtT(lo) + '</span><span>' + F.distance + ' time</span><span>' + fmtT(hi) + '</span></div>' +
+      '<div class="legend"><span><i class="sq" style="background:var(--acc);border-radius:50%"></i>dot size = blend weight</span><span><i class="sq" style="border:1.5px solid var(--t3);border-radius:50%"></i>weight 0 or post-blend</span><span><i style="background:var(--glow);width:2px;height:10px"></i>blend</span></div>' +
+      (nm ? '<div class="note">No estimate: ' + nm + '</div>' : '') + '</div>');
+
+    // race anchor
+    var A = F.anchor, comp = A.components;
+    var alo = Math.min(A.floored, A.raw, F.truth.scored) - 30, ahi = Math.max(A.raw, F.truth.raceTimeS) + 30;
+    var AX = function (t) { return ((t - alo) / (ahi - alo) * 100).toFixed(2) + '%'; };
+    var aviz = '<div class="wtrack" style="height:26px"><span class="wbar" style="left:' + AX(A.floored) + ';width:' + ((A.raw - A.floored) / (ahi - alo) * 100).toFixed(2) + '%;background:rgba(124,108,240,.45)"></span>' +
+      '<span class="wpt" style="left:' + AX(A.raw) + ';background:var(--t3)"></span><span class="wpt" style="left:' + AX(A.floored) + ';background:var(--acc)"></span>' +
+      '<span class="mk" style="left:' + AX(F.truth.scored) + ';background:var(--z-easy)"></span></div>' +
+      '<div class="ax"><span>' + fmtT(alo) + '</span><span>' + fmtT(ahi) + '</span></div>' +
+      '<div class="legend"><span><i class="sq" style="background:var(--t3);border-radius:50%"></i>raw ' + fmtT(A.raw) + '</span><span><i class="sq" style="background:var(--acc);border-radius:50%"></i>after floor ' + fmtT(A.floored) + '</span><span><i style="background:var(--z-easy);width:2px;height:10px"></i>scored truth (rested, ' + esc(F.evalDate) + ') ' + fmtT(F.truth.scored) + '</span></div>';
+    h += stage('f4', 13, 'Race anchor', 'unifiedRaceAnchor', null,
+      io([['Training reference', r(A.trainingRefVdot, 1) + ' VDOT'], ['HR VO2max part', r(comp.hrVo2max, 1)], ['Interval part', r(comp.intervalPeak, 1)], ['CS part', r(comp.csProxy, 1)], ['Threshold part', r(comp.ltProxy, 1)], ['Anchors accepted', A.acceptedCount + ' of ' + A.anchorCount]],
+        [['Raw estimate', fmtT(A.raw)], ['Floor', fmtT(A.floorSeconds) + ' (' + r(A.floorVdot, 1) + ' VDOT)'], ['Floor source', A.floorSourceKind + ', ' + r(A.floorSourceMeters / 1000, 1) + ' km'], ['Clamped', A.clamp ? 'yes' : 'no'], ['Anchor estimate', fmtT(A.estimate), true], ['Change', sgn(A.estimate - A.raw, 0) + ' s']]) +
+      '<div class="viz">' + aviz + '</div>');
+
+    // blend shares
+    var live = F.models.filter(function (m) { return m.share > 0; }).sort(function (a, b) { return b.share - a.share; });
+    var shades = ['var(--acc)', 'var(--glow)', 'var(--z-tempo)', 'var(--z-marathon)', 'var(--z-steady)', 'var(--z-easy)', 'var(--z-recovery)', 'var(--t3)'];
+    var bar = '<div class="share">' + live.map(function (m, i) { return '<div title="' + esc(m.label) + '" style="flex:' + m.share + ' 0 0;background:' + shades[i % shades.length] + '"></div>'; }).join('') + '</div>';
+    var bl = '<div class="legend">' + live.map(function (m, i) { return '<span><i class="sq" style="background:' + shades[i % shades.length] + '"></i>' + esc(m.label) + ' ' + r(m.share * 100, 1) + '%</span>'; }).join('') + '</div>';
+    h += stage('f5', 14, 'Blend', 'blendForecasts', null,
+      io([['Models with weight', live.length], ['Weight sum', r(F.weightSum, 3)], ['Weighted mean', fmtT(F.weightedMean)]], [['Blended time', fmtT(S.blend.seconds), true], ['p10', fmtT(S.blend.p10)], ['p90', fmtT(S.blend.p90)]]) +
+      '<div class="viz"><div class="lbl">Share of the blend</div>' + bar + bl + '</div>');
+
+    // waterfall
+    var steps = [
+      { nm: 'Blend', from: null, to: S.blend.seconds },
+      { nm: 'Race floor', from: S.floor.beforeSeconds, to: S.floor.afterSeconds, sub: r(S.floor.strength * 100) + '% strength' },
+      { nm: 'Durability', from: S.durability.beforeSeconds, to: S.durability.afterSeconds, sub: 'score ' + r(S.durability.durabilityScore * 100) },
+      { nm: 'Form (TSB)', from: S.afterDurability.seconds, to: S.afterDurability.seconds, sub: 'reported ' + sgn(F.headline.formAdjustmentPct, 1) + '%, not applied', zero: true },
+      { nm: 'Headline', from: null, to: F.headline.seconds }
+    ];
+    var wvals = [S.blend.seconds, S.floor.afterSeconds, S.durability.afterSeconds, F.headline.seconds];
+    var wlo = Math.min.apply(null, wvals), whi = Math.max.apply(null, wvals), wsp = whi - wlo || 1; wlo -= wsp * 0.25; whi += wsp * 0.25;
+    var WX = function (t) { return ((t - wlo) / (whi - wlo) * 100); };
+    var wf = '<div class="wf">' + steps.map(function (s) {
+      var vis;
+      if (s.from == null) vis = '<span class="wpt" style="left:' + WX(s.to).toFixed(2) + '%"></span>';
+      else if (s.zero) vis = '<span class="wbar zero" style="left:' + WX(s.to).toFixed(2) + '%;width:0"></span>';
+      else { var a = Math.min(s.from, s.to), b = Math.max(s.from, s.to); vis = '<span class="wbar" style="left:' + WX(a).toFixed(2) + '%;width:' + Math.max(0.6, WX(b) - WX(a)).toFixed(2) + '%"></span>'; }
+      var val = s.from == null ? fmtT(s.to) : (s.zero ? '0 s' : sgn(s.to - s.from, 1) + ' s');
+      return '<div class="wrow"><span class="nm">' + esc(s.nm) + '</span><div class="wtrack">' + vis + '</div><span class="val">' + val + (s.sub ? '<small>' + esc(s.sub) + '</small>' : '') + '</span></div>';
+    }).join('') + '</div><div class="ax"><span>' + fmtT(wlo) + '</span><span>' + fmtT(whi) + '</span></div>';
+    h += stage('f6', 15, 'Adjustments', 'applyRaceFloor, applyDurabilityModifier', null,
+      io([['Blended time', fmtT(S.blend.seconds)], ['Floor', fmtT(S.floor.floorSeconds) + ' from ' + r(S.floor.sourceMeters / 1000, 1) + ' km'], ['Durability shift', sgn(S.durability.timePenaltyFraction * 100, 2) + '%'], ['Form (TSB ' + r(fi.tsb, 1) + ')', sgn(F.headline.formAdjustmentPct, 1) + '%']],
+        [['After floor', fmtT(S.afterFloor.seconds)], ['After durability', fmtT(S.afterDurability.seconds)], ['Headline', fmtT(F.headline.seconds), true], ['Total change', sgn(F.headline.seconds - S.blend.seconds, 1) + ' s']]) +
+      '<div class="viz">' + wf + '</div>');
+
+    // range
+    var bands = [
+      { nm: 'Blend', b: S.blend },
+      { nm: 'After floor', b: S.afterFloor },
+      { nm: 'After durability', b: S.afterDurability },
+      { nm: 'Final', b: S.final }
+    ];
+    var rlo = Math.min(S.final.p10, F.truth.scored) - 40, rhi = Math.max(S.final.p90, F.truth.raceTimeS) + 40;
+    var RX = function (t) { return ((t - rlo) / (rhi - rlo) * 100); };
+    var rg = '<div class="wf">' + bands.map(function (x) {
+      return '<div class="wrow"><span class="nm">' + esc(x.nm) + '</span><div class="wtrack"><span class="band" style="left:' + RX(x.b.p10).toFixed(2) + '%;width:' + (RX(x.b.p90) - RX(x.b.p10)).toFixed(2) + '%"></span><span class="wpt" style="left:' + RX(x.b.seconds).toFixed(2) + '%;width:6px;height:6px"></span></div><span class="val">' + fmtT(x.b.p10) + ' to ' + fmtT(x.b.p90) + '</span></div>';
+    }).join('') + '</div><div class="ax"><span>' + fmtT(rlo) + '</span><span>p10 to p90</span><span>' + fmtT(rhi) + '</span></div>';
+    h += stage('f7', 16, 'Range', 'varianceMultiplier, training specificity', null,
+      io([['Band after durability', fmtT(S.afterDurability.p10) + ' to ' + fmtT(S.afterDurability.p90)], ['Variance multiplier', '×' + r(S.varianceMultiplier, 2)], ['Specificity widening', '×' + r(S.specificityWidthScale, 3)]],
+        [['p10', fmtT(F.headline.p10)], ['p50', fmtT(F.headline.p50)], ['p90', fmtT(F.headline.p90)], ['Width', r(F.headline.p90 - F.headline.p10) + ' s', true]]) +
+      '<div class="viz">' + rg + '</div>');
+
+    // truth: the Lab scores against rested ability on the forecast date; race-day rows are extra context
+    var T = F.truth, HL = F.headline;
+    var rowsT = [
+      { nm: 'Scored truth', sub: 'rested, on ' + F.evalDate, t: T.scored, c: 'var(--z-easy)', main: true },
+      { nm: 'Race-day ability', sub: 'ideal conditions, with race-day fatigue', t: T.idealTimeS, c: 'var(--z-steady)' },
+      { nm: 'Race result', sub: r(T.tempF) + ' °F, hill factor ' + r(T.hill, 3), t: T.raceTimeS, c: 'var(--z-interval)' }
+    ];
+    var tlo = Math.min(HL.p10, T.scored, T.idealTimeS) - 40, thi = Math.max(HL.p90, T.raceTimeS) + 40;
+    var TXn = function (t) { return ((t - tlo) / (thi - tlo) * 100); };
+    var tv = '<div class="wf">' + rowsT.map(function (x) {
+      return '<div class="wrow"><span class="nm">' + esc(x.nm) + '</span><div class="wtrack"><span class="band" style="left:' + TXn(HL.p10).toFixed(2) + '%;width:' + (TXn(HL.p90) - TXn(HL.p10)).toFixed(2) + '%"></span>' +
+        '<span class="mk" style="left:' + TXn(HL.seconds).toFixed(2) + '%;background:var(--t1)"></span>' +
+        '<span class="wpt" style="left:' + TXn(x.t).toFixed(2) + '%;background:' + x.c + '"></span></div><span class="val">' + fmtT(x.t) + '</span></div>';
+    }).join('') + '</div><div class="ax"><span>' + fmtT(tlo) + '</span><span>' + fmtT(thi) + '</span></div>' +
+      '<div class="legend"><span><i style="background:var(--t1);width:2px;height:10px"></i>forecast ' + fmtT(HL.seconds) + '</span><span><i class="sq" style="background:rgba(124,108,240,.28);border:1px solid var(--acc)"></i>p10 to p90, ' + fmtT(HL.p10) + ' to ' + fmtT(HL.p90) + '</span></div>';
+    var cards = rowsT.map(function (x) {
+      var e = 100 * Math.log(HL.seconds / x.t);
+      var inside = x.t >= HL.p10 && x.t <= HL.p90;
+      var where = inside ? 'inside p10 to p90' : (x.t > HL.p90 ? 'outside, slower than p90' : 'outside, faster than p10');
+      return '<div class="box"' + (x.main ? ' style="border-color:var(--acc)"' : '') + '><div class="lbl">' + esc(x.nm) + '</div><div class="big" style="color:' + x.c + '">' + fmtT(x.t) + '</div><div class="sm">' + esc(x.sub) + '</div><div class="sm" style="color:var(--t2);margin-top:4px">forecast ' + sgn(e, 1) + '% · ' + where + '</div></div>';
+    }).join('');
+    h += stage('f8', 17, 'Against the truth', 'Lab truth, scored on rested ability', null,
+      '<div class="end">' + cards + '</div><div class="viz">' + tv + '</div>', true);
+    $('fcflow').innerHTML = h;
+  }
+
+  function watchMap() {
+    var links = Array.prototype.slice.call(document.querySelectorAll('#map a'));
+    function upd() {
+      var best = null, y = 80;
+      links.forEach(function (a) { var el = $(a.getAttribute('data-id')); if (!el) return; var t = el.getBoundingClientRect().top; if (t - y <= 0) best = a; });
+      links.forEach(function (a) { a.classList.toggle('on', a === best); });
+    }
+    window.addEventListener('scroll', upd, { passive: true });
+    upd();
+  }
+
+  buildMap();
+  renderPick();
+  renderRun(0);
+  renderForecast();
+  watchMap();
+})();
+</script>
+</body>
+</html>
