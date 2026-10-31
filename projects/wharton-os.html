@@ -1408,6 +1408,10 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
 /* Oct 30, Kelly via Jason: "Put the Morgan Stanley above the picture" (phone). One column: name, then picture, then line,
    with more room between cases so the next picture doesn't read as part of the case above it. */
 @media (max-width: 759px) { .case-h { order: -1; } .case-list { gap: 34px; } }
+/* Oct 30, Jason: four cases, "2x2 will look better on the phone". Two columns at every width; on a phone the name
+   stays above the picture and the line is a step smaller so the narrow column doesn't run long. */
+.case-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px 20px; }
+@media (max-width: 759px) { .case-list { gap: 26px 12px; } .case-h { font-size: 1.02rem; } .case-l { font-size: 14px; line-height: 1.45; } .case-pic { border-radius: 10px; } }
 /* the day: each story has its times on the left and a thin spine between the times and the moments */
 .d-line { position: relative; }
 .d-line::before { content: ''; position: absolute; left: 83px; top: 6px; bottom: 6px; width: 1px; background: var(--rule-strong); opacity: .35; }
@@ -1482,7 +1486,8 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
     <nav class="route-nav" aria-label="Where you are on the site"><ol><li class="here" data-stop="start" style="--pc: #E7ECF1"><a href="../"><i aria-hidden="true"></i><span>Start</span></a></li><li data-stop="ai.html" style="--pc: #A593EC"><a href="../ai.html"><i aria-hidden="true"></i><span>How I use AI</span></a></li><li data-stop="research.html" style="--pc: #5CC495"><a href="../research.html"><i aria-hidden="true"></i><span>Research and strategy</span></a></li><li data-stop="background.html" style="--pc: #E56A9C"><a href="../background.html"><i aria-hidden="true"></i><span>About me</span></a></li><li data-stop="contact" style="--pc: #E7ECF1"><a href="../#contact"><i aria-hidden="true"></i><span>Get in touch</span></a></li></ol></nav>
   </header>
   <main id="main">
-    <article class="project" id="wharton-os" aria-labelledby="wos-h">
+    <nav class="case-nav" aria-label="Case studies"><span>Case studies</span><a href="../dreamy.html">Dreamy</a><a href="walldrobe.html">Walldrobe</a><a href="wharton-os.html" aria-current="page">Wharton OS</a><a href="../morgan-stanley.html">Morgan Stanley</a></nav>
+<article class="project" id="wharton-os" aria-labelledby="wos-h">
       <header class="p-head">
         <h1 class="p-name" id="wos-h">Wharton OS</h1>
         <p class="p-tag">How I use Claude Code and Obsidian to keep track of school</p>

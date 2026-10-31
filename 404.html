@@ -1399,6 +1399,10 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
 /* Oct 30, Kelly via Jason: "Put the Morgan Stanley above the picture" (phone). One column: name, then picture, then line,
    with more room between cases so the next picture doesn't read as part of the case above it. */
 @media (max-width: 759px) { .case-h { order: -1; } .case-list { gap: 34px; } }
+/* Oct 30, Jason: four cases, "2x2 will look better on the phone". Two columns at every width; on a phone the name
+   stays above the picture and the line is a step smaller so the narrow column doesn't run long. */
+.case-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px 20px; }
+@media (max-width: 759px) { .case-list { gap: 26px 12px; } .case-h { font-size: 1.02rem; } .case-l { font-size: 14px; line-height: 1.45; } .case-pic { border-radius: 10px; } }
 /* the day: each story has its times on the left and a thin spine between the times and the moments */
 .d-line { position: relative; }
 .d-line::before { content: ''; position: absolute; left: 83px; top: 6px; bottom: 6px; width: 1px; background: var(--rule-strong); opacity: .35; }
