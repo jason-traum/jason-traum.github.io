@@ -1425,7 +1425,9 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
 /* the path map across the page on a laptop: stops on one line, the things I built under each */
 @media (min-width: 1000px) {
   #path .work-note, #path .kinds { display: none; }
-  #path .path { position: relative; display: grid; grid-template-columns: .55fr .7fr 1.2fr 1.2fr 2.1fr .75fr; column-gap: 18px; margin-top: 26px; }
+  #path .path { position: relative; display: grid; grid-template-columns: .85fr .6fr 1.2fr 1.2fr 2.1fr .7fr; column-gap: 18px; margin-top: 26px; }
+  /* Oct 31 (Jason: "why so squisshed"): Brown now has one tile, so its column is wider and its tile takes the full column */
+  #path .stop:first-child .tiles { grid-template-columns: minmax(0, 1fr); }
   #path .path::before { content: ''; position: absolute; left: 10px; right: 12%; top: 9px; height: 2px; background: var(--c-razz); opacity: .7; }
   #path .stop { display: block; padding: 32px 0 0; min-width: 0; }
   #path .stop::before, #path .stop::after { content: none !important; }
