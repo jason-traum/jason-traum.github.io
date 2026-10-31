@@ -702,9 +702,9 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .deep-link.dd-cta:hover { background: var(--c-msblue); border-color: var(--c-msblue); color: var(--paper); }
 
 /* walldrobe page */
-.wd-hero { margin: 10px 0 0; }
-.wd-hero img, .wd-wide img { display: block; width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--shot-border); background: var(--surface); }
-.wd-hero figcaption { margin-top: 8px; font-size: 13.5px; color: var(--muted); }
+.wd-hero, .ufc-hero { margin: 10px 0 0; }
+.wd-hero img, .wd-wide img, .ufc-hero img { display: block; width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--shot-border); background: var(--surface); }
+.wd-hero figcaption, .ufc-hero figcaption { margin-top: 8px; font-size: 13.5px; color: var(--muted); }
 .wd-phone img { max-width: 280px; padding: 6px; border-radius: 24px; background: var(--surface); }
 .wd-flow { grid-template-columns: minmax(0, 1fr); }
 .wd-steps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 14px; margin-top: 4px; }
@@ -1432,7 +1432,6 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
   #path .who .hl { display: none; }
   #path .stop.end .who .hl { display: block; font-size: 12.5px; color: var(--muted); font-family: var(--mono); }
   #path .tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 8px; margin-top: 12px; }
-  #path .stop:nth-child(5) .tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   #path .tiles a { width: auto; gap: 4px; }
   #path .tiles img, #path .tiles .pal { width: 100%; height: auto; aspect-ratio: 4 / 3; }
   #path .tiles .cap { font-size: 12.5px; line-height: 1.25; font-weight: 600; gap: 5px; }
@@ -1475,6 +1474,13 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
 .pf-people li { display: flex; }
 .pf-person { min-height: 84px; height: 100%; }
 
+/* Oct 31 (Gemini): Research links to the Morgan Stanley case study instead of repeating it */
+.cs-link { margin: 10px 0 0; } .cs-link a { font-weight: 700; } .cs-link a::after { content: '\00a0\2192'; }
+
+/* Oct 31 (#30): case studies named in the career map instead of a second picture */
+.cs-also { margin: 14px 0 0; font-size: 14.5px; color: var(--muted); }
+.cs-also a { color: var(--ink-2); font-weight: 700; }
+
 </style>
 <script>(function(){function pick(){var c=null;[document.querySelector('.name'),document.querySelector('.topbar .label a')].forEach(function(el){if(!el)return;var r=el.getBoundingClientRect(),w=el.closest('.tb-name'),s=r.width>0&&r.bottom>0&&r.top<innerHeight&&!(w&&!w.classList.contains('on'));el.style.viewTransitionName=!c&&s?'jt-name':'none';if(!c&&s)c=el;});}addEventListener('pageswap',pick);addEventListener('pagereveal',pick);})();</script>
 </head>
@@ -1503,7 +1509,7 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
           </dl>
         </div>
         <div class="p-body">
-          <p>Wharton has a course site per class, two calendars and a lot of club email. In September I set up Claude Code to keep track of all of it. In October it grew into an Obsidian vault for everything I learn: 89 class meetings, 108 readings and 276 concept notes so far, all linked.</p>
+          <p>Wharton has a course site per class, two calendars and a lot of club email. In September I set up Claude Code to keep track of all of it. In October it grew into an Obsidian vault for everything I learn: 94 class meetings, 114 readings and 276 concept notes as of late October, all linked.</p>
           <p>I borrowed the vault's structure from other people's setups. I added checks so I could trust it. If it misses one deadline I can't rely on it, so it runs on a few hard rules.</p>
           <dl class="wiring" aria-label="Agents and skills">
             <dt>agents</dt><dd>Inbox, calendar, classes, career and research. Each reads one thing and reports back. None of them can write.</dd>
@@ -1513,7 +1519,8 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
         </div>
       </div>
     </article>
-<!--deep--><section class="deep" aria-labelledby="deep-h"><h2 class="sr-only" id="deep-h">The details</h2><div class="feat"><div class="feat-text"><h3>Checking deadlines</h3><p>Before it writes any plan or answers "what's due", a script pulls every Canvas item from my calendar feed and lists anything that isn't on my task list. Every plan starts with the result in one line, like "Canvas check: 13 items in the next 21 days, 0 missing."</p><p>I added that rule after two deadlines got left off a weekend plan.</p></div></div><div class="feat"><div class="feat-text"><h3>Every date has a source</h3><p>Every deadline carries a pointer to where it came from: a Canvas assignment, a syllabus page, an email or a calendar event. No date gets copied from memory or an old conversation, and today's date comes from the clock.</p><p>If an agent's report and the task list disagree, it goes back to the source, and the source wins.</p></div></div><div class="feat"><div class="feat-text"><h3>One writer, and nothing sent without me</h3><p>Only the main session can write to my calendar or task list. The agents read and report back. Before this, I had Claude go through two weeks of email and it added events to my calendar before I'd said yes.</p><p>A hook blocks sending, deleting, trashing or sharing anything until I say yes in the chat, and a second hook logs every action.</p></div></div><div class="feat"><div class="feat-text"><h3>Two transcripts per class</h3><p>After class I pull the transcript from the class recording. The raw one is never edited and stays as the safety copy. The clean one is corrected against that day&rsquo;s slides, my handwritten notes, the readings and Canvas, with a mark on anything it isn&rsquo;t sure about.</p><p>Each class meeting gets one note that links its transcripts, slides and readings, and the study guide for each course is rebuilt from those notes by topic.</p></div></div><div class="feat"><div class="feat-text"><h3>Ideas across classes</h3><p>The concept notes are the second-brain part. Willingness to pay, switching costs or scaling laws each get one note that links every lecture, reading and case that uses it, in any class. That's how I notice that marketing and operations are talking about the same idea.</p><p>Folders only say what type of file something is. Course, lecture and exam live in each note's properties, so one reading can belong to a class, a session and an exam at once.</p></div></div><div class="feat"><div class="feat-text"><h3>One ledger per course</h3><p>When I pulled everything from Canvas at the start of the semester, each course kept things somewhere different. One posted paper directions only in announcements, and another sent readings by email.</p><p>So each course has its own ledger of what's due, and one task list pulls from all of them.</p></div></div></section><!--/deep-->
+<!--deep--><section class="deep" aria-labelledby="deep-h"><h2 class="sr-only" id="deep-h">The details</h2><div class="feat"><div class="feat-text"><h3>Checking deadlines</h3><p>Before it writes any plan or answers "what's due", a script pulls every Canvas item from my calendar feed and lists anything that isn't on my task list. Every plan starts with the result in one line, like "Canvas check: 13 items in the next 21 days, 0 missing."</p><p>I added that rule after two deadlines got left off a weekend plan.</p></div></div><div class="feat"><div class="feat-text"><h3>Every date has a source</h3><p>Every deadline carries a pointer to where it came from: a Canvas assignment, a syllabus page, an email or a calendar event. No date gets copied from memory or an old conversation, and today's date comes from the clock.</p><p>If an agent's report and the task list disagree, it goes back to the source, and the source wins.</p></div></div><div class="feat"><div class="feat-text"><h3>One writer, and nothing sent without me</h3><p>Only my main Claude chat writes to my calendar and sorts my task list. Other AIs can add notes. Before this, I had Claude go through two weeks of email and it added events to my calendar before I'd said yes.</p><p>A hook blocks sending, deleting, trashing or sharing anything until I say yes in the chat, and a second hook logs every action.</p></div></div><div class="feat"><div class="feat-text"><h3>Two transcripts per class</h3><p>After class I pull the transcript from the class recording. The raw one is never edited and stays as the safety copy. The clean one is corrected against that day&rsquo;s slides, my handwritten notes, the readings and Canvas, with a mark on anything it isn&rsquo;t sure about.</p><p>Each class meeting gets one note that links its transcripts, slides and readings, and the study guide for each course is rebuilt from those notes by topic.</p></div></div><div class="feat"><div class="feat-text"><h3>Ideas across classes</h3><p>The concept notes are the second-brain part. Willingness to pay, switching costs or scaling laws each get one note that links every lecture, reading and case that uses it, in any class. That's how I notice that marketing and operations are talking about the same idea.</p><p>Folders only say what type of file something is. Course, lecture and exam live in each note's properties, so one reading can belong to a class, a session and an exam at once.</p></div></div><div class="feat"><div class="feat-text"><h3>One ledger per course</h3><p>When I pulled everything from Canvas at the start of the semester, each course kept things somewhere different. One posted paper directions only in announcements, and another sent readings by email.</p><p>So each course has its own ledger of what's due, and one task list pulls from all of them.</p></div></div></section><!--/deep-->
+<nav class="cs-next" aria-label="Next case study"><a href="../morgan-stanley.html"><img src="../img/rs-reports.webp" width="1200" height="900" alt="" loading="lazy" decoding="async" style="background-color:#969799"><span><b>Next: Morgan Stanley</b></span></a></nav>
 
     <p class="proj-more"><a href="../#path">Everything I&rsquo;ve built</a></p>
   </main>
@@ -2586,7 +2593,8 @@ function easelPastel() {
   function cmp(x) { x = x > 0.0031308 ? 1.055 * Math.pow(x, 1 / 2.4) - 0.055 : x * 12.92; return x <= 0 ? 0 : x >= 1 ? 255 : x * 255; }
   var cache = new Map();
   function spec(r, g, b) {
-    r = r | 0; g = g | 0; b = b | 0;
+    // Oct 31: round, not floor. Thousands of small mixes per stroke each lost up to a step, so colors sank toward olive grey.
+    r = Math.round(r); g = Math.round(g); b = Math.round(b);
     var key = (r << 16) | (g << 8) | b, o = cache.get(key);
     if (o) return o;
     var lr = unc(r), lg = unc(g), lb = unc(b), w = Math.min(lr, lg, lb);
@@ -2617,6 +2625,9 @@ function easelPastel() {
     out[2] = cmp(M[2][0] * X + M[2][1] * Y + M[2][2] * Z);
     return out;
   }
+  // Oct 31: mix() weights by share squared (as Spectral.js does), so a layer meant to cover 13% only added about 2%,
+  // and white could never cover. This turns the share a layer should lay down into the t that lays it down.
+  function lay(s) { var a = Math.sqrt(s), b = Math.sqrt(1 - s); return a / (a + b); }
   // Paper tooth: a few octaves of value noise, fine enough to read as cold-press paper. 1 = a peak the wax catches first.
   var seed = 7;
   function rnd() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
@@ -2722,14 +2733,14 @@ function easelPastel() {
       else {
         // Wet into wet: the new color and the one under it work into each other, a bit more on the paper's peaks.
         var share = dep * 2.4 / (h + dep * 2.4) * Math.min(1, 0.55 + 0.9 * gr);
-        tmp[0] = col[j]; tmp[1] = col[j + 1]; tmp[2] = col[j + 2]; mix(tmp, stick.tip, share, tmp);
+        tmp[0] = col[j]; tmp[1] = col[j + 1]; tmp[2] = col[j + 2]; mix(tmp, stick.tip, lay(share), tmp);
         col[j] = tmp[0]; col[j + 1] = tmp[1]; col[j + 2] = tmp[2];
       }
       wax[i] = Math.min(2.2, h + dep);
     }
     // The tip picks up what it pushed through, then wears back to its own color on clean paper.
     // (A plain blend here: the tip's color only steers what gets laid down next.)
-    var cover = seen > 0 ? Math.min(1, sw / seen) : 0, k1 = 0.025 * cover, k2 = 0.01 + 0.12 * (1 - cover);
+    var cover = seen > 0 ? Math.min(1, sw / seen) : 0, k1 = 0.012 * cover, k2 = 0.04 + 0.12 * (1 - cover);
     for (var c3 = 0; c3 < 3; c3++) {
       if (sw > 0) stick.tip[c3] += ([sr, sg, sb][c3] / sw - stick.tip[c3]) * k1;
       stick.tip[c3] += (stick.c[c3] - stick.tip[c3]) * k2;
@@ -2750,6 +2761,8 @@ function easelPastel() {
   var down = false, touched = false;
   cv.addEventListener('pointerdown', function (e) {
     down = true; touched = true; last = null; press = pressure(e); stroke = (stroke + 1) % 65535 || 1; newRidges();
+    // Oct 31 (Jason: white over yellow after going over blue came out green): each stroke starts with a clean stick.
+    stick.tip = stick.c.slice();
     try { cv.setPointerCapture(e.pointerId); } catch (er) {}
     var p = at(e); to(p[0], p[1]); e.preventDefault();
   });

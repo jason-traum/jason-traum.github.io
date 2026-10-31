@@ -702,9 +702,9 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .deep-link.dd-cta:hover { background: var(--c-msblue); border-color: var(--c-msblue); color: var(--paper); }
 
 /* walldrobe page */
-.wd-hero { margin: 10px 0 0; }
-.wd-hero img, .wd-wide img { display: block; width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--shot-border); background: var(--surface); }
-.wd-hero figcaption { margin-top: 8px; font-size: 13.5px; color: var(--muted); }
+.wd-hero, .ufc-hero { margin: 10px 0 0; }
+.wd-hero img, .wd-wide img, .ufc-hero img { display: block; width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--shot-border); background: var(--surface); }
+.wd-hero figcaption, .ufc-hero figcaption { margin-top: 8px; font-size: 13.5px; color: var(--muted); }
 .wd-phone img { max-width: 280px; padding: 6px; border-radius: 24px; background: var(--surface); }
 .wd-flow { grid-template-columns: minmax(0, 1fr); }
 .wd-steps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 14px; margin-top: 4px; }
@@ -1432,7 +1432,6 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
   #path .who .hl { display: none; }
   #path .stop.end .who .hl { display: block; font-size: 12.5px; color: var(--muted); font-family: var(--mono); }
   #path .tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 8px; margin-top: 12px; }
-  #path .stop:nth-child(5) .tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   #path .tiles a { width: auto; gap: 4px; }
   #path .tiles img, #path .tiles .pal { width: 100%; height: auto; aspect-ratio: 4 / 3; }
   #path .tiles .cap { font-size: 12.5px; line-height: 1.25; font-weight: 600; gap: 5px; }
@@ -1474,6 +1473,13 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
 .pf-people { align-items: stretch; grid-auto-rows: 1fr; }
 .pf-people li { display: flex; }
 .pf-person { min-height: 84px; height: 100%; }
+
+/* Oct 31 (Gemini): Research links to the Morgan Stanley case study instead of repeating it */
+.cs-link { margin: 10px 0 0; } .cs-link a { font-weight: 700; } .cs-link a::after { content: '\00a0\2192'; }
+
+/* Oct 31 (#30): case studies named in the career map instead of a second picture */
+.cs-also { margin: 14px 0 0; font-size: 14.5px; color: var(--muted); }
+.cs-also a { color: var(--ink-2); font-weight: 700; }
 
 /* How I use AI: ledgers of what the AI did and what I did. */
 .pg main { padding-top: 8px; }
@@ -1716,6 +1722,11 @@ details.more > p + p { margin-top: 12px; }
 .ai-part { scroll-margin-top: 16px; }
 .ai-part .calls { margin-bottom: 8px; }
 #rules .more summary { font-weight: 700; }
+
+/* Oct 31, Jason: working with AI like a teammate; each card names the mode */
+.ov-lede { max-width: 46em; margin: 6px 0 18px; font-size: 16px; line-height: 1.55; color: var(--ink-2); }
+.ov-s b { color: var(--ink); font-weight: 700; }
+.ov-a a, .ov-s a { color: inherit; }
 /* The memo reads like a research note on its own sheet. Dark like the rest of the site since Oct 7 (dark only); report images keep their white. */
 .memo-page { max-width: 900px; }
 .memo-meta { max-width: 42em; display: grid; gap: 8px; padding: 16px 0 20px; border-top: 1px solid var(--rule); margin-bottom: 18px; color: var(--ink-2); }
@@ -1874,12 +1885,12 @@ details.more > p + p { margin-top: 12px; }
         <p><a href="strava-memo.html">Read the full analysis</a>.</p>
       </div>
       </div>
-      <figure class="memo-cover"><img src="img/strava-cover.webp" width="1100" height="1126" alt="My cover for the memo, made to look like a Strava post: a real run of mine through Philadelphia with the word count, class and section as the stats."></figure>
+      <figure class="memo-cover"><img src="img/strava-cover.webp" width="1100" height="1126" alt="My cover for the submitted memo, made to look like a Strava post: a real run of mine through Philadelphia with the word count, class and section as the stats."></figure>
       </div>
       <div class="memo-sheet">
 <h2>Industry Analysis: profitable today, harder each year</h2>
 <p>The industry is US apps that let amateur runners and cyclists record, share, and compare workouts, as of mid-2026. Defined by need, it includes Garmin, the largest sports-watch maker, whose Connect app is building the same social layer.</p>
-<p><b>Company.</b> Strava is Instagram for workouts: the feed, kudos (likes), and segment leaderboards turn a solo workout into something friends see and strangers rank. The workout is the post. Rivals have matched the software; none has the crowd: 195 million registered athletes and leaderboards that rank everyone who has run a given stretch of road. Added value, what disappears without Strava, is narrower: remove Strava and athletes keep their hardware and coaching but lose the one network spanning every brand, shrinking as Garmin Connect closes in. Strava captures value with a $79.99 subscription for the features the crowd makes valuable, and API limits stop outside apps from rebuilding them. It is buying into coaching instead: Runna, The Breakaway, and AI summaries, the layer Garmin and AI assistants are commoditizing. Effect on attractiveness: positive but narrowing.</p>
+<p><b>Company.</b> Strava is Instagram for workouts: the feed, kudos (likes), and segment leaderboards turn a solo workout into something friends see and strangers rank. The workout is the post. Rivals have matched the software; none has the crowd: 200 million registered athletes and leaderboards that rank everyone who has run a given stretch of road. Added value, what disappears without Strava, is narrower: remove Strava and athletes keep their hardware and coaching but lose the one network spanning every brand, shrinking as Garmin Connect closes in. Strava captures value with a $79.99 subscription for the features the crowd makes valuable, and API limits stop outside apps from rebuilding them. It is buying into coaching instead: Runna, The Breakaway, and AI summaries, the layer Garmin and AI assistants are commoditizing. Effect on attractiveness: positive but narrowing.</p>
 <p><b>Customers.</b> Athletes build the product, 14 billion kudos in 2025, and most never pay for it. Switching costs are social, not data: workouts export, followers do not. A 2023 increase to $79.99 drew a backlash and an apology; since then Strava has raised the effective price via the paywall and a $149.99 Runna bundle. Effect: positive, with a price ceiling.</p>
 <p><b>Suppliers.</b> Athletes are also the main supplier, paid in control, not cash: privacy zones, export rights, no AI training on their data. Beneath them sit two commodity suppliers: map data under the routes and heatmaps, and cloud hosting under the feed and leaderboards. Apple’s 15 to 30% cut of in-app subscriptions is the one real tax, and a 2025 court order lets Strava steer buyers to its website. Effect: negative but small.</p>
 <p><b>Complementors.</b> Device makers matter most and threaten most: Garmin, Apple, Coros, and Wahoo build the watches; Strava builds none. Strava is their complementor, not supplier: it makes the watch more valuable the way apps make the phone more valuable, but no watch needs Strava. It governs apps on its data as Nintendo governed developers: leaderboard data cut from the API, no showing an athlete’s data to anyone, paid access since 2026. Strava cannot cap Garmin, which owns the point of data creation, so each tries to commoditize the other: Strava accepts every device to make the watch interchangeable; Garmin added segments, heatmaps, and, in May 2026, a follower model to Connect to make the social layer interchangeable, making Garmin competitor as well as complementor. Garmin’s leverage has a ceiling: five other makers sync to Strava. Effect: negative and worsening.</p>
@@ -2978,7 +2989,8 @@ function easelPastel() {
   function cmp(x) { x = x > 0.0031308 ? 1.055 * Math.pow(x, 1 / 2.4) - 0.055 : x * 12.92; return x <= 0 ? 0 : x >= 1 ? 255 : x * 255; }
   var cache = new Map();
   function spec(r, g, b) {
-    r = r | 0; g = g | 0; b = b | 0;
+    // Oct 31: round, not floor. Thousands of small mixes per stroke each lost up to a step, so colors sank toward olive grey.
+    r = Math.round(r); g = Math.round(g); b = Math.round(b);
     var key = (r << 16) | (g << 8) | b, o = cache.get(key);
     if (o) return o;
     var lr = unc(r), lg = unc(g), lb = unc(b), w = Math.min(lr, lg, lb);
@@ -3009,6 +3021,9 @@ function easelPastel() {
     out[2] = cmp(M[2][0] * X + M[2][1] * Y + M[2][2] * Z);
     return out;
   }
+  // Oct 31: mix() weights by share squared (as Spectral.js does), so a layer meant to cover 13% only added about 2%,
+  // and white could never cover. This turns the share a layer should lay down into the t that lays it down.
+  function lay(s) { var a = Math.sqrt(s), b = Math.sqrt(1 - s); return a / (a + b); }
   // Paper tooth: a few octaves of value noise, fine enough to read as cold-press paper. 1 = a peak the wax catches first.
   var seed = 7;
   function rnd() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
@@ -3114,14 +3129,14 @@ function easelPastel() {
       else {
         // Wet into wet: the new color and the one under it work into each other, a bit more on the paper's peaks.
         var share = dep * 2.4 / (h + dep * 2.4) * Math.min(1, 0.55 + 0.9 * gr);
-        tmp[0] = col[j]; tmp[1] = col[j + 1]; tmp[2] = col[j + 2]; mix(tmp, stick.tip, share, tmp);
+        tmp[0] = col[j]; tmp[1] = col[j + 1]; tmp[2] = col[j + 2]; mix(tmp, stick.tip, lay(share), tmp);
         col[j] = tmp[0]; col[j + 1] = tmp[1]; col[j + 2] = tmp[2];
       }
       wax[i] = Math.min(2.2, h + dep);
     }
     // The tip picks up what it pushed through, then wears back to its own color on clean paper.
     // (A plain blend here: the tip's color only steers what gets laid down next.)
-    var cover = seen > 0 ? Math.min(1, sw / seen) : 0, k1 = 0.025 * cover, k2 = 0.01 + 0.12 * (1 - cover);
+    var cover = seen > 0 ? Math.min(1, sw / seen) : 0, k1 = 0.012 * cover, k2 = 0.04 + 0.12 * (1 - cover);
     for (var c3 = 0; c3 < 3; c3++) {
       if (sw > 0) stick.tip[c3] += ([sr, sg, sb][c3] / sw - stick.tip[c3]) * k1;
       stick.tip[c3] += (stick.c[c3] - stick.tip[c3]) * k2;
@@ -3142,6 +3157,8 @@ function easelPastel() {
   var down = false, touched = false;
   cv.addEventListener('pointerdown', function (e) {
     down = true; touched = true; last = null; press = pressure(e); stroke = (stroke + 1) % 65535 || 1; newRidges();
+    // Oct 31 (Jason: white over yellow after going over blue came out green): each stroke starts with a clean stick.
+    stick.tip = stick.c.slice();
     try { cv.setPointerCapture(e.pointerId); } catch (er) {}
     var p = at(e); to(p[0], p[1]); e.preventDefault();
   });

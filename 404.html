@@ -693,9 +693,9 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .deep-link.dd-cta:hover { background: var(--c-msblue); border-color: var(--c-msblue); color: var(--paper); }
 
 /* walldrobe page */
-.wd-hero { margin: 10px 0 0; }
-.wd-hero img, .wd-wide img { display: block; width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--shot-border); background: var(--surface); }
-.wd-hero figcaption { margin-top: 8px; font-size: 13.5px; color: var(--muted); }
+.wd-hero, .ufc-hero { margin: 10px 0 0; }
+.wd-hero img, .wd-wide img, .ufc-hero img { display: block; width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--shot-border); background: var(--surface); }
+.wd-hero figcaption, .ufc-hero figcaption { margin-top: 8px; font-size: 13.5px; color: var(--muted); }
 .wd-phone img { max-width: 280px; padding: 6px; border-radius: 24px; background: var(--surface); }
 .wd-flow { grid-template-columns: minmax(0, 1fr); }
 .wd-steps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 14px; margin-top: 4px; }
@@ -1423,7 +1423,6 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
   #path .who .hl { display: none; }
   #path .stop.end .who .hl { display: block; font-size: 12.5px; color: var(--muted); font-family: var(--mono); }
   #path .tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 8px; margin-top: 12px; }
-  #path .stop:nth-child(5) .tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   #path .tiles a { width: auto; gap: 4px; }
   #path .tiles img, #path .tiles .pal { width: 100%; height: auto; aspect-ratio: 4 / 3; }
   #path .tiles .cap { font-size: 12.5px; line-height: 1.25; font-weight: 600; gap: 5px; }
@@ -1465,6 +1464,13 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
 .pf-people { align-items: stretch; grid-auto-rows: 1fr; }
 .pf-people li { display: flex; }
 .pf-person { min-height: 84px; height: 100%; }
+
+/* Oct 31 (Gemini): Research links to the Morgan Stanley case study instead of repeating it */
+.cs-link { margin: 10px 0 0; } .cs-link a { font-weight: 700; } .cs-link a::after { content: '\00a0\2192'; }
+
+/* Oct 31 (#30): case studies named in the career map instead of a second picture */
+.cs-also { margin: 14px 0 0; font-size: 14.5px; color: var(--muted); }
+.cs-also a { color: var(--ink-2); font-weight: 700; }
 
 .nf { padding-block: 18vh 12vh; display: grid; gap: 18px; }
 </style>

@@ -702,9 +702,9 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .deep-link.dd-cta:hover { background: var(--c-msblue); border-color: var(--c-msblue); color: var(--paper); }
 
 /* walldrobe page */
-.wd-hero { margin: 10px 0 0; }
-.wd-hero img, .wd-wide img { display: block; width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--shot-border); background: var(--surface); }
-.wd-hero figcaption { margin-top: 8px; font-size: 13.5px; color: var(--muted); }
+.wd-hero, .ufc-hero { margin: 10px 0 0; }
+.wd-hero img, .wd-wide img, .ufc-hero img { display: block; width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--shot-border); background: var(--surface); }
+.wd-hero figcaption, .ufc-hero figcaption { margin-top: 8px; font-size: 13.5px; color: var(--muted); }
 .wd-phone img { max-width: 280px; padding: 6px; border-radius: 24px; background: var(--surface); }
 .wd-flow { grid-template-columns: minmax(0, 1fr); }
 .wd-steps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 14px; margin-top: 4px; }
@@ -1432,7 +1432,6 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
   #path .who .hl { display: none; }
   #path .stop.end .who .hl { display: block; font-size: 12.5px; color: var(--muted); font-family: var(--mono); }
   #path .tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 8px; margin-top: 12px; }
-  #path .stop:nth-child(5) .tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   #path .tiles a { width: auto; gap: 4px; }
   #path .tiles img, #path .tiles .pal { width: 100%; height: auto; aspect-ratio: 4 / 3; }
   #path .tiles .cap { font-size: 12.5px; line-height: 1.25; font-weight: 600; gap: 5px; }
@@ -1474,6 +1473,13 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
 .pf-people { align-items: stretch; grid-auto-rows: 1fr; }
 .pf-people li { display: flex; }
 .pf-person { min-height: 84px; height: 100%; }
+
+/* Oct 31 (Gemini): Research links to the Morgan Stanley case study instead of repeating it */
+.cs-link { margin: 10px 0 0; } .cs-link a { font-weight: 700; } .cs-link a::after { content: '\00a0\2192'; }
+
+/* Oct 31 (#30): case studies named in the career map instead of a second picture */
+.cs-also { margin: 14px 0 0; font-size: 14.5px; color: var(--muted); }
+.cs-also a { color: var(--ink-2); font-weight: 700; }
 
 /* How I use AI: ledgers of what the AI did and what I did. */
 .pg main { padding-top: 8px; }
@@ -1716,6 +1722,11 @@ details.more > p + p { margin-top: 12px; }
 .ai-part { scroll-margin-top: 16px; }
 .ai-part .calls { margin-bottom: 8px; }
 #rules .more summary { font-weight: 700; }
+
+/* Oct 31, Jason: working with AI like a teammate; each card names the mode */
+.ov-lede { max-width: 46em; margin: 6px 0 18px; font-size: 16px; line-height: 1.55; color: var(--ink-2); }
+.ov-s b { color: var(--ink); font-weight: 700; }
+.ov-a a, .ov-s a { color: inherit; }
 /* The memo reads like a research note on its own sheet. Dark like the rest of the site since Oct 7 (dark only); report images keep their white. */
 .memo-page { max-width: 900px; }
 .memo-meta { max-width: 42em; display: grid; gap: 8px; padding: 16px 0 20px; border-top: 1px solid var(--rule); margin-bottom: 18px; color: var(--ink-2); }
@@ -1875,7 +1886,7 @@ details.more > p + p { margin-top: 12px; }
         <p class="memo-why">I picked Strava because I use it every day and I built a running app that syncs with it.</p>
       </div>
       </div>
-      <figure class="memo-cover"><img src="img/strava-cover.webp" width="1100" height="1126" alt="My cover for the memo, made to look like a Strava post: a real run of mine through Philadelphia with the word count, class and section as the stats."></figure>
+      <figure class="memo-cover"><img src="img/strava-cover.webp" width="1100" height="1126" alt="My cover for the submitted memo, made to look like a Strava post: a real run of mine through Philadelphia with the word count, class and section as the stats."></figure>
       </div>
       <div class="memo-sheet">
 <div class="memo-summary">
@@ -1899,7 +1910,7 @@ details.more > p + p { margin-top: 12px; }
 <p>Individual customers have little leverage, and switching is technically easy but socially costly: workout data is portable, since Strava lets users download everything and most watches sync to several apps at once, but followers, clubs, and years of segment history do not travel. What constrains Strava is aggregate willingness to pay, and the 2023 price test showed where it sits. Raising the annual price from $59.99 to $79.99 was the first increase for all-access subscribers since Strava launched, drew enough backlash that Strava apologized for the rollout, and has not been repeated. Since then Strava has raised the effective price without touching the list price, by moving features behind the existing paywall and bundling Runna at $149.99. The paywall is aggressive by design. A free user runs into locked features constantly (full leaderboards, route building, most of the analytics), and the friction itself converts; plenty of subscribers signed up mainly to make the lock icons go away. Strava also seeds subscriptions through the running community rather than through advertising. New York Road Runners, the nonprofit that organizes the New York City Marathon, runs its virtual races on Strava and gives registrants a free 30- to 60-day Strava trial, and Strava sponsors athlete ambassadors and creators. The point is to be the app someone new to running installs first, before they have tried anything else.</p>
 <figure class="mfig" id="fig-2"><p class="mfig-t"><span class="exn">Figure 2.</span> After the 2023 backlash, Strava raised its price through bundles instead of the list price</p><svg class="mbars" viewBox="0 0 640 174" role="img" aria-label="Strava, before 2023: $59.99; Strava, since 2023: $79.99; Garmin Connect+, 2025: $69.99; Strava with Runna plans: $149.99"><g><title>Strava, before 2023: $59.99</title><text x="178" y="21.0" text-anchor="end" class="ml">Strava, before 2023</text><rect x="190" y="3" width="123.7" height="26" rx="3" style="fill: var(--c-carrot)"/><text x="321.7" y="21.0" class="mv">$59.99</text></g><g><title>Strava, since 2023: $79.99 (first increase since launch; Strava apologized for the rollout)</title><text x="178" y="63.0" text-anchor="end" class="ml">Strava, since 2023</text><rect x="190" y="45" width="165.0" height="26" rx="3" style="fill: var(--c-carrot)"/><text x="363.0" y="63.0" class="mv">$79.99</text></g><g><title>Garmin Connect+, 2025: $69.99 ($10 below Strava, with AI insights)</title><text x="178" y="105.0" text-anchor="end" class="ml">Garmin Connect+, 2025</text><rect x="190" y="87" width="144.4" height="26" rx="3" style="fill: var(--c-msblue)"/><text x="342.4" y="105.0" class="mv">$69.99</text></g><g><title>Strava with Runna plans: $149.99 (bundled after the 2025 Runna deal)</title><text x="178" y="147.0" text-anchor="end" class="ml">Strava with Runna plans</text><rect x="190" y="129" width="309.4" height="26" rx="3" style="fill: var(--c-carrot)"/><text x="507.4" y="147.0" class="mv">$149.99</text></g><line x1="190" x2="190" y1="0" y2="174" class="maxis"/></svg><figcaption>Annual prices cited in the memo. Strava in orange, Garmin in blue.</figcaption></figure>
 <p>Brands are the second group. They pay to reach active, affluent people through sponsored challenges and segments, which Strava can promote in the feed, and Strava has kept programmatic ads off the platform. Starbucks and Hoka both ran campaigns in 2026. City planners are the third. More than 4,500 planners and agencies have used Strava Metro, a free dataset of anonymized trips, which buys regulatory goodwill rather than revenue.</p>
-<p class="verdict"><b>Effect on attractiveness: positive, with a price ceiling.</b> Customers supply the content free and convert through the paywall and community trials, but portable data and the failed second price increase cap what the industry can extract from them.</p>
+<p class="verdict"><b>Effect on attractiveness: positive, with a price ceiling.</b> Customers supply the content free and convert through the paywall and community trials, but portable data and the backlash to the 2023 price increase cap what the industry can extract from them.</p>
 <h3>Suppliers</h3>
 <p>The supplier that matters is the user base, which sits on two sides of the Value Net at once, as customer and as supplier. Athletes supply the raw data behind segments, heatmaps, route recommendations, and Metro, and they are not paid for it in cash. What they demand instead is control: privacy zones around their homes, the right to export everything, and a ban on their data being used to train AI models, all of which Strava has granted. Their willingness to sell is low, not zero. A new route was created on Strava every 19 seconds in 2025, all of it from activity the company neither paid for nor recorded itself. Device makers deliver that data, so they are suppliers in a narrow sense, but their power is better analyzed as complementors below.</p>
 <p>Beneath the athletes sit two commodity suppliers: map data under the routes and heatmaps, and cloud hosting under the feed and leaderboards. Both come from competitive markets where Strava can switch vendors, so neither can raise prices much. App stores are the one real tax: Apple takes 15 to 30% of subscriptions bought inside an iPhone app. US courts have been dismantling it. <a href="https://ipwatchdog.com/2026/06/30/high-court-grants-cert-in-apples-challenge-to-ninth-circuit-contempt-ruling-in-app-store-dispute/">A 2025 ruling barred Apple</a> from charging any commission on purchases made through external links. An appeals court later let Apple seek a <a href="https://www.cravath.com/news-insights/epic-games-ninth-circuit-win-affirming-civil-contempt-finding.html">cost-based fee</a> instead, and the Supreme Court agreed in June 2026 to review the contempt finding; until those are settled, link-out purchases carry no commission. Strava already sells subscriptions, including the Runna bundle, on its own website.</p>
@@ -1918,7 +1929,7 @@ details.more > p + p { margin-top: 12px; }
 <p class="verdict"><b>Effect on attractiveness: negative.</b> Every feature Strava charges for exists elsewhere, often free. What no competitor has is athletes from every hardware brand ranked against each other, and Garmin is now building toward exactly that.</p>
 <h3>Overall attractiveness</h3>
 <p>Netting the components, the industry is profitable for Strava today and getting harder each year. The positives sit on the company and customer side and they are large: the content is free, the marginal cost of serving another user is close to zero, and the subscription still has room to grow because the paywall converts. The negatives sit on the complementor and competitor side and they are about direction rather than level: Garmin is moving up into Strava's layer, and every analytics feature is being copied. Where the margins sit shows how the value is split today. Garmin's fitness segment earned <a href="https://www8.garmin.com/aboutGarmin/invRelations/reports/2025_Q4_8-K.pdf">$2.36 billion in 2025 revenue at a 31% operating margin</a>, several times Strava's total revenue, while monetizing many of the same athletes. Garmin has hardware economics Strava chose not to have, so the comparison does not settle the question on its own, but it shows that the complementor with the sensors has the means to take more of the surplus, from the hardware and, increasingly, from the software layered on top.</p>
-<figure class="mfig" id="fig-4"><p class="mfig-t"><span class="exn">Figure 4.</span> Garmin&rsquo;s fitness segment makes several times Strava&rsquo;s revenue from many of the same athletes</p><svg class="mbars" viewBox="0 0 640 90" role="img" aria-label="Garmin fitness, 2025: $2.36 billion; Strava, reported: $500 million"><g><title>Garmin fitness, 2025: $2.36 billion (31% operating margin)</title><text x="178" y="21.0" text-anchor="end" class="ml">Garmin fitness, 2025</text><rect x="190" y="3" width="299.5" height="26" rx="3" style="fill: var(--c-msblue)"/><text x="497.5" y="21.0" class="mv">$2.36 billion</text></g><g><title>Strava, reported: $500 million (reportedly under $500 million, growing about 50% a year)</title><text x="178" y="63.0" text-anchor="end" class="ml">Strava, reported</text><rect x="190" y="45" width="63.5" height="26" rx="3" fill="none" style="stroke: var(--c-carrot)" stroke-width="2" stroke-dasharray="5 4"/><text x="261.5" y="63.0" class="mv">under $500 million</text></g><line x1="190" x2="190" y1="0" y2="90" class="maxis"/></svg><figcaption>Garmin&rsquo;s 2025 fitness segment revenue, at a 31% operating margin; Strava&rsquo;s revenue as reported by The Information, drawn as an upper bound.</figcaption></figure>
+<figure class="mfig" id="fig-4"><p class="mfig-t"><span class="exn">Figure 4.</span> Garmin&rsquo;s fitness segment makes several times Strava&rsquo;s revenue from many of the same athletes</p><svg class="mbars" viewBox="0 0 640 90" role="img" aria-label="Garmin fitness, 2025: $2.36 billion; Strava, reported: under $500 million"><g><title>Garmin fitness, 2025: $2.36 billion (31% operating margin)</title><text x="178" y="21.0" text-anchor="end" class="ml">Garmin fitness, 2025</text><rect x="190" y="3" width="299.5" height="26" rx="3" style="fill: var(--c-msblue)"/><text x="497.5" y="21.0" class="mv">$2.36 billion</text></g><g><title>Strava, reported: $500 million (reportedly under $500 million, growing about 50% a year)</title><text x="178" y="63.0" text-anchor="end" class="ml">Strava, reported</text><rect x="190" y="45" width="63.5" height="26" rx="3" fill="none" style="stroke: var(--c-carrot)" stroke-width="2" stroke-dasharray="5 4"/><text x="261.5" y="63.0" class="mv">under $500 million</text></g><line x1="190" x2="190" y1="0" y2="90" class="maxis"/></svg><figcaption>Garmin&rsquo;s 2025 fitness segment revenue, at a 31% operating margin; Strava&rsquo;s revenue as reported by The Information, drawn as an upper bound.</figcaption></figure>
 <p>Two further lessons apply. This is a fluid industry whose forces are not settled, the kind that grows fast without being profitable for everyone in it: Strava's revenue is growing around 50% a year while its added value is being copied. And industry structure is made, not born. Strava's prospects rest on staying the one place every device feeds. Its API restrictions raise revenue now and push developers toward device makers, and Garmin is using that opening to build the social and coaching layers itself.</p>
 <p>The crowd may also be worth more than the subscription monetizes. The social graph and years of segment history are an asset in their own right, and running is becoming more of a public, social activity, which makes that asset more valuable each year. That is the kind of asset a device maker might want to own, even though owning Strava would end the neutrality that makes it worth owning.</p>
 <section class="mapblock">
@@ -3062,7 +3073,8 @@ function easelPastel() {
   function cmp(x) { x = x > 0.0031308 ? 1.055 * Math.pow(x, 1 / 2.4) - 0.055 : x * 12.92; return x <= 0 ? 0 : x >= 1 ? 255 : x * 255; }
   var cache = new Map();
   function spec(r, g, b) {
-    r = r | 0; g = g | 0; b = b | 0;
+    // Oct 31: round, not floor. Thousands of small mixes per stroke each lost up to a step, so colors sank toward olive grey.
+    r = Math.round(r); g = Math.round(g); b = Math.round(b);
     var key = (r << 16) | (g << 8) | b, o = cache.get(key);
     if (o) return o;
     var lr = unc(r), lg = unc(g), lb = unc(b), w = Math.min(lr, lg, lb);
@@ -3093,6 +3105,9 @@ function easelPastel() {
     out[2] = cmp(M[2][0] * X + M[2][1] * Y + M[2][2] * Z);
     return out;
   }
+  // Oct 31: mix() weights by share squared (as Spectral.js does), so a layer meant to cover 13% only added about 2%,
+  // and white could never cover. This turns the share a layer should lay down into the t that lays it down.
+  function lay(s) { var a = Math.sqrt(s), b = Math.sqrt(1 - s); return a / (a + b); }
   // Paper tooth: a few octaves of value noise, fine enough to read as cold-press paper. 1 = a peak the wax catches first.
   var seed = 7;
   function rnd() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
@@ -3198,14 +3213,14 @@ function easelPastel() {
       else {
         // Wet into wet: the new color and the one under it work into each other, a bit more on the paper's peaks.
         var share = dep * 2.4 / (h + dep * 2.4) * Math.min(1, 0.55 + 0.9 * gr);
-        tmp[0] = col[j]; tmp[1] = col[j + 1]; tmp[2] = col[j + 2]; mix(tmp, stick.tip, share, tmp);
+        tmp[0] = col[j]; tmp[1] = col[j + 1]; tmp[2] = col[j + 2]; mix(tmp, stick.tip, lay(share), tmp);
         col[j] = tmp[0]; col[j + 1] = tmp[1]; col[j + 2] = tmp[2];
       }
       wax[i] = Math.min(2.2, h + dep);
     }
     // The tip picks up what it pushed through, then wears back to its own color on clean paper.
     // (A plain blend here: the tip's color only steers what gets laid down next.)
-    var cover = seen > 0 ? Math.min(1, sw / seen) : 0, k1 = 0.025 * cover, k2 = 0.01 + 0.12 * (1 - cover);
+    var cover = seen > 0 ? Math.min(1, sw / seen) : 0, k1 = 0.012 * cover, k2 = 0.04 + 0.12 * (1 - cover);
     for (var c3 = 0; c3 < 3; c3++) {
       if (sw > 0) stick.tip[c3] += ([sr, sg, sb][c3] / sw - stick.tip[c3]) * k1;
       stick.tip[c3] += (stick.c[c3] - stick.tip[c3]) * k2;
@@ -3226,6 +3241,8 @@ function easelPastel() {
   var down = false, touched = false;
   cv.addEventListener('pointerdown', function (e) {
     down = true; touched = true; last = null; press = pressure(e); stroke = (stroke + 1) % 65535 || 1; newRidges();
+    // Oct 31 (Jason: white over yellow after going over blue came out green): each stroke starts with a clean stick.
+    stick.tip = stick.c.slice();
     try { cv.setPointerCapture(e.pointerId); } catch (er) {}
     var p = at(e); to(p[0], p[1]); e.preventDefault();
   });

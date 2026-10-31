@@ -702,9 +702,9 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .deep-link.dd-cta:hover { background: var(--c-msblue); border-color: var(--c-msblue); color: var(--paper); }
 
 /* walldrobe page */
-.wd-hero { margin: 10px 0 0; }
-.wd-hero img, .wd-wide img { display: block; width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--shot-border); background: var(--surface); }
-.wd-hero figcaption { margin-top: 8px; font-size: 13.5px; color: var(--muted); }
+.wd-hero, .ufc-hero { margin: 10px 0 0; }
+.wd-hero img, .wd-wide img, .ufc-hero img { display: block; width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--shot-border); background: var(--surface); }
+.wd-hero figcaption, .ufc-hero figcaption { margin-top: 8px; font-size: 13.5px; color: var(--muted); }
 .wd-phone img { max-width: 280px; padding: 6px; border-radius: 24px; background: var(--surface); }
 .wd-flow { grid-template-columns: minmax(0, 1fr); }
 .wd-steps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 14px; margin-top: 4px; }
@@ -1432,7 +1432,6 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
   #path .who .hl { display: none; }
   #path .stop.end .who .hl { display: block; font-size: 12.5px; color: var(--muted); font-family: var(--mono); }
   #path .tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 8px; margin-top: 12px; }
-  #path .stop:nth-child(5) .tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   #path .tiles a { width: auto; gap: 4px; }
   #path .tiles img, #path .tiles .pal { width: 100%; height: auto; aspect-ratio: 4 / 3; }
   #path .tiles .cap { font-size: 12.5px; line-height: 1.25; font-weight: 600; gap: 5px; }
@@ -1475,6 +1474,13 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
 .pf-people li { display: flex; }
 .pf-person { min-height: 84px; height: 100%; }
 
+/* Oct 31 (Gemini): Research links to the Morgan Stanley case study instead of repeating it */
+.cs-link { margin: 10px 0 0; } .cs-link a { font-weight: 700; } .cs-link a::after { content: '\00a0\2192'; }
+
+/* Oct 31 (#30): case studies named in the career map instead of a second picture */
+.cs-also { margin: 14px 0 0; font-size: 14.5px; color: var(--muted); }
+.cs-also a { color: var(--ink-2); font-weight: 700; }
+
 </style>
 <script>(function(){function pick(){var c=null;[document.querySelector('.name'),document.querySelector('.topbar .label a')].forEach(function(el){if(!el)return;var r=el.getBoundingClientRect(),w=el.closest('.tb-name'),s=r.width>0&&r.bottom>0&&r.top<innerHeight&&!(w&&!w.classList.contains('on'));el.style.viewTransitionName=!c&&s?'jt-name':'none';if(!c&&s)c=el;});}addEventListener('pageswap',pick);addEventListener('pagereveal',pick);})();</script>
 </head>
@@ -1499,14 +1505,14 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
             <div><dt>Built</dt><dd>Sep 2026</dd></div>
             <div><dt>Link</dt><dd><a href="https://jason-traum.github.io/wrtc-5k5bars/?demo">Try the demo</a></dd></div>
           
-            <div><dt>Built with</dt><dd>Claude Code, Supabase, MapLibre, GitHub Pages</dd></div>
+            <div><dt>Built with</dt><dd>Claude, Supabase, MapLibre, GitHub Pages</dd></div>
           </dl>
         </div>
         <div class="p-body">
-          <p>I organized a 5K 5 Bars for the Run &amp; Tri Club with the Beer Club: about a kilometer of running between each of five bars, from Rittenhouse Square to Morgan's Pier. I wanted a way to know who actually made it to each bar, so I built an app for race day.</p>
+          <p>I organized a 5K 5 Bars for the Run &amp; Tri Club: about a kilometer of running between each of five bars, starting at Rittenhouse Square. I wanted a way to know who actually made it to each bar, so I built an app for race day.</p>
           <p>I built the first version while watching a Patriots game. On race day, at bar three, people asked if we could stay closer to Rittenhouse. I asked Claude mid-race to pick new bars and a new route, and it updated on everyone&rsquo;s phone. Everyone used the app, and a lot of people asked me to run it again in the spring, which I&rsquo;m definitely going to do.</p>
           <p>You join with your bib number and first name. When you walk into a bar you tap I'm at the bar, and it checks your phone's location. When you head out you tap Leaving. The leaderboard ranks everyone on running pace only, so time at the bars never counts and drinking fast doesn't help you. If someone forgets a tap, that leg just doesn't count. It never guesses a time. GPS is often off inside bars, so if the app says you're too far away you can still check in. That check-in counts and is marked as not GPS-checked so the organizer can see it.</p>
-          <p>People will be a few drinks in at a loud bar, so the race screen only shows the next bar, one big button and when the group is leaving. The stats wait for the finish screen. It only reads your location when you tap, and it saves how far you were from the bar, never where you were.</p>
+          <p>People are a few drinks in at a loud bar, so the race screen only shows the next bar, one big button and when the group is leaving. The stats wait for the finish screen. It only reads your location when you tap, and it saves how far you were from the bar, never where you were.</p>
           <p>Before building I wrote down who uses it and when, what every screen shows in every situation, the look, and a log of every decision. Claude reads those before it changes anything. I&rsquo;d been planning it for a while, so once I sat down to build, the first version came together in a day.</p>
           <div class="shots" style="--n:3">
             <figure>
@@ -2603,7 +2609,8 @@ function easelPastel() {
   function cmp(x) { x = x > 0.0031308 ? 1.055 * Math.pow(x, 1 / 2.4) - 0.055 : x * 12.92; return x <= 0 ? 0 : x >= 1 ? 255 : x * 255; }
   var cache = new Map();
   function spec(r, g, b) {
-    r = r | 0; g = g | 0; b = b | 0;
+    // Oct 31: round, not floor. Thousands of small mixes per stroke each lost up to a step, so colors sank toward olive grey.
+    r = Math.round(r); g = Math.round(g); b = Math.round(b);
     var key = (r << 16) | (g << 8) | b, o = cache.get(key);
     if (o) return o;
     var lr = unc(r), lg = unc(g), lb = unc(b), w = Math.min(lr, lg, lb);
@@ -2634,6 +2641,9 @@ function easelPastel() {
     out[2] = cmp(M[2][0] * X + M[2][1] * Y + M[2][2] * Z);
     return out;
   }
+  // Oct 31: mix() weights by share squared (as Spectral.js does), so a layer meant to cover 13% only added about 2%,
+  // and white could never cover. This turns the share a layer should lay down into the t that lays it down.
+  function lay(s) { var a = Math.sqrt(s), b = Math.sqrt(1 - s); return a / (a + b); }
   // Paper tooth: a few octaves of value noise, fine enough to read as cold-press paper. 1 = a peak the wax catches first.
   var seed = 7;
   function rnd() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
@@ -2739,14 +2749,14 @@ function easelPastel() {
       else {
         // Wet into wet: the new color and the one under it work into each other, a bit more on the paper's peaks.
         var share = dep * 2.4 / (h + dep * 2.4) * Math.min(1, 0.55 + 0.9 * gr);
-        tmp[0] = col[j]; tmp[1] = col[j + 1]; tmp[2] = col[j + 2]; mix(tmp, stick.tip, share, tmp);
+        tmp[0] = col[j]; tmp[1] = col[j + 1]; tmp[2] = col[j + 2]; mix(tmp, stick.tip, lay(share), tmp);
         col[j] = tmp[0]; col[j + 1] = tmp[1]; col[j + 2] = tmp[2];
       }
       wax[i] = Math.min(2.2, h + dep);
     }
     // The tip picks up what it pushed through, then wears back to its own color on clean paper.
     // (A plain blend here: the tip's color only steers what gets laid down next.)
-    var cover = seen > 0 ? Math.min(1, sw / seen) : 0, k1 = 0.025 * cover, k2 = 0.01 + 0.12 * (1 - cover);
+    var cover = seen > 0 ? Math.min(1, sw / seen) : 0, k1 = 0.012 * cover, k2 = 0.04 + 0.12 * (1 - cover);
     for (var c3 = 0; c3 < 3; c3++) {
       if (sw > 0) stick.tip[c3] += ([sr, sg, sb][c3] / sw - stick.tip[c3]) * k1;
       stick.tip[c3] += (stick.c[c3] - stick.tip[c3]) * k2;
@@ -2767,6 +2777,8 @@ function easelPastel() {
   var down = false, touched = false;
   cv.addEventListener('pointerdown', function (e) {
     down = true; touched = true; last = null; press = pressure(e); stroke = (stroke + 1) % 65535 || 1; newRidges();
+    // Oct 31 (Jason: white over yellow after going over blue came out green): each stroke starts with a clean stick.
+    stick.tip = stick.c.slice();
     try { cv.setPointerCapture(e.pointerId); } catch (er) {}
     var p = at(e); to(p[0], p[1]); e.preventDefault();
   });

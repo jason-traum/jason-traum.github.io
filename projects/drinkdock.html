@@ -702,9 +702,9 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .deep-link.dd-cta:hover { background: var(--c-msblue); border-color: var(--c-msblue); color: var(--paper); }
 
 /* walldrobe page */
-.wd-hero { margin: 10px 0 0; }
-.wd-hero img, .wd-wide img { display: block; width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--shot-border); background: var(--surface); }
-.wd-hero figcaption { margin-top: 8px; font-size: 13.5px; color: var(--muted); }
+.wd-hero, .ufc-hero { margin: 10px 0 0; }
+.wd-hero img, .wd-wide img, .ufc-hero img { display: block; width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--shot-border); background: var(--surface); }
+.wd-hero figcaption, .ufc-hero figcaption { margin-top: 8px; font-size: 13.5px; color: var(--muted); }
 .wd-phone img { max-width: 280px; padding: 6px; border-radius: 24px; background: var(--surface); }
 .wd-flow { grid-template-columns: minmax(0, 1fr); }
 .wd-steps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 14px; margin-top: 4px; }
@@ -1432,7 +1432,6 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
   #path .who .hl { display: none; }
   #path .stop.end .who .hl { display: block; font-size: 12.5px; color: var(--muted); font-family: var(--mono); }
   #path .tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 8px; margin-top: 12px; }
-  #path .stop:nth-child(5) .tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   #path .tiles a { width: auto; gap: 4px; }
   #path .tiles img, #path .tiles .pal { width: 100%; height: auto; aspect-ratio: 4 / 3; }
   #path .tiles .cap { font-size: 12.5px; line-height: 1.25; font-weight: 600; gap: 5px; }
@@ -1475,6 +1474,13 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
 .pf-people li { display: flex; }
 .pf-person { min-height: 84px; height: 100%; }
 
+/* Oct 31 (Gemini): Research links to the Morgan Stanley case study instead of repeating it */
+.cs-link { margin: 10px 0 0; } .cs-link a { font-weight: 700; } .cs-link a::after { content: '\00a0\2192'; }
+
+/* Oct 31 (#30): case studies named in the career map instead of a second picture */
+.cs-also { margin: 14px 0 0; font-size: 14.5px; color: var(--muted); }
+.cs-also a { color: var(--ink-2); font-weight: 700; }
+
 </style>
 <script>(function(){function pick(){var c=null;[document.querySelector('.name'),document.querySelector('.topbar .label a')].forEach(function(el){if(!el)return;var r=el.getBoundingClientRect(),w=el.closest('.tb-name'),s=r.width>0&&r.bottom>0&&r.top<innerHeight&&!(w&&!w.classList.contains('on'));el.style.viewTransitionName=!c&&s?'jt-name':'none';if(!c&&s)c=el;});}addEventListener('pageswap',pick);addEventListener('pagereveal',pick);})();</script>
 </head>
@@ -1494,7 +1500,7 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
       <div class="p-grid">
         <div class="p-meta">
           <dl>
-            <div><dt>Status</dt><dd>Software demo live; no machine built yet. We&rsquo;re talking about taking it further</dd></div>
+            <div><dt>Status</dt><dd>Software demo live; no machine built. We haven&rsquo;t decided yet whether to pursue it further</dd></div>
             <div><dt>Started</dt><dd>Sep 2026</dd></div>
             <div><dt>Role</dt><dd>CTO</dd></div>
             <div><dt>Links</dt><dd><a href="https://getdrinkdock.com">getdrinkdock.com</a><br><a href="https://jason-traum.github.io/drinkdock-sim/">Market sim</a></dd></div>
@@ -1505,15 +1511,15 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
           <p>At 11 on a Friday, the guest who wants a can of seltzer waits behind every espresso martini. DrinkDock is a vending machine for canned beer, seltzer and cocktails that sits at the end of the bar. You scan your ID, a camera matches your face to the photo, you tap to pay and a cold can comes out. Bartenders keep the cocktails, and they can pause the machine or block an ID from behind the bar.</p>
           <p>It&rsquo;s a class project with three Wharton classmates. I&rsquo;m the CTO. I built the website, the guest screen and manager app you can click through on it, and a market sim.</p>
           <p>Before asking anyone to pilot it, I wanted to know where a machine pays off. The sim runs 3,420 bars, stadium stands, airport bars and hotels, each with and without a machine. Guests show up at random, bartenders serve one order at a time, and people walk away when the wait outlasts their patience. Then it scales the results to real venue counts for Philadelphia, Pennsylvania and the US.</p>
-          <p>The answer was narrower than I expected. About 160 of 1,370 venues in Philadelphia would come out $2,000 a year ahead. Music venues, nightclubs and college bars fit about half the time, and neighborhood, restaurant and cocktail bars almost never do. Most machine sales would have happened at the bar anyway, which makes a fee on every sale the weak spot in our pricing. Pennsylvania's wine kiosks shut down in 2011 after about 1,000 malfunctions, so the sim also tests how much downtime a bar will put up with.</p>
-          <p>We reached out to 50 hotels and 30 bars in Philadelphia to line up the first pilot. We got 10 to 15 serious replies, mostly from senior people at hotels. For bars, we&rsquo;d have had to call. We don&rsquo;t have a production machine, and each venue would need a written opinion from the Pennsylvania Liquor Control Board before we installed one.</p>
+          <p>The answer was narrower than I expected. About 160 of 1,370 venues in Philadelphia would clear $2,000 a year. Music venues, nightclubs and college bars fit about half the time, and neighborhood, restaurant and cocktail bars almost never do. Most machine sales would have happened at the bar anyway, which makes a fee on every sale the weak spot in our pricing. Pennsylvania's wine kiosks shut down in 2011 after about 1,000 malfunctions, so the sim also tests how much downtime a bar will put up with.</p>
+          <p>I emailed hotels and bars in Philadelphia to line up a first pilot. We got 10 to 15 serious replies, mostly from senior people at hotels. For bars, we&rsquo;d have had to call. We don&rsquo;t have a production machine, and each venue would need a written opinion from the Pennsylvania Liquor Control Board before we installed one.</p>
           <p>Our final investor pitch for the class came first of 20 teams, with $105,500 in mock funding, almost twice the next team.</p>
-          <figure class="wd-concept dd-pair"><div class="dd-pair-in"><img src="../img/dd-placement.webp" width="1400" height="875" alt="Concept render of a black DrinkDock vending machine with a glass front full of cans, standing at the end of a bar next to the bar stools" loading="lazy" decoding="async" style="background-color:#52483F"><video class="loop" width="600" height="966" muted loop playsinline preload="none" poster="../img/dd-guest-loop.webp" aria-label="The real DrinkDock guest screen: pick a House Lager, scan an ID, look at the camera, tap a card, and the can drops"><source src="../img/dd-guest-loop.webm" type="video/webm"><source src="../img/dd-guest-loop.mp4" type="video/mp4"></video></div><figcaption>Left, a concept render, not a real installation. Right, the real guest screen, from tap to can.</figcaption></figure>
+          <figure class="wd-concept dd-pair"><div class="dd-pair-in"><img src="../img/dd-placement.webp" width="1400" height="875" alt="Concept render of a black DrinkDock vending machine with a glass front full of cans, standing at the end of a bar next to the bar stools" loading="lazy" decoding="async" style="background-color:#52483F"><video class="loop" width="600" height="966" muted loop playsinline preload="none" poster="../img/dd-guest-loop.webp" aria-label="The real DrinkDock guest screen: pick a House Lager, scan an ID, look at the camera, tap a card, and the can drops"><source src="../img/dd-guest-loop.webm" type="video/webm"><source src="../img/dd-guest-loop.mp4" type="video/mp4"></video></div><figcaption>The render is a concept. The screen is the real guest screen, from tap to can.</figcaption></figure>
           <figure class="wd-concept"><a href="https://jason-traum.github.io/drinkdock-sim/"><img src="../img/dd-sim.webp" width="1600" height="774" alt="DrinkDock Market Sim overview for Philadelphia: about 160 of 1,370 venues would clear $2,000 a year, with sliders for rent, fee, adoption, uptime and guest patience" loading="lazy" decoding="async" style="background-color:#1D2023"></a><figcaption>The sim's overview for Philadelphia. <a href="https://jason-traum.github.io/drinkdock-sim/">Open the sim</a> to change the pricing, uptime or market.</figcaption></figure>
         </div>
       </div>
     </article>
-<!--deep--><section class="deep" aria-labelledby="deep-h"><h2 class="sr-only" id="deep-h">The details</h2><div class="feat wide"><div class="feat-text"><h3>The machine</h3><p>There's no production machine yet. This is the design model we use for renders and the spec sheet, in three sizes: One, Duo and Compact.</p></div><figure class="feat-fig feat-frame"><iframe scrolling="no" src="../embed/dd-3d.html" title="DrinkDock 3D machine viewer" loading="lazy" allow="screen-wake-lock" style="height:560px" data-autoh></iframe><figcaption>Drag to rotate. A design model, not a built machine.</figcaption></figure></div><div class="feat has-fig phone"><div class="feat-text"><h3>Charged when the can arrives</h3><p>A guest picks up to two drinks and scans the barcode on the back of their ID, then holds the front up so a camera on the machine can match their face to the photo. The card is authorized at the tap and only charged when a sensor sees the can reach the pickup port.</p><p>If power, both connections or payments drop, every sale stops. If only the scanner or camera fails, alcohol stops and water and soda keep selling.</p></div><figure class="feat-fig feat-frame phone"><iframe scrolling="no" src="../embed/dd-guest.html" title="DrinkDock guest screen demo" loading="lazy" allow="screen-wake-lock" style="height:900px" data-autoh></iframe><figcaption>The real guest screen demo. Tap through a sale or pick a problem. It doesn't read IDs or take payments.</figcaption></figure></div><div class="feat wide"><div class="feat-text"><h3>Staff stay in charge</h3><p>The sale is still on the bar's license, so we built the machine around the bartender. One scan buys at most two drinks, and then that ID waits 20 minutes.</p><p>A bartender can find a guest's sale in Manager and block that ID at every machine in the venue until close. The machine turns the ID number into a one-way code, deletes it at close and never shares it across venues.</p></div><figure class="feat-fig feat-frame"><iframe scrolling="no" src="../embed/dd-manager.html" title="DrinkDock Manager demo" loading="lazy" allow="screen-wake-lock" style="height:1300px" data-autoh></iframe><figcaption>DrinkDock Manager, the staff app, with sample data. Try the three tasks at the top.</figcaption></figure></div><div class="feat has-fig"><div class="feat-text"><h3>A 20-minute jam at the rush</h3><p>In the sim, a machine at a busy college bar on a Saturday cut walkaways from 131 to 49 out of 639 orders. Then I jammed it for 20 minutes at the rush. That pushed 15 guests back to the bar line and walkaways went back up to 54.</p><p>It's a queue model: guests show up at random, each bartender serves one order at a time, and people leave if the wait gets too long.</p></div><figure class="feat-fig"><img width="1200" height="746" src="../img/dd-night.webp" alt="The sim&#x27;s One night view: walkaways 131 to 54, and a chart of people waiting in line through the night with a shaded 20-minute jam." loading="lazy" decoding="async" style="background-color:#212120"><figcaption>One night in the sim, with the jam turned on.</figcaption></figure></div><div class="feat"><div class="feat-text"><h3>Which bars it fits</h3><p>Music venues, nightclubs and college bars cleared $2,000 a year about half the time. Neighborhood bars, brewpubs, cocktail bars and restaurant bars almost never did.</p><p>Bars with at least 100 orders an hour at the rush, 15% or more of orders that are just a can, and more demand than the staff can serve cleared it 83% of the time, against 7% of all bars.</p></div></div><div class="feat"><div class="feat-text"><h3>Most sales would happen anyway</h3><p>At the bars that fit, only 15% of machine sales were sales the bar would have lost. The rest would have happened at the bar. A $0.25 fee on every sale took 21% of the bar's gain, so a per-sale fee is the weak spot.</p><p>The revenue calculator on our site keeps sales moved from the bar and new sales on separate lines, so a bar sees both.</p></div></div><div class="feat has-fig"><div class="feat-text"><h3>What broke last time</h3><p>Pennsylvania ran its own wine kiosks in 2010 and 2011. Only 32 of 100 planned kiosks went in, the state auditor logged about 1,000 malfunctions, and the program shut down in 2011.</p><p>In the sim, the median bar that fits nets about $16K a year at 97% uptime at the rush, loses about $566 for each point of downtime, and stops paying off below about 74%. So a jammed row switches itself off and the machine tries another row with the same drink. There's an LTE backup behind the Wi-Fi, and if an ID won't read, the guest gets sent to the bar.</p></div><figure class="feat-fig"><img width="1400" height="515" src="../img/dd-uptime.webp" alt="Two sim charts: share of venues that clear the hurdle by peak-hour uptime, and lifetime contribution per placement by uptime, by channel." loading="lazy" decoding="async" style="background-color:#1E1F1E"><figcaption>Uptime in the sim, by type of venue.</figcaption></figure></div></section><!--/deep-->
+<!--deep--><section class="deep" aria-labelledby="deep-h"><h2 class="sr-only" id="deep-h">The details</h2><div class="feat wide"><div class="feat-text"><h3>The machine</h3><p>There's no production machine. This is the design model we use for renders and the spec sheet, in three sizes: One, Duo and Compact.</p></div><figure class="feat-fig feat-frame"><iframe scrolling="no" src="../embed/dd-3d.html" title="DrinkDock 3D machine viewer" loading="lazy" allow="screen-wake-lock" style="height:560px" data-autoh></iframe><figcaption>Drag to rotate. A design model, not a built machine.</figcaption></figure></div><div class="feat has-fig phone"><div class="feat-text"><h3>Charged when the can arrives</h3><p>A guest picks up to two drinks and scans the barcode on the back of their ID, then holds the front up so a camera on the machine can match their face to the photo. The card is authorized at the tap and only charged when a sensor sees the can reach the pickup port.</p><p>If power, both connections or payments drop, every sale stops. If only the scanner or camera fails, alcohol stops and water and soda keep selling.</p></div><figure class="feat-fig feat-frame phone"><iframe scrolling="no" src="../embed/dd-guest.html" title="DrinkDock guest screen demo" loading="lazy" allow="screen-wake-lock" style="height:900px" data-autoh></iframe><figcaption>The real guest screen demo. Tap through a sale or pick a problem. It doesn't read IDs or take payments.</figcaption></figure></div><div class="feat wide"><div class="feat-text"><h3>Staff stay in charge</h3><p>The sale is still on the bar's license, so we designed the machine around the bartender. One scan buys at most two drinks, and then that ID waits 20 minutes.</p><p>A bartender can find a guest's sale in Manager and block that ID at every machine in the venue until close. The machine turns the ID number into a one-way code, deletes it at close and never shares it across venues.</p></div><figure class="feat-fig feat-frame"><iframe scrolling="no" src="../embed/dd-manager.html" title="DrinkDock Manager demo" loading="lazy" allow="screen-wake-lock" style="height:1300px" data-autoh></iframe><figcaption>DrinkDock Manager, the staff app, with sample data. Try the three tasks at the top.</figcaption></figure></div><div class="feat has-fig"><div class="feat-text"><h3>A 20-minute jam at the rush</h3><p>In the sim, a machine at a busy college bar on a Saturday cut walkaways from 131 to 49 out of 639 orders. Then I jammed it for 20 minutes at the rush. That pushed 15 guests back to the bar line and walkaways went back up to 54.</p><p>It's a queue model: guests show up at random, each bartender serves one order at a time, and people leave if the wait gets too long.</p></div><figure class="feat-fig"><img width="1200" height="746" src="../img/dd-night.webp" alt="The sim&#x27;s One night view: walkaways 131 to 54, and a chart of people waiting in line through the night with a shaded 20-minute jam." loading="lazy" decoding="async" style="background-color:#212120"><figcaption>One night in the sim, with the jam turned on.</figcaption></figure></div><div class="feat"><div class="feat-text"><h3>Which bars it fits</h3><p>Music venues, nightclubs and college bars cleared $2,000 a year about half the time. Neighborhood bars, brewpubs, cocktail bars and restaurant bars almost never did.</p><p>Bars with at least 100 orders an hour at the rush, 15% or more of orders that are just a can, and more demand than the staff can serve cleared it 83% of the time, against 7% of all bars.</p></div></div><div class="feat"><div class="feat-text"><h3>Most sales would happen anyway</h3><p>At the bars that fit, only 15% of machine sales were sales the bar would have lost. The rest would have happened at the bar. A $0.25 fee on every sale took 21% of the bar's gain, so a per-sale fee is the weak spot.</p><p>The revenue calculator on our site keeps sales moved from the bar and new sales on separate lines, so a bar sees both.</p></div></div><div class="feat has-fig"><div class="feat-text"><h3>What broke last time</h3><p>Pennsylvania ran its own wine kiosks in 2010 and 2011. Only 32 of 100 planned kiosks went in, the state auditor logged about 1,000 malfunctions, and the program shut down in 2011.</p><p>In the sim, the median bar that fits nets about $16K a year at 97% uptime at the rush, loses about $566 for each point of downtime, and stops paying off below about 74%. So a jammed row switches itself off and the machine tries another row with the same drink. There's an LTE backup behind the Wi-Fi, and if an ID won't read, the guest gets sent to the bar.</p></div><figure class="feat-fig"><img width="1400" height="515" src="../img/dd-uptime.webp" alt="Two sim charts: share of venues that clear the hurdle by peak-hour uptime, and lifetime contribution per placement by uptime, by channel." loading="lazy" decoding="async" style="background-color:#1E1F1E"><figcaption>Uptime in the sim, by type of venue.</figcaption></figure></div></section><!--/deep-->
 
     <p class="proj-more"><a href="../#path">Everything I&rsquo;ve built</a></p>
   </main>
@@ -2586,7 +2592,8 @@ function easelPastel() {
   function cmp(x) { x = x > 0.0031308 ? 1.055 * Math.pow(x, 1 / 2.4) - 0.055 : x * 12.92; return x <= 0 ? 0 : x >= 1 ? 255 : x * 255; }
   var cache = new Map();
   function spec(r, g, b) {
-    r = r | 0; g = g | 0; b = b | 0;
+    // Oct 31: round, not floor. Thousands of small mixes per stroke each lost up to a step, so colors sank toward olive grey.
+    r = Math.round(r); g = Math.round(g); b = Math.round(b);
     var key = (r << 16) | (g << 8) | b, o = cache.get(key);
     if (o) return o;
     var lr = unc(r), lg = unc(g), lb = unc(b), w = Math.min(lr, lg, lb);
@@ -2617,6 +2624,9 @@ function easelPastel() {
     out[2] = cmp(M[2][0] * X + M[2][1] * Y + M[2][2] * Z);
     return out;
   }
+  // Oct 31: mix() weights by share squared (as Spectral.js does), so a layer meant to cover 13% only added about 2%,
+  // and white could never cover. This turns the share a layer should lay down into the t that lays it down.
+  function lay(s) { var a = Math.sqrt(s), b = Math.sqrt(1 - s); return a / (a + b); }
   // Paper tooth: a few octaves of value noise, fine enough to read as cold-press paper. 1 = a peak the wax catches first.
   var seed = 7;
   function rnd() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
@@ -2722,14 +2732,14 @@ function easelPastel() {
       else {
         // Wet into wet: the new color and the one under it work into each other, a bit more on the paper's peaks.
         var share = dep * 2.4 / (h + dep * 2.4) * Math.min(1, 0.55 + 0.9 * gr);
-        tmp[0] = col[j]; tmp[1] = col[j + 1]; tmp[2] = col[j + 2]; mix(tmp, stick.tip, share, tmp);
+        tmp[0] = col[j]; tmp[1] = col[j + 1]; tmp[2] = col[j + 2]; mix(tmp, stick.tip, lay(share), tmp);
         col[j] = tmp[0]; col[j + 1] = tmp[1]; col[j + 2] = tmp[2];
       }
       wax[i] = Math.min(2.2, h + dep);
     }
     // The tip picks up what it pushed through, then wears back to its own color on clean paper.
     // (A plain blend here: the tip's color only steers what gets laid down next.)
-    var cover = seen > 0 ? Math.min(1, sw / seen) : 0, k1 = 0.025 * cover, k2 = 0.01 + 0.12 * (1 - cover);
+    var cover = seen > 0 ? Math.min(1, sw / seen) : 0, k1 = 0.012 * cover, k2 = 0.04 + 0.12 * (1 - cover);
     for (var c3 = 0; c3 < 3; c3++) {
       if (sw > 0) stick.tip[c3] += ([sr, sg, sb][c3] / sw - stick.tip[c3]) * k1;
       stick.tip[c3] += (stick.c[c3] - stick.tip[c3]) * k2;
@@ -2750,6 +2760,8 @@ function easelPastel() {
   var down = false, touched = false;
   cv.addEventListener('pointerdown', function (e) {
     down = true; touched = true; last = null; press = pressure(e); stroke = (stroke + 1) % 65535 || 1; newRidges();
+    // Oct 31 (Jason: white over yellow after going over blue came out green): each stroke starts with a clean stick.
+    stick.tip = stick.c.slice();
     try { cv.setPointerCapture(e.pointerId); } catch (er) {}
     var p = at(e); to(p[0], p[1]); e.preventDefault();
   });

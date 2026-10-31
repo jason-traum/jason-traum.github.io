@@ -896,9 +896,19 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
 .case-nav span { color: var(--t3); font-weight: 700; margin-right: 4px; }
 .case-nav a { display: inline-flex; align-items: center; min-height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--b2); color: var(--t2); font-weight: 700; text-decoration: none; }
 .case-nav a[aria-current="page"] { background: #E7ECF1; border-color: #E7ECF1; color: #141619; }
+.skip { position: absolute; left: -9999px; top: 8px; }
+.skip:focus { left: 16px; background: var(--s2); color: var(--t0); padding: 6px 10px; z-index: 10; }
+/* Oct 31: next case study at the bottom, same as the other case study pages */
+.cs-next { margin-top: 8px; margin-bottom: 40px; }
+.cs-next a { display: flex; align-items: center; gap: 16px; padding-top: 22px; border-top: 1px solid var(--b2); color: var(--t0); text-decoration: none; }
+.cs-next img { width: 96px; height: 72px; object-fit: cover; object-position: top; border-radius: 8px; border: 1px solid var(--b2); }
+.cs-next b { font-family: Manrope, sans-serif; font-size: 1.2rem; letter-spacing: -0.01em; }
+.cs-next b::after { content: '\00a0\2192'; }
+.cs-next a:hover b { text-decoration: underline; }
 </style>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 <div class="wrap">
   <header class="bar">
     <a class="back" href="./"><span aria-hidden="true">&larr;</span> Jason Traum</a>
@@ -906,7 +916,7 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
   </header>
   <nav class="route-nav" aria-label="Where you are on the site"><ol><li class="here" data-stop="start" style="--pc: #E7ECF1"><a href="./"><i aria-hidden="true"></i><span>Start</span></a></li><li data-stop="ai.html" style="--pc: #A593EC"><a href="ai.html"><i aria-hidden="true"></i><span>How I use AI</span></a></li><li data-stop="research.html" style="--pc: #5CC495"><a href="research.html"><i aria-hidden="true"></i><span>Research and strategy</span></a></li><li data-stop="background.html" style="--pc: #E56A9C"><a href="background.html"><i aria-hidden="true"></i><span>About me</span></a></li><li data-stop="contact" style="--pc: #E7ECF1"><a href="./#contact"><i aria-hidden="true"></i><span>Get in touch</span></a></li></ol></nav>
 
-  <main>
+  <main id="main">
     <nav class="case-nav" aria-label="Case studies"><span>Case studies</span><a href="dreamy.html" aria-current="page">Dreamy</a><a href="projects/walldrobe.html">Walldrobe</a><a href="projects/wharton-os.html">Wharton OS</a><a href="morgan-stanley.html">Morgan Stanley</a></nav>
     <section class="hero" aria-labelledby="h1">
       <canvas id="stars" aria-hidden="true"></canvas>
@@ -1295,7 +1305,7 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
 
     <section class="sec" id="build" aria-labelledby="bd-h">
       <h2 id="bd-h">Working with Claude Code</h2>
-      <p class="intro">Claude Code wrote the code. I decided what the engine should do, did the research behind it, and checked whether its plans actually held up.</p>
+      <p class="intro">I decided what the engine should do, did the research behind it, and checked whether its plans actually held up.</p>
       <h3 class="loop-h">How each fix gets made</h3>
       <p class="intro">Each fix to the forecasts gets scored by the lab before the next one starts, and nothing merges until I decide.</p>
       <ol class="loop" aria-label="How each fix gets made"><li>I set the bar</li><li>Claude Code builds the fix</li><li>The lab scores it</li><li>A second Claude reviews it with me</li><li>I decide</li></ol>
@@ -1341,7 +1351,7 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
       </table>
       </details>
       <p class="intro">Going further would have meant proving the forecasts, testing a price and supporting real users while those platforms caught up. Right now I&rsquo;d rather build smaller things for needs I can see than turn one into a full business.</p>
-      <details class="fold"><summary>What the beta did and didn&rsquo;t prove</summary><p>The beta showed runners stuck with it. It didn&rsquo;t prove two things. One is that the race forecasts are accurate, which I set at about 50 forecasts matched to real race results. The other is that anyone would pay. Nobody was asked to, and a heavy user would have cost $5 to $20 a month in AI calls against my goal of under $5.</p></details>
+      <details class="fold"><summary>What the beta did and didn&rsquo;t prove</summary><p>The beta showed runners preferred it. It didn&rsquo;t prove two things. One is that the race forecasts are accurate, which I set at about 50 forecasts matched to real race results. The other is that anyone would pay. Nobody was asked to, and a heavy user would have cost $5 to $20 a month in AI calls against my goal of under $5.</p></details>
       <details class="fold wide"><summary>How it compares with the other apps</summary>
       <p class="intro">What the other options do comes from each company's own help and pricing pages, as of September 27, 2026. The others are ahead on watch apps, strength plans, real human coaching and scale. Dreamy is a web app that syncs with Strava.</p>
       <div class="cmp-wrap">
@@ -1375,7 +1385,7 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
       </p>
       </details>
   <ul class="proof">
-          <li class="yes"><b>Runners stuck with it</b><span>14 of 15 rated it above what they used before</span></li>
+          <li class="yes"><b>Runners preferred it</b><span>14 of 15 rated it above what they used before</span></li>
           <li class="no"><b>Anyone would pay</b><span>Not tested</span></li>
           <li class="now"><b>The race forecasts are accurate</b><span>In the lab it lost to a free race calculator at the marathon, and now it&rsquo;s about even. The bar I set is about 50 forecasts matched to real races.</span></li>
         </ul>
@@ -1390,7 +1400,7 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
         <figure class="shot"><img src="img/dreamy-forecast-crop.webp" width="960" height="550" alt="The race forecast with each model's estimate, VDOT, confidence and weight." loading="lazy" decoding="async" style="background-color:#1D1E28"><figcaption>My half marathon forecast, with every model&rsquo;s estimate</figcaption></figure>
       </div>
     </section>
-    
+    <nav class="cs-next wrap" aria-label="Next case study"><a href="projects/walldrobe.html"><img src="img/wd-pick-2.webp" width="1200" height="829" alt="" loading="lazy" decoding="async" style="background-color:#ABAEAA"><span><b>Next: Walldrobe</b></span></a></nav>
   </main>
 
   <footer class="foot">
