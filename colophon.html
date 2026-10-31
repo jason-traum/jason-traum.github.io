@@ -455,6 +455,10 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .log thead th { text-align: left; height: 18px; vertical-align: bottom; }
 .log thead th:first-child, .log tbody th { width: 30px; text-align: left; }
 .log td { padding: 0; position: relative; }
+/* Oct 30 review: a day's details work on tap and with the keyboard, not only on mouse hover */
+.log td[tabindex] { cursor: pointer; }
+.log td[tabindex]:focus-visible, .log td.on { outline: 2px solid var(--ink); outline-offset: -1px; border-radius: 3px; }
+.log-tip { min-height: 1.5em; margin: 10px 0 0; font-size: 14px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
 .log td::before { content: ''; display: block; padding-top: 100%; }
 .log td i { position: absolute; inset: 0; margin: auto; width: calc(var(--s, 0.4) * 100%); height: auto; aspect-ratio: 1; border-radius: 50%; }
 .log tbody th { font-size: 11px; line-height: 1; }
@@ -1357,6 +1361,8 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
 .intro-body { align-content: start; }
 .cta-row { align-items: flex-start; }
 .d-map img { max-height: 280px; object-position: center top; aspect-ratio: 1000 / 800; }
+/* Oct 30: the photo finder screenshot shows whole, never cropped by the map's height cap */
+.d-map.d-shot img, .d-shot img { max-height: none; aspect-ratio: auto; object-fit: contain; }
 
 
 /* Oct 30, after Jason pointed at the wireframe ("You don't think this is cleaner? You just made it"): Start matches it.
@@ -1365,6 +1371,9 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
 .h2-grid { display: grid; grid-template-columns: minmax(0, 1fr) 210px; gap: 44px; align-items: center; }
 .hero2 .name { font-size: clamp(2.8rem, 6.4vw, 4.6rem); line-height: 0.95; margin: 0; }
 .hero2 .tagline.creds { margin-top: 14px; }
+/* Oct 30, Jason picked the top line: what I do, in my words; the ask stays at the bottom */
+.hero2 .h2-line { margin-top: 16px; max-width: 26em; font-size: clamp(1.15rem, 2.1vw, 1.45rem); font-weight: 600; line-height: 1.35; color: var(--ink); }
+.hero2 .h2-line a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 4px; }
 .hero2 .cta-row { margin-top: 24px; align-items: center; gap: 10px 12px; }
 .hero2 .cta { border-radius: 999px; padding: 8px 18px; }
 .h2-l { font-size: 14.5px; font-weight: 600; margin-left: 4px; }
@@ -1374,7 +1383,8 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
   .h2-photo { grid-row: 1; grid-column: 1; width: 76px; height: 76px; border-radius: 10px; align-self: start; margin-top: 4px; }
   .h2-txt { display: contents; }
   .hero2 .name { grid-column: 2; grid-row: 1; align-self: center; font-size: clamp(2.1rem, 10vw, 2.8rem); }
-  .hero2 .tagline.creds, .hero2 .cta-row { grid-column: 1 / -1; }
+  .hero2 .tagline.creds, .hero2 .h2-line, .hero2 .cta-row { grid-column: 1 / -1; }
+  .hero2 .h2-line { margin-top: 0; }
   .hero2 .tagline.creds { margin-top: 0; }
   .hero2 .cta-row { margin-top: 4px; }
 }
@@ -1842,7 +1852,7 @@ details.more > p + p { margin-top: 12px; }
       <header><h2 class="ext" id="log2-h">What changed and when</h2></header>
       <div class="table-wrap">
         <ol class="timeline"><li><span class="tl-d">Sep 27, 2026</span><span class="tl-t">First direction: a holdings report.</span></li><li><span class="tl-d">Sep 28, 2026</span><span class="tl-t">All the copy got rewritten from my own sentences. Moved to the chartbook look and added the build log.</span></li><li><span class="tl-d">Sep 29, 2026</span><span class="tl-t">Went live on GitHub Pages. Added the skills cloud. Switched to dark only.</span></li><li><span class="tl-d">Oct 4, 2026</span><span class="tl-t">Rebuilt the Walldrobe page and moved Walldrobe second, after Dreamy.</span></li><li><span class="tl-d">Oct 5, 2026</span><span class="tl-t">The redesign after the research: my background in the first sentence, projects first, the palette band in place of decoration, a graphite background, and two new pages, How I use AI and this one.</span></li><li><span class="tl-d">Oct 6, 2026</span><span class="tl-t">After a friend&rsquo;s review, the site became a book: three chapters with a next page at the end of each, and Background on its own page. The main page became a map of my path.</span></li><li><span class="tl-d">Oct 7, 2026</span><span class="tl-t">Research opens with pictures, About me with skills, and How I use AI with four calls I made.</span></li>
-<li><span class="tl-d">Oct 8, 2026</span><span class="tl-t">A friend said it felt like a maze, so the projects moved onto the map, the contents list went away, and each skill got one line.</span></li></ol>
+<li><span class="tl-d">Oct 8, 2026</span><span class="tl-t">A friend said it felt like a maze, so the projects moved onto the map, the contents list went away, and each skill got one line.</span></li><li><span class="tl-d">Oct 9, 2026</span><span class="tl-t">How I use AI got split into Morgan Stanley and Wharton sections.</span></li><li><span class="tl-d">Oct 18, 2026</span><span class="tl-t">I added photos from the Dolomites to the photo wall.</span></li><li><span class="tl-d">Oct 29, 2026</span><span class="tl-t">The Dreamy page got reorganized by topic, and I added the market map and my old ChatGPT prompt.</span></li><li><span class="tl-d">Oct 30, 2026</span><span class="tl-t">Start got rebuilt around case studies, a day at Morgan Stanley, a day at Wharton, and the photo finder. Dreamy got deep dives from its Forecast Lab. I had four AIs review the site and put in the first fixes from their reviews.</span></li></ol>
       </div>
     </section>
 
@@ -3203,6 +3213,20 @@ easelPastel();
   var io = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { f.classList.add('in'); io.disconnect(); } }, { threshold: 0.5 });
   io.observe(f);
 })();
+
+// Oct 30 review: the build log's day details only showed on mouse hover. A tap, a click or keyboard focus on a day now
+// shows the same words under the table, so they work on a phone and with a screen reader.
+(function () {
+  var tip = document.querySelector('.log-tip'); if (!tip) return;
+  var M = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], on = null;
+  function say(td) {
+    if (on) on.classList.remove('on');
+    on = td; td.classList.add('on');
+    tip.textContent = td.getAttribute('title').replace(/^(\d{4})-(\d{2})-(\d{2})/, function (_, y, m, d) { return M[+m - 1] + ' ' + (+d); });
+  }
+  document.addEventListener('click', function (ev) { var td = ev.target.closest && ev.target.closest('.log td[tabindex]'); if (td) say(td); });
+  document.addEventListener('focusin', function (ev) { var td = ev.target.closest && ev.target.closest('.log td[tabindex]'); if (td) say(td); });
+})();
 /* The photo finder, inside its dive-in on the AI page. A slice of the public Dolomites Photo Finder:
    real tags, scores, edit notes (shown only from the scoring call) and Strava tracks (data/pf-slice.json, embedded as #pf-data).
    Views: Map (photos pinned to each day's route), People (tap one or more), Photos (grid with stacks).
@@ -3266,7 +3290,13 @@ easelPastel();
   // ---- people
   function drawPeople() {
     var counts = {};
-    DATA.photos.forEach(function (p) { p.pp.forEach(function (x) { if (!x[0]) return; var c = counts[x[0]] = counts[x[0]] || { n: 0, b: 0 }; c.n++; if (x[1] === 'b') c.b++; }); });
+    // A burst counts once, the way the grid shows it (Oct 30: Me said 51 photos over a grid of 49)
+    var done = {};
+    DATA.photos.forEach(function (p) { p.pp.forEach(function (x) {
+      if (!x[0]) return;
+      if (p.st != null) { var key = x[0] + '|' + p.st; if (done[key]) return; done[key] = 1; }
+      var c = counts[x[0]] = counts[x[0]] || { n: 0, b: 0 }; c.n++; if (x[1] === 'b') c.b++;
+    }); });
     $('.pf-people').innerHTML = DATA.people.map(function (q) {
       var id = q[0], c = counts[id] || { n: 0, b: 0 };
       return '<li><button type="button" class="pf-person" data-v="' + id + '" aria-pressed="' + (S.who.indexOf(id) >= 0) + '">'
@@ -3317,7 +3347,7 @@ easelPastel();
     });
     keys.forEach(function (k, i) {
       var c = cl[k], n = c.ps.length, x = c.x / n, y = c.y / n, r = Math.min(15, 5 + Math.sqrt(n) * 2), d = c.ps[0].d;
-      s += '<g class="pf-spot d' + d + (S.day && S.day != d ? ' dim' : '') + '" data-c="' + i + '" tabindex="0" role="button" aria-label="' + n + ' photos here"><circle cx="' + x + '" cy="' + y + '" r="' + r + '"/>' + (n > 1 ? '<text x="' + x + '" y="' + (y + 4) + '">' + n + '</text>' : '') + '</g>';
+      s += '<g class="pf-spot d' + d + (S.day && S.day != d ? ' dim' : '') + '" data-c="' + i + '" tabindex="0" role="button" aria-label="' + n + (n === 1 ? ' photo' : ' photos') + ' here"><circle cx="' + x + '" cy="' + y + '" r="' + r + '"/>' + (n > 1 ? '<text x="' + x + '" y="' + (y + 4) + '">' + n + '</text>' : '') + '</g>';
     });
     var bar = 2 * m.sc / 111.32;
     s += '<line class="pf-sb" x1="' + (m.W - 26 - bar) + '" y1="' + (m.H - 14) + '" x2="' + (m.W - 26) + '" y2="' + (m.H - 14) + '"/><text class="pf-lab sm" x="' + (m.W - 26) + '" y="' + (m.H - 20) + '" text-anchor="end">2 km</text>';
@@ -3351,6 +3381,7 @@ easelPastel();
 
   // ---- one photo
   function openPhoto(p) {
+    if (!S.open) S.from = document.activeElement;  // Oct 30 review: focus goes back to what opened the photo
     S.open = p;
     var v = $('.pf-view'), frames = p.st != null ? DATA.photos.filter(function (q) { return q.st === p.st; }) : null;
     var ppl = p.pp.map(function (x) { return '<i class="' + (x[2] ? '' : 'unsure') + '">' + esc(x[0] || 'someone else') + ' · ' + FACE[x[1]] + (x[2] ? '' : ', probably') + '</i>'; }).join('');
@@ -3374,7 +3405,11 @@ easelPastel();
     v.onclick = function (ev) { var b = ev.target.closest('[data-k]'); if (b) openPhoto(DATA.photos.filter(function (q) { return q.k === b.getAttribute('data-k'); })[0]); };
     v.querySelector('.pf-v-x').focus({ preventScroll: true });
   }
-  function closePhoto() { $('.pf-view').hidden = true; S.open = null; }
+  function closePhoto() {
+    var back = S.open && VIEW.contains(document.activeElement) && S.from && S.from.isConnected ? S.from : null;
+    $('.pf-view').hidden = true; S.open = null;
+    if (back) back.focus({ preventScroll: true });
+  }
 
   function draw() {
     ['map', 'people', 'photos'].forEach(function (k) {
@@ -3424,7 +3459,9 @@ easelPastel();
       if (what === 'stack') { S.view = 'photos'; S.who = []; S.face = ''; }
       draw();
       if (what === 'score') {
-        var p = DATA.photos.filter(function (q) { return /lift (shadows|face)/i.test(q.ed) && q.s >= 8; })[0];
+        // Oct 30, Jason: "need a better example for this". The sunset on Antelao: half the frame is black forest off the
+        // camera, but it scores 8 for what a crop and a little warmth make of it.
+        var p = DATA.photos.filter(function (q) { return q.k === 'day3_IMG_4416'; })[0] || DATA.photos.filter(function (q) { return /lift (shadows|face)/i.test(q.ed) && q.s >= 8; })[0];
         if (p) openPhoto(p);
       }
       if (what === 'stack') { var q = DATA.photos.filter(function (x) { return x.st != null && x.stb; })[0]; if (q) openPhoto(q); }

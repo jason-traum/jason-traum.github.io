@@ -455,6 +455,10 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .log thead th { text-align: left; height: 18px; vertical-align: bottom; }
 .log thead th:first-child, .log tbody th { width: 30px; text-align: left; }
 .log td { padding: 0; position: relative; }
+/* Oct 30 review: a day's details work on tap and with the keyboard, not only on mouse hover */
+.log td[tabindex] { cursor: pointer; }
+.log td[tabindex]:focus-visible, .log td.on { outline: 2px solid var(--ink); outline-offset: -1px; border-radius: 3px; }
+.log-tip { min-height: 1.5em; margin: 10px 0 0; font-size: 14px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
 .log td::before { content: ''; display: block; padding-top: 100%; }
 .log td i { position: absolute; inset: 0; margin: auto; width: calc(var(--s, 0.4) * 100%); height: auto; aspect-ratio: 1; border-radius: 50%; }
 .log tbody th { font-size: 11px; line-height: 1; }
@@ -1357,6 +1361,8 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
 .intro-body { align-content: start; }
 .cta-row { align-items: flex-start; }
 .d-map img { max-height: 280px; object-position: center top; aspect-ratio: 1000 / 800; }
+/* Oct 30: the photo finder screenshot shows whole, never cropped by the map's height cap */
+.d-map.d-shot img, .d-shot img { max-height: none; aspect-ratio: auto; object-fit: contain; }
 
 
 /* Oct 30, after Jason pointed at the wireframe ("You don't think this is cleaner? You just made it"): Start matches it.
@@ -1365,6 +1371,9 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
 .h2-grid { display: grid; grid-template-columns: minmax(0, 1fr) 210px; gap: 44px; align-items: center; }
 .hero2 .name { font-size: clamp(2.8rem, 6.4vw, 4.6rem); line-height: 0.95; margin: 0; }
 .hero2 .tagline.creds { margin-top: 14px; }
+/* Oct 30, Jason picked the top line: what I do, in my words; the ask stays at the bottom */
+.hero2 .h2-line { margin-top: 16px; max-width: 26em; font-size: clamp(1.15rem, 2.1vw, 1.45rem); font-weight: 600; line-height: 1.35; color: var(--ink); }
+.hero2 .h2-line a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 4px; }
 .hero2 .cta-row { margin-top: 24px; align-items: center; gap: 10px 12px; }
 .hero2 .cta { border-radius: 999px; padding: 8px 18px; }
 .h2-l { font-size: 14.5px; font-weight: 600; margin-left: 4px; }
@@ -1374,7 +1383,8 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
   .h2-photo { grid-row: 1; grid-column: 1; width: 76px; height: 76px; border-radius: 10px; align-self: start; margin-top: 4px; }
   .h2-txt { display: contents; }
   .hero2 .name { grid-column: 2; grid-row: 1; align-self: center; font-size: clamp(2.1rem, 10vw, 2.8rem); }
-  .hero2 .tagline.creds, .hero2 .cta-row { grid-column: 1 / -1; }
+  .hero2 .tagline.creds, .hero2 .h2-line, .hero2 .cta-row { grid-column: 1 / -1; }
+  .hero2 .h2-line { margin-top: 0; }
   .hero2 .tagline.creds { margin-top: 0; }
   .hero2 .cta-row { margin-top: 4px; }
 }
@@ -1756,18 +1766,18 @@ details.more > p + p { margin-top: 12px; }
     <nav class="route-nav" aria-label="Where you are on the site"><ol><li class="here" data-stop="start" style="--pc: #E7ECF1"><a href="./"><i aria-hidden="true"></i><span>Start</span></a></li><li data-stop="ai.html" style="--pc: #A593EC"><a href="ai.html"><i aria-hidden="true"></i><span>How I use AI</span></a></li><li data-stop="research.html" style="--pc: #5CC495"><a href="research.html"><i aria-hidden="true"></i><span>Research and strategy</span></a></li><li data-stop="background.html" style="--pc: #E56A9C"><a href="background.html"><i aria-hidden="true"></i><span>About me</span></a></li><li data-stop="contact" style="--pc: #E7ECF1"><a href="./#contact"><i aria-hidden="true"></i><span>Get in touch</span></a></li></ol></nav>
   </header>
   <main id="main">
-    <nav class="case-nav" aria-label="Case studies"><span>Case studies</span><a href="dreamy.html">Dreamy</a><a href="projects/wharton-os.html">Wharton OS</a><a href="morgan-stanley.html" aria-current="page">Morgan Stanley</a></nav>
+    <nav class="case-nav" aria-label="Case studies"><span>Case studies</span><a href="dreamy.html">Dreamy</a><a href="projects/walldrobe.html">Walldrobe</a><a href="morgan-stanley.html" aria-current="page">Morgan Stanley</a></nav>
 <article class="project chapter cs" id="ms-case" aria-labelledby="msc-h">
       <header class="p-head">
         <h1 class="p-name" id="msc-h">The analytics package, from 10 business days to 3</h1>
         <p class="p-tag">I led the automation of our thousand-slide monthly analytics package. The code took a few months, around everything else I was working on. It&rsquo;s still running without me.</p>
       </header>
-      <!--msbig--><figure class="msbig"><svg class="ms-wide" viewBox="0 0 1000 250" role="img" aria-label="The monthly run: a master tracker with one row per slide and data from Bloomberg, FactSet and Haver feed six steps. Copy the month&rsquo;s folder locally, refresh every chartsheet, export charts as images, place each by name and size, rebuild the Chartbook, copy back to the shared drive. Each slide is set to Auto, Open and save, or Skip. Every step is logged and it runs overnight."><g class="g-t g-lg"><rect class="g-src" x="20" y="18" width="200" height="78" rx="10"/><text class="g-b" x="36" y="44">Master tracker</text><text class="g-sm" x="36" y="66">one row per slide: owner,</text><text class="g-sm" x="36" y="84">cadence, run-now flag, codes</text><text class="g-sm" x="250" y="22">More than 4,000 data fields</text><rect class="g-src" x="250" y="34" width="116" height="30" rx="15"/><text x="308.0" y="54" text-anchor="middle">Bloomberg</text><rect class="g-src" x="376" y="34" width="96" height="30" rx="15"/><text x="424.0" y="54" text-anchor="middle">FactSet</text><rect class="g-src" x="482" y="34" width="84" height="30" rx="15"/><text x="524.0" y="54" text-anchor="middle">Haver</text><rect class="g-run" x="600" y="18" width="380" height="78" rx="10"/><text x="620" y="46">Each slide set to Auto, Open and save, or Skip</text><text class="g-sm" x="620" y="74">Every step logged. Runs overnight.</text><path class="g-ln" d="M60,96 L60,132 M408,64 C408,100 270,100 270,132 M308,64 C308,100 270,100 270,132 M524,64 C524,100 270,100 270,132"/><rect class="g-mod" x="20" y="132" width="148" height="66" rx="10"/><circle class="g-a" cx="38" cy="150" r="10"/><text class="g-num" x="38" y="155" text-anchor="middle">1</text><text x="56" y="155">Copy the</text><text x="56" y="177">month&rsquo;s folder</text><path class="g-ln" d="M168,165 L182,165"/><rect class="g-mod" x="182" y="132" width="148" height="66" rx="10"/><circle class="g-a" cx="200" cy="150" r="10"/><text class="g-num" x="200" y="155" text-anchor="middle">2</text><text x="218" y="155">Refresh every</text><text x="218" y="177">chartsheet</text><path class="g-ln" d="M330,165 L344,165"/><rect class="g-mod" x="344" y="132" width="148" height="66" rx="10"/><circle class="g-a" cx="362" cy="150" r="10"/><text class="g-num" x="362" y="155" text-anchor="middle">3</text><text x="380" y="155">Export charts</text><text x="380" y="177">as images</text><path class="g-ln" d="M492,165 L506,165"/><rect class="g-mod" x="506" y="132" width="148" height="66" rx="10"/><circle class="g-a" cx="524" cy="150" r="10"/><text class="g-num" x="524" y="155" text-anchor="middle">4</text><text x="542" y="155">Place each by</text><text x="542" y="177">name and size</text><path class="g-ln" d="M654,165 L668,165"/><rect class="g-mod" x="668" y="132" width="148" height="66" rx="10"/><circle class="g-a" cx="686" cy="150" r="10"/><text class="g-num" x="686" y="155" text-anchor="middle">5</text><text x="704" y="155">Rebuild the</text><text x="704" y="177">Chartbook</text><path class="g-ln" d="M816,165 L830,165"/><rect class="g-mod" x="830" y="132" width="148" height="66" rx="10"/><circle class="g-a" cx="848" cy="150" r="10"/><text class="g-num" x="848" y="155" text-anchor="middle">6</text><text x="866" y="155">Copy back to</text><text x="866" y="177">the shared drive</text><text class="g-sm" x="980" y="226" text-anchor="end">The thousand-slide Chartbook, every month</text></g></svg><svg class="ms-tall" viewBox="0 0 320 400" aria-hidden="true"><g class="g-t"><text class="g-sm" x="4" y="12">More than 4,000 data fields</text><rect class="g-src" x="4" y="22" width="96" height="28" rx="14"/><text x="52" y="40" text-anchor="middle">Bloomberg</text><rect class="g-src" x="112" y="22" width="96" height="28" rx="14"/><text x="160" y="40" text-anchor="middle">FactSet</text><rect class="g-src" x="220" y="22" width="96" height="28" rx="14"/><text x="268" y="40" text-anchor="middle">Haver</text><rect class="g-mod" x="20" y="70" width="280" height="40" rx="8"/><circle class="g-a" cx="40" cy="90" r="10"/><text class="g-num" x="40" y="95" text-anchor="middle">1</text><text x="60" y="95">Copy the month&rsquo;s folder</text><rect class="g-mod" x="20" y="120" width="280" height="40" rx="8"/><circle class="g-a" cx="40" cy="140" r="10"/><text class="g-num" x="40" y="145" text-anchor="middle">2</text><text x="60" y="145">Refresh every chartsheet</text><rect class="g-mod" x="20" y="170" width="280" height="40" rx="8"/><circle class="g-a" cx="40" cy="190" r="10"/><text class="g-num" x="40" y="195" text-anchor="middle">3</text><text x="60" y="195">Export charts as images</text><rect class="g-mod" x="20" y="220" width="280" height="40" rx="8"/><circle class="g-a" cx="40" cy="240" r="10"/><text class="g-num" x="40" y="245" text-anchor="middle">4</text><text x="60" y="245">Place each by name and size</text><rect class="g-mod" x="20" y="270" width="280" height="40" rx="8"/><circle class="g-a" cx="40" cy="290" r="10"/><text class="g-num" x="40" y="295" text-anchor="middle">5</text><text x="60" y="295">Rebuild the Chartbook</text><rect class="g-mod" x="20" y="320" width="280" height="40" rx="8"/><circle class="g-a" cx="40" cy="340" r="10"/><text class="g-num" x="40" y="345" text-anchor="middle">6</text><text x="60" y="345">Copy back to the shared drive</text><text class="g-sm" x="160" y="378" text-anchor="middle">Each slide set to Auto, Open and save, or Skip.</text><text class="g-sm" x="160" y="396" text-anchor="middle">Every step logged. Runs overnight.</text></g></svg><figure class="flow" id="flow"><div class="flow-row"><p class="flow-lab"><b>Before</b><span>14 business days</span></p><div class="flow-track"><div class="flow-bar" role="img" aria-label="Before: 14 business days. Making the slides took 10, then review and legal took about 4 more." style="flex:14"><i class="a" style="flex:10"><span>10 days</span></i><i class="b" style="flex:4"></i></div><i class="flow-gap" style="flex:0"></i></div></div><div class="flow-row"><p class="flow-lab"><b>After</b><span>4 business days</span></p><div class="flow-track"><div class="flow-bar" role="img" aria-label="After: 4 business days. Making the slides took 3, then review and legal took about 1 more." style="flex:4"><i class="a" style="flex:3"><span>3 days</span></i><i class="b" style="flex:1"></i></div><i class="flow-gap" style="flex:10"></i></div></div><p class="flow-key"><i class="a"></i>Making the slides <i class="b"></i>Review and legal</p></figure></figure><!--/msbig-->
+      <!--msbig--><figure class="msbig"><svg class="ms-wide" viewBox="0 0 1000 250" role="img" aria-label="The monthly run: a master tracker with one row per slide and data from Bloomberg, FactSet and Haver feed six steps. Copy the month&rsquo;s folder locally, refresh every chartsheet, export charts as images, place each by name and size, rebuild the Chartbook, copy back to the shared drive. Each slide is set to Auto, Open and save, or Skip. Every step is logged and it runs overnight."><g class="g-t g-lg"><rect class="g-src" x="20" y="18" width="200" height="78" rx="10"/><text class="g-b" x="36" y="44">Master tracker</text><text class="g-sm" x="36" y="66">one row per slide: owner,</text><text class="g-sm" x="36" y="84">cadence, run-now flag, codes</text><text class="g-sm" x="250" y="22">More than 4,000 data fields</text><rect class="g-src" x="250" y="34" width="116" height="30" rx="15"/><text x="308.0" y="54" text-anchor="middle">Bloomberg</text><rect class="g-src" x="376" y="34" width="96" height="30" rx="15"/><text x="424.0" y="54" text-anchor="middle">FactSet</text><rect class="g-src" x="482" y="34" width="84" height="30" rx="15"/><text x="524.0" y="54" text-anchor="middle">Haver</text><rect class="g-run" x="600" y="18" width="380" height="78" rx="10"/><text x="620" y="46">Each slide set to Auto, Open and save, or Skip</text><text class="g-sm" x="620" y="74">Every step logged. Runs overnight.</text><path class="g-ln" d="M60,96 L60,132 M408,64 C408,100 270,100 270,132 M308,64 C308,100 270,100 270,132 M524,64 C524,100 270,100 270,132"/><rect class="g-mod" x="20" y="132" width="148" height="66" rx="10"/><circle class="g-a" cx="38" cy="150" r="10"/><text class="g-num" x="38" y="155" text-anchor="middle">1</text><text x="56" y="155">Copy the</text><text x="56" y="177">month&rsquo;s folder</text><path class="g-ln" d="M168,165 L182,165"/><rect class="g-mod" x="182" y="132" width="148" height="66" rx="10"/><circle class="g-a" cx="200" cy="150" r="10"/><text class="g-num" x="200" y="155" text-anchor="middle">2</text><text x="218" y="155">Refresh every</text><text x="218" y="177">chartsheet</text><path class="g-ln" d="M330,165 L344,165"/><rect class="g-mod" x="344" y="132" width="148" height="66" rx="10"/><circle class="g-a" cx="362" cy="150" r="10"/><text class="g-num" x="362" y="155" text-anchor="middle">3</text><text x="380" y="155">Export charts</text><text x="380" y="177">as images</text><path class="g-ln" d="M492,165 L506,165"/><rect class="g-mod" x="506" y="132" width="148" height="66" rx="10"/><circle class="g-a" cx="524" cy="150" r="10"/><text class="g-num" x="524" y="155" text-anchor="middle">4</text><text x="542" y="155">Place each by</text><text x="542" y="177">name and size</text><path class="g-ln" d="M654,165 L668,165"/><rect class="g-mod" x="668" y="132" width="148" height="66" rx="10"/><circle class="g-a" cx="686" cy="150" r="10"/><text class="g-num" x="686" y="155" text-anchor="middle">5</text><text x="704" y="155">Rebuild the</text><text x="704" y="177">Chartbook</text><path class="g-ln" d="M816,165 L830,165"/><rect class="g-mod" x="830" y="132" width="148" height="66" rx="10"/><circle class="g-a" cx="848" cy="150" r="10"/><text class="g-num" x="848" y="155" text-anchor="middle">6</text><text x="866" y="155">Copy back to</text><text x="866" y="177">the shared drive</text><text class="g-sm" x="980" y="226" text-anchor="end">The thousand-slide Chartbook, every month</text></g></svg><svg class="ms-tall" viewBox="0 0 320 400" aria-hidden="true"><g class="g-t"><text class="g-sm" x="4" y="12">More than 4,000 data fields</text><rect class="g-src" x="4" y="22" width="96" height="28" rx="14"/><text x="52" y="40" text-anchor="middle">Bloomberg</text><rect class="g-src" x="112" y="22" width="96" height="28" rx="14"/><text x="160" y="40" text-anchor="middle">FactSet</text><rect class="g-src" x="220" y="22" width="96" height="28" rx="14"/><text x="268" y="40" text-anchor="middle">Haver</text><rect class="g-mod" x="20" y="70" width="280" height="40" rx="8"/><circle class="g-a" cx="40" cy="90" r="10"/><text class="g-num" x="40" y="95" text-anchor="middle">1</text><text x="60" y="95">Copy the month&rsquo;s folder</text><rect class="g-mod" x="20" y="120" width="280" height="40" rx="8"/><circle class="g-a" cx="40" cy="140" r="10"/><text class="g-num" x="40" y="145" text-anchor="middle">2</text><text x="60" y="145">Refresh every chartsheet</text><rect class="g-mod" x="20" y="170" width="280" height="40" rx="8"/><circle class="g-a" cx="40" cy="190" r="10"/><text class="g-num" x="40" y="195" text-anchor="middle">3</text><text x="60" y="195">Export charts as images</text><rect class="g-mod" x="20" y="220" width="280" height="40" rx="8"/><circle class="g-a" cx="40" cy="240" r="10"/><text class="g-num" x="40" y="245" text-anchor="middle">4</text><text x="60" y="245">Place each by name and size</text><rect class="g-mod" x="20" y="270" width="280" height="40" rx="8"/><circle class="g-a" cx="40" cy="290" r="10"/><text class="g-num" x="40" y="295" text-anchor="middle">5</text><text x="60" y="295">Rebuild the Chartbook</text><rect class="g-mod" x="20" y="320" width="280" height="40" rx="8"/><circle class="g-a" cx="40" cy="340" r="10"/><text class="g-num" x="40" y="345" text-anchor="middle">6</text><text x="60" y="345">Copy back to the shared drive</text><text class="g-sm" x="160" y="378" text-anchor="middle">Each slide set to Auto, Open and save, or Skip.</text><text class="g-sm" x="160" y="396" text-anchor="middle">Every step logged. Runs overnight.</text></g></svg><figure class="flow" id="flow"><div class="flow-row"><p class="flow-lab"><b>Before</b><span>10 business days</span></p><div class="flow-track"><div class="flow-bar" role="img" aria-label="Before: making the slides took 10 business days." style="flex:10"><i class="a" style="flex:10"><span>10 days</span></i></div><i class="flow-gap" style="flex:0"></i></div></div><div class="flow-row"><p class="flow-lab"><b>After</b><span>3 business days</span></p><div class="flow-track"><div class="flow-bar" role="img" aria-label="After: making the slides took 3 business days." style="flex:3"><i class="a" style="flex:3"><span>3 days</span></i></div><i class="flow-gap" style="flex:7"></i></div></div></figure></figure><!--/msbig-->
 
       <div class="cs-parts">
         <section aria-labelledby="cs1">
           <h2 class="cs-h" id="cs1">The problem</h2>
-          <p>Before, the package took 14 business days. Making the slides took 10, then review and legal took about 4 more.</p>
+          <p>Before we automated it, making the slides took 10 business days.</p>
         </section>
         <section aria-labelledby="cs2">
           <h2 class="cs-h" id="cs2">What I built</h2>
@@ -1779,7 +1789,7 @@ details.more > p + p { margin-top: 12px; }
         </section>
         <section aria-labelledby="cs4">
           <h2 class="cs-h" id="cs4">What happened</h2>
-          <p>Making the slides went from 10 business days to 3, and the whole package from 14 to 4. I was also heavily involved in moving it into the new brand template, and redrew a lot of its charts so they were easier to read. The team I trained took it over.</p>
+          <p>Making the slides went from 10 business days to 3. I was also heavily involved in moving it into the new brand template, and redrew a lot of its charts so they were easier to read. The team I trained took it over.</p>
         </section>
         <section aria-labelledby="cs5">
           <h2 class="cs-h" id="cs5">What I&rsquo;d do differently</h2>
@@ -3147,6 +3157,20 @@ easelPastel();
   var io = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { f.classList.add('in'); io.disconnect(); } }, { threshold: 0.5 });
   io.observe(f);
 })();
+
+// Oct 30 review: the build log's day details only showed on mouse hover. A tap, a click or keyboard focus on a day now
+// shows the same words under the table, so they work on a phone and with a screen reader.
+(function () {
+  var tip = document.querySelector('.log-tip'); if (!tip) return;
+  var M = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], on = null;
+  function say(td) {
+    if (on) on.classList.remove('on');
+    on = td; td.classList.add('on');
+    tip.textContent = td.getAttribute('title').replace(/^(\d{4})-(\d{2})-(\d{2})/, function (_, y, m, d) { return M[+m - 1] + ' ' + (+d); });
+  }
+  document.addEventListener('click', function (ev) { var td = ev.target.closest && ev.target.closest('.log td[tabindex]'); if (td) say(td); });
+  document.addEventListener('focusin', function (ev) { var td = ev.target.closest && ev.target.closest('.log td[tabindex]'); if (td) say(td); });
+})();
 /* The photo finder, inside its dive-in on the AI page. A slice of the public Dolomites Photo Finder:
    real tags, scores, edit notes (shown only from the scoring call) and Strava tracks (data/pf-slice.json, embedded as #pf-data).
    Views: Map (photos pinned to each day's route), People (tap one or more), Photos (grid with stacks).
@@ -3210,7 +3234,13 @@ easelPastel();
   // ---- people
   function drawPeople() {
     var counts = {};
-    DATA.photos.forEach(function (p) { p.pp.forEach(function (x) { if (!x[0]) return; var c = counts[x[0]] = counts[x[0]] || { n: 0, b: 0 }; c.n++; if (x[1] === 'b') c.b++; }); });
+    // A burst counts once, the way the grid shows it (Oct 30: Me said 51 photos over a grid of 49)
+    var done = {};
+    DATA.photos.forEach(function (p) { p.pp.forEach(function (x) {
+      if (!x[0]) return;
+      if (p.st != null) { var key = x[0] + '|' + p.st; if (done[key]) return; done[key] = 1; }
+      var c = counts[x[0]] = counts[x[0]] || { n: 0, b: 0 }; c.n++; if (x[1] === 'b') c.b++;
+    }); });
     $('.pf-people').innerHTML = DATA.people.map(function (q) {
       var id = q[0], c = counts[id] || { n: 0, b: 0 };
       return '<li><button type="button" class="pf-person" data-v="' + id + '" aria-pressed="' + (S.who.indexOf(id) >= 0) + '">'
@@ -3261,7 +3291,7 @@ easelPastel();
     });
     keys.forEach(function (k, i) {
       var c = cl[k], n = c.ps.length, x = c.x / n, y = c.y / n, r = Math.min(15, 5 + Math.sqrt(n) * 2), d = c.ps[0].d;
-      s += '<g class="pf-spot d' + d + (S.day && S.day != d ? ' dim' : '') + '" data-c="' + i + '" tabindex="0" role="button" aria-label="' + n + ' photos here"><circle cx="' + x + '" cy="' + y + '" r="' + r + '"/>' + (n > 1 ? '<text x="' + x + '" y="' + (y + 4) + '">' + n + '</text>' : '') + '</g>';
+      s += '<g class="pf-spot d' + d + (S.day && S.day != d ? ' dim' : '') + '" data-c="' + i + '" tabindex="0" role="button" aria-label="' + n + (n === 1 ? ' photo' : ' photos') + ' here"><circle cx="' + x + '" cy="' + y + '" r="' + r + '"/>' + (n > 1 ? '<text x="' + x + '" y="' + (y + 4) + '">' + n + '</text>' : '') + '</g>';
     });
     var bar = 2 * m.sc / 111.32;
     s += '<line class="pf-sb" x1="' + (m.W - 26 - bar) + '" y1="' + (m.H - 14) + '" x2="' + (m.W - 26) + '" y2="' + (m.H - 14) + '"/><text class="pf-lab sm" x="' + (m.W - 26) + '" y="' + (m.H - 20) + '" text-anchor="end">2 km</text>';
@@ -3295,6 +3325,7 @@ easelPastel();
 
   // ---- one photo
   function openPhoto(p) {
+    if (!S.open) S.from = document.activeElement;  // Oct 30 review: focus goes back to what opened the photo
     S.open = p;
     var v = $('.pf-view'), frames = p.st != null ? DATA.photos.filter(function (q) { return q.st === p.st; }) : null;
     var ppl = p.pp.map(function (x) { return '<i class="' + (x[2] ? '' : 'unsure') + '">' + esc(x[0] || 'someone else') + ' · ' + FACE[x[1]] + (x[2] ? '' : ', probably') + '</i>'; }).join('');
@@ -3318,7 +3349,11 @@ easelPastel();
     v.onclick = function (ev) { var b = ev.target.closest('[data-k]'); if (b) openPhoto(DATA.photos.filter(function (q) { return q.k === b.getAttribute('data-k'); })[0]); };
     v.querySelector('.pf-v-x').focus({ preventScroll: true });
   }
-  function closePhoto() { $('.pf-view').hidden = true; S.open = null; }
+  function closePhoto() {
+    var back = S.open && VIEW.contains(document.activeElement) && S.from && S.from.isConnected ? S.from : null;
+    $('.pf-view').hidden = true; S.open = null;
+    if (back) back.focus({ preventScroll: true });
+  }
 
   function draw() {
     ['map', 'people', 'photos'].forEach(function (k) {
@@ -3368,7 +3403,9 @@ easelPastel();
       if (what === 'stack') { S.view = 'photos'; S.who = []; S.face = ''; }
       draw();
       if (what === 'score') {
-        var p = DATA.photos.filter(function (q) { return /lift (shadows|face)/i.test(q.ed) && q.s >= 8; })[0];
+        // Oct 30, Jason: "need a better example for this". The sunset on Antelao: half the frame is black forest off the
+        // camera, but it scores 8 for what a crop and a little warmth make of it.
+        var p = DATA.photos.filter(function (q) { return q.k === 'day3_IMG_4416'; })[0] || DATA.photos.filter(function (q) { return /lift (shadows|face)/i.test(q.ed) && q.s >= 8; })[0];
         if (p) openPhoto(p);
       }
       if (what === 'stack') { var q = DATA.photos.filter(function (x) { return x.st != null && x.stb; })[0]; if (q) openPhoto(q); }
