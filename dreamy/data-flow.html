@@ -117,6 +117,7 @@ footer{color:var(--t3);font-size:12px;border-top:1px solid var(--b1);padding-top
 <div class="wrap" role="main" id="main">
   <header class="top">
     <h1>From run file to race forecast</h1>
+    <p style="margin:6px 0 14px;color:var(--t2);font-size:15px;line-height:1.5;max-width:62ch">One run, traced from the watch file to the final forecast.</p>
     <div class="who" id="who"></div>
   </header>
   <nav class="map" aria-label="Stages"><div class="row" id="map"></div></nav>
@@ -301,7 +302,7 @@ const D = /*DATA*/{"runner":{"name":"Bib Hoarder","archetype":"Race-rich veteran
       return '<div class="drow"><span class="nm' + (off ? ' off' : '') + '" title="' + esc(m.label) + '">' + esc(m.label) + '</span><div class="track"><span class="vline" style="left:' + X(S.blend.seconds) + '"></span><span class="dot' + (off ? ' hollow' : '') + '" style="left:' + X(m.estimate) + ';width:' + size.toFixed(1) + 'px;height:' + size.toFixed(1) + 'px"></span></div><span class="w">' + fmtT(m.estimate) + '</span></div>';
     }).join('');
     var nm = F.modelsWithoutEstimate.map(function (m) { return esc(m.label); }).join(', ');
-    h += stage('f3', 12, 'Model estimates', 'forecast-orchestrator: 11 models', null,
+    h += stage('f3', 12, 'Model estimates', 'forecast-orchestrator: ' + (F.models.length + F.modelsWithoutEstimate.length) + ' models', null,
       io([['Models run', F.models.length + F.modelsWithoutEstimate.length], ['No estimate', F.modelsWithoutEstimate.length]], [['Fastest', fmtT(ms[0].estimate)], ['Slowest', fmtT(ms[ms.length - 1].estimate)], ['Blend', fmtT(S.blend.seconds), true]]) +
       '<div class="viz"><div class="dots">' + rows + '</div><div class="ax"><span>' + fmtT(lo) + '</span><span>' + F.distance + ' time</span><span>' + fmtT(hi) + '</span></div>' +
       '<div class="legend"><span><i class="sq" style="background:var(--acc);border-radius:50%"></i>dot size = blend weight</span><span><i class="sq" style="border:1.5px solid var(--t3);border-radius:50%"></i>weight 0 or post-blend</span><span><i style="background:var(--glow);width:2px;height:10px"></i>blend</span></div>' +

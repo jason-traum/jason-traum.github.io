@@ -212,11 +212,13 @@ footer { margin-top: 36px; color: var(--t3); font-size: 12px; border-top: 1px so
   .date-row select { width: 100%; }
   .field.date { flex: 1 1 100%; }
 }
+@media (max-width: 560px) { .mname .nm { white-space: normal; overflow: visible; } }
 </style>
 </head>
 <body><p style="margin:0;padding:14px 20px 0;font:600 14px Inter,system-ui,sans-serif"><a href="../dreamy.html#deeper" style="color:inherit;text-underline-offset:3px">Back to Dreamy</a></p>
 <div class="wrap" role="main" id="main">
   <div class="head"><h1>Forecast explorer</h1><span class="tag">Synthetic</span></div>
+  <p style="margin:6px 0 14px;color:var(--t2);font-size:15px;line-height:1.5;max-width:62ch">Pick a runner and a distance to see each model&rsquo;s estimate, the blend and the true time.</p>
 
   <div class="picker" role="group" aria-label="Pick a forecast">
     <div class="field runner">

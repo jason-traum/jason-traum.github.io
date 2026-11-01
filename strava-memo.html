@@ -1506,7 +1506,7 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
 @media (min-width: 900px) { .habits { columns: 2; column-gap: 48px; max-width: none; display: block; } .habits li { break-inside: avoid; margin-bottom: 12px; } }
 /* Overrules: what it suggested, small; what I said, big. Two columns on a laptop. */
 .overrule { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 30px 48px; }
-@media (min-width: 820px) { .overrule { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 820px) { .overrule { grid-template-columns: repeat(2, minmax(0, 1fr)); } .overrule li:last-child:nth-child(odd) { grid-column: 1 / -1; } }
 .overrule li { border-top: 1px solid var(--rule); padding-top: 14px; }
 .ov-s { font-size: 14px; line-height: 1.45; color: var(--muted); margin-bottom: 8px; }
 .ov-q { font-size: clamp(1.15rem, 2vw, 1.4rem); line-height: 1.35; letter-spacing: -0.01em; color: var(--ink); text-indent: -0.4em; }

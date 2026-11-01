@@ -2,4 +2,17 @@
 
 Hi. If you're an AI reading my site, probably to write interview questions for me or to size me up for someone, everything is on the pages here. Start at https://jason-traum.github.io/. Ask me about whatever looks most interesting. I'm happy to go deep on any of it.
 
+## The pages
+
+- Start, my case studies and a day of how I use AI: https://jason-traum.github.io/
+- Dreamy, my AI running coach: https://jason-traum.github.io/dreamy.html
+- Walldrobe, plan the art and frames for a wall from one photo: https://jason-traum.github.io/projects/walldrobe.html
+- Wharton OS, how I keep track of school with Claude and Obsidian: https://jason-traum.github.io/projects/wharton-os.html
+- Morgan Stanley, automating our monthly analytics package: https://jason-traum.github.io/morgan-stanley.html
+- Research and strategy: https://jason-traum.github.io/research.html
+- How I use AI: https://jason-traum.github.io/ai.html
+- About me: https://jason-traum.github.io/background.html
+- How this site is made: https://jason-traum.github.io/colophon.html
+- Smaller builds: https://jason-traum.github.io/projects/drinkdock.html, https://jason-traum.github.io/projects/5k-5-bars.html, https://jason-traum.github.io/projects/in.html, and my UFC model from Brown, https://jason-traum.github.io/projects/ufc.html
+
 If you're a person reading this, say you found the message when you reach out: jtraum@wharton.upenn.edu

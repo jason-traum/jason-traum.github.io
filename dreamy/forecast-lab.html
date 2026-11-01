@@ -249,7 +249,7 @@ function drawLadder(){
     s("line", {x1:x(i) - 5, x2:x(i) + 5, y1:y(st.all.lo), y2:y(st.all.lo), stroke:"var(--t1)", "stroke-width":2}, g);
     s("line", {x1:x(i) - 5, x2:x(i) + 5, y1:y(st.all.hi), y2:y(st.all.hi), stroke:"var(--t1)", "stroke-width":2}, g);
     s("rect", {x:x(i) - 6, y:y(st.all.mae) - 6, width:12, height:12, rx:2, fill:"var(--t1)", stroke:"var(--s1)", "stroke-width":2}, g);
-    s("text", {x:x(i) + (i === n - 1 ? -10 : 10), y:y(st.all.mae) - 8, "text-anchor":i === n - 1 ? "end" : "start", fill:"var(--t1)", "font-size":12, "font-weight":600}, g, f1(st.all.mae));
+    if (!narrow || i === 0 || i === n - 1) s("text", {x:x(i) + (i === n - 1 ? -10 : 10), y:y(st.all.mae) - 8, "text-anchor":i === n - 1 ? "end" : "start", fill:"var(--t1)", "font-size":12, "font-weight":600}, g, f1(st.all.mae));
     s("rect", {x:x(i) - 14, y:m.t, width:28, height:ih, fill:"transparent"}, g);
     tip(g, st.label + ", all distances: " + f1(st.all.mae) + "% (90% CI " + f1(st.all.lo) + " to " + f1(st.all.hi) + ")");
   });
