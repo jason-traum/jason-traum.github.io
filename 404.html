@@ -1473,6 +1473,20 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
 /* Oct 31 (#30): case studies named in the career map instead of a second picture */
 .cs-also { margin: 14px 0 0; font-size: 14.5px; color: var(--muted); }
 .cs-also a { color: var(--ink-2); font-weight: 700; }
+/* Nov 2 (Jason: "I think 4 across on desktop is better"): the four case studies in one row on a laptop */
+@media (min-width: 1000px) { .case-list { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 30px 24px; } }
+/* Nov 2 (Jason: "collapse the career blurb unless they are clicked on"): Brown, Guggenheim and Morgan Stanley open a short note */
+.sn-t { background: none; border: 0; padding: 0; margin: 0; font: inherit; color: var(--ink); cursor: pointer; text-align: left; }
+.sn-t .st { text-decoration: underline; text-decoration-style: dotted; text-decoration-color: var(--rule-strong); }
+.sn-t::after { content: ''; flex: none; width: 7px; height: 7px; margin-left: 9px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: translateY(-3px) rotate(45deg); transition: transform .15s ease; }
+.sn-t[aria-expanded="true"]::after { transform: translateY(1px) rotate(-135deg); }
+.sn-t:hover .st, .sn-t[aria-expanded="true"] .st { text-decoration-color: var(--c-razz); }
+.sn-t:hover .dot, .sn-t[aria-expanded="true"] .dot { background: var(--c-razz); }
+.sn-t:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; border-radius: 4px; }
+#path .note { margin: 12px 0 4px; max-width: 64ch; color: var(--ink-2); font-size: 15px; line-height: 1.55; }
+#path .note p { margin: 0; }
+#path .note-slot .note { margin: 24px 0 0; padding: 16px 20px; border: 1px solid var(--rule); border-radius: 12px; background: var(--surface); }
+@media (min-width: 1000px) { .sn-t::after { content: none; } }
 
 .nf { padding-block: 18vh 12vh; display: grid; gap: 18px; }
 </style>

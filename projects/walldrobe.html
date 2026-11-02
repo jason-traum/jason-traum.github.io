@@ -1484,6 +1484,20 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
 /* Oct 31 (#30): case studies named in the career map instead of a second picture */
 .cs-also { margin: 14px 0 0; font-size: 14.5px; color: var(--muted); }
 .cs-also a { color: var(--ink-2); font-weight: 700; }
+/* Nov 2 (Jason: "I think 4 across on desktop is better"): the four case studies in one row on a laptop */
+@media (min-width: 1000px) { .case-list { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 30px 24px; } }
+/* Nov 2 (Jason: "collapse the career blurb unless they are clicked on"): Brown, Guggenheim and Morgan Stanley open a short note */
+.sn-t { background: none; border: 0; padding: 0; margin: 0; font: inherit; color: var(--ink); cursor: pointer; text-align: left; }
+.sn-t .st { text-decoration: underline; text-decoration-style: dotted; text-decoration-color: var(--rule-strong); }
+.sn-t::after { content: ''; flex: none; width: 7px; height: 7px; margin-left: 9px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: translateY(-3px) rotate(45deg); transition: transform .15s ease; }
+.sn-t[aria-expanded="true"]::after { transform: translateY(1px) rotate(-135deg); }
+.sn-t:hover .st, .sn-t[aria-expanded="true"] .st { text-decoration-color: var(--c-razz); }
+.sn-t:hover .dot, .sn-t[aria-expanded="true"] .dot { background: var(--c-razz); }
+.sn-t:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; border-radius: 4px; }
+#path .note { margin: 12px 0 4px; max-width: 64ch; color: var(--ink-2); font-size: 15px; line-height: 1.55; }
+#path .note p { margin: 0; }
+#path .note-slot .note { margin: 24px 0 0; padding: 16px 20px; border: 1px solid var(--rule); border-radius: 12px; background: var(--surface); }
+@media (min-width: 1000px) { .sn-t::after { content: none; } }
 
 </style>
 <script>(function(){function pick(){var c=null;[document.querySelector('.name'),document.querySelector('.topbar .label a')].forEach(function(el){if(!el)return;var r=el.getBoundingClientRect(),w=el.closest('.tb-name'),s=r.width>0&&r.bottom>0&&r.top<innerHeight&&!(w&&!w.classList.contains('on'));el.style.viewTransitionName=!c&&s?'jt-name':'none';if(!c&&s)c=el;});}addEventListener('pageswap',pick);addEventListener('pagereveal',pick);})();</script>
@@ -2086,6 +2100,43 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
 // Oct 31: a hello for anyone who opens the console (Jason: "even something gimmicky like jason left you a message")
 try { console.log('%cJason left you a message.%c\nHi. If you found this, say so when you reach out: jtraum@wharton.upenn.edu',
   'font: 700 15px/1.6 "Libre Franklin", sans-serif; color: #5CC495', 'font: 13px/1.6 "Libre Franklin", sans-serif; color: #C8D0D8'); } catch (e) {}
+
+// Nov 2: the career map's Brown, Guggenheim and Morgan Stanley names open a short note. On a laptop the stops sit in one row,
+// so the open note goes in one slot under the map; on a phone it opens under its own stop.
+(function () {
+  var path = document.getElementById('path');
+  if (!path) return;
+  var slot = path.querySelector('.note-slot');
+  var btns = Array.prototype.slice.call(path.querySelectorAll('.sn-t'));
+  if (!slot || !btns.length) return;
+  var wide = window.matchMedia('(min-width: 1000px)');
+  function place() {
+    btns.forEach(function (b) {
+      var note = document.getElementById(b.getAttribute('aria-controls'));
+      var who = b.closest('.who');
+      if (!note || !who) return;
+      if (wide.matches) { if (note.parentNode !== slot) slot.appendChild(note); }
+      else if (note.previousElementSibling !== who) who.insertAdjacentElement('afterend', note);
+    });
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      var was = b.getAttribute('aria-expanded') === 'true';
+      btns.forEach(function (o) {
+        o.setAttribute('aria-expanded', 'false');
+        var n = document.getElementById(o.getAttribute('aria-controls'));
+        if (n) n.hidden = true;
+      });
+      if (!was) {
+        b.setAttribute('aria-expanded', 'true');
+        var note = document.getElementById(b.getAttribute('aria-controls'));
+        if (note) note.hidden = false;
+      }
+    });
+  });
+  place();
+  if (wide.addEventListener) wide.addEventListener('change', place); else if (wide.addListener) wide.addListener(place);
+})();
 
 (function () {
   var nav = document.querySelector('.route-nav'); if (!nav) return;
