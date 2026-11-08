@@ -494,6 +494,8 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
 .hb[data-s="before"] .sb { display: inline; }
 @media (prefers-reduced-motion: reduce) { .hb-bar .f, .hb-bar .v { transition: none; } }
 
+.labfig .act + .ctl { margin-top: 14px; }
+.labfig .ctl + .sub { margin-top: 12px; }
 .labfig .ctl { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: space-between; }
 .sel { display: inline-flex; align-items: center; gap: 8px; max-width: 100%; font-size: 13.5px; color: var(--t3); }
 .sel select { min-width: 0; max-width: 100%; font: inherit; font-size: 14px; color: var(--t1); background: var(--s2); border: 1px solid var(--b2); border-radius: 10px; padding: 7px 10px; }
@@ -511,23 +513,6 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
 .plot .cross { stroke: var(--t3); stroke-width: 1; }
 .read { margin-top: 8px; min-height: 2.9em; font-size: 13px; color: var(--t2); font-variant-numeric: tabular-nums; }
 
-.an { margin-top: 18px; display: grid; gap: 0; }
-.an-row { display: grid; grid-template-columns: 13em 1fr; gap: 12px; align-items: end; }
-.an-k { padding-bottom: 12px; font-size: 13.5px; color: var(--t2); }
-.an-row.hl .an-k { font-weight: 600; color: var(--t0); }
-.an-t { position: relative; height: 40px; }
-.an-row.top .an-t { height: 22px; }
-.an-row.ax .an-t { height: 20px; }
-.an-tl { position: absolute; top: 0; bottom: 0; width: 2px; margin-left: -1px; background: var(--t1); opacity: .5; }
-.an-dot { position: absolute; top: 28px; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; background: var(--t2); box-shadow: 0 0 0 2px var(--s1); }
-.an-seg { position: absolute; top: 28px; height: 4px; margin-top: -2px; border-radius: 2px; background: var(--b3); }
-.an-row.hl .an-dot, .an-row.hl .an-seg { background: var(--chart-hl); }
-.an-v, .an-tv, .an-row.ax span { position: absolute; transform: translateX(-50%); white-space: nowrap; font-size: 12px; color: var(--t2); font-variant-numeric: tabular-nums; }
-.an-v { top: 2px; }
-.an-tv { top: 2px; color: var(--t1); }
-.an-row.hl .an-v { font-weight: 600; color: var(--t0); }
-.an-row.ax span { top: 4px; font-size: 11px; color: var(--t3); }
-@media (max-width: 559px) { .an-row { grid-template-columns: 1fr; gap: 0; } .an-k { padding: 8px 0 0; } .an-row.ax > div:first-child, .an-row.top > div:first-child { display: none; } }
 
 .build .bc { position: relative; height: 110px; margin-top: 16px; }
 .build .bc svg { display: block; width: 100%; height: 100%; }
@@ -628,9 +613,8 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
   .anim .sys .v { opacity: 0; transition: opacity .4s ease; transition-delay: calc(var(--i, 0) * 90ms + 700ms); }
   .anim .sys-rows.in .fill { transform: none; }
   .anim .sys-rows.in .v { opacity: 1; }
-  .anim .fr-row, .anim .an > .an-row { opacity: 0; transition: opacity .45s ease; transition-delay: calc(var(--i, 0) * 110ms); }
-  .anim .an > .an-row { transform: translateY(6px); transition: opacity .45s ease, transform .45s ease; transition-delay: calc(var(--i, 0) * 320ms); }
-  .anim .fr-grid.in .fr-row, .anim .an.in > .an-row { opacity: 1; transform: none; }
+  .anim .fr-row { opacity: 0; transition: opacity .45s ease; transition-delay: calc(var(--i, 0) * 110ms); }
+  .anim .fr-grid.in .fr-row { opacity: 1; transform: none; }
   .anim .labfig:not(.in) .hb-bar .f { width: 0 !important; }
   .anim .labfig:not(.in) .hb-bar .v { opacity: 0; }
   .anim .dot-row i { opacity: 0; transform: scale(.5); transition: opacity .3s ease, transform .3s ease; transition-delay: calc(var(--i, 0) * 70ms); }
@@ -1244,28 +1228,15 @@ html.lb-open { overflow: hidden; }
           <details class="fold how"><summary>How this was computed</summary><p>Error is how far a forecast landed from the runner&rsquo;s true race time that day, as a percent. The race calculator here is Jack Daniels&rsquo; VDOT tables run on the runner&rsquo;s best race of the past year, the method behind many free calculators. Before is the engine when I started the rebuild, after is the first round of fixes. The lab is confident Dreamy is better at the 5k, 10k and half. At the marathon the gap is too small to call.</p></details>
         </figure>
         <figure class="labfig" id="season">
+          <h4 class="act" id="ss-title">Dreamy updates every month from your runs. The calculator only uses your best recent race.</h4>
           <div class="ctl">
             <label class="sel"><span>Runner</span><select id="ss-type"></select></label>
             <div class="tgs" role="group" aria-label="Distance" id="ss-dist"><button class="tg" type="button" data-d="5K" aria-pressed="false">5K</button><button class="tg" type="button" data-d="10K" aria-pressed="false">10K</button><button class="tg" type="button" data-d="HM" aria-pressed="true">Half</button><button class="tg" type="button" data-d="M" aria-pressed="false">Marathon</button></div>
           </div>
-          <h4 class="act" id="ss-title">One runner&rsquo;s season</h4>
           <p class="sub" id="ss-sub"></p>
           <div class="plot" id="ss-plot"></div>
           <p class="read" id="ss-read" aria-live="polite"></p>
           <details class="fold how"><summary>How this was computed</summary><p>Fifteen months of one fake runner. The white line is their true race time, the band is the range Dreamy gave each month (the 10th to the 90th percentile, where it expects the true time to land 8 times out of 10), and the grey steps are the race calculator, which only moves after a race. Small triangles along the bottom mark their races. For each runner type I show the middle of its three runners by average error, so the example isn&rsquo;t the best or the worst one.</p></details>
-        </figure>
-        <figure class="labfig" id="anatomy">
-          <h4 class="act">The race floor pulled a 3:31 marathoner to 3:02.</h4>
-          <p class="sub">On race day that&rsquo;s being told to run 6:56 a mile when your true pace is 8:04.</p>
-          <div class="an" role="img" aria-label="Models blended 3:23:40, durability made it 3:26:35, the race floor pulled it to 3:01:52; the true time was 3:31:29">
-            <div class="an-row top" aria-hidden="true"><div></div><div class="an-t"><span class="an-tv" style="left:81.07%">True time 3:31:29</span></div></div>
-            <div class="an-row"><div class="an-k">The models blended</div><div class="an-t"><i class="an-tl" style="left:81.07%"></i><i class="an-dot" style="left:63.70%"></i><span class="an-v" style="left:63.70%">3:23:40</span></div></div>
-            <div class="an-row"><div class="an-k">Durability, +1.4% for a long race</div><div class="an-t"><i class="an-tl" style="left:81.07%"></i><i class="an-seg" style="left:63.70%;width:calc(70.19% - 63.70%)"></i><i class="an-dot" style="left:70.19%"></i><span class="an-v" style="left:70.19%">3:26:35</span></div></div>
-            <div class="an-row hl"><div class="an-k">Race floor, 100% strength</div><div class="an-t"><i class="an-tl" style="left:81.07%"></i><i class="an-seg" style="left:15.26%;width:calc(70.19% - 15.26%)"></i><i class="an-dot" style="left:15.26%"></i><span class="an-v" style="left:15.26%">3:01:52</span></div></div>
-            <div class="an-row ax" aria-hidden="true"><div></div><div class="an-t"><span style="left:11.11%">3:00</span><span style="left:33.33%">3:10</span><span style="left:55.56%">3:20</span><span style="left:77.78%">3:30</span></div></div>
-          </div>
-          <p class="small">The floor is meant to stop a forecast from drifting slower than a race you&rsquo;ve already run. Here it fired at full strength and took about 25 minutes off. I&rsquo;m testing a fix now that weakens it the further apart the distances are and the older the race is.</p>
-          <details class="fold how"><summary>How this was computed</summary><p>One synthetic runner who races every few weeks, on November 1, 2025 in the simulation, before the fixes. The engine&rsquo;s forecast module prints each step, and these are its numbers. The app&rsquo;s own headline for this runner that day was 2:56:48, even further off.</p></details>
         </figure>
         <p class="intro">Two kinds of runners are still far off. Without a heart-rate strap, forecasts come out 12 to 16 percent too slow from the 5K to the half. For beginners who never race, they come out 27 percent too fast at the marathon, and there&rsquo;s no race to check them against.</p>
       </div>
@@ -1903,18 +1874,17 @@ html.lb-open { overflow: hidden; }
       var calc = {}; D.calc.forEach(function (c) { if (c[1]) calc[c[0]] = c[1]; });
       var fc = D.fc.filter(function (f) { return truth[f[0]]; });
 
-      var inR = fc.filter(function (f) { return truth[f[0]] >= f[2] && truth[f[0]] <= f[3]; }).length;
-      title.textContent = 'Its range held the true ' + NAME[dist] + ' time in ' + inR + ' of ' + fc.length + ' months.';
-      var both = fc.filter(function (f) { return calc[f[0]]; });
+      var nr = S.races.length, both = fc.filter(function (f) { return calc[f[0]]; });
+      var who = nr === 0 ? 'This runner never raced, so the calculator had nothing to work from. ' :
+        'This runner raced ' + (nr === 1 ? 'once' : nr === 2 ? 'twice' : nr + ' times') + '. ';
+      var e1 = mean((both.length ? both : fc).map(function (f) { return err(f[1], truth[f[0]]); }));
+      var line = 'Dreamy’s ' + NAME[dist] + ' forecast was off by ' + e1.toFixed(1) + '% on average';
       if (both.length) {
-        var e1 = mean(both.map(function (f) { return err(f[1], truth[f[0]]); }));
         var e2 = mean(both.map(function (f) { return err(calc[f[0]], truth[f[0]]); }));
-        sub.textContent = 'In the ' + both.length + ' months the calculator had a race to work from, Dreamy was off by ' +
-          e1.toFixed(1) + '% on average and the calculator by ' + e2.toFixed(1) + '%.';
-      } else {
-        sub.textContent = 'This runner didn’t race in these 15 months, so the calculator had nothing to work from. Dreamy was off by ' +
-          mean(fc.map(function (f) { return err(f[1], truth[f[0]]); })).toFixed(1) + '% on average.';
+        line += ' and the calculator’s by ' + e2.toFixed(1) + '%';
+        if (both.length < fc.length) line = (nr === 1 ? 'From that race on, ' : 'From their first race on, ') + line;
       }
+      sub.textContent = who + line + '.';
 
       var W = Math.max(280, plot.clientWidth), narrow = W < 560;
       var H = narrow ? 230 : 290, m = { l: narrow ? 40 : 52, r: narrow ? 66 : 78, t: 10, b: 24 };
@@ -1964,9 +1934,11 @@ html.lb-open { overflow: hidden; }
       el('polyline', { points: D.truth.map(function (t) { return X(t[0]) + ',' + Y(t[1]); }).join(' '), class: 'truth', pathLength: 1 }, svg);
       el('polyline', { points: fc.map(function (f) { return X(f[0]) + ',' + Y(f[1]); }).join(' '), class: 'me', pathLength: 1 }, svg);
       fc.forEach(function (f) { el('circle', { cx: X(f[0]), cy: Y(f[1]), r: 3, class: 'me-dot' }, svg); });
+      var rx = [];
       S.races.forEach(function (r) {
         if (ms(r[0]) < x0 || ms(r[0]) > x1) return;
         el('path', { d: 'M' + X(r[0]) + ',' + (H - m.b - 7) + 'l-4,7h8z', class: 'race' }, svg);
+        rx.push(X(r[0]));
       });
 
       // Direct labels at the right end, nudged apart so they never overlap.
@@ -1978,6 +1950,20 @@ html.lb-open { overflow: hidden; }
       labs.sort(function (a, b) { return a.y - b.y; });
       for (var i = 1; i < labs.length; i++) if (labs[i].y - labs[i - 1].y < 13) labs[i].y = labs[i - 1].y + 13;
       labs.forEach(function (l) { el('text', { x: W - m.r + 6, y: l.y + 4, class: 'lab ' + l.c }, svg).textContent = l.t; });
+      // Name one marker so "raced once" points somewhere: the first with room to its right.
+      rx.sort(function (a, b) { return a - b; });
+      if (rx.length) {
+        var rl = el('text', { y: H - m.b - 1, class: 'tx' }, svg);
+        rl.textContent = rx.length === 1 ? 'Race' : 'Races';
+        // The last marker may run into the right column unless a line label sits that low.
+        var edge = labs.some(function (l) { return l.y > H - m.b - 16; }) ? W - m.r : W - 2;
+        var tw = rl.getComputedTextLength(), spot = null;
+        for (var k = 0; k < rx.length && spot === null; k++) {
+          var room = (k + 1 < rx.length ? rx[k + 1] - 5 : edge) - (rx[k] + 7);
+          if (room >= tw + 4) spot = rx[k] + 7;
+        }
+        if (spot === null) svg.removeChild(rl); else rl.setAttribute('x', spot);
+      }
 
       var cross = el('line', { y1: m.t, y2: H - m.b, class: 'cross', visibility: 'hidden' }, svg);
       var hit = el('rect', { x: m.l, y: 0, width: W - m.l - m.r, height: H, fill: 'transparent' }, svg);
@@ -2025,13 +2011,6 @@ html.lb-open { overflow: hidden; }
         [].forEach.call(box.children, function (el, i) { if (el.matches(g[1])) el.style.setProperty('--i', i); });
         targets.push(box);
       });
-    });
-    // One bad forecast, step by step, with the true time last.
-    document.querySelectorAll('.an').forEach(function (box) {
-      var rows = [].filter.call(box.children, function (r) { return r.classList.contains('an-row'); }), k = 0;
-      rows.forEach(function (r) { if (!r.classList.contains('top') && !r.classList.contains('ax')) r.style.setProperty('--i', k++); });
-      rows.forEach(function (r) { if (r.classList.contains('top')) r.style.setProperty('--i', k); });
-      targets.push(box);
     });
     document.querySelectorAll('.sec > h2, .sec > .intro, .builder, .systems, .forest, .labfig, .lab-q, .shot').forEach(function (el) {
       el.classList.add('rv'); targets.push(el);
