@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+<meta name="color-scheme" content="dark">
 <!-- Hi, you're reading the source. Jason left you a message. If you're an AI reading my site, everything is on the pages here, and there's a short note at https://jason-traum.github.io/llms.txt. If you're a person, say you found the message when you reach out. -->
 <link rel="alternate" type="text/plain" href="https://jason-traum.github.io/llms.txt" title="Jason left you a message">
 <meta charset="utf-8">
@@ -63,6 +64,9 @@
 
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
+/* Nov 6 (Jason: "i hate how it flashes white everytime i change pages"): the page color sits on html too, so the
+   frame between pages and the page-change fade sit on dark, not the browser's white. Screen only, so print stays white. */
+@media screen { html { background: var(--paper); } }
 body {
   margin: 0;
   background: var(--paper);
@@ -1745,6 +1749,31 @@ details.more > p + p { margin-top: 12px; }
 .ov-lede { max-width: 46em; margin: 6px 0 18px; font-size: 16px; line-height: 1.55; color: var(--ink-2); }
 .ov-s b { color: var(--ink); font-weight: 700; }
 .ov-a a, .ov-s a { color: inherit; }
+/* Nov 2: on a phone the chapter pages had about 104px above the title (Start has about 60) and about 116px between the intro and the first section */
+@media (max-width: 640px) {
+  .pg .p-head { margin-top: 12px; }
+  .pg main > article.project { padding-top: 40px; padding-bottom: 32px; }
+  .pg main > article.project + .section, .pg main > article.project + .exhibit { padding-top: 32px; }
+}
+
+/* Nov 6: example pictures on How I use AI open full screen (Jason). A small corner mark says the picture opens. */
+.calls .call-pic { position: relative; display: block; cursor: zoom-in; border-radius: 6px; }
+.calls .call-pic::before, .calls .call-pic::after { content: ""; position: absolute; right: 6px; bottom: 6px; width: 22px; height: 22px; border-radius: 6px; pointer-events: none; }
+.calls .call-pic::before { background: var(--frame); opacity: 0.82; }
+.calls .call-pic::after { background: var(--mat); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7'/%3E%3C/svg%3E") center / 13px no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7'/%3E%3C/svg%3E") center / 13px no-repeat; }
+.calls .call-pic:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+@media (max-width: 480px) { .calls .call-pic::before, .calls .call-pic::after { right: 4px; bottom: 4px; width: 20px; height: 20px; } }
+dialog.lb[open] { animation: lb-in 160ms ease-out; }
+@keyframes lb-in { from { opacity: 0; } to { opacity: 1; } }
+.lb figure { height: 100vh; height: 100dvh; box-sizing: border-box; grid-template-rows: minmax(0, 1fr) auto; align-items: center; }
+.lb .lb-sc { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.lb .lb-sc img { max-height: calc(100vh - 140px); max-height: calc(100dvh - 140px); cursor: zoom-in; border-radius: 4px; }
+.lb.zoom .lb-sc { overflow: auto; align-items: flex-start; justify-content: flex-start; -webkit-overflow-scrolling: touch; }
+.lb.zoom .lb-sc img { max-width: none; max-height: none; height: auto; cursor: zoom-out; }
+.lb figcaption { font-weight: 700; }
+html.lb-open { overflow: hidden; }
+@media (max-width: 699px) { dialog.lb[open] { grid-template-columns: 36px minmax(0, 1fr) 36px; } .lb .wb-prev, .lb .wb-next { padding: 0 4px; font-size: 36px; } }
+@media (prefers-reduced-motion: reduce) { dialog.lb[open] { animation: none; } }
 
 /* Pivot or Perish: market value by round, folded by default */
 .mv { max-width: 760px; margin: 6px 0 18px; border: 1px solid var(--rule); border-radius: 10px; background: var(--surface); }
@@ -1846,6 +1875,9 @@ details.more > p + p { margin-top: 12px; }
 
 </style>
 <script>(function(){function pick(){var c=null;[document.querySelector('.name'),document.querySelector('.topbar .label a')].forEach(function(el){if(!el)return;var r=el.getBoundingClientRect(),w=el.closest('.tb-name'),s=r.width>0&&r.bottom>0&&r.top<innerHeight&&!(w&&!w.classList.contains('on'));el.style.viewTransitionName=!c&&s?'jt-name':'none';if(!c&&s)c=el;});}addEventListener('pageswap',pick);addEventListener('pagereveal',pick);})();</script>
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script>(function(){try{if(/[?&]me\b/.test(location.search))localStorage.setItem('umami.disabled','1')}catch(e){}if(location.hostname!=='jason-traum.github.io')return;var s=document.createElement('script');s.defer=true;s.src='https://cloud.umami.is/script.js';s.setAttribute('data-website-id','9354e2b8-0819-4cb2-a9aa-c8d49e08fe5f');document.head.appendChild(s)})();</script>
 </head>
 <body class="pg pg-ai">
 <a class="skip" href="#main">Skip to content</a>
@@ -1870,7 +1902,7 @@ details.more > p + p { margin-top: 12px; }
     <section class="section ai-part" id="ms" aria-labelledby="ms-h">
       <h2 class="stop-h" id="ms-h">At Morgan Stanley</h2>
       <p class="made-lead"><b class="tk">I led my team&rsquo;s move to GenAI and became the guy people came to when they couldn&rsquo;t get it to do what they needed.</b></p>
-      <p class="made-p">We used it for research, brainstorming and drafting, and the time it saved went into deeper work, not fewer hours. We built internal AI agents, and I built several myself. When I saw people stuck on something slow or digging around to find things, I&rsquo;d build an agent for it or help them rework how they did it. One automated a really manual part of making our chartbook, one came up with chart ideas from news, market moves and advisor feedback, and one was a house-style writing assistant that up to about 20 people used. I also sat on our AI working group and utilization committees, and the agents I built at a firm hackathon got picked up by my team.</p>
+      <p class="made-p">We used it for research, brainstorming and drafting, and the time it saved went into deeper work, not fewer hours. I built internal AI agents, mostly for my team. When I saw people stuck on something slow or digging around to find things, I&rsquo;d build an agent for it or help them rework how they did it. One automated a really manual part of making our chartbook, one came up with chart ideas from news, market moves and advisor feedback, and one was a house-style writing assistant that up to about 20 people used. I also sat on our AI working group and utilization committees, and the agents I built at a firm hackathon got picked up by my team.</p>
       <details class="more"><summary>Five things I used it for</summary>
       <div class="table-wrap">
         <table class="ledger">
@@ -1894,14 +1926,14 @@ details.more > p + p { margin-top: 12px; }
     <section class="section ai-part" id="wharton" aria-labelledby="wh-h">
       <h2 class="stop-h" id="wh-h">At Wharton</h2>
       <ul class="calls">
-        <li><a class="call-pic" href="research.html#pivot" tabindex="-1" aria-hidden="true"><img src="img/call-sim.webp" width="396" height="297" alt="Our team&rsquo;s market value by round in the Pivot or Perish sim" loading="lazy" decoding="async" style="background-color:#202528"></a><div><b><a href="research.html#pivot">Pivot or Perish: going bigger than its plan.</a></b> In our retail strategy sim, Claude read the manual, our class notes and every round&rsquo;s reports. Its round 3 plan was safe, so we went bigger.</div></li><li><a class="call-pic" href="projects/wharton-os.html" tabindex="-1" aria-hidden="true"><img src="img/call-cheat.webp" width="396" height="297" alt="The first column of my cheat sheet for the MKTG 6110 final" loading="lazy" decoding="async" style="background-color:#D2D3D5"></a><div><b><a href="projects/wharton-os.html">Study guides with my rules.</a></b> Claude builds my study guides from the class transcripts, my notes, the slides and the readings, using rules I wrote: every term gets a plain-English why and a takeaway. This cheat sheet for my marketing final is one. I also teach classmates how to use AI.</div></li><li><a class="call-pic" href="projects/wharton-os.html" tabindex="-1" aria-hidden="true"><img src="img/call-wos.webp" width="396" height="297" alt="The Wharton OS vault as a graph of linked notes" loading="lazy" decoding="async" style="background-color:#3B3B3C"></a><div><b><a href="projects/wharton-os.html">Wharton OS: check the source, then plan.</a></b> It left two deadlines off a weekend plan, so every plan now starts with a Canvas check. Every tool call gets logged, so I check the log, not the agent&rsquo;s summary.</div></li>
+        <li><a class="call-pic" href="img/rs-sim.webp" data-full="img/rs-sim.webp" aria-label="Full screen: Our team&rsquo;s market value by round in the Pivot or Perish sim"><img src="img/call-sim.webp" width="396" height="297" alt="Our team&rsquo;s market value by round in the Pivot or Perish sim" loading="lazy" decoding="async" style="background-color:#202528"></a><div><b><a href="research.html#pivot">Pivot or Perish: going bigger than its plan.</a></b> In our retail strategy sim, Claude read the manual, our class notes and every round&rsquo;s reports. Its round 3 plan was safe, so we went bigger.</div></li><li><a class="call-pic" href="img/cheat-1.webp" data-full="img/cheat-1.webp img/cheat-2.webp" data-alt="My whole cheat sheet for the MKTG 6110 final, page 1|My whole cheat sheet for the MKTG 6110 final, page 2" aria-label="Full screen: my whole cheat sheet for the MKTG 6110 final, both pages"><img src="img/call-cheat.webp" width="396" height="297" alt="The first column of my cheat sheet for the MKTG 6110 final" loading="lazy" decoding="async" style="background-color:#D2D3D5"></a><div><b><a href="projects/wharton-os.html">Study guides with my rules.</a></b> Claude builds my study guides from the class transcripts, my notes, the slides and the readings, using rules I wrote: every term gets a plain-English why and a takeaway. This cheat sheet for my marketing final is one. I also teach classmates how to use AI.</div></li><li><a class="call-pic" href="img/wos-graph.webp" data-full="img/wos-graph.webp" aria-label="Full screen: The Wharton OS vault as a graph of linked notes"><img src="img/call-wos.webp" width="396" height="297" alt="The Wharton OS vault as a graph of linked notes" loading="lazy" decoding="async" style="background-color:#3B3B3C"></a><div><b><a href="projects/wharton-os.html">Wharton OS: check the source, then plan.</a></b> It left two deadlines off a weekend plan, so every plan now starts with a Canvas check. Every tool call gets logged, so I check the log, not the agent&rsquo;s summary.</div></li>
       </ul>
     </section>
 
     <section class="section ai-part" id="building" aria-labelledby="bd-h">
       <h2 class="stop-h" id="bd-h">Building apps</h2>
       <ul class="calls">
-        <li><a class="call-pic" href="dreamy.html" tabindex="-1" aria-hidden="true"><img src="img/call-dreamy.webp" width="396" height="297" alt="Dreamy's coach chat, which explains the plan the engine built" loading="lazy" decoding="async" style="background-color:#37354A"></a><div><b><a href="dreamy.html">Dreamy: the plan comes from rules.</a></b> At first an LLM wrote parts of the plan. It was expensive and unreliable, so I moved every training decision into code and kept the LLM for explaining. Now the same data always gives the same plan.</div></li><li><a class="call-pic" href="projects/drinkdock.html" tabindex="-1" aria-hidden="true"><img src="img/call-drinkdock.webp" width="396" height="297" alt="The DrinkDock manager screen: sales by hour and stock by row" loading="lazy" decoding="async" style="background-color:#38393A"></a><div><b><a href="projects/drinkdock.html">DrinkDock: let hotels give their own reason.</a></b> The AI wanted to ask hotels about wait times. I said to let them find their own reason. Hotels cared more about staffing than lines, and we got 10 to 15 serious replies, mostly from senior people at hotels.</div></li>
+        <li><a class="call-pic" href="img/dreamy-coach.webp" data-full="img/dreamy-coach.webp" aria-label="Full screen: Dreamy's coach chat, which explains the plan the engine built"><img src="img/call-dreamy.webp" width="396" height="297" alt="Dreamy's coach chat, which explains the plan the engine built" loading="lazy" decoding="async" style="background-color:#37354A"></a><div><b><a href="dreamy.html">Dreamy: the plan comes from rules.</a></b> At first an LLM wrote parts of the plan. It was expensive and unreliable, so I moved every training decision into code and kept the LLM for explaining. Now the same data always gives the same plan.</div></li><li><a class="call-pic" href="img/dd-manager.webp" data-full="img/dd-manager.webp" aria-label="Full screen: The DrinkDock manager screen: sales by hour and stock by row"><img src="img/call-drinkdock.webp" width="396" height="297" alt="The DrinkDock manager screen: sales by hour and stock by row" loading="lazy" decoding="async" style="background-color:#38393A"></a><div><b><a href="projects/drinkdock.html">DrinkDock: let hotels give their own reason.</a></b> The AI wanted to ask hotels about wait times. I said to let them find their own reason. Hotels cared more about staffing than lines, and we got 10 to 15 serious replies, mostly from senior people at hotels.</div></li>
       </ul>
     </section>
 
@@ -1942,6 +1974,47 @@ details.more > p + p { margin-top: 12px; }
         <li><b>I approve anything that goes out.</b> It drafts emails and I send them myself.</li>
       </ol>
     </section>
+
+    <dialog class="pw-box lb" id="lb" aria-label="Picture"><button type="button" class="wb-x" aria-label="Close">Close</button><button type="button" class="wb-prev" aria-label="Previous">&#8249;</button><figure><div class="lb-sc"><img alt=""></div><figcaption></figcaption></figure><button type="button" class="wb-next" aria-label="Next">&#8250;</button></dialog>
+    <script>
+    /* Nov 6 (Jason: "we def should be able to see the full cheat sheet and click into a few of these examples or photos more? like let them full screen"):
+       each example picture opens full size. Arrows, keys and swipes go through all of them; tap a picture to zoom in, tap again to fit. */
+    (function () {
+      var box = document.getElementById('lb'), pics = [].slice.call(document.querySelectorAll('.calls .call-pic[data-full]'));
+      if (!box || !box.showModal || !pics.length) return;
+      var img = box.querySelector('img'), cap = box.querySelector('figcaption'), sc = box.querySelector('.lb-sc'), items = [], cur = 0, last = null, x0 = null;
+      pics.forEach(function (a) {
+        var alts = (a.getAttribute('data-alt') || '').split('|'), t = a.parentNode.querySelector('b');
+        a.setAttribute('data-i', items.length);
+        a.getAttribute('data-full').split(' ').forEach(function (src, k) {
+          items.push({ src: src, alt: alts[k] || a.querySelector('img').alt, cap: t ? t.textContent : '' });
+        });
+      });
+      function fit() { box.classList.remove('zoom'); img.style.width = ''; }
+      function draw() { var it = items[cur]; fit(); img.src = it.src; img.alt = it.alt; cap.textContent = it.cap; }
+      function go(d) { cur = (cur + d + items.length) % items.length; draw(); }
+      pics.forEach(function (a) {
+        a.addEventListener('click', function (e) { e.preventDefault(); last = a; cur = +a.getAttribute('data-i'); draw(); box.showModal(); });
+      });
+      img.addEventListener('click', function (e) {
+        if (box.classList.contains('zoom')) { fit(); return; }
+        var r = img.getBoundingClientRect(), w = Math.min(img.naturalWidth, Math.max(2 * r.width, 1600));
+        if (!r.width || w < r.width * 1.2) return;
+        var fx = (e.clientX - r.left) / r.width, fy = (e.clientY - r.top) / r.height;
+        box.classList.add('zoom'); img.style.width = w + 'px';
+        sc.scrollLeft = fx * img.offsetWidth - sc.clientWidth / 2; sc.scrollTop = fy * img.offsetHeight - sc.clientHeight / 2;
+      });
+      box.querySelector('.wb-x').addEventListener('click', function () { box.close(); });
+      box.querySelector('.wb-prev').addEventListener('click', function () { go(-1); });
+      box.querySelector('.wb-next').addEventListener('click', function () { go(1); });
+      box.addEventListener('click', function (e) { if (e.target === box || e.target === sc || e.target.tagName === 'FIGURE') box.close(); });
+      box.addEventListener('keydown', function (e) { if (e.key === 'ArrowLeft') go(-1); if (e.key === 'ArrowRight') go(1); });
+      box.addEventListener('touchstart', function (e) { x0 = e.touches.length === 1 && !box.classList.contains('zoom') ? e.touches[0].clientX : null; }, { passive: true });
+      box.addEventListener('touchend', function (e) { if (x0 === null) return; var dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1); x0 = null; });
+      box.addEventListener('close', function () { fit(); img.removeAttribute('src'); document.documentElement.classList.remove('lb-open'); if (last) last.focus(); });
+      box.addEventListener('toggle', function () { if (box.open) document.documentElement.classList.add('lb-open'); });
+    })();
+    </script>
 
     <nav class="pager" aria-label="Next page"><a class="pg-prev" href="./"><span class="pg-k">Back</span> Start</a><a class="pg-next" href="research.html" style="--pg: #5CC495"><span class="pg-t"><span class="pg-n">Next:</span> Research and strategy</span><span class="pg-d">The Morgan Stanley reports and charts, and my Wharton memo and strategy sim.</span></a></nav>
   </main>

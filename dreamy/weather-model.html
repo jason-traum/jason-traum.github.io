@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+<meta name="color-scheme" content="dark">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="icon" href="data:,">
@@ -79,6 +80,10 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0;height:28px}
 footer{padding:20px 0 0;font-size:12px;color:var(--t3)}
 footer p{margin:4px 0}
 </style>
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="canonical" href="https://jason-traum.github.io/dreamy/weather-model.html">
+<script>(function(){try{if(/[?&]me\b/.test(location.search))localStorage.setItem('umami.disabled','1')}catch(e){}if(location.hostname!=='jason-traum.github.io')return;var s=document.createElement('script');s.defer=true;s.src='https://cloud.umami.is/script.js';s.setAttribute('data-website-id','9354e2b8-0819-4cb2-a9aa-c8d49e08fe5f');document.head.appendChild(s)})();</script>
 </head>
 <body><p style="margin:0;padding:14px 20px 0;font:600 14px Inter,system-ui,sans-serif"><a href="../dreamy.html#deeper" style="color:inherit;text-underline-offset:3px">Back to Dreamy</a></p>
 <div class="wrap" role="main" id="main">
@@ -100,6 +105,7 @@ footer p{margin:4px 0}
   </table>
   </div>
   <p class="note">All three read air temperature and humidity and work from the dew point, with the optimum at a 45 °F dew point. Hills use the same correction in all three.</p>
+  <p class="note">Training runs stay at VDOT 50 for now: the Lab tested each runner's own VDOT there, and forecasts got no better.</p>
 </section>
 
 <section id="heat">

@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+<meta name="color-scheme" content="dark">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Page not found | Jason Traum</title>
@@ -52,6 +53,9 @@
 
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
+/* Nov 6 (Jason: "i hate how it flashes white everytime i change pages"): the page color sits on html too, so the
+   frame between pages and the page-change fade sit on dark, not the browser's white. Screen only, so print stays white. */
+@media screen { html { background: var(--paper); } }
 body {
   margin: 0;
   background: var(--paper);
@@ -1490,6 +1494,10 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
 
 .nf { padding-block: 18vh 12vh; display: grid; gap: 18px; }
 </style>
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="robots" content="noindex">
+<script>(function(){try{if(/[?&]me\b/.test(location.search))localStorage.setItem('umami.disabled','1')}catch(e){}if(location.hostname!=='jason-traum.github.io')return;var s=document.createElement('script');s.defer=true;s.src='https://cloud.umami.is/script.js';s.setAttribute('data-website-id','9354e2b8-0819-4cb2-a9aa-c8d49e08fe5f');document.head.appendChild(s)})();</script>
 </head>
 <body>
 <div class="page">

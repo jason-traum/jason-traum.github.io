@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+<meta name="color-scheme" content="dark">
 <!-- Hi, you're reading the source. Jason left you a message. If you're an AI reading my site, everything is on the pages here, and there's a short note at https://jason-traum.github.io/llms.txt. If you're a person, say you found the message when you reach out. -->
 <link rel="alternate" type="text/plain" href="https://jason-traum.github.io/llms.txt" title="Jason left you a message">
 <meta charset="utf-8">
@@ -67,6 +68,9 @@
 
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
+/* Nov 6 (Jason: "i hate how it flashes white everytime i change pages"): the page color sits on html too, so the
+   frame between pages and the page-change fade sit on dark, not the browser's white. Screen only, so print stays white. */
+@media screen { html { background: var(--paper); } }
 body {
   margin: 0;
   background: var(--paper);
@@ -1505,6 +1509,9 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
 
 </style>
 <script>(function(){function pick(){var c=null;[document.querySelector('.name'),document.querySelector('.topbar .label a')].forEach(function(el){if(!el)return;var r=el.getBoundingClientRect(),w=el.closest('.tb-name'),s=r.width>0&&r.bottom>0&&r.top<innerHeight&&!(w&&!w.classList.contains('on'));el.style.viewTransitionName=!c&&s?'jt-name':'none';if(!c&&s)c=el;});}addEventListener('pageswap',pick);addEventListener('pagereveal',pick);})();</script>
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script>(function(){try{if(/[?&]me\b/.test(location.search))localStorage.setItem('umami.disabled','1')}catch(e){}if(location.hostname!=='jason-traum.github.io')return;var s=document.createElement('script');s.defer=true;s.src='https://cloud.umami.is/script.js';s.setAttribute('data-website-id','9354e2b8-0819-4cb2-a9aa-c8d49e08fe5f');document.head.appendChild(s)})();</script>
 </head>
 <body>
 <a class="skip" href="#work">Skip to my work</a>
