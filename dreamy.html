@@ -315,6 +315,9 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
 .gallery { margin-top: 28px; display: grid; gap: 22px; grid-template-columns: 1fr; align-items: start; justify-items: center; }
 .gallery .shot { max-width: 320px; }
 @media (min-width: 560px) { .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); justify-items: stretch; } .gallery .shot { max-width: none; } }
+/* Nov 8: new screens from a demo runner; the two wide ones span the gallery */
+.gallery .shot.wide { max-width: none; justify-self: stretch; }
+@media (min-width: 560px) { .gallery { grid-template-columns: repeat(6, minmax(0, 1fr)); } .gallery .shot { grid-column: span 3; } .gallery .shot.wide { grid-column: 1 / -1; } .gallery .shot.third { grid-column: span 2; } }
 @media (min-width: 900px) { .gallery { gap: 26px; } }
 
 /* Research */
@@ -1400,10 +1403,16 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
     <section class="sec" id="screens" aria-labelledby="sc-h">
       <h2 id="sc-h">Screenshots</h2>
       <div class="gallery">
+        <figure class="shot wide"><img src="img/dreamy-network.webp" width="2000" height="1483" alt="The adaptation network for a demo runner: raw data such as heart rate, pace and race results on the left, what the engine extracts from it, fitness parameters like VO2max ceiling, lactate threshold and durability, the prediction signals, and race predictions for the 5K, 10K, half marathon and marathon on the right, with lines connecting each step." loading="lazy" decoding="async" style="background-color:#0E0F12"><figcaption>How the engine gets from run data to race predictions, for a demo runner</figcaption></figure>
         <figure class="shot"><img src="img/dreamy-today-crop.webp" width="960" height="510" alt="Today screen with a race countdown and the day's easy run." loading="lazy" decoding="async" style="background-color:#1B1B27"><figcaption>Today, three days before a half marathon</figcaption></figure>
         <figure class="shot"><img src="img/dreamy-week-crop.webp" width="960" height="604" alt="This Week screen after one swap: Wednesday's tempo became a rest day and Thursday carries the quality session." loading="lazy" decoding="async" style="background-color:#171723"><figcaption>A week after I swapped Wednesday&rsquo;s tempo for rest</figcaption></figure>
         <figure class="shot"><img src="img/dreamy-training-crop.webp" width="960" height="450" alt="How Is My Training: the mix is imbalanced, with a suggestion to add about 15 minutes a week of VO2max work." loading="lazy" decoding="async" style="background-color:#1C1B24"><figcaption>Training balance, with a specific fix</figcaption></figure>
         <figure class="shot"><img src="img/dreamy-forecast-crop.webp" width="960" height="550" alt="The race forecast with each model's estimate, VDOT, confidence and weight." loading="lazy" decoding="async" style="background-color:#1D1E28"><figcaption>My half marathon forecast, with every model&rsquo;s estimate</figcaption></figure>
+      
+        <figure class="shot third"><img src="img/dreamy-insights.webp" width="1170" height="1330" alt="Insights for a demo runner: a headline that training isn&rsquo;t landing, then four cards answering am I getting faster, how&rsquo;s my fitness, what&rsquo;s my training balance and how&rsquo;s my volume, each with a number and a suggestion." loading="lazy" decoding="async" style="background-color:#1F1E30"><figcaption>Four questions runners ask, answered from a demo runner&rsquo;s data</figcaption></figure>
+        <figure class="shot third"><img src="img/dreamy-limits.webp" width="1170" height="1495" alt="A factor-distance matrix for a demo runner: how many seconds VO2max, lactate threshold, endurance, running economy and anaerobic capacity cost at the 5K, 10K, half and marathon, with endurance costing 82 seconds in the marathon." loading="lazy" decoding="async" style="background-color:#1D1D2A"><figcaption>What&rsquo;s costing a demo runner time at each distance</figcaption></figure>
+        <figure class="shot third"><img src="img/dreamy-gears.webp" width="1170" height="1460" alt="Week intensity for a demo runner: four settings from Cruise at 80 percent and 35 miles to Nitro at 130 percent and 57 miles, with Normal, 44 miles, picked for this week and the next three." loading="lazy" decoding="async" style="background-color:#1C1D2D"><figcaption>Four gears for a week, from cruise to nitro, for a demo runner</figcaption></figure>
+        <figure class="shot wide"><img src="img/dreamy-patterns.webp" width="1710" height="896" alt="A demo runner&rsquo;s effective VO2max from heart rate: one dot per workout from May to November, colored by type, with a dashed seven-day average moving between about 44 and 49." loading="lazy" decoding="async" style="background-color:#151522"><figcaption>A demo runner&rsquo;s aerobic fitness, from every run&rsquo;s pace and heart rate</figcaption></figure>
       </div>
     </section>
     <nav class="cs-next wrap" aria-label="Next case study"><a href="projects/walldrobe.html"><img src="img/wd-pick-2.webp" width="1200" height="829" alt="" loading="lazy" decoding="async" style="background-color:#ABAEAA"><span><b>Next: Walldrobe</b></span></a></nav>
