@@ -1092,6 +1092,62 @@ ul.reports.r-int li { grid-template-columns: minmax(0, 5fr) minmax(0, 3fr) minma
 ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
 @media (max-width: 699px) { ul.reports.r-int li { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
 
+/* Nov 6 to 7: any picture link with data-full opens full screen (How I use AI, Wharton OS; Jason: "let them full screen").
+   A small corner mark says the picture opens. The viewer itself is src/viewer.js. */
+a[data-full] { position: relative; display: block; cursor: zoom-in; border-radius: 6px; }
+a[data-full]::before, a[data-full]::after { content: ""; position: absolute; right: 6px; bottom: 6px; width: 22px; height: 22px; border-radius: 6px; pointer-events: none; }
+a[data-full]::before { background: var(--frame); opacity: 0.82; }
+a[data-full]::after { background: var(--mat); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7'/%3E%3C/svg%3E") center / 13px no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7'/%3E%3C/svg%3E") center / 13px no-repeat; }
+a[data-full]:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+@media (max-width: 480px) { a[data-full]::before, a[data-full]::after { right: 4px; bottom: 4px; width: 20px; height: 20px; } }
+dialog.lb[open] { animation: lb-in 160ms ease-out; }
+@keyframes lb-in { from { opacity: 0; } to { opacity: 1; } }
+.lb figure { height: 100vh; height: 100dvh; box-sizing: border-box; grid-template-rows: minmax(0, 1fr) auto; align-items: center; }
+.lb .lb-sc { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.lb .lb-sc img { max-height: calc(100vh - 140px); max-height: calc(100dvh - 140px); cursor: zoom-in; border-radius: 4px; }
+.lb.zoom .lb-sc { overflow: auto; align-items: flex-start; justify-content: flex-start; -webkit-overflow-scrolling: touch; }
+.lb.zoom .lb-sc img { max-width: none; max-height: none; height: auto; cursor: zoom-out; }
+.lb figcaption { font-weight: 700; }
+html.lb-open { overflow: hidden; }
+@media (max-width: 699px) { dialog.lb[open] { grid-template-columns: 36px minmax(0, 1fr) 36px; } .lb .wb-prev, .lb .wb-next { padding: 0 4px; font-size: 36px; } }
+@media (prefers-reduced-motion: reduce) { dialog.lb[open] { animation: none; } }
+
+/* Nov 7 (Jason: "add a few views to my website like this... maybe 100 of kosher things i can have popup"): the live
+   vault graph on the Wharton OS page (src/vaultgraph.js). Dots in the palette, one card at a time, no soft shadows. */
+.vg { margin: 10px 0 40px; }
+.vg-top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; margin-bottom: 14px; }
+.vg-h { margin: 0; font-size: clamp(1.7rem, 3.6vw, 2.6rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; }
+.vg-sub { margin: 0; color: var(--muted); font-size: 15px; }
+.vg-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.vg-mode { display: flex; flex-wrap: wrap; gap: 6px; }
+.vg-mode button { font: inherit; font-size: 14px; font-weight: 700; min-height: 40px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--rule); background: transparent; color: var(--ink-2); cursor: pointer; transition: background-color 150ms ease-out, color 150ms ease-out, border-color 150ms ease-out, transform 120ms ease-out; }
+.vg-mode button:hover { border-color: var(--rule-strong); color: var(--ink); }
+.vg-mode button:active { transform: scale(0.97); }
+.vg-mode button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+.vg-find { font: inherit; font-size: 16px; min-height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--rule); background: var(--surface); color: var(--ink); width: min(240px, 100%); }
+.vg-find::placeholder { color: var(--muted); }
+.vg-stage { position: relative; border: 1px solid var(--rule); border-radius: 14px; background: var(--paper); overflow: hidden; }
+.vg-stage canvas { display: block; touch-action: pan-y; }
+.vg-card { position: absolute; z-index: 2; left: 0; top: 0; width: min(280px, calc(100% - 16px)); padding: 12px 14px 13px; border-radius: 10px; background: var(--surface); border: 1px solid var(--rule-strong); opacity: 0; transform: scale(0.95); transition: opacity 160ms ease-out, transform 160ms ease-out; pointer-events: none; }
+.vg-card.on { opacity: 1; transform: none; }
+.vg-card p { margin: 0; }
+.vg-card .vg-g { display: flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 700; color: var(--muted); }
+.vg-card .vg-g i, .vg-list button i { width: 8px; height: 8px; border-radius: 50%; display: inline-block; flex: none; }
+.vg-card .vg-t { margin-top: 4px; font-size: 16px; font-weight: 800; line-height: 1.3; color: var(--ink); }
+.vg-card .vg-b { margin-top: 6px; font-size: 14.5px; line-height: 1.5; color: var(--ink-2); }
+.vg-card .vg-k { margin-top: 8px; font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.vg-zoom { position: absolute; right: 10px; bottom: 10px; display: flex; flex-direction: column; gap: 6px; }
+.vg-zoom button { width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--rule); background: var(--surface); color: var(--ink); font: 700 20px/1 var(--body); cursor: pointer; }
+.vg-zoom button:active { transform: scale(0.97); }
+.vg-list { margin-top: 12px; }
+.vg-list summary { cursor: pointer; font-weight: 700; color: var(--ink-2); min-height: 40px; display: flex; align-items: center; }
+.vg-list ul { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.vg-list button { font: inherit; font-size: 13.5px; display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--rule); background: transparent; color: var(--ink-2); cursor: pointer; text-align: left; }
+.vg-list button:hover { border-color: var(--rule-strong); color: var(--ink); }
+.vg-list button[aria-pressed="true"] { border-color: var(--ink); color: var(--ink); }
+@media (max-width: 520px) { .vg-find { width: 100%; } .vg-mode button { padding: 0 12px; } .vg-zoom { top: 10px; bottom: auto; } }
+@media (prefers-reduced-motion: reduce) { .vg-card, .vg-mode button, .vg-zoom button { transition: none; } }
+
 /* end of page: previous small, next as the last big line */
 .pager { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px 40px; margin: 72px 0 8px; padding-top: 22px; border-top: 1px solid var(--rule); }
 .pager a { text-decoration: none; color: inherit; }
@@ -1503,11 +1559,37 @@ ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
 #path .note-slot .note { margin: 24px 0 0; padding: 16px 20px; border: 1px solid var(--rule); border-radius: 12px; background: var(--surface); }
 @media (min-width: 1000px) { .sn-t::after { content: none; } }
 
+/* Nov 7 (Jason: "i like the new highlight one with one case then the others"): Dreamy leads the case studies, big, with
+   the other three smaller under it. Scale, not four equal boxes (the "feels samey, give it scale" fix). */
+@media (min-width: 760px) {
+  .case-list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px 24px; }
+  .case-list > li:first-child { grid-column: 1 / -1; }
+  .case-list > li:first-child .case { grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); grid-template-rows: 1fr auto 1fr; column-gap: 40px; row-gap: 10px; align-items: start; }
+  .case-list > li:first-child .case-pic { grid-row: 1 / span 3; margin: 0; }
+  .case-list > li:first-child .case-h { grid-column: 2; grid-row: 1; align-self: end; font-size: 3rem; line-height: 1; letter-spacing: -0.035em; }
+  .case-list > li:first-child .case-l { grid-column: 2; grid-row: 2; font-size: 20px; line-height: 1.5; max-width: 28ch; color: var(--ink); }
+  .case-list > li:not(:first-child) .case-l { font-size: 14.5px; }
+}
+@media (min-width: 760px) and (max-width: 999px) {
+  .case-list > li:first-child .case-h { font-size: 2.4rem; }
+  .case-list > li:first-child .case-l { font-size: 17px; }
+}
+@media (max-width: 759px) {
+  .case-list { grid-template-columns: minmax(0, 1fr); gap: 22px; }
+  .case-list > li:first-child { margin-bottom: 10px; }
+  .case-list > li:first-child .case-h { font-size: 2rem; letter-spacing: -0.03em; }
+  .case-list > li:first-child .case-l { font-size: 16.5px; color: var(--ink); }
+  .case-list > li:not(:first-child) .case { grid-template-columns: 104px minmax(0, 1fr); grid-template-rows: auto 1fr; column-gap: 14px; row-gap: 4px; align-items: start; }
+  .case-list > li:not(:first-child) .case-pic { grid-row: 1 / span 2; aspect-ratio: 1 / 1; margin: 0; }
+  .case-list > li:not(:first-child) .case-h { order: 0; font-size: 1.05rem; }
+  .case-list > li:not(:first-child) .case-l { font-size: 14px; }
+}
+
 </style>
 <script>(function(){function pick(){var c=null;[document.querySelector('.name'),document.querySelector('.topbar .label a')].forEach(function(el){if(!el)return;var r=el.getBoundingClientRect(),w=el.closest('.tb-name'),s=r.width>0&&r.bottom>0&&r.top<innerHeight&&!(w&&!w.classList.contains('on'));el.style.viewTransitionName=!c&&s?'jt-name':'none';if(!c&&s)c=el;});}addEventListener('pageswap',pick);addEventListener('pagereveal',pick);})();</script>
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<script>(function(){try{if(/[?&]me\b/.test(location.search))localStorage.setItem('umami.disabled','1')}catch(e){}if(location.hostname!=='jason-traum.github.io')return;var s=document.createElement('script');s.defer=true;s.src='https://cloud.umami.is/script.js';s.setAttribute('data-website-id','9354e2b8-0819-4cb2-a9aa-c8d49e08fe5f');document.head.appendChild(s)})();</script>
+<script>(function(){var q=location.search,m=q.match(/^\?([a-z2-9]{5})$/),c=m?m[1]:null,me=/[?&]me\b/.test(q);try{if(me)localStorage.setItem('umami.disabled','1')}catch(e){}if((c||me)&&history.replaceState)history.replaceState(null,'',location.pathname+location.hash);if(location.hostname!=='jason-traum.github.io')return;var s=document.createElement('script');s.defer=true;s.src='https://cloud.umami.is/script.js';s.setAttribute('data-website-id','9354e2b8-0819-4cb2-a9aa-c8d49e08fe5f');s.setAttribute('data-exclude-search','true');if(c)s.onload=function(){try{window.umami&&umami.track('link '+c,{code:c})}catch(e){}};document.head.appendChild(s)})();</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -1571,6 +1653,55 @@ grant select (id, runner_id, stop, kind, at, verified, source, created_at)
   </footer>
 </div>
 <script>
+// Nov 6 to 7 (Jason: "we def should be able to see the full cheat sheet and click into a few of these examples or photos
+// more? like let them full screen"): any link with data-full opens its picture full screen. data-full can hold several
+// pictures (the cheat sheet's two pages), data-alt their alt text split by |, data-cap a caption (else the nearest title).
+// Arrows, keys and swipes go through every picture on the page; tap a picture to zoom in and pan, tap again to fit.
+// First in the page script, so nothing earlier can stop it.
+(function () {
+  var pics = [].slice.call(document.querySelectorAll('a[data-full]'));
+  if (!pics.length) return;
+  var box = document.createElement('dialog');
+  if (!box.showModal) return;
+  box.className = 'pw-box lb';
+  box.setAttribute('aria-label', 'Picture');
+  box.innerHTML = '<button type="button" class="wb-x" aria-label="Close">Close</button><button type="button" class="wb-prev" aria-label="Previous">&#8249;</button><figure><div class="lb-sc"><img alt=""></div><figcaption></figcaption></figure><button type="button" class="wb-next" aria-label="Next">&#8250;</button>';
+  document.body.appendChild(box);
+  var img = box.querySelector('img'), cap = box.querySelector('figcaption'), sc = box.querySelector('.lb-sc'), items = [], cur = 0, last = null, x0 = null;
+  pics.forEach(function (a) {
+    var alts = (a.getAttribute('data-alt') || '').split('|'), holder = a.closest('.feat') || a.closest('li') || a.closest('figure'), t = holder && holder.querySelector('b, h3, figcaption');
+    var c = a.getAttribute('data-cap') || (t ? t.textContent : '');
+    a.setAttribute('data-i', items.length);
+    a.getAttribute('data-full').split(' ').forEach(function (src, k) {
+      var im = a.querySelector('img');
+      items.push({ src: src, alt: alts[k] || (im ? im.alt : ''), cap: c });
+    });
+  });
+  if (items.length < 2) { box.querySelector('.wb-prev').hidden = true; box.querySelector('.wb-next').hidden = true; }
+  function fit() { box.classList.remove('zoom'); img.style.width = ''; }
+  function draw() { var it = items[cur]; fit(); img.src = it.src; img.alt = it.alt; cap.textContent = it.cap; }
+  function go(d) { cur = (cur + d + items.length) % items.length; draw(); }
+  pics.forEach(function (a) {
+    a.addEventListener('click', function (e) { e.preventDefault(); last = a; cur = +a.getAttribute('data-i'); draw(); box.showModal(); });
+  });
+  img.addEventListener('click', function (e) {
+    if (box.classList.contains('zoom')) { fit(); return; }
+    var r = img.getBoundingClientRect(), w = Math.min(img.naturalWidth, Math.max(2 * r.width, 1600));
+    if (!r.width || w < r.width * 1.2) return;
+    var fx = (e.clientX - r.left) / r.width, fy = (e.clientY - r.top) / r.height;
+    box.classList.add('zoom'); img.style.width = w + 'px';
+    sc.scrollLeft = fx * img.offsetWidth - sc.clientWidth / 2; sc.scrollTop = fy * img.offsetHeight - sc.clientHeight / 2;
+  });
+  box.querySelector('.wb-x').addEventListener('click', function () { box.close(); });
+  box.querySelector('.wb-prev').addEventListener('click', function () { go(-1); });
+  box.querySelector('.wb-next').addEventListener('click', function () { go(1); });
+  box.addEventListener('click', function (e) { if (e.target === box || e.target === sc || e.target.tagName === 'FIGURE') box.close(); });
+  box.addEventListener('keydown', function (e) { if (items.length < 2) return; if (e.key === 'ArrowLeft') go(-1); if (e.key === 'ArrowRight') go(1); });
+  box.addEventListener('touchstart', function (e) { x0 = e.touches.length === 1 && !box.classList.contains('zoom') && items.length > 1 ? e.touches[0].clientX : null; }, { passive: true });
+  box.addEventListener('touchend', function (e) { if (x0 === null) return; var dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1); x0 = null; });
+  box.addEventListener('close', function () { fit(); img.removeAttribute('src'); document.documentElement.classList.remove('lb-open'); if (last) last.focus(); });
+  box.addEventListener('toggle', function () { if (box.open) document.documentElement.classList.add('lb-open'); });
+})();
 (function () {
   // Copy-email buttons: clipboard first, text selection as a fallback.
   document.querySelectorAll('button.copy').forEach(function (btn) {
