@@ -853,8 +853,20 @@ details.more[open] > summary { margin-bottom: 10px; }
   .reports li { grid-template-columns: minmax(0, 1fr); }
 }
 
-/* "Get in touch" lands with the contact info at the top of the screen, not stuck at the bottom of the page */
-#contact { min-height: calc(100vh - 110px); min-height: calc(100svh - 110px); }
+/* "Get in touch" lands with the contact info at the top of the screen, not stuck at the bottom of the page.
+   Nov 8: the Antelao drawing under the footer now fills most of that room (Jason: "I need something like this
+   by the contact me page", from the Corniche footer; "we need to stick with dark"), so the block only keeps
+   whatever height the drawing and footer don't cover. */
+#contact { min-height: max(0px, calc(100vh - 110px - 38vw - 80px)); min-height: max(0px, calc(100svh - 110px - 38vw - 80px)); padding-bottom: 8px; }
+/* His own photo of Antelao (Dolomites, Oct 13), redrawn in one ink by tools/endscape.py. The sky is the page
+   color, so the mountains rise straight out of the page. Decorative, so no alt text. */
+.endscape { display: block; width: 100%; height: auto; aspect-ratio: 2800 / 1118; object-fit: cover; object-position: 42% 100%;
+  margin-top: -2vw; pointer-events: none; -webkit-mask-image: linear-gradient(to bottom, transparent, #000 12%); mask-image: linear-gradient(to bottom, transparent, #000 12%); }
+@media (max-width: 699px) {
+  .endscape { aspect-ratio: 3 / 2; object-position: 46% 100%; margin-top: 0; }
+  #contact { min-height: max(0px, calc(100vh - 110px - 66.7vw - 70px)); min-height: max(0px, calc(100svh - 110px - 66.7vw - 70px)); }
+}
+@media print { .endscape { display: none; } }
 
 /* Public reports as covers (Oct 7, carried over from Oct 6: "More pictures that link, fewer words") */
 ul.reports { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 18px; border: 0; }
@@ -1711,6 +1723,7 @@ html.lb-open { overflow: hidden; }
     <p class="note">Updated November 2026</p>
   </footer>
 </div>
+<img class="endscape" src="img/end-antelao.webp" srcset="img/end-antelao-1400.webp 1400w, img/end-antelao.webp 2800w" sizes="100vw" width="2800" height="1118" alt="" loading="lazy" decoding="async" style="background-color:#2D5789">
 
 <script>
 // Nov 6 to 7 (Jason: "we def should be able to see the full cheat sheet and click into a few of these examples or photos
