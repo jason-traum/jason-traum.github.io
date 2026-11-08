@@ -250,16 +250,11 @@ button.copy:hover { background: var(--ink); color: var(--paper); }
 }
 
 /* Wharton OS wiring */
-.wiring {
-  margin: 4px 0 0; padding: 16px 18px;
-  background: var(--surface); border-radius: 12px;
-  display: grid; grid-template-columns: max-content 1fr; gap: 7px 20px;
-  font-family: var(--mono); font-size: 13px; line-height: 1.5;
-  max-width: 42em;
-}
-.wiring dt { color: var(--blue-soft); font-weight: 500; }
-.wiring dd { margin: 0; color: var(--ink-2); }
-@media (max-width: 480px) { .wiring { grid-template-columns: 1fr; gap: 2px; } .wiring dd { margin-bottom: 8px; } }
+/* Nov 8 refresh: the agents and skills read like the details column, in the body font, with no box or mono. */
+.wiring { margin: 10px 0 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 13px 28px; }
+.wiring dt { font-size: 13px; color: var(--muted); }
+.wiring dd { margin: 2px 0 0; font-size: 14.5px; line-height: 1.45; color: var(--ink-2); }
+@media (max-width: 699px) { .wiring { grid-template-columns: minmax(0, 1fr); } }
 
 /* Walldrobe wall */
 .wall-fig { margin: 14px 0 0; max-width: 720px; }
@@ -1128,25 +1123,43 @@ html.lb-open { overflow: hidden; }
 .vg-zoom { position: absolute; right: 10px; bottom: 10px; display: flex; flex-direction: column; gap: 6px; }
 .vg-zoom button { width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--rule); background: var(--surface); color: var(--ink); font: 700 20px/1 var(--body); cursor: pointer; }
 .vg-zoom button:active { transform: scale(0.97); }
+.vg-zoom .vg-play { margin-bottom: 4px; display: grid; place-items: center; }
+.vg-play svg { width: 16px; height: 16px; fill: currentColor; }
+.vg-play .i-stop, .vg-play.on .i-play { display: none; }
+.vg-play.on .i-stop { display: block; }
+.vg-note { margin: 10px 0 0; font-size: 14px; color: var(--muted); }
+.vg-note .num { color: var(--ink-2); font-weight: 700; font-variant-numeric: tabular-nums; }
 .vg-list { margin-top: 12px; }
 .vg-list summary { cursor: pointer; font-weight: 700; color: var(--ink-2); min-height: 40px; display: flex; align-items: center; }
 .vg-list ul { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
 .vg-list button { font: inherit; font-size: 13.5px; display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--rule); background: transparent; color: var(--ink-2); cursor: pointer; text-align: left; }
 .vg-list button:hover { border-color: var(--rule-strong); color: var(--ink); }
 .vg-list button[aria-pressed="true"] { border-color: var(--ink); color: var(--ink); }
-@media (max-width: 520px) { .vg-find { width: 100%; } .vg-mode button { padding: 0 12px; } .vg-zoom { top: 10px; bottom: auto; } }
+@media (max-width: 520px) { .vg-find { width: 100%; } .vg-mode button { padding: 0 12px; } }
 @media (prefers-reduced-motion: reduce) { .vg-card, .vg-mode button, .vg-zoom button { transition: none; } }
 
 /* Nov 7: Wharton OS in two zones (how I learn with it, why I can trust it), the "give it zones" fix. */
-.zone { margin-top: 64px; }
-.zone-h { margin: 0 0 22px; font-size: clamp(1.9rem, 4vw, 2.8rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; }
+.zone { margin-top: 72px; }
+.zone-h { margin: 0 0 6px; font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; letter-spacing: -0.025em; line-height: 1.1; }
 .zone .deep { margin-top: 0; padding-top: 0; }
-.zone .vg { margin-top: 0; }
-.zone .vg-h { font-size: clamp(1.15rem, 2vw, 1.35rem); letter-spacing: -0.01em; }
-@media (max-width: 699px) { .zone { margin-top: 48px; } .zone-h { margin-bottom: 16px; } }
+.zone .feat { padding-block: 18px; }
+@media (max-width: 699px) { .zone { margin-top: 52px; } }
+/* Nov 8 refresh: the graph leads the page; zones use the full width (two columns, or a wide lead row and three columns). */
+.project > .vg { margin: 28px 0 44px; }
+.project > .vg .vg-h { font-size: 1.15rem; letter-spacing: -0.01em; }
+@media (min-width: 860px) {
+  .zone-feats.two, .zone-feats.three { display: grid; column-gap: 48px; }
+  .zone-feats.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .zone-feats.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .zone-feats .feat.wide, .zone-feats .feat.lead { grid-column: 1 / -1; }
+  .zone-feats .feat.lead { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); align-items: center; }
+  .zone-feats .feat .feat-text { max-width: none; }
+}
+.check-line { margin: 0; font-size: clamp(1.3rem, 2.6vw, 2rem); font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; color: var(--ink); }
+.check-line .num { font-variant-numeric: tabular-nums; }
 /* Nov 7 (Jason: "also incldue both sides of my cheet sheet"): both pages side by side, stacked on a phone; each opens full screen. */
 .cheat-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
-@media (max-width: 699px) { .cheat-pair { grid-template-columns: minmax(0, 1fr); gap: 10px; } }
+@media (max-width: 699px) { .cheat-pair { gap: 8px; } }
 
 /* end of page: previous small, next as the last big line */
 .pager { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px 40px; margin: 72px 0 8px; padding-top: 22px; border-top: 1px solid var(--rule); }
