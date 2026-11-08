@@ -1137,6 +1137,17 @@ html.lb-open { overflow: hidden; }
 @media (max-width: 520px) { .vg-find { width: 100%; } .vg-mode button { padding: 0 12px; } .vg-zoom { top: 10px; bottom: auto; } }
 @media (prefers-reduced-motion: reduce) { .vg-card, .vg-mode button, .vg-zoom button { transition: none; } }
 
+/* Nov 7: Wharton OS in two zones (how I learn with it, why I can trust it), the "give it zones" fix. */
+.zone { margin-top: 64px; }
+.zone-h { margin: 0 0 22px; font-size: clamp(1.9rem, 4vw, 2.8rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; }
+.zone .deep { margin-top: 0; padding-top: 0; }
+.zone .vg { margin-top: 0; }
+.zone .vg-h { font-size: clamp(1.15rem, 2vw, 1.35rem); letter-spacing: -0.01em; }
+@media (max-width: 699px) { .zone { margin-top: 48px; } .zone-h { margin-bottom: 16px; } }
+/* Nov 7 (Jason: "also incldue both sides of my cheet sheet"): both pages side by side, stacked on a phone; each opens full screen. */
+.cheat-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+@media (max-width: 699px) { .cheat-pair { grid-template-columns: minmax(0, 1fr); gap: 10px; } }
+
 /* end of page: previous small, next as the last big line */
 .pager { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px 40px; margin: 72px 0 8px; padding-top: 22px; border-top: 1px solid var(--rule); }
 .pager a { text-decoration: none; color: inherit; }
