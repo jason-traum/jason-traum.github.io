@@ -912,6 +912,36 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
 .cs-next b::after { content: '\00a0\2192'; }
 .cs-next a:hover b { text-decoration: underline; }
 </style>
+<style>
+/* the site viewer (src/viewer.js), from index.css */
+dialog.pw-box { width: 100vw; height: 100vh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: rgba(10, 11, 13, 0.96); color: #ededf2; }
+dialog.pw-box[open] { display: grid; grid-template-columns: 56px minmax(0, 1fr) 56px; align-items: center; }
+dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
+.pw-box figure { margin: 0; display: grid; justify-items: center; gap: 14px; padding: 56px 0 24px; }
+.pw-box img { max-width: 100%; max-height: calc(100vh - 150px); width: auto; height: auto; }
+.pw-box figcaption { font-size: 17px; color: #ededf2; text-align: center; padding: 0 12px; }
+.pw-box button { font: inherit; color: #ededf2; background: transparent; border: 0; cursor: pointer; min-height: 44px; }
+.pw-box .wb-prev, .pw-box .wb-next { font-size: 44px; line-height: 1; padding: 0 12px; color: #b8b8c8; } .pw-box .wb-prev:hover, .pw-box .wb-next:hover { color: #ededf2; }
+.pw-box .wb-x { position: absolute; top: 12px; right: 16px; font-size: 15px; text-decoration: underline; text-underline-offset: 3px; }
+a[data-full] { position: relative; display: block; cursor: zoom-in; border-radius: 6px; }
+a[data-full]::before, a[data-full]::after { content: ""; position: absolute; right: 6px; bottom: 6px; width: 22px; height: 22px; border-radius: 6px; pointer-events: none; }
+a[data-full]::before { background: #06090D; opacity: 0.82; }
+a[data-full]::after { background: #E6E9EC; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7'/%3E%3C/svg%3E") center / 13px no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7'/%3E%3C/svg%3E") center / 13px no-repeat; }
+a[data-full]:focus-visible { outline: 2px solid #ededf2; outline-offset: 3px; }
+.feat-fig.phone a[data-full] { width: fit-content; max-width: 100%; }  /* Nov 8: the corner mark sits on the phone shot, not the empty space beside it */
+@media (max-width: 480px) { a[data-full]::before, a[data-full]::after { right: 4px; bottom: 4px; width: 20px; height: 20px; } }
+dialog.lb[open] { animation: lb-in 160ms ease-out; }
+@keyframes lb-in { from { opacity: 0; } to { opacity: 1; } }
+.lb figure { height: 100vh; height: 100dvh; box-sizing: border-box; grid-template-rows: minmax(0, 1fr) auto; align-items: center; }
+.lb .lb-sc { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.lb .lb-sc img { max-height: calc(100vh - 140px); max-height: calc(100dvh - 140px); cursor: zoom-in; border-radius: 4px; }
+.lb.zoom .lb-sc { overflow: auto; align-items: flex-start; justify-content: flex-start; -webkit-overflow-scrolling: touch; }
+.lb.zoom .lb-sc img { max-width: none; max-height: none; height: auto; cursor: zoom-out; }
+.lb figcaption { font-weight: 700; }
+html.lb-open { overflow: hidden; }
+@media (max-width: 699px) { dialog.lb[open] { grid-template-columns: 36px minmax(0, 1fr) 36px; } .lb .wb-prev, .lb .wb-next { padding: 0 4px; font-size: 36px; } }
+@media (prefers-reduced-motion: reduce) { dialog.lb[open] { animation: none; } }
+</style>
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <script>(function(){var q=location.search,m=q.match(/^\?([a-z2-9]{5})$/),c=m?m[1]:null,me=/[?&]me\b/.test(q);try{if(me)localStorage.setItem('umami.disabled','1')}catch(e){}if((c||me)&&history.replaceState)history.replaceState(null,'',location.pathname+location.hash);if(location.hostname!=='jason-traum.github.io')return;var s=document.createElement('script');s.defer=true;s.src='https://cloud.umami.is/script.js';s.setAttribute('data-website-id','9354e2b8-0819-4cb2-a9aa-c8d49e08fe5f');s.setAttribute('data-exclude-search','true');if(c)s.onload=function(){try{window.umami&&umami.track('link '+c,{code:c})}catch(e){}};document.head.appendChild(s)})();</script>
@@ -1065,7 +1095,7 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
           <li><b>The range leans slow</b><span>It comes from six named sources of uncertainty, because more things go wrong on race day than right. Models that use the same inputs don&rsquo;t count as separate votes.</span></li>
         </ol>
         <figure class="shot">
-          <img src="img/dreamy-disagree.webp" width="900" height="789" alt="Dreamy's race predictions card showing VDOT 49.8 with low confidence and 28 percent agreement, flagging significant disagreement of plus or minus 4.1 VDOT with the heart-rate VO2max model as the outlier." loading="lazy" decoding="async" style="background-color:#171822">
+          <a href="img/dreamy-disagree.webp" data-full="img/dreamy-disagree.webp" aria-label="Full screen: Dreamy's race predictions card showing VDOT 49.8 with low confidence and 28 percent agreement, flagging significant disagreement of plus or minus 4.1 VDOT with the heart-rate VO2max model as the outlier."><img src="img/dreamy-disagree.webp" width="900" height="789" alt="Dreamy's race predictions card showing VDOT 49.8 with low confidence and 28 percent agreement, flagging significant disagreement of plus or minus 4.1 VDOT with the heart-rate VO2max model as the outlier." loading="lazy" decoding="async" style="background-color:#171822"></a>
           <figcaption>When the models disagree, the app shows which one it thinks is off.</figcaption>
         </figure>
       </div>
@@ -1091,7 +1121,7 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
           <p>How much you get out of a workout depends on how ready you were. The research backs the direction, and I picked the exact cutoffs myself.</p>
           </details>
         </div>
-        <figure class="shot"><img src="img/dreamy-why-crop.webp" width="960" height="412" alt="Why This Felt Hard: high recent volume and a hard run the day before." loading="lazy" decoding="async" style="background-color:#2A2132"><figcaption>Why a run felt hard, and what it trained</figcaption></figure>
+        <figure class="shot"><a href="img/dreamy-why-crop.webp" data-full="img/dreamy-why-crop.webp" aria-label="Full screen: Why This Felt Hard: high recent volume and a hard run the day before."><img src="img/dreamy-why-crop.webp" width="960" height="412" alt="Why This Felt Hard: high recent volume and a hard run the day before." loading="lazy" decoding="async" style="background-color:#2A2132"></a><figcaption>Why a run felt hard, and what it trained</figcaption></figure>
       </div>
     </section>
 
@@ -1149,7 +1179,7 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
           </details>
         </div>
           <figure class="shot phone">
-            <img src="img/dreamy-plan.webp" width="600" height="986" alt="A week in Dreamy's plan view: Monday easy with strides, Tuesday VO2max intervals, Wednesday rest, Thursday VO2max, Friday medium-long, Saturday long run, Sunday easy with strides." loading="lazy" decoding="async" style="background-color:#1F1F2F">
+            <a href="img/dreamy-plan.webp" data-full="img/dreamy-plan.webp" aria-label="Full screen: A week in Dreamy's plan view: Monday easy with strides, Tuesday VO2max intervals, Wednesday rest, Thursday VO2max, Friday medium-long, Saturday long run, Sunday easy with strides."><img src="img/dreamy-plan.webp" width="600" height="986" alt="A week in Dreamy's plan view: Monday easy with strides, Tuesday VO2max intervals, Wednesday rest, Thursday VO2max, Friday medium-long, Saturday long run, Sunday easy with strides." loading="lazy" decoding="async" style="background-color:#1F1F2F"></a>
             <figcaption>A peak week in the app, 55 miles over six runs</figcaption>
           </figure>
       </div>
@@ -1188,7 +1218,7 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
           </details>
         <details class="fold" open><summary>More on the research</summary><p>I did an absurd amount of research for it. I used AI to find every marathon plan and sports science paper I could, and gave it a ton of direction from my own marathon training. I started with an LLM writing the plans, but that got expensive and unreliable, so I switched to a rules-based engine. Then I ran real runners' histories through it, had LLMs grade the plans against the research and suggest changes, and reviewed every round myself.</p></details>
         </div>
-        <figure class="shot"><img src="img/dreamy-atlas-crop.webp" width="960" height="820" alt="The Pace Zone Atlas comparing how coaching systems define each pace zone, with Pfitzinger&rsquo;s paces open." loading="lazy" decoding="async" style="background-color:#212032"><figcaption>Pace Zone Atlas: 22 systems, approximate mappings</figcaption></figure>
+        <figure class="shot"><a href="img/dreamy-atlas-crop.webp" data-full="img/dreamy-atlas-crop.webp" aria-label="Full screen: The Pace Zone Atlas comparing how coaching systems define each pace zone, with Pfitzinger&rsquo;s paces open."><img src="img/dreamy-atlas-crop.webp" width="960" height="820" alt="The Pace Zone Atlas comparing how coaching systems define each pace zone, with Pfitzinger&rsquo;s paces open." loading="lazy" decoding="async" style="background-color:#212032"></a><figcaption>Pace Zone Atlas: 22 systems, approximate mappings</figcaption></figure>
       </div>
     </section>
 
@@ -1297,7 +1327,7 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
       </div>
       <p class="pipe-key"><span><i class="k-code"></i>Regular code</span><span><i class="k-llm"></i>Claude</span></p>
         <figure class="shot phone" style="max-width:240px;margin-top:26px">
-          <img src="img/dreamy-coach.webp" width="600" height="1266" alt="Dreamy's coach chat screen with the sheep mascot and suggested prompts like Ready to run, Log a run and Week review." loading="lazy" decoding="async" style="background-color:#2F2E3E">
+          <a href="img/dreamy-coach.webp" data-full="img/dreamy-coach.webp" aria-label="Full screen: Dreamy's coach chat screen with the sheep mascot and suggested prompts like Ready to run, Log a run and Week review."><img src="img/dreamy-coach.webp" width="600" height="1266" alt="Dreamy's coach chat screen with the sheep mascot and suggested prompts like Ready to run, Log a run and Week review." loading="lazy" decoding="async" style="background-color:#2F2E3E"></a>
           <figcaption>When you ask the coach something, it calls the same engine that built your plan.</figcaption>
         </figure>
     </section>
@@ -1403,16 +1433,16 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
     <section class="sec" id="screens" aria-labelledby="sc-h">
       <h2 id="sc-h">Screenshots</h2>
       <div class="gallery">
-        <figure class="shot wide"><img src="img/dreamy-network.webp" width="2000" height="1483" alt="The adaptation network for a demo runner: raw data such as heart rate, pace and race results on the left, what the engine extracts from it, fitness parameters like VO2max ceiling, lactate threshold and durability, the prediction signals, and race predictions for the 5K, 10K, half marathon and marathon on the right, with lines connecting each step." loading="lazy" decoding="async" style="background-color:#0E0F12"><figcaption>How the engine gets from run data to race predictions, for a demo runner</figcaption></figure>
-        <figure class="shot"><img src="img/dreamy-today-crop.webp" width="960" height="510" alt="Today screen with a race countdown and the day's easy run." loading="lazy" decoding="async" style="background-color:#1B1B27"><figcaption>Today, three days before a half marathon</figcaption></figure>
-        <figure class="shot"><img src="img/dreamy-week-crop.webp" width="960" height="604" alt="This Week screen after one swap: Wednesday's tempo became a rest day and Thursday carries the quality session." loading="lazy" decoding="async" style="background-color:#171723"><figcaption>A week after I swapped Wednesday&rsquo;s tempo for rest</figcaption></figure>
-        <figure class="shot"><img src="img/dreamy-training-crop.webp" width="960" height="450" alt="How Is My Training: the mix is imbalanced, with a suggestion to add about 15 minutes a week of VO2max work." loading="lazy" decoding="async" style="background-color:#1C1B24"><figcaption>Training balance, with a specific fix</figcaption></figure>
-        <figure class="shot"><img src="img/dreamy-forecast-crop.webp" width="960" height="550" alt="The race forecast with each model's estimate, VDOT, confidence and weight." loading="lazy" decoding="async" style="background-color:#1D1E28"><figcaption>My half marathon forecast, with every model&rsquo;s estimate</figcaption></figure>
+        <figure class="shot wide"><a href="img/dreamy-network.webp" data-full="img/dreamy-network.webp" aria-label="Full screen: The adaptation network for a demo runner: raw data such as heart rate, pace and race results on the left, what the engine extracts from it, fitness parameters like VO2max ceiling, lactate threshold and durability, the prediction signals, and race predictions for the 5K, 10K, half marathon and marathon on the right, with lines connecting each step."><img src="img/dreamy-network.webp" width="2000" height="1483" alt="The adaptation network for a demo runner: raw data such as heart rate, pace and race results on the left, what the engine extracts from it, fitness parameters like VO2max ceiling, lactate threshold and durability, the prediction signals, and race predictions for the 5K, 10K, half marathon and marathon on the right, with lines connecting each step." loading="lazy" decoding="async" style="background-color:#0E0F12"></a><figcaption>How the engine gets from run data to race predictions, for a demo runner</figcaption></figure>
+        <figure class="shot"><a href="img/dreamy-today-crop.webp" data-full="img/dreamy-today-crop.webp" aria-label="Full screen: Today screen with a race countdown and the day's easy run."><img src="img/dreamy-today-crop.webp" width="960" height="510" alt="Today screen with a race countdown and the day's easy run." loading="lazy" decoding="async" style="background-color:#1B1B27"></a><figcaption>Today, three days before a half marathon</figcaption></figure>
+        <figure class="shot"><a href="img/dreamy-week-crop.webp" data-full="img/dreamy-week-crop.webp" aria-label="Full screen: This Week screen after one swap: Wednesday's tempo became a rest day and Thursday carries the quality session."><img src="img/dreamy-week-crop.webp" width="960" height="604" alt="This Week screen after one swap: Wednesday's tempo became a rest day and Thursday carries the quality session." loading="lazy" decoding="async" style="background-color:#171723"></a><figcaption>A week after I swapped Wednesday&rsquo;s tempo for rest</figcaption></figure>
+        <figure class="shot"><a href="img/dreamy-training-crop.webp" data-full="img/dreamy-training-crop.webp" aria-label="Full screen: How Is My Training: the mix is imbalanced, with a suggestion to add about 15 minutes a week of VO2max work."><img src="img/dreamy-training-crop.webp" width="960" height="450" alt="How Is My Training: the mix is imbalanced, with a suggestion to add about 15 minutes a week of VO2max work." loading="lazy" decoding="async" style="background-color:#1C1B24"></a><figcaption>Training balance, with a specific fix</figcaption></figure>
+        <figure class="shot"><a href="img/dreamy-forecast-crop.webp" data-full="img/dreamy-forecast-crop.webp" aria-label="Full screen: The race forecast with each model's estimate, VDOT, confidence and weight."><img src="img/dreamy-forecast-crop.webp" width="960" height="550" alt="The race forecast with each model's estimate, VDOT, confidence and weight." loading="lazy" decoding="async" style="background-color:#1D1E28"></a><figcaption>My half marathon forecast, with every model&rsquo;s estimate</figcaption></figure>
       
-        <figure class="shot third"><img src="img/dreamy-insights.webp" width="1170" height="1330" alt="Insights for a demo runner: a headline that training isn&rsquo;t landing, then four cards answering am I getting faster, how&rsquo;s my fitness, what&rsquo;s my training balance and how&rsquo;s my volume, each with a number and a suggestion." loading="lazy" decoding="async" style="background-color:#1F1E30"><figcaption>Four questions runners ask, answered from a demo runner&rsquo;s data</figcaption></figure>
-        <figure class="shot third"><img src="img/dreamy-limits.webp" width="1170" height="1495" alt="A factor-distance matrix for a demo runner: how many seconds VO2max, lactate threshold, endurance, running economy and anaerobic capacity cost at the 5K, 10K, half and marathon, with endurance costing 82 seconds in the marathon." loading="lazy" decoding="async" style="background-color:#1D1D2A"><figcaption>What&rsquo;s costing a demo runner time at each distance</figcaption></figure>
-        <figure class="shot third"><img src="img/dreamy-gears.webp" width="1170" height="1460" alt="Week intensity for a demo runner: four settings from Cruise at 80 percent and 35 miles to Nitro at 130 percent and 57 miles, with Normal, 44 miles, picked for this week and the next three." loading="lazy" decoding="async" style="background-color:#1C1D2D"><figcaption>Four gears for a week, from cruise to nitro, for a demo runner</figcaption></figure>
-        <figure class="shot wide"><img src="img/dreamy-patterns.webp" width="1710" height="896" alt="A demo runner&rsquo;s effective VO2max from heart rate: one dot per workout from May to November, colored by type, with a dashed seven-day average moving between about 44 and 49." loading="lazy" decoding="async" style="background-color:#151522"><figcaption>A demo runner&rsquo;s aerobic fitness, from every run&rsquo;s pace and heart rate</figcaption></figure>
+        <figure class="shot third"><a href="img/dreamy-insights.webp" data-full="img/dreamy-insights.webp" aria-label="Full screen: Insights for a demo runner: a headline that training isn&rsquo;t landing, then four cards answering am I getting faster, how&rsquo;s my fitness, what&rsquo;s my training balance and how&rsquo;s my volume, each with a number and a suggestion."><img src="img/dreamy-insights.webp" width="1170" height="1330" alt="Insights for a demo runner: a headline that training isn&rsquo;t landing, then four cards answering am I getting faster, how&rsquo;s my fitness, what&rsquo;s my training balance and how&rsquo;s my volume, each with a number and a suggestion." loading="lazy" decoding="async" style="background-color:#1F1E30"></a><figcaption>Four questions runners ask, answered from a demo runner&rsquo;s data</figcaption></figure>
+        <figure class="shot third"><a href="img/dreamy-limits.webp" data-full="img/dreamy-limits.webp" aria-label="Full screen: A factor-distance matrix for a demo runner: how many seconds VO2max, lactate threshold, endurance, running economy and anaerobic capacity cost at the 5K, 10K, half and marathon, with endurance costing 82 seconds in the marathon."><img src="img/dreamy-limits.webp" width="1170" height="1495" alt="A factor-distance matrix for a demo runner: how many seconds VO2max, lactate threshold, endurance, running economy and anaerobic capacity cost at the 5K, 10K, half and marathon, with endurance costing 82 seconds in the marathon." loading="lazy" decoding="async" style="background-color:#1D1D2A"></a><figcaption>What&rsquo;s costing a demo runner time at each distance</figcaption></figure>
+        <figure class="shot third"><a href="img/dreamy-gears.webp" data-full="img/dreamy-gears.webp" aria-label="Full screen: Week intensity for a demo runner: four settings from Cruise at 80 percent and 35 miles to Nitro at 130 percent and 57 miles, with Normal, 44 miles, picked for this week and the next three."><img src="img/dreamy-gears.webp" width="1170" height="1460" alt="Week intensity for a demo runner: four settings from Cruise at 80 percent and 35 miles to Nitro at 130 percent and 57 miles, with Normal, 44 miles, picked for this week and the next three." loading="lazy" decoding="async" style="background-color:#1C1D2D"></a><figcaption>Four gears for a week, from cruise to nitro, for a demo runner</figcaption></figure>
+        <figure class="shot wide"><a href="img/dreamy-patterns.webp" data-full="img/dreamy-patterns.webp" aria-label="Full screen: A demo runner&rsquo;s effective VO2max from heart rate: one dot per workout from May to November, colored by type, with a dashed seven-day average moving between about 44 and 49."><img src="img/dreamy-patterns.webp" width="1710" height="896" alt="A demo runner&rsquo;s effective VO2max from heart rate: one dot per workout from May to November, colored by type, with a dashed seven-day average moving between about 44 and 49." loading="lazy" decoding="async" style="background-color:#151522"></a><figcaption>A demo runner&rsquo;s aerobic fitness, from every run&rsquo;s pace and heart rate</figcaption></figure>
       </div>
     </section>
     <nav class="cs-next wrap" aria-label="Next case study"><a href="projects/walldrobe.html"><img src="img/wd-pick-2.webp" width="1200" height="829" alt="" loading="lazy" decoding="async" style="background-color:#ABAEAA"><span><b>Next: Walldrobe</b></span></a></nav>
@@ -2776,6 +2806,58 @@ window.MAP_NOTE = 'Apps that build plans from your data with their own math exis
     var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { go(); io.disconnect(); } }); }, { threshold: 0.35 });
     io.observe(plot);
   } else { go(); }
+})();
+
+</script>
+<script>
+// Nov 6 to 7 (Jason: "we def should be able to see the full cheat sheet and click into a few of these examples or photos
+// more? like let them full screen"): any link with data-full opens its picture full screen. data-full can hold several
+// pictures (the cheat sheet's two pages), data-alt their alt text split by |, data-cap a caption (else the nearest title).
+// Arrows, keys and swipes go through every picture on the page; tap a picture to zoom in and pan, tap again to fit.
+// First in the page script, so nothing earlier can stop it.
+(function () {
+  var pics = [].slice.call(document.querySelectorAll('a[data-full]'));
+  if (!pics.length) return;
+  var box = document.createElement('dialog');
+  if (!box.showModal) return;
+  box.className = 'pw-box lb';
+  box.setAttribute('aria-label', 'Picture');
+  box.innerHTML = '<button type="button" class="wb-x" aria-label="Close">Close</button><button type="button" class="wb-prev" aria-label="Previous">&#8249;</button><figure><div class="lb-sc"><img alt=""></div><figcaption></figcaption></figure><button type="button" class="wb-next" aria-label="Next">&#8250;</button>';
+  document.body.appendChild(box);
+  var img = box.querySelector('img'), cap = box.querySelector('figcaption'), sc = box.querySelector('.lb-sc'), items = [], cur = 0, last = null, x0 = null;
+  pics.forEach(function (a) {
+    var alts = (a.getAttribute('data-alt') || '').split('|'), holder = a.closest('.feat') || a.closest('li') || a.closest('figure'), t = holder && holder.querySelector('b, h3, figcaption');
+    var c = a.getAttribute('data-cap') || (t ? t.textContent : '');
+    a.setAttribute('data-i', items.length);
+    a.getAttribute('data-full').split(' ').forEach(function (src, k) {
+      var im = a.querySelector('img');
+      items.push({ src: src, alt: alts[k] || (im ? im.alt : ''), cap: c });
+    });
+  });
+  if (items.length < 2) { box.querySelector('.wb-prev').hidden = true; box.querySelector('.wb-next').hidden = true; }
+  function fit() { box.classList.remove('zoom'); img.style.width = ''; }
+  function draw() { var it = items[cur]; fit(); img.src = it.src; img.alt = it.alt; cap.textContent = it.cap; }
+  function go(d) { cur = (cur + d + items.length) % items.length; draw(); }
+  pics.forEach(function (a) {
+    a.addEventListener('click', function (e) { e.preventDefault(); last = a; cur = +a.getAttribute('data-i'); draw(); box.showModal(); });
+  });
+  img.addEventListener('click', function (e) {
+    if (box.classList.contains('zoom')) { fit(); return; }
+    var r = img.getBoundingClientRect(), w = Math.min(img.naturalWidth, Math.max(2 * r.width, 1600));
+    if (!r.width || w < r.width * 1.2) return;
+    var fx = (e.clientX - r.left) / r.width, fy = (e.clientY - r.top) / r.height;
+    box.classList.add('zoom'); img.style.width = w + 'px';
+    sc.scrollLeft = fx * img.offsetWidth - sc.clientWidth / 2; sc.scrollTop = fy * img.offsetHeight - sc.clientHeight / 2;
+  });
+  box.querySelector('.wb-x').addEventListener('click', function () { box.close(); });
+  box.querySelector('.wb-prev').addEventListener('click', function () { go(-1); });
+  box.querySelector('.wb-next').addEventListener('click', function () { go(1); });
+  box.addEventListener('click', function (e) { if (e.target === box || e.target === sc || e.target.tagName === 'FIGURE') box.close(); });
+  box.addEventListener('keydown', function (e) { if (items.length < 2) return; if (e.key === 'ArrowLeft') go(-1); if (e.key === 'ArrowRight') go(1); });
+  box.addEventListener('touchstart', function (e) { x0 = e.touches.length === 1 && !box.classList.contains('zoom') && items.length > 1 ? e.touches[0].clientX : null; }, { passive: true });
+  box.addEventListener('touchend', function (e) { if (x0 === null) return; var dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1); x0 = null; });
+  box.addEventListener('close', function () { fit(); img.removeAttribute('src'); document.documentElement.classList.remove('lb-open'); if (last) last.focus(); });
+  box.addEventListener('toggle', function () { if (box.open) document.documentElement.classList.add('lb-open'); });
 })();
 
 </script>

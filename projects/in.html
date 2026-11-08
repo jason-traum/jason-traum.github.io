@@ -1094,6 +1094,7 @@ a[data-full]::before, a[data-full]::after { content: ""; position: absolute; rig
 a[data-full]::before { background: var(--frame); opacity: 0.82; }
 a[data-full]::after { background: var(--mat); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7'/%3E%3C/svg%3E") center / 13px no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7'/%3E%3C/svg%3E") center / 13px no-repeat; }
 a[data-full]:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.feat-fig.phone a[data-full] { width: fit-content; max-width: 100%; }  /* Nov 8: the corner mark sits on the phone shot, not the empty space beside it */
 @media (max-width: 480px) { a[data-full]::before, a[data-full]::after { right: 4px; bottom: 4px; width: 20px; height: 20px; } }
 dialog.lb[open] { animation: lb-in 160ms ease-out; }
 @keyframes lb-in { from { opacity: 0; } to { opacity: 1; } }
@@ -1609,6 +1610,19 @@ html.lb-open { overflow: hidden; }
   .case-list > li:not(:first-child) .case-l { font-size: 14px; }
 }
 
+/* Nov 8 (Jason: "remake the adaptation network so it works better for this"): the Dreamy card's network drawing
+   (gen_start.py dreamy_net). One palette color per column; lines take the color of the column they leave. */
+.dn { font-family: var(--body); background: var(--paper); }
+.dn .dn-c0 { --dn: var(--c-grey); } .dn .dn-c1 { --dn: var(--c-razz); } .dn .dn-c2 { --dn: var(--c-amethyst); } .dn .dn-c3 { --dn: var(--c-jade); }
+.dn-n { fill: color-mix(in srgb, var(--dn) 16%, var(--surface)); stroke: var(--dn); stroke-width: 2; }
+.dn .dn-f1 { opacity: 0.5; } .dn .dn-f2 { opacity: 0.22; }
+.dn-l { fill: none; stroke-width: 2.5; stroke-opacity: 0.6; }
+.dn-l0 { stroke: var(--c-grey); } .dn-l1 { stroke: var(--c-razz); } .dn-l2 { stroke: var(--c-amethyst); stroke-width: 3.5; stroke-opacity: 0.75; }
+.dn-t { fill: var(--ink); font-size: 23px; font-weight: 600; }
+.dn-v { fill: var(--ink-strong); font-weight: 800; font-variant-numeric: tabular-nums; }
+.dn-h { fill: var(--dn); font-size: 21px; font-weight: 700; }
+.dn-s { fill: var(--muted); font-size: 17px; }
+
 </style>
 <script>(function(){function pick(){var c=null;[document.querySelector('.name'),document.querySelector('.topbar .label a')].forEach(function(el){if(!el)return;var r=el.getBoundingClientRect(),w=el.closest('.tb-name'),s=r.width>0&&r.bottom>0&&r.top<innerHeight&&!(w&&!w.classList.contains('on'));el.style.viewTransitionName=!c&&s?'jt-name':'none';if(!c&&s)c=el;});}addEventListener('pageswap',pick);addEventListener('pagereveal',pick);})();</script>
 <link rel="icon" href="/favicon.ico" sizes="48x48">
@@ -1647,11 +1661,11 @@ html.lb-open { overflow: hidden; }
           <p>I&rsquo;d worked through a few drafts of In. before this one, so once I knew what to build, this version took a day with Claude. It's a live app with sign-in, a database and notifications. I'm sharing it with the Run &amp; Tri Club board first.</p>
           <div class="shots" style="--n:2">
             <figure>
-              <img src="../img/in-board.webp" width="720" height="942" alt="The In. board on an iPhone: a run I'm hosting Saturday at 9:00 AM, 9:00 per mile for 5 miles, leave by 8:50 AM and home by 9:50 AM, above the Friends, Friends of friends and All Wharton selector." loading="lazy" decoding="async" style="background-color:#7EA49C">
+              <a href="../img/in-board.webp" data-full="../img/in-board.webp" aria-label="Full screen: The In. board on an iPhone: a run I'm hosting Saturday at 9:00 AM, 9:00 per mile for 5 miles, leave by 8:50 AM and home by 9:50 AM, above the Friends, Friends of friends and All Wharton selector."><img src="../img/in-board.webp" width="720" height="942" alt="The In. board on an iPhone: a run I'm hosting Saturday at 9:00 AM, 9:00 per mile for 5 miles, leave by 8:50 AM and home by 9:50 AM, above the Friends, Friends of friends and All Wharton selector." loading="lazy" decoding="async" style="background-color:#7EA49C"></a>
               <figcaption>Leave-by and home-by include the jog to the start</figcaption>
             </figure>
             <figure>
-              <img src="../img/in-run.webp" width="720" height="665" alt="A confirmed run's details in In.: 6:15 AM Morning Miles, 9:00 per mile for 8 miles, with I'm in, Maybe and Not going buttons." loading="lazy" decoding="async" style="background-color:#E1E5E4">
+              <a href="../img/in-run.webp" data-full="../img/in-run.webp" aria-label="Full screen: A confirmed run's details in In.: 6:15 AM Morning Miles, 9:00 per mile for 8 miles, with I'm in, Maybe and Not going buttons."><img src="../img/in-run.webp" width="720" height="665" alt="A confirmed run's details in In.: 6:15 AM Morning Miles, 9:00 per mile for 8 miles, with I'm in, Maybe and Not going buttons." loading="lazy" decoding="async" style="background-color:#E1E5E4"></a>
               <figcaption>Three choices, and it says Confirmed once the host locks it in</figcaption>
             </figure>
           </div>

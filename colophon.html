@@ -1094,6 +1094,7 @@ a[data-full]::before, a[data-full]::after { content: ""; position: absolute; rig
 a[data-full]::before { background: var(--frame); opacity: 0.82; }
 a[data-full]::after { background: var(--mat); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7'/%3E%3C/svg%3E") center / 13px no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7'/%3E%3C/svg%3E") center / 13px no-repeat; }
 a[data-full]:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.feat-fig.phone a[data-full] { width: fit-content; max-width: 100%; }  /* Nov 8: the corner mark sits on the phone shot, not the empty space beside it */
 @media (max-width: 480px) { a[data-full]::before, a[data-full]::after { right: 4px; bottom: 4px; width: 20px; height: 20px; } }
 dialog.lb[open] { animation: lb-in 160ms ease-out; }
 @keyframes lb-in { from { opacity: 0; } to { opacity: 1; } }
@@ -1608,6 +1609,19 @@ html.lb-open { overflow: hidden; }
   .case-list > li:not(:first-child) .case-h { order: 0; font-size: 1.05rem; }
   .case-list > li:not(:first-child) .case-l { font-size: 14px; }
 }
+
+/* Nov 8 (Jason: "remake the adaptation network so it works better for this"): the Dreamy card's network drawing
+   (gen_start.py dreamy_net). One palette color per column; lines take the color of the column they leave. */
+.dn { font-family: var(--body); background: var(--paper); }
+.dn .dn-c0 { --dn: var(--c-grey); } .dn .dn-c1 { --dn: var(--c-razz); } .dn .dn-c2 { --dn: var(--c-amethyst); } .dn .dn-c3 { --dn: var(--c-jade); }
+.dn-n { fill: color-mix(in srgb, var(--dn) 16%, var(--surface)); stroke: var(--dn); stroke-width: 2; }
+.dn .dn-f1 { opacity: 0.5; } .dn .dn-f2 { opacity: 0.22; }
+.dn-l { fill: none; stroke-width: 2.5; stroke-opacity: 0.6; }
+.dn-l0 { stroke: var(--c-grey); } .dn-l1 { stroke: var(--c-razz); } .dn-l2 { stroke: var(--c-amethyst); stroke-width: 3.5; stroke-opacity: 0.75; }
+.dn-t { fill: var(--ink); font-size: 23px; font-weight: 600; }
+.dn-v { fill: var(--ink-strong); font-weight: 800; font-variant-numeric: tabular-nums; }
+.dn-h { fill: var(--dn); font-size: 21px; font-weight: 700; }
+.dn-s { fill: var(--muted); font-size: 17px; }
 
 /* How I use AI: ledgers of what the AI did and what I did. */
 .pg main { padding-top: 8px; }
