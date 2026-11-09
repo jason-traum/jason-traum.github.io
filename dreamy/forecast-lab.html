@@ -75,6 +75,8 @@ td.wrap{white-space:normal;min-width:180px}
 .cap{font-size:12px;color:var(--t3);margin:0 0 8px}
 footer{margin-top:64px;padding-top:16px;border-top:1px solid var(--b1);color:var(--t3);font-size:12px}
 @media(max-width:480px){h1{font-size:28px}.stat b{font-size:24px}.stats{gap:20px 28px}.panel{padding:12px}}
+/* Nov 8 scan: no single word left alone on a heading's last line. */
+h1, h2, h3 { text-wrap: balance; }
 </style>
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -89,13 +91,13 @@ footer{margin-top:64px;padding-top:16px;border-top:1px solid var(--b1);color:var
 </header>
 
 <section id="setup">
-  <div class="shead"><h2>Setup</h2><span class="tag">Synthetic</span></div>
+  <div class="shead"><h2>Setup</h2></div>
   <p class="line">Error = 100 x ln(forecast / truth). Positive is slower than the truth.</p>
   <div class="stats" id="stats"></div>
 </section>
 
 <section id="ladder">
-  <div class="shead"><h2>Error, step by step</h2><span class="tag">Synthetic</span></div>
+  <div class="shead"><h2>Error, step by step</h2></div>
   <p class="line">Engine forecast error (MAE %) after each merged change, same runners every time.</p>
   <div class="panel">
     <div class="legend" id="ladder-legend"></div>
@@ -105,7 +107,7 @@ footer{margin-top:64px;padding-top:16px;border-top:1px solid var(--b1);color:var
 </section>
 
 <section id="rejected">
-  <div class="shead"><h2>Tested, not merged</h2><span class="tag">Synthetic</span></div>
+  <div class="shead"><h2>Tested, not merged</h2></div>
   <p class="line">A change merges only if its error change has a 90% interval entirely below zero.</p>
   <div class="panel">
     <div class="legend" id="arms-legend"></div>
@@ -115,7 +117,7 @@ footer{margin-top:64px;padding-top:16px;border-top:1px solid var(--b1);color:var
 </section>
 
 <section id="baselines">
-  <div class="shead"><h2>Against simple baselines</h2><span class="tag">Synthetic</span></div>
+  <div class="shead"><h2>Against simple baselines</h2></div>
   <p class="line">Baselines need a recent race; "no estimate" is the share of forecasts they could not make.</p>
   <p class="cap">All rows each method could score. Highlighted: a baseline beating the engine.</p>
   <div class="scroll" style="margin-top:0"><table id="base-table"></table></div>
@@ -124,13 +126,13 @@ footer{margin-top:64px;padding-top:16px;border-top:1px solid var(--b1);color:var
 </section>
 
 <section id="archetypes">
-  <div class="shead"><h2>By runner type</h2><span class="tag">Synthetic</span></div>
+  <div class="shead"><h2>By runner type</h2></div>
   <p class="line">Three runners per type. The two alternate worlds break the engine's own assumptions.</p>
   <div class="panel"><div class="arch" id="arch"></div></div>
 </section>
 
 <section id="calibration">
-  <div class="shead"><h2>Ranges</h2><span class="tag">Synthetic</span></div>
+  <div class="shead"><h2>Ranges</h2></div>
   <p class="line">How often the truth falls inside the forecast range, against the stated rate.</p>
   <div class="two">
     <div class="panel">
@@ -148,7 +150,7 @@ footer{margin-top:64px;padding-top:16px;border-top:1px solid var(--b1);color:var
 </section>
 
 <section id="example">
-  <div class="shead"><h2 id="ex-title">One runner</h2><span class="tag">Synthetic</span></div>
+  <div class="shead"><h2 id="ex-title">One runner</h2></div>
   <p class="line" id="ex-line"></p>
   <div class="panel">
     <div class="btns" id="ex-btns" role="group" aria-label="Distance"></div>
@@ -190,7 +192,7 @@ function hms(sec){
   return h ? h + ":" + p(m) + ":" + p(ss) : m + ":" + p(ss);
 }
 function width(el){return Math.max(280, Math.floor(el.clientWidth));}
-function svgFor(el, w, h){ el.textContent = ""; return s("svg", {viewBox:"0 0 " + w + " " + h, width:w, height:h, role:"img"}, el); }
+function svgFor(el, w, h){ el.textContent = ""; var sec = el.closest("section"), hd = sec && sec.querySelector("h2, h3"); return s("svg", {viewBox:"0 0 " + w + " " + h, width:w, height:h, role:"img", "aria-label": hd ? hd.textContent.trim() : "Chart"}, el); }
 function legend(el, items){
   el.textContent = "";
   items.forEach(function(it){

@@ -154,7 +154,7 @@ details[open] > summary .chev { transform: rotate(90deg); }
   overflow-wrap: anywhere;
 }
 .reason .meta { color: var(--t3); font-size: 12px; margin-bottom: 4px; }
-.dim { opacity: 0.5; }
+.dim { opacity: 0.85; }
 details.fold { margin-top: 6px; border-top: 1px solid var(--b1); }
 details.fold > summary { cursor: pointer; color: var(--t2); font-size: 13px; padding: 10px 0 6px; }
 .status { color: var(--t3); font-size: 12px; width: 128px; text-align: right; flex: none; }
@@ -213,6 +213,8 @@ footer { margin-top: 36px; color: var(--t3); font-size: 12px; border-top: 1px so
   .date-row select { width: 100%; }
   .field.date { flex: 1 1 100%; }
 }
+/* Nov 8 scan: no single word left alone on a heading's last line. */
+h1, h2, h3 { text-wrap: balance; }
 @media (max-width: 560px) { .mname .nm { white-space: normal; overflow: visible; } }
 </style>
 <link rel="icon" href="/favicon.ico" sizes="48x48">
@@ -245,7 +247,7 @@ footer { margin-top: 36px; color: var(--t3); font-size: 12px; border-top: 1px so
   </div>
 
   <section id="blend-sec">
-    <div class="sec-head"><h2>The blend</h2><span class="tag">Synthetic</span></div>
+    <div class="sec-head"><h2>The blend</h2></div>
     <div class="headline" id="headline"></div>
     <div class="panel">
       <div class="legend" id="blend-legend"></div>
@@ -257,7 +259,7 @@ footer { margin-top: 36px; color: var(--t3); font-size: 12px; border-top: 1px so
   </section>
 
   <section id="time-sec">
-    <div class="sec-head"><h2>Over time</h2><span class="tag">Synthetic</span></div>
+    <div class="sec-head"><h2>Over time</h2></div>
     <div class="panel">
       <div class="legend">
         <span><i class="lg-line"></i>Forecast</span>
@@ -273,7 +275,7 @@ footer { margin-top: 36px; color: var(--t3); font-size: 12px; border-top: 1px so
   </section>
 
   <section id="weights-sec">
-    <div class="sec-head"><h2>Weights over time</h2><span class="tag">Synthetic</span></div>
+    <div class="sec-head"><h2>Weights over time</h2></div>
     <div class="panel">
       <div class="legend" id="w-legend"></div>
       <div class="chart" id="w-chart"></div>

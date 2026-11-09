@@ -78,6 +78,9 @@ body {
 img { max-width: 100%; height: auto; }
 [hidden] { display: none !important; }
 h1, h2, h3 { margin: 0; text-wrap: balance; }
+/* Nov 8 scan: h4s and ledes left one word alone on their last line (Unslop rule 16). */
+h4 { text-wrap: balance; }
+.lede { text-wrap: pretty; }
 p { margin: 0; }
 
 a {
@@ -518,6 +521,8 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .kdetail .kmeta { margin: 2px 0 6px; font-size: 13.5px; font-weight: 600; color: var(--k); }
 .kdetail .kword { margin: 2px 0 4px; font-size: 1.35rem; font-weight: 800; letter-spacing: -0.015em; line-height: 1.2; }
 .kdetail .kproof { margin: 0; color: var(--ink-2); }
+.kls { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; margin-top: 10px; }
+.kls a { line-height: 1.35; }
 .skills .src { margin-top: 14px; }
 .kview { display: none; justify-content: flex-end; margin: -8px 0 6px; }
 .kswitch { appearance: none; background: none; font: inherit; font-size: 13.5px; font-weight: 600; color: var(--ink); border: 1px solid var(--rule-strong); border-radius: 6px; padding: 8px 12px; min-height: 40px; cursor: pointer; }
@@ -536,6 +541,7 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .klg dl { margin: 0; display: grid; grid-template-columns: max-content 1fr; gap: 7px 20px; font-size: 15px; }
 .klg dt { font-weight: 700; }
 .klg dd { margin: 0; color: var(--ink-2); }
+.klg dd .kls { margin-top: 5px; gap: 3px; }
 @media (max-width: 559px) { .klg dl { grid-template-columns: 1fr; gap: 2px; } .klg dd { margin-bottom: 8px; } }
 @media (max-width: 699px) {
   .kchips { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 14px; }
@@ -850,19 +856,18 @@ details.more[open] > summary { margin-bottom: 10px; }
 }
 
 /* "Get in touch" lands with the contact info at the top of the screen, not stuck at the bottom of the page.
-   Nov 8: the Antelao drawing under the footer now fills most of that room (Jason: "I need something like this
-   by the contact me page", from the Corniche footer; "we need to stick with dark"), so the block only keeps
-   whatever height the drawing and footer don't cover. */
-#contact { min-height: max(0px, calc(100vh - 110px - 38vw - 80px)); min-height: max(0px, calc(100svh - 110px - 38vw - 80px)); padding-bottom: 8px; }
+   Nov 8: the Antelao drawing under the footer now does that job. start.js sizes .endroom so the last screen runs
+   from the email to the bottom of the drawing (Jason: "look at the size of the window and select the appropriate
+   amount of buffer so this starts with jtraum@wharton.upenn.edu"), so #contact needs no height of its own. */
+#contact { padding-bottom: 8px; }
 /* His own photo of Antelao (Dolomites, Oct 13), redrawn in one ink by tools/endscape.py. The sky is the page
-   color, so the mountains rise straight out of the page. Decorative, so no alt text. */
-.endscape { display: block; width: 100%; height: auto; aspect-ratio: 2800 / 1118; object-fit: cover; object-position: 42% 100%;
-  margin-top: -2vw; pointer-events: none; -webkit-mask-image: linear-gradient(to bottom, transparent, #000 12%); mask-image: linear-gradient(to bottom, transparent, #000 12%); }
-@media (max-width: 699px) {
-  .endscape { aspect-ratio: 3 / 2; object-position: 46% 100%; margin-top: 0; }
-  #contact { min-height: max(0px, calc(100vh - 110px - 66.7vw - 70px)); min-height: max(0px, calc(100svh - 110px - 66.7vw - 70px)); }
-}
-@media print { .endscape { display: none; } }
+   color, so the mountains rise straight out of the page. A taller crop on phones. Decorative, so no alt text. */
+.endroom { height: var(--end-h, auto); overflow: hidden; }
+.endroom picture { display: block; height: 100%; }
+.endscape { display: block; width: 100%; height: 100%; aspect-ratio: 2800 / 1118; object-fit: cover; object-position: 44% 100%;
+  pointer-events: none; -webkit-mask-image: linear-gradient(to bottom, transparent, #000 12%); mask-image: linear-gradient(to bottom, transparent, #000 12%); }
+@media (max-width: 699px) { .endscape { aspect-ratio: 4 / 5; object-position: 50% 100%; } }
+@media print { .endroom { display: none; } }
 
 /* Public reports as covers (Oct 7, carried over from Oct 6: "More pictures that link, fewer words") */
 ul.reports { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 18px; border: 0; }
@@ -912,6 +917,9 @@ ul.reports li { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap:
 .pw-seg button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
 .pw-sort { border: 1px solid var(--rule); display: inline-flex; align-items: center; gap: 10px; }
 .pw-sort[aria-pressed="true"] { border-color: var(--ink); color: var(--ink); }
+.pw-all { display: block; margin: 14px 0 0; font: inherit; font-size: 14px; color: var(--ink-2); background: transparent; border: 1px solid var(--rule); padding: 8px 18px; min-height: 40px; cursor: pointer; }
+.pw-all:hover { border-color: var(--ink); color: var(--ink); }
+.pw-all[hidden] { display: none; }
 .pw-sw { display: inline-flex; height: 10px; }
 .pw-sw i { display: block; width: 7px; height: 10px; }
 .pw-grid { display: flex; flex-wrap: wrap; gap: 12px; }
@@ -1477,9 +1485,20 @@ html.lb-open { overflow: hidden; }
 .hero2 .cta { border-radius: 999px; padding: 8px 18px; }
 .h2-l { font-size: 14.5px; font-weight: 600; margin-left: 4px; }
 .h2-photo { display: block; width: 210px; height: 210px; object-fit: cover; object-position: center 30%; border-radius: 14px; }
+/* Nov 9, Jason: the photo flips to his self-portrait (click or tap; a small tilt on hover says it moves) */
+.h2-flip { appearance: none; background: none; border: 0; padding: 0; margin: 0; display: block; position: relative; width: 210px; height: 210px; border-radius: 14px; cursor: pointer; perspective: 900px; }
+.h2-face { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden; transition: transform .65s cubic-bezier(.2,.7,.2,1); }
+.h2-face .h2-photo { width: 100%; height: 100%; border-radius: 0; }
+.h2-back { transform: rotateY(180deg); }
+.h2-flip[aria-pressed="true"] .h2-front { transform: rotateY(-180deg); }
+.h2-flip[aria-pressed="true"] .h2-back { transform: rotateY(0deg); }
+@media (hover: hover) and (pointer: fine) { .h2-flip:hover .h2-front { transform: rotateY(-14deg); } .h2-flip[aria-pressed="true"]:hover .h2-back { transform: rotateY(14deg); } }
+.h2-flip:focus-visible { outline: 2px solid var(--c-razz); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .h2-face { transition: none; } .h2-flip:hover .h2-front, .h2-flip[aria-pressed="true"]:hover .h2-back { transform: none; } .h2-flip[aria-pressed="true"]:hover .h2-front { transform: rotateY(-180deg); } }
 @media (max-width: 699px) {
   .h2-grid { grid-template-columns: 76px minmax(0, 1fr); gap: 16px; }
-  .h2-photo { grid-row: 1; grid-column: 1; width: 76px; height: 76px; border-radius: 10px; align-self: start; margin-top: 4px; }
+  .h2-flip { grid-row: 1; grid-column: 1; width: 76px; height: 76px; border-radius: 10px; align-self: start; margin-top: 4px; }
+  .h2-face .h2-photo { width: 100%; height: 100%; }
   .h2-txt { display: contents; }
   .hero2 .name { grid-column: 2; grid-row: 1; align-self: center; font-size: clamp(2.1rem, 10vw, 2.8rem); }
   .hero2 .tagline.creds, .hero2 .h2-line, .hero2 .cta-row { grid-column: 1 / -1; }
@@ -1531,7 +1550,7 @@ html.lb-open { overflow: hidden; }
   #path .who { gap: 2px; }
   #path .who .yr { font-size: 12.5px; font-family: var(--mono); font-weight: 400; }
   #path .who .hl { display: none; }
-  #path .stop.end .who .hl { display: block; font-size: 12.5px; color: var(--muted); font-family: var(--mono); }
+  #path .stop.end .who .hl { display: block; font-size: 13.5px; color: var(--muted); }
   #path .tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 8px; margin-top: 12px; }
   #path .tiles a { width: auto; gap: 4px; }
   #path .tiles img, #path .tiles .pal { width: 100%; height: auto; aspect-ratio: 4 / 3; }
@@ -1635,6 +1654,30 @@ html.lb-open { overflow: hidden; }
 .dn-h { fill: var(--dn); font-size: 21px; font-weight: 700; }
 .dn-s { fill: var(--muted); font-size: 17px; }
 
+/* Nov 9, path map B: one picture per stop, every project as a link under it (the map is the one full list) */
+.sb { margin-top: 12px; min-width: 0; }
+.sb-pic { position: relative; width: 100%; max-width: 300px; aspect-ratio: 4 / 3; border-radius: 6px; overflow: hidden; border: 1px solid var(--rule); background: var(--surface); }
+.sb-f { position: absolute; inset: 0; opacity: 0; transition: opacity .25s ease; }
+.sb-f.on { opacity: 1; }
+.sb-f img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.sb-f .pal { display: flex; gap: 2px; width: 100%; height: 100%; background: var(--paper); }
+.sb-f .pal b { display: flex; flex-direction: column; }
+.sb-list { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-direction: column; gap: 5px; }
+.sb-list li::before { content: none; }
+.sb-list a { display: inline-flex; align-items: baseline; gap: 7px; font-size: 14px; line-height: 1.3; font-weight: 600; color: var(--ink); text-decoration-color: var(--rule-strong); text-underline-offset: 3px; }
+.sb-list a i { flex: none; width: 8px; height: 8px; background: var(--k); }
+.sb-list a:hover { text-decoration-color: var(--k); }
+.sb-list a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 3px; }
+.path.drawing .sb { opacity: .35; transition: opacity .6s ease; }
+.path.drawing .stop.lit .sb { opacity: 1; }
+@media (max-width: 999px) { .sb-pic { max-width: 220px; } }
+@media (min-width: 1000px) {
+  #path .path { grid-template-columns: 1fr .75fr 1fr 1fr 1fr .85fr; }
+  #path .sb-pic { max-width: 160px; }
+  #path .sb-list a { font-size: 13px; }
+}
+@media (prefers-reduced-motion: reduce) { .sb-f { transition: none; } }
+
 </style>
 <script>(function(){function pick(){var c=null;[document.querySelector('.name'),document.querySelector('.topbar .label a')].forEach(function(el){if(!el)return;var r=el.getBoundingClientRect(),w=el.closest('.tb-name'),s=r.width>0&&r.bottom>0&&r.top<innerHeight&&!(w&&!w.classList.contains('on'));el.style.viewTransitionName=!c&&s?'jt-name':'none';if(!c&&s)c=el;});}addEventListener('pageswap',pick);addEventListener('pagereveal',pick);})();</script>
 <link rel="icon" href="/favicon.ico" sizes="48x48">
@@ -1729,7 +1772,7 @@ grant select (id, runner_id, stop, kind, at, verified, source, created_at)
   });
   if (items.length < 2) { box.querySelector('.wb-prev').hidden = true; box.querySelector('.wb-next').hidden = true; }
   function fit() { box.classList.remove('zoom'); img.style.width = ''; }
-  function draw() { var it = items[cur]; fit(); img.src = it.src; img.alt = it.alt; cap.textContent = it.cap; }
+  function draw() { var it = items[cur]; fit(); img.src = it.src; img.alt = it.alt; cap.textContent = it.cap; box.setAttribute('aria-label', it.cap || it.alt || 'Picture'); }   // Nov 8 scan: the dialog was always called "Picture"
   function go(d) { cur = (cur + d + items.length) % items.length; draw(); }
   pics.forEach(function (a) {
     a.addEventListener('click', function (e) { e.preventDefault(); last = a; cur = +a.getAttribute('data-i'); draw(); box.showModal(); });
@@ -3123,7 +3166,7 @@ easelPastel();
     ends.forEach(function (b, k) { b.style.background = P[pick[k]]; });
     cells.forEach(function (td) {
       var c = f(h1, h2, +td.getAttribute('data-t')), y = 0.2126 * lin(c[0]) + 0.7152 * lin(c[1]) + 0.0722 * lin(c[2]);
-      td.style.backgroundColor = css(c); td.classList.toggle('cm-dk', y > 0.3);
+      td.style.backgroundColor = css(c); td.classList.toggle('cm-dk', y > 0.197);   // Nov 8 scan: dark text wherever it beats white for contrast
     });
     leg.forEach(function (i, k) { i.style.backgroundColor = css(f(h1, h2, k / (leg.length - 1))); });
     wheel(wl.xl[0], wl.xl[1], excel, h1, h2); wheel(wl.me[0], wl.me[1], script, h1, h2);
@@ -3473,6 +3516,60 @@ easelPastel();
   window.addEventListener('popstate', function () { if (location.hash === '#photos') show(false); else hide(true); });
   if (location.hash === '#photos') show(false);
 })();
+
+/* Nov 8: size the room under the footer so the last screen runs from the email to the bottom of the Antelao
+   drawing, whatever the window. Extra room zooms the drawing a little; a short window trims sky, never the peaks.
+   Its own try block so nothing here can stop the scripts after it (Sep 30 lesson). */
+(function () {
+  try {
+    var room = document.querySelector('.endroom'), mail = document.getElementById('email-bottom'), foot = document.querySelector('footer.colophon');
+    if (!room || !mail || !foot) return;
+    var probe = document.createElement('div');
+    probe.style.cssText = 'position:fixed;top:0;height:100vh;height:100svh;width:0;visibility:hidden;pointer-events:none';
+    document.body.appendChild(probe);
+    var lastW = -1, coarse = window.matchMedia('(pointer: coarse)').matches;
+    var fit = function (force) {
+      var w = room.clientWidth;
+      if (!force && w === lastW && coarse) return;   // phones change height while scrolling; there only a new width refits
+      lastW = w;
+      var vh = probe.offsetHeight || window.innerHeight;
+      var y = window.scrollY || 0;
+      var top = mail.getBoundingClientRect().top + y - 28;
+      var end = foot.getBoundingClientRect().bottom + y;
+      var phone = window.matchMedia('(max-width: 699px)').matches;
+      var nat = phone ? w * 1500 / 1200 : w * 1118 / 2800;
+      var h = Math.max(vh - (end - top), nat * (phone ? 0.82 : 0.88));
+      h = Math.min(h, nat * 2.2);
+      room.style.setProperty('--end-h', Math.round(h) + 'px');
+    };
+    fit(true);
+    window.addEventListener('resize', function () { fit(false); });
+    window.addEventListener('orientationchange', function () { setTimeout(function () { fit(true); }, 300); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { fit(true); });
+  } catch (e) {}
+})();
+
+// Nov 9: the hero photo flips to Jason's self-portrait on click or tap
+try {
+  (function () {
+    var b = document.querySelector('.h2-flip'); if (!b) return;
+    b.addEventListener('click', function () { b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') === 'true' ? 'false' : 'true'); });
+  })();
+} catch (e) {}
+
+// Nov 9: path map B. Hovering or focusing a project name shows its picture at that stop (laptops; phones keep the first picture)
+try {
+  (function () {
+    Array.prototype.forEach.call(document.querySelectorAll('#path .sb'), function (sb) {
+      var fs = sb.querySelectorAll('.sb-f'); if (fs.length < 2) return;
+      function show(k) { Array.prototype.forEach.call(fs, function (f) { f.classList.toggle('on', f.getAttribute('data-k') === k); }); }
+      Array.prototype.forEach.call(sb.querySelectorAll('a[data-k]'), function (a) {
+        a.addEventListener('mouseenter', function () { show(a.getAttribute('data-k')); });
+        a.addEventListener('focus', function () { show(a.getAttribute('data-k')); });
+      });
+    });
+  })();
+} catch (e) {}
 
 </script>
 </body>

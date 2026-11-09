@@ -112,6 +112,8 @@ svg{display:block;width:100%;overflow:visible}
 .bridge{margin:4px 0 26px 0;padding:12px 16px;border:1px dashed var(--b2);border-radius:12px;color:var(--t2);font-size:13px;display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center}
 .bridge b{color:var(--t1);font-variant-numeric:tabular-nums}
 footer{color:var(--t3);font-size:12px;border-top:1px solid var(--b1);padding-top:14px;margin-top:28px}
+/* Nov 8 scan: no single word left alone on a heading's last line. */
+h1, h2, h3 { text-wrap: balance; }
 </style>
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -133,7 +135,7 @@ footer{color:var(--t3);font-size:12px;border-top:1px solid var(--b1);padding-top
 
   <div class="bridge" id="bridge"></div>
 
-  <div class="part"><h2>The forecast</h2><span class="tag">Synthetic</span><span class="sub" id="fsub"></span></div>
+  <div class="part"><h2>The forecast</h2><span class="sub" id="fsub"></span></div>
   <div class="flow" id="fcflow"></div>
 
   <footer>Synthetic runners from the Dreamy Forecast Lab. Computed from the Dreamy engine code.</footer>
@@ -171,7 +173,7 @@ const D = /*DATA*/{"runner":{"name":"Bib Hoarder","archetype":"Race-rich veteran
 
   // ── header ──
   var R = D.runner;
-  $('who').innerHTML = '<span><b style="color:var(--t1)">' + esc(R.name) + '</b></span><span>' + esc(R.archetype) + '</span><span class="num">' + esc(R.sex) + ', ' + R.age + '</span><span class="num">' + R.activities + ' runs, ' + R.raceResults + ' race results</span><span>' + esc(R.device) + '</span><span class="tag">Synthetic</span>';
+  $('who').innerHTML = '<span><b style="color:var(--t1)">' + esc(R.name) + '</b></span><span>' + esc(R.archetype) + '</span><span class="num">' + esc(R.sex) + ', ' + R.age + '</span><span class="num">' + R.activities + ' runs, ' + R.raceResults + ' race results</span><span>' + esc(R.device) + '</span>';
 
   var RUN_STAGES = [['r1', 'Run file'], ['r2', 'Import'], ['r3', 'Weather'], ['r4', 'Laps'], ['r5', 'Conditions'], ['r6', 'Classifier'], ['r7', 'Load'], ['r8', 'Signals'], ['r9', 'Best efforts']];
   var FC_STAGES = [['f1', 'Fitness'], ['f2', 'Signals'], ['f3', 'Models'], ['f4', 'Race anchor'], ['f5', 'Blend'], ['f6', 'Adjustments'], ['f7', 'Range'], ['f8', 'Truth']];
@@ -283,7 +285,7 @@ const D = /*DATA*/{"runner":{"name":"Bib Hoarder","archetype":"Race-rich veteran
   function renderForecast() {
     var F = D.forecast, S = F.steps, h = '';
     $('fsub').textContent = F.evalDate + ' · ' + F.distance + ' · ' + F.targetRaceName + ' on ' + F.targetDate;
-    $('bridge').innerHTML = '<span>By ' + esc(F.evalDate) + '</span><span><b>' + F.data.workouts + '</b> stored runs</span><span><b>' + F.data.workoutsWithHr + '</b> with HR</span><span><b>' + F.data.raceResults + '</b> race results</span><span><b>' + F.data.workoutsLabeledRace + '</b> runs labeled race</span><span class="tag">Synthetic</span>';
+    $('bridge').innerHTML = '<span>By ' + esc(F.evalDate) + '</span><span><b>' + F.data.workouts + '</b> stored runs</span><span><b>' + F.data.workoutsWithHr + '</b> with HR</span><span><b>' + F.data.raceResults + '</b> race results</span><span><b>' + F.data.workoutsLabeledRace + '</b> runs labeled race</span>';
 
     var fi = F.fitness;
     h += stage('f1', 10, 'Fitness and fatigue', 'computeFitnessState', null,

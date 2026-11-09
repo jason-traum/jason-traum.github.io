@@ -204,6 +204,8 @@ footer { margin-top: 36px; color: var(--t3); font-size: 12px; border-top: 1px so
   table.tv { font-size: 12px; }
   table.tv th, table.tv td { padding: 5px 4px; }
 }
+/* Nov 8 scan: no single word left alone on a heading's last line. */
+h1, h2, h3 { text-wrap: balance; }
 </style>
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -233,7 +235,7 @@ footer { margin-top: 36px; color: var(--t3); font-size: 12px; border-top: 1px so
   <div class="stats" id="stats"></div>
 
   <section>
-    <div class="sec-head"><h2>The network</h2><span class="tag">Synthetic</span></div>
+    <div class="sec-head"><h2>The network</h2></div>
     <div class="panel">
       <div class="legend">
         <span><i class="lg-s"></i>Structural weight, fixed in code</span>

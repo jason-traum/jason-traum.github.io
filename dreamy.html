@@ -204,7 +204,7 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
 .r-quality { color: #b39dff; } .bg-quality { background: var(--quality); }
 .r-easy { color: var(--easy); } .bg-easy { background: var(--easy); }
 .r-recovery { color: var(--recovery); } .bg-recovery { background: var(--recovery); }
-.r-off, .r-rest { color: var(--t4); }
+.r-off, .r-rest { color: var(--t3); }
 .summary { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: 15px; }
 .summary b { font-weight: 700; font-variant-numeric: tabular-nums; }
 .changes { margin: 12px 0 0; padding: 0; list-style: none; display: grid; gap: 7px; font-size: 14.5px; color: var(--t2); }
@@ -288,7 +288,7 @@ input[type="range"] { width: 100%; accent-color: var(--brand-2); }
 .fr-val b { display: block; color: var(--t1); font-weight: 600; font-size: 13.5px; }
 .fr-track { position: relative; height: 30px; }
 .fr-dot { position: absolute; top: 50%; border-radius: 50%; transform: translate(-50%, -50%); background: var(--brand); box-shadow: 0 0 0 2px var(--s1); }
-.fr-none { position: absolute; left: 0; top: 50%; transform: translateY(-50%); font-size: 12px; color: var(--t4); }
+.fr-none { position: absolute; left: 0; top: 50%; transform: translateY(-50%); font-size: 12px; color: var(--t3); }
 .fr-overlay { position: absolute; top: -1px; bottom: -1px; pointer-events: none; }
 .fr-track .fr-dot { z-index: 2; }
 .fr-track .fr-none { z-index: 2; }
@@ -948,7 +948,107 @@ html.lb-open { overflow: hidden; }
       <p class="lead">Dreamy is an AI running coach I built with Claude Code over twelve weeks while I was still working full time at Morgan Stanley. It's for people like me who don't have a reliable 9 to 5, have a busy social life, and still want to run their best marathon. It's technical on purpose: it explains the science behind each workout so you learn to coach yourself. Dreamy's plans come from rules taken from the research, it analyzes every run you sync from Strava, and it works around the days you can't run.</p>
       <p class="beta-line">15 runners trained on Dreamy through full race cycles, in the app or on plans I made with its engine. <strong><a href="#beta">14 of the 15 rated it above the coach or app they used before.</a></strong> <a href="#stopped">What it didn&rsquo;t prove</a></p>
       <p class="hero-meta"><span>I still use it</span><span>TypeScript, Next.js, Postgres, Anthropic API</span><span><a href="https://www.getdreamy.run">getdreamy.run</a> (invite-only)</span></p>
-      <nav class="toc" aria-label="On this page"><a href="#start">Why I built it</a><a href="#market">The market</a><a href="#forecast">The forecast</a><a href="#engine">How it sees you</a><a href="#days">The plan</a><a href="#research">The research</a><a href="#lab">Testing it</a><a href="#deeper">Go deeper</a><a href="#how">The LLM</a><a href="#beta">The beta</a><a href="#build">Claude Code</a><a href="#stopped">Why I stopped</a></nav>
+      <nav class="toc" aria-label="On this page"><a href="#days">The plan</a><a href="#forecast">The forecast</a><a href="#start">Why I built it</a><a href="#market">The market</a><a href="#engine">How it sees you</a><a href="#research">The research</a><a href="#lab">Testing it</a><a href="#deeper">Go deeper</a><a href="#how">The LLM</a><a href="#beta">The beta</a><a href="#build">Claude Code</a><a href="#stopped">Why I stopped</a></nav>
+    </section>
+
+    <!-- Nov 9, Jason: "I still think i need to start with the product then get into the story." The two things you can try (the plan, the forecast) come first; the story keeps its old order after them, and the screenshots stay at the end. -->
+    <section class="sec" id="days" aria-labelledby="days-h">
+      <h2 id="days-h">The plan</h2>
+      <p class="intro">Every plan aims for the most fitness for the fatigue. Dreamy rebuilds the week in the same order every time, based on what you actually ran and which days you have, then picks each day&rsquo;s workout from 133 templates.</p>
+      <div class="builder" id="builder">
+        <div class="b-top">
+          <div>
+            <h3 class="b-title">Try it: tap the days you can't run</h3>
+            <p class="b-sub">A simplified version of Dreamy's scheduling rules, running in your browser.</p>
+          </div>
+          <div class="miles">
+            <label for="mi">Weekly miles <output id="mi-out" for="mi">40</output></label>
+            <input type="range" id="mi" min="20" max="70" step="5" value="40">
+          </div>
+        </div>
+        <div class="presets" role="group" aria-label="Example weeks">
+          <button class="chip" type="button" data-preset="" aria-pressed="true">Open week</button>
+          <button class="chip" type="button" data-preset="1,2,3" aria-pressed="false">Work trip, Tue to Thu</button>
+          <button class="chip" type="button" data-preset="5,6" aria-pressed="false">Wedding weekend</button>
+          <button class="chip" type="button" data-preset="0,2" aria-pressed="false">Late meetings, Mon and Wed</button>
+        </div>
+        <div class="week" id="week" aria-describedby="week-summary"></div>
+        <div class="summary" id="week-summary" aria-live="polite"></div>
+        <ul class="changes" id="changes"></ul>
+        <div class="legend" aria-hidden="true">
+          <span><i class="bg-long"></i>Long run</span>
+          <span><i class="bg-quality"></i>Quality session</span>
+          <span><i class="bg-easy"></i>Easy</span>
+          <span><i class="bg-recovery"></i>Recovery</span>
+          <span><i style="border:1px solid #f0a06c"></i>Changed from an open week</span>
+        </div>
+        <ul class="why-list" id="why"></ul>
+        <details class="fold how"><summary>How this demo differs from the app</summary>
+        <p class="fine">This is a simplified copy of Dreamy's <code>week-skeleton.ts</code> and <code>mileage-enforcement.ts</code>. Weekly totals land within about a mile of the target. It places runs in the same order, keeps the same 48 hours between hard days and uses the same mileage rules, and easy days stay at or under 80 percent of the long run. In the app you set how many runs and quality sessions you want each week; here they follow the weekly miles (4 runs and one quality session at 25 miles or less, up to 7 runs above 50). The real app also looks at your fitness, fatigue, the weather and your recent runs before it picks each workout.</p>
+        </details>
+      </div>
+      <div class="two">
+        <div class="prose">
+          <details class="fold" open><summary>The six rules it follows</summary>
+        <ol class="steps">
+          <li><div><b>Days you can't run come off first.</b> Everything else gets planned around them.</div></li>
+          <li><div><b>The long run goes on your preferred day.</b> If that day is gone, it moves to the other weekend day, then to the nearest open day.</div></li>
+          <li><div><b>The day after the long run is a recovery run.</b></div></li>
+          <li><div><b>Quality sessions go on your preferred days,</b> never next to the long run, at least 48 hours apart, and never longer than the long run. If those days are gone, they move to any open day that fits. Once Dreamy has learned how fast you recover, it uses your recovery time instead of 48 hours.</div></li>
+          <li><div><b>Other open days get easy runs</b> until you reach the number of runs you set for the week, and the rest are rest days. That's how you can get four runs one week and seven the next.</div></li>
+          <li><div><b>Miles are rebalanced to hit the weekly target.</b> Easy days take the changes first, up to 3 miles each, and no run goes below 2 miles. Quality days and the long run change last. If there's no way to hit the target, it tells you instead of overloading the runs you have.</div></li>
+        </ol>
+          </details>
+          <details class="fold"><summary>What happens after the week is set</summary>
+          <p>Then the daily engine picks the actual workout for each day from 133 templates. It simulates seven training systems one day at a time and redoes the rest of the week every day based on what you actually ran.</p>
+          <p>A few safety rules override everything else. You get a forced rest day after 14 straight days of running, when you say you're sick, or when your readiness drops below 25 out of 100. The day before a race is a shakeout of 4 miles or less, and there's nothing hard in the three days before it.</p>
+          <p>Every change shows what moved, and you can undo it.</p>
+          </details>
+        </div>
+          <figure class="shot phone">
+            <a href="img/dreamy-plan.webp" data-full="img/dreamy-plan.webp" aria-label="Full screen: A week in Dreamy's plan view: Monday easy with strides, Tuesday VO2max intervals, Wednesday rest, Thursday VO2max, Friday medium-long, Saturday long run, Sunday easy with strides."><img src="img/dreamy-plan.webp" width="600" height="986" alt="A week in Dreamy's plan view: Monday easy with strides, Tuesday VO2max intervals, Wednesday rest, Thursday VO2max, Friday medium-long, Saturday long run, Sunday easy with strides." loading="lazy" decoding="async" style="background-color:#1F1F2F"></a>
+            <figcaption>A peak week in the app, 55 miles over six runs</figcaption>
+          </figure>
+      </div>
+    </section>
+
+    <section class="sec" id="forecast" aria-labelledby="fc-h">
+      <h2 id="fc-h">The race forecast</h2>
+      <p class="intro">Most apps give you one predicted race time from one method. Dreamy runs a bunch of separate models and blends them. This is my own half marathon forecast from March.</p>
+      <div class="forest" aria-labelledby="fr-h">
+        <h3 id="fr-h" class="sr-only">Half marathon forecast by model</h3>
+        <div class="fr-head">
+          <div class="kv"><div class="k">Blended estimate</div><div class="v big">1:31:04</div></div>
+          <div class="kv"><div class="k">Likely range</div><div class="v">1:27:53 to 1:34:30</div></div>
+          <div class="kv"><div class="k">Perfect-day ceiling</div><div class="v">1:25:08</div></div>
+          <div class="kv"><div class="k">Model agreement</div><div class="v">60%</div></div>
+        </div>
+        <div class="fr-grid" role="table" aria-label="Each model's half marathon estimate and weight">
+          <div class="fr-row" role="row"><div class="fr-name" role="rowheader">HR VO2max<small>VDOT 53.0</small></div><div class="fr-track"><span class="fr-overlay fr-band" style="left:21.57%;width:36.76%"></span><span class="fr-overlay fr-ceiling" style="left:6.30%"></span><span class="fr-overlay fr-blend" style="left:39.26%"></span><span class="fr-dot" style="left:16.30%;width:22.0px;height:22.0px" title="HR VO2max: 1:26:56, weight 27.2%"></span></div><div class="fr-val"><b>1:26:56</b>27.2%</div></div><div class="fr-row" role="row"><div class="fr-name" role="rowheader">Daniels Baseline<small>VDOT 49.9</small></div><div class="fr-track"><span class="fr-overlay fr-band" style="left:21.57%;width:36.76%"></span><span class="fr-overlay fr-ceiling" style="left:6.30%"></span><span class="fr-overlay fr-blend" style="left:39.26%"></span><span class="fr-dot" style="left:43.15%;width:17.6px;height:17.6px" title="Daniels Baseline: 1:31:46, weight 14.4%"></span></div><div class="fr-val"><b>1:31:46</b>14.4%</div></div><div class="fr-row" role="row"><div class="fr-name" role="rowheader">Personal Duration Curve<small>VDOT 51.6</small></div><div class="fr-track"><span class="fr-overlay fr-band" style="left:21.57%;width:36.76%"></span><span class="fr-overlay fr-ceiling" style="left:6.30%"></span><span class="fr-overlay fr-blend" style="left:39.26%"></span><span class="fr-dot" style="left:28.52%;width:17.4px;height:17.4px" title="Personal Duration Curve: 1:29:08, weight 13.8%"></span></div><div class="fr-val"><b>1:29:08</b>13.8%</div></div><div class="fr-row" role="row"><div class="fr-name" role="rowheader">Durability Decay<small>VDOT 49.6</small></div><div class="fr-track"><span class="fr-overlay fr-band" style="left:21.57%;width:36.76%"></span><span class="fr-overlay fr-ceiling" style="left:6.30%"></span><span class="fr-overlay fr-blend" style="left:39.26%"></span><span class="fr-dot" style="left:44.44%;width:17.1px;height:17.1px" title="Durability Decay: 1:32:00, weight 13.2%"></span></div><div class="fr-val"><b>1:32:00</b>13.2%</div></div><div class="fr-row" role="row"><div class="fr-name" role="rowheader">Critical Speed<small>VDOT 45.0</small></div><div class="fr-track"><span class="fr-overlay fr-band" style="left:21.57%;width:36.76%"></span><span class="fr-overlay fr-ceiling" style="left:6.30%"></span><span class="fr-overlay fr-blend" style="left:39.26%"></span><span class="fr-dot" style="left:90.46%;width:16.7px;height:16.7px" title="Critical Speed: 1:40:17, weight 12.2%"></span></div><div class="fr-val"><b>1:40:17</b>12.2%</div></div><div class="fr-row" role="row"><div class="fr-name" role="rowheader">Training Trajectory<small>VDOT 50.2</small></div><div class="fr-track"><span class="fr-overlay fr-band" style="left:21.57%;width:36.76%"></span><span class="fr-overlay fr-ceiling" style="left:6.30%"></span><span class="fr-overlay fr-blend" style="left:39.26%"></span><span class="fr-dot" style="left:41.20%;width:15.3px;height:15.3px" title="Training Trajectory: 1:31:25, weight 9.1%"></span></div><div class="fr-val"><b>1:31:25</b>9.1%</div></div><div class="fr-row" role="row"><div class="fr-name" role="rowheader">Race VDOT<small>VDOT 50.8</small></div><div class="fr-track"><span class="fr-overlay fr-band" style="left:21.57%;width:36.76%"></span><span class="fr-overlay fr-ceiling" style="left:6.30%"></span><span class="fr-overlay fr-blend" style="left:39.26%"></span><span class="fr-dot" style="left:34.44%;width:13.1px;height:13.1px" title="Race VDOT: 1:30:12, weight 5.3%"></span></div><div class="fr-val"><b>1:30:12</b>5.3%</div></div><div class="fr-row" role="row"><div class="fr-name" role="rowheader">Historical Block Comparison<small>VDOT 50.7</small></div><div class="fr-track"><span class="fr-overlay fr-band" style="left:21.57%;width:36.76%"></span><span class="fr-overlay fr-ceiling" style="left:6.30%"></span><span class="fr-overlay fr-blend" style="left:39.26%"></span><span class="fr-dot" style="left:45.65%;width:12.7px;height:12.7px" title="Historical Block Comparison: 1:32:13, weight 4.8%"></span></div><div class="fr-val"><b>1:32:13</b>4.8%</div></div><div class="fr-row" role="row"><div class="fr-name" role="rowheader">Interval Peaks<small>Sat out</small></div><div class="fr-track"><span class="fr-overlay fr-band" style="left:21.57%;width:36.76%"></span><span class="fr-overlay fr-ceiling" style="left:6.30%"></span><span class="fr-overlay fr-blend" style="left:39.26%"></span><span class="fr-none">Not enough data</span></div><div class="fr-val"><b>&ndash;</b>0.0%</div></div><div class="fr-row" role="row"><div class="fr-name" role="rowheader">Comparable Runners<small>Sat out</small></div><div class="fr-track"><span class="fr-overlay fr-band" style="left:21.57%;width:36.76%"></span><span class="fr-overlay fr-ceiling" style="left:6.30%"></span><span class="fr-overlay fr-blend" style="left:39.26%"></span><span class="fr-none">Not enough data</span></div><div class="fr-val"><b>&ndash;</b>0.0%</div></div>
+          <div class="fr-axis-row" aria-hidden="true"><div></div><div class="fr-axis"><span style="left:0.00%">1:24</span><span style="left:16.67%">1:27</span><span style="left:33.33%">1:30</span><span style="left:50.00%">1:33</span><span style="left:66.67%">1:36</span><span style="left:83.33%">1:39</span><span style="left:100.00%">1:42</span></div><div></div></div>
+        </div>
+        <div class="fr-key" aria-hidden="true">
+          <span><i class="k-dot"></i>Model estimate, sized by weight</span>
+          <span><i class="k-blend"></i>Blend</span>
+          <span><i class="k-band"></i>Likely range</span>
+          <span><i class="k-ceiling"></i>Perfect-day ceiling</span>
+        </div>
+        <p class="fine">My half marathon forecast as the app showed it in March 2026: ten models, eight with enough data to vote, with HR VO2max carrying the most weight. By April the engine ran nine live models plus a durability adjustment.</p>
+      </div>
+      <div class="two">
+        <ol class="labflow" aria-label="How the forecast is built">
+          <li><b>Each model gives an estimate and a confidence</b><span>Its weight is a base weight times that confidence.</span></li>
+          <li><b>Models that drift from your races lose weight</b><span>Too-optimistic ones lose it faster. A model 8 percent faster than your races gets zero weight, while a slow one gets there at 10 percent.</span></li>
+          <li><b>Your own races anchor it</b><span>It&rsquo;s a small meta-analysis of your races, pooled with random effects (Paule-Mandel, with the Hartung-Knapp correction). A race that went wrong counts as censored data, and old races you&rsquo;ve since beaten count as floors.</span></li>
+          <li><b>The range leans slow</b><span>It comes from six named sources of uncertainty, because more things go wrong on race day than right. Models that use the same inputs don&rsquo;t count as separate votes.</span></li>
+        </ol>
+        <figure class="shot">
+          <a href="img/dreamy-disagree.webp" data-full="img/dreamy-disagree.webp" aria-label="Full screen: Dreamy's race predictions card showing VDOT 49.8 with low confidence and 28 percent agreement, flagging significant disagreement of plus or minus 4.1 VDOT with the heart-rate VO2max model as the outlier."><img src="img/dreamy-disagree.webp" width="900" height="789" alt="Dreamy's race predictions card showing VDOT 49.8 with low confidence and 28 percent agreement, flagging significant disagreement of plus or minus 4.1 VDOT with the heart-rate VO2max model as the outlier." loading="lazy" decoding="async" style="background-color:#171822"></a>
+          <figcaption>When the models disagree, the app shows which one it thinks is off.</figcaption>
+        </figure>
+      </div>
+      <p class="small">The weights were still set by hand when the main build ended. The part that would tune them against real race results wasn&rsquo;t running yet.</p>
+      <p class="small"><a href="dreamy/adaptation-network.html">See how one runner&rsquo;s data flows through the engine.</a></p>
     </section>
 
     <section class="sec" id="start" aria-labelledby="start-h">
@@ -1048,45 +1148,6 @@ html.lb-open { overflow: hidden; }
         </div>
       </section>
 
-      <section class="sec" id="forecast" aria-labelledby="fc-h">
-      <h2 id="fc-h">The race forecast</h2>
-      <p class="intro">Most apps give you one predicted race time from one method. Dreamy runs a bunch of separate models and blends them. This is my own half marathon forecast from March.</p>
-      <div class="forest" aria-labelledby="fr-h">
-        <h3 id="fr-h" class="sr-only">Half marathon forecast by model</h3>
-        <div class="fr-head">
-          <div class="kv"><div class="k">Blended estimate</div><div class="v big">1:31:04</div></div>
-          <div class="kv"><div class="k">Likely range</div><div class="v">1:27:53 to 1:34:30</div></div>
-          <div class="kv"><div class="k">Perfect-day ceiling</div><div class="v">1:25:08</div></div>
-          <div class="kv"><div class="k">Model agreement</div><div class="v">60%</div></div>
-        </div>
-        <div class="fr-grid" role="table" aria-label="Each model's half marathon estimate and weight">
-          <div class="fr-row" role="row"><div class="fr-name" role="rowheader">HR VO2max<small>VDOT 53.0</small></div><div class="fr-track"><span class="fr-overlay fr-band" style="left:21.57%;width:36.76%"></span><span class="fr-overlay fr-ceiling" style="left:6.30%"></span><span class="fr-overlay fr-blend" style="left:39.26%"></span><span class="fr-dot" style="left:16.30%;width:22.0px;height:22.0px" title="HR VO2max: 1:26:56, weight 27.2%"></span></div><div class="fr-val"><b>1:26:56</b>27.2%</div></div><div class="fr-row" role="row"><div class="fr-name" role="rowheader">Daniels Baseline<small>VDOT 49.9</small></div><div class="fr-track"><span class="fr-overlay fr-band" style="left:21.57%;width:36.76%"></span><span class="fr-overlay fr-ceiling" style="left:6.30%"></span><span class="fr-overlay fr-blend" style="left:39.26%"></span><span class="fr-dot" style="left:43.15%;width:17.6px;height:17.6px" title="Daniels Baseline: 1:31:46, weight 14.4%"></span></div><div class="fr-val"><b>1:31:46</b>14.4%</div></div><div class="fr-row" role="row"><div class="fr-name" role="rowheader">Personal Duration Curve<small>VDOT 51.6</small></div><div class="fr-track"><span class="fr-overlay fr-band" style="left:21.57%;width:36.76%"></span><span class="fr-overlay fr-ceiling" style="left:6.30%"></span><span class="fr-overlay fr-blend" style="left:39.26%"></span><span class="fr-dot" style="left:28.52%;width:17.4px;height:17.4px" title="Personal Duration Curve: 1:29:08, weight 13.8%"></span></div><div class="fr-val"><b>1:29:08</b>13.8%</div></div><div class="fr-row" role="row"><div class="fr-name" role="rowheader">Durability Decay<small>VDOT 49.6</small></div><div class="fr-track"><span class="fr-overlay fr-band" style="left:21.57%;width:36.76%"></span><span class="fr-overlay fr-ceiling" style="left:6.30%"></span><span class="fr-overlay fr-blend" style="left:39.26%"></span><span class="fr-dot" style="left:44.44%;width:17.1px;height:17.1px" title="Durability Decay: 1:32:00, weight 13.2%"></span></div><div class="fr-val"><b>1:32:00</b>13.2%</div></div><div class="fr-row" role="row"><div class="fr-name" role="rowheader">Critical Speed<small>VDOT 45.0</small></div><div class="fr-track"><span class="fr-overlay fr-band" style="left:21.57%;width:36.76%"></span><span class="fr-overlay fr-ceiling" style="left:6.30%"></span><span class="fr-overlay fr-blend" style="left:39.26%"></span><span class="fr-dot" style="left:90.46%;width:16.7px;height:16.7px" title="Critical Speed: 1:40:17, weight 12.2%"></span></div><div class="fr-val"><b>1:40:17</b>12.2%</div></div><div class="fr-row" role="row"><div class="fr-name" role="rowheader">Training Trajectory<small>VDOT 50.2</small></div><div class="fr-track"><span class="fr-overlay fr-band" style="left:21.57%;width:36.76%"></span><span class="fr-overlay fr-ceiling" style="left:6.30%"></span><span class="fr-overlay fr-blend" style="left:39.26%"></span><span class="fr-dot" style="left:41.20%;width:15.3px;height:15.3px" title="Training Trajectory: 1:31:25, weight 9.1%"></span></div><div class="fr-val"><b>1:31:25</b>9.1%</div></div><div class="fr-row" role="row"><div class="fr-name" role="rowheader">Race VDOT<small>VDOT 50.8</small></div><div class="fr-track"><span class="fr-overlay fr-band" style="left:21.57%;width:36.76%"></span><span class="fr-overlay fr-ceiling" style="left:6.30%"></span><span class="fr-overlay fr-blend" style="left:39.26%"></span><span class="fr-dot" style="left:34.44%;width:13.1px;height:13.1px" title="Race VDOT: 1:30:12, weight 5.3%"></span></div><div class="fr-val"><b>1:30:12</b>5.3%</div></div><div class="fr-row" role="row"><div class="fr-name" role="rowheader">Historical Block Comparison<small>VDOT 50.7</small></div><div class="fr-track"><span class="fr-overlay fr-band" style="left:21.57%;width:36.76%"></span><span class="fr-overlay fr-ceiling" style="left:6.30%"></span><span class="fr-overlay fr-blend" style="left:39.26%"></span><span class="fr-dot" style="left:45.65%;width:12.7px;height:12.7px" title="Historical Block Comparison: 1:32:13, weight 4.8%"></span></div><div class="fr-val"><b>1:32:13</b>4.8%</div></div><div class="fr-row" role="row"><div class="fr-name" role="rowheader">Interval Peaks<small>Sat out</small></div><div class="fr-track"><span class="fr-overlay fr-band" style="left:21.57%;width:36.76%"></span><span class="fr-overlay fr-ceiling" style="left:6.30%"></span><span class="fr-overlay fr-blend" style="left:39.26%"></span><span class="fr-none">Not enough data</span></div><div class="fr-val"><b>&ndash;</b>0.0%</div></div><div class="fr-row" role="row"><div class="fr-name" role="rowheader">Comparable Runners<small>Sat out</small></div><div class="fr-track"><span class="fr-overlay fr-band" style="left:21.57%;width:36.76%"></span><span class="fr-overlay fr-ceiling" style="left:6.30%"></span><span class="fr-overlay fr-blend" style="left:39.26%"></span><span class="fr-none">Not enough data</span></div><div class="fr-val"><b>&ndash;</b>0.0%</div></div>
-          <div class="fr-axis-row" aria-hidden="true"><div></div><div class="fr-axis"><span style="left:0.00%">1:24</span><span style="left:16.67%">1:27</span><span style="left:33.33%">1:30</span><span style="left:50.00%">1:33</span><span style="left:66.67%">1:36</span><span style="left:83.33%">1:39</span><span style="left:100.00%">1:42</span></div><div></div></div>
-        </div>
-        <div class="fr-key" aria-hidden="true">
-          <span><i class="k-dot"></i>Model estimate, sized by weight</span>
-          <span><i class="k-blend"></i>Blend</span>
-          <span><i class="k-band"></i>Likely range</span>
-          <span><i class="k-ceiling"></i>Perfect-day ceiling</span>
-        </div>
-        <p class="fine">My half marathon forecast as the app showed it in March 2026: ten models, eight with enough data to vote, with HR VO2max carrying the most weight. By April the engine ran nine live models plus a durability adjustment.</p>
-      </div>
-      <div class="two">
-        <ol class="labflow" aria-label="How the forecast is built">
-          <li><b>Each model gives an estimate and a confidence</b><span>Its weight is a base weight times that confidence.</span></li>
-          <li><b>Models that drift from your races lose weight</b><span>Too-optimistic ones lose it faster. A model 8 percent faster than your races gets zero weight, while a slow one gets there at 10 percent.</span></li>
-          <li><b>Your own races anchor it</b><span>It&rsquo;s a small meta-analysis of your races, pooled with random effects (Paule-Mandel, with the Hartung-Knapp correction). A race that went wrong counts as censored data, and old races you&rsquo;ve since beaten count as floors.</span></li>
-          <li><b>The range leans slow</b><span>It comes from six named sources of uncertainty, because more things go wrong on race day than right. Models that use the same inputs don&rsquo;t count as separate votes.</span></li>
-        </ol>
-        <figure class="shot">
-          <a href="img/dreamy-disagree.webp" data-full="img/dreamy-disagree.webp" aria-label="Full screen: Dreamy's race predictions card showing VDOT 49.8 with low confidence and 28 percent agreement, flagging significant disagreement of plus or minus 4.1 VDOT with the heart-rate VO2max model as the outlier."><img src="img/dreamy-disagree.webp" width="900" height="789" alt="Dreamy's race predictions card showing VDOT 49.8 with low confidence and 28 percent agreement, flagging significant disagreement of plus or minus 4.1 VDOT with the heart-rate VO2max model as the outlier." loading="lazy" decoding="async" style="background-color:#171822"></a>
-          <figcaption>When the models disagree, the app shows which one it thinks is off.</figcaption>
-        </figure>
-      </div>
-      <p class="small">The weights were still set by hand when the main build ended. The part that would tune them against real race results wasn&rsquo;t running yet.</p>
-      <p class="small"><a href="dreamy/adaptation-network.html">See how one runner&rsquo;s data flows through the engine.</a></p>
-    </section>
-
     <section class="sec" id="engine" aria-labelledby="engine-h">
       <h2 id="engine-h">How it sees you</h2>
       <p class="intro">Dreamy keeps a model of you and updates it every day from what you actually ran. Fitness and fatigue follow Banister&rsquo;s model, with 42- and 7-day time constants. Under that, seven systems each build and fade at their own speed, and on a bad day it only counts 40 to 70 percent of a workout.</p>
@@ -1106,66 +1167,6 @@ html.lb-open { overflow: hidden; }
           </details>
         </div>
         <figure class="shot"><a href="img/dreamy-why-crop.webp" data-full="img/dreamy-why-crop.webp" aria-label="Full screen: Why This Felt Hard: high recent volume and a hard run the day before."><img src="img/dreamy-why-crop.webp" width="960" height="412" alt="Why This Felt Hard: high recent volume and a hard run the day before." loading="lazy" decoding="async" style="background-color:#2A2132"></a><figcaption>Why a run felt hard, and what it trained</figcaption></figure>
-      </div>
-    </section>
-
-    <section class="sec" id="days" aria-labelledby="days-h">
-      <h2 id="days-h">The plan</h2>
-      <p class="intro">Every plan aims for the most fitness for the fatigue. Dreamy rebuilds the week in the same order every time, based on what you actually ran and which days you have, then picks each day&rsquo;s workout from 133 templates.</p>
-      <div class="builder" id="builder">
-        <div class="b-top">
-          <div>
-            <h3 class="b-title">Try it: tap the days you can't run</h3>
-            <p class="b-sub">A simplified version of Dreamy's scheduling rules, running in your browser.</p>
-          </div>
-          <div class="miles">
-            <label for="mi">Weekly miles <output id="mi-out" for="mi">40</output></label>
-            <input type="range" id="mi" min="20" max="70" step="5" value="40">
-          </div>
-        </div>
-        <div class="presets" role="group" aria-label="Example weeks">
-          <button class="chip" type="button" data-preset="" aria-pressed="true">Open week</button>
-          <button class="chip" type="button" data-preset="1,2,3" aria-pressed="false">Work trip, Tue to Thu</button>
-          <button class="chip" type="button" data-preset="5,6" aria-pressed="false">Wedding weekend</button>
-          <button class="chip" type="button" data-preset="0,2" aria-pressed="false">Late meetings, Mon and Wed</button>
-        </div>
-        <div class="week" id="week" aria-describedby="week-summary"></div>
-        <div class="summary" id="week-summary" aria-live="polite"></div>
-        <ul class="changes" id="changes"></ul>
-        <div class="legend" aria-hidden="true">
-          <span><i class="bg-long"></i>Long run</span>
-          <span><i class="bg-quality"></i>Quality session</span>
-          <span><i class="bg-easy"></i>Easy</span>
-          <span><i class="bg-recovery"></i>Recovery</span>
-          <span><i style="border:1px solid #f0a06c"></i>Changed from an open week</span>
-        </div>
-        <ul class="why-list" id="why"></ul>
-        <details class="fold how"><summary>How this demo differs from the app</summary>
-        <p class="fine">This is a simplified copy of Dreamy's <code>week-skeleton.ts</code> and <code>mileage-enforcement.ts</code>. Weekly totals land within about a mile of the target. It places runs in the same order, keeps the same 48 hours between hard days and uses the same mileage rules, and easy days stay at or under 80 percent of the long run. In the app you set how many runs and quality sessions you want each week; here they follow the weekly miles (4 runs and one quality session at 25 miles or less, up to 7 runs above 50). The real app also looks at your fitness, fatigue, the weather and your recent runs before it picks each workout.</p>
-        </details>
-      </div>
-      <div class="two">
-        <div class="prose">
-          <details class="fold" open><summary>The six rules it follows</summary>
-        <ol class="steps">
-          <li><div><b>Days you can't run come off first.</b> Everything else gets planned around them.</div></li>
-          <li><div><b>The long run goes on your preferred day.</b> If that day is gone, it moves to the other weekend day, then to the nearest open day.</div></li>
-          <li><div><b>The day after the long run is a recovery run.</b></div></li>
-          <li><div><b>Quality sessions go on your preferred days,</b> never next to the long run, at least 48 hours apart, and never longer than the long run. If those days are gone, they move to any open day that fits. Once Dreamy has learned how fast you recover, it uses your recovery time instead of 48 hours.</div></li>
-          <li><div><b>Other open days get easy runs</b> until you reach the number of runs you set for the week, and the rest are rest days. That's how you can get four runs one week and seven the next.</div></li>
-          <li><div><b>Miles are rebalanced to hit the weekly target.</b> Easy days take the changes first, up to 3 miles each, and no run goes below 2 miles. Quality days and the long run change last. If there's no way to hit the target, it tells you instead of overloading the runs you have.</div></li>
-        </ol>
-          </details>
-          <details class="fold"><summary>What happens after the week is set</summary>
-          <p>Then the daily engine picks the actual workout for each day from 133 templates. It simulates seven training systems one day at a time and redoes the rest of the week every day based on what you actually ran.</p>
-          <p>A few safety rules override everything else. You get a forced rest day after 14 straight days of running, when you say you're sick, or when your readiness drops below 25 out of 100. The day before a race is a shakeout of 4 miles or less, and there's nothing hard in the three days before it.</p>
-          <p>Every change shows what moved, and you can undo it.</p>
-          </details>
-        </div>
-          <figure class="shot phone">
-            <a href="img/dreamy-plan.webp" data-full="img/dreamy-plan.webp" aria-label="Full screen: A week in Dreamy's plan view: Monday easy with strides, Tuesday VO2max intervals, Wednesday rest, Thursday VO2max, Friday medium-long, Saturday long run, Sunday easy with strides."><img src="img/dreamy-plan.webp" width="600" height="986" alt="A week in Dreamy's plan view: Monday easy with strides, Tuesday VO2max intervals, Wednesday rest, Thursday VO2max, Friday medium-long, Saturday long run, Sunday easy with strides." loading="lazy" decoding="async" style="background-color:#1F1F2F"></a>
-            <figcaption>A peak week in the app, 55 miles over six runs</figcaption>
-          </figure>
       </div>
     </section>
 
@@ -1243,6 +1244,7 @@ html.lb-open { overflow: hidden; }
     </section>
 
 <!-- Oct 30, Jason: "a few more things for you to add to the dreamy for deep dives" -->
+
     <section class="sec" id="deeper" aria-labelledby="deeper-h">
       <h2 id="deeper-h">Go deeper</h2>
       <ul class="deeper"><li><a href="dreamy/forecast-lab.html"><b>Forecast Lab</b><span>Every engine change, scored against fake runners with a known truth.</span></a></li><li><a href="dreamy/forecast-explorer.html"><b>Forecast explorer</b><span>Pick a runner and a distance to see each model&rsquo;s estimate, the blend and the true time.</span></a></li><li><a href="dreamy/data-flow.html"><b>From run file to race forecast</b><span>One run, traced from the watch file to the final forecast.</span></a></li><li><a href="dreamy/weather-model.html"><b>Weather and hills</b><span>How heat, humidity and hills change a pace.</span></a></li></ul>
@@ -2080,7 +2082,7 @@ window.MAP_P = [
     what: 'Jack Daniels’ own app: plans set from your race times, with an Adaptive Trainer that adjusts them from your races and runs. Syncs Garmin, COROS, Apple Health and Strava.',
     why: 'The method is as published as it gets, Daniels’ Running Formula. It reads your runs, not your sleep or recovery readings.',
     facts: [['Method', 'Published: Daniels’ Running Formula'], ['AI', 'None I could find'], ['Reach', '6.3K US App Store ratings, 4.9'], ['Price', '$99.99 a year for Adaptive']],
-    src: [['App Store', 'https://apps.apple.com/us/app/id977666802?l=en-us'], ['Launch date', 'https://appadvice.com/app/v-o2/977666802']] },
+    src: [['App Store', 'https://apps.apple.com/us/app/id977666802?l=en-us'], ['Launch date', 'https://appgoblin.info/apps/977666802']] },
   { id: 'coros', kind: 'plan', reach: 'main', side: 'r',
     states: [
       { d: '2023-01', x: 30, y: 74, full: 'COROS plans', short: 'COROS', n: 'Plans you build or pick on the web Training Hub' },
@@ -2279,7 +2281,7 @@ window.MAP_P = [
     what: 'GPT-4 inside the WHOOP app, reading your recovery, strain and sleep. It writes custom training plans when you ask.',
     why: 'A lot of your data, and the plan comes from the model. It launched six weeks after ChatGPT started planning my first marathon around my schedule.',
     facts: [['Reads', 'Recovery, strain, sleep and stress from the strap'], ['Model', 'OpenAI GPT-4 at launch']],
-    src: [['WHOOP Coach launch', 'https://www.businesswire.com/news/home/20230926899032/en/5524842/WHOOP-Unveils-the-New-WHOOP-Coach-Powered-by-OpenAI-the-First-Wearable-to-Deliver-Highly-Individualized-Performance-Coaching-on-Demand']] },
+    src: [['WHOOP Coach launch', 'https://www.whoop.com/us/en/press-center/whoop-unveils-the-new-whoop-coach-powered-by-openai/']] },
   { id: 'strava', kind: 'plan', reach: 'main', side: 'l', ai: true,
     states: [
       { d: '2024-10-03', x: 74, y: 20, full: 'Strava Athlete Intelligence', short: 'Strava AI', n: 'AI-written notes on each activity (beta)' },
@@ -2788,6 +2790,80 @@ window.MAP_NOTE = 'Apps that build plans from your data with their own math exis
 })();
 
 </script>
+<!--mara: Nov 9, Jason: "Can i have my website page for dreamy scroll like you are running a marathon with trackers?" The page is the course: scrolling runs it at my London Marathon pace (3:10:33). Checkpoints light up as you pass them and flash their split. -->
+<style>
+.mara { position: fixed; left: 0; right: 0; bottom: 0; z-index: 50; background: var(--s1); border-top: 1px solid var(--b2); padding-bottom: env(safe-area-inset-bottom, 0px); font-family: var(--body); font-variant-numeric: tabular-nums; }
+.mara-in { max-width: 1100px; margin: 0 auto; padding: 0 16px; height: 52px; display: flex; align-items: center; gap: 18px; }
+@media (min-width: 720px) { .mara-in { padding: 0 32px; } }
+@media (min-width: 1100px) { .mara-in { padding: 0 44px; } }
+.mara-mi, .mara-t { flex: none; font-size: 13px; color: var(--t3); white-space: nowrap; }
+.mara-mi b, .mara-t b { font-family: var(--display); font-size: 17px; font-weight: 800; color: var(--t0); letter-spacing: -0.01em; }
+.mara-mi b { display: inline-block; min-width: 2.6em; text-align: right; }
+.mara-t { text-align: right; }
+.mara-t b { display: inline-block; min-width: 4.2em; }
+.mara-c { position: relative; flex: 1; height: 100%; min-width: 0; }
+.mara i { font-style: normal; }
+.mara-rail, .mara-done { position: absolute; left: 0; top: 19px; height: 4px; border-radius: 2px; }
+.mara-rail { right: 0; background: var(--b2); }
+.mara-done { width: 0; background: var(--brand); }
+.mara-me { position: absolute; top: 14px; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%; background: var(--t0); border: 3px solid var(--brand); }
+.mara-cp { position: absolute; top: 15px; width: 2px; height: 12px; margin-left: -1px; background: var(--b3); }
+.mara-cp.on { background: var(--brand); }
+.mara-cp span { position: absolute; top: 15px; left: 50%; transform: translateX(-50%); font-size: 11px; font-weight: 600; letter-spacing: .02em; color: var(--t3); white-space: nowrap; }
+.mara-cp.on span { color: var(--t1); }
+.mara-cp.split span { color: var(--glow); }
+.mara-cp.fin { top: 13px; width: 8px; height: 16px; margin-left: -4px; border-radius: 1px; background: conic-gradient(var(--t0) 25%, var(--s0) 0 50%, var(--t0) 0 75%, var(--s0) 0) 0 0 / 8px 8px; }
+.mara-cp.mini span { display: none; }
+@media (max-width: 719px) { .mara-cp.small span { display: none; } .mara-in { gap: 12px; } }
+.mara.done .mara-me { background: var(--brand); border-color: var(--t0); }
+body { padding-bottom: calc(52px + env(safe-area-inset-bottom, 0px)); }
+@media print { .mara { display: none; } body { padding-bottom: 0; } }
+</style>
+<div class="mara" id="mara" aria-hidden="true"><div class="mara-in"><span class="mara-mi"><b>0.0</b> mi</span><div class="mara-c"><i class="mara-rail"></i><i class="mara-done"></i></div><span class="mara-t"><b>0:00:00</b></span></div></div>
+<script>
+(function () {
+  var bar = document.getElementById('mara'); if (!bar) return;
+  var MI = 26.2, FIN = 3 * 3600 + 10 * 60 + 33;  // my London Marathon, 3:10:33
+  var CPS = [['5K', 3.107, 'small'], ['10K', 6.214, ''], ['15K', 9.321, 'mini'], ['20K', 12.427, 'mini'], ['Half', 13.109, ''], ['25K', 15.534, 'mini'], ['30K', 18.641, ''], ['35K', 21.748, 'mini'], ['40K', 24.855, 'small'], ['Finish', 26.219, 'fin']];
+  var course = bar.querySelector('.mara-c'), done = bar.querySelector('.mara-done'), miEl = bar.querySelector('.mara-mi b'), tEl = bar.querySelector('.mara-t b');
+  var me = document.createElement('i'); me.className = 'mara-me';
+  var cps = CPS.map(function (c) {
+    var el = document.createElement('i'); el.className = 'mara-cp ' + c[2]; el.style.left = (c[1] / 26.219 * 100) + '%';
+    var lab = document.createElement('span'); lab.textContent = c[2] === 'fin' ? '' : c[0]; el.appendChild(lab); course.appendChild(el);
+    return { el: el, lab: lab, name: c[0], mi: c[1], passed: false, tm: 0 };
+  });
+  course.appendChild(me);
+  function clock(s) { s = Math.round(s); var h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), x = s % 60; return h + ':' + (m < 10 ? '0' : '') + m + ':' + (x < 10 ? '0' : '') + x; }
+  function split(s) { s = Math.round(s); var h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), x = s % 60; return (h ? h + ':' + (m < 10 ? '0' : '') : '') + m + ':' + (x < 10 ? '0' : '') + x; }
+  var start = document.querySelector('main > section.sec');  // the first section after the hero
+  function frac() {
+    var a = start ? start.getBoundingClientRect().top + scrollY - innerHeight * 0.6 : 0;
+    var b = document.documentElement.scrollHeight - innerHeight;
+    return Math.max(0, Math.min(1, (scrollY - a) / Math.max(1, b - a)));
+  }
+  var raf = 0;
+  function draw() {
+    raf = 0;
+    var f = frac(), mi = f * 26.219, t = f * FIN;
+    done.style.width = (f * 100) + '%'; me.style.left = (f * 100) + '%';
+    miEl.textContent = (f >= 1 ? 26.2 : Math.min(26.1, mi)).toFixed(1); tEl.textContent = clock(t);
+    bar.classList.toggle('done', f >= 1);
+    cps.forEach(function (c) {
+      var on = mi >= c.mi - 0.0005;
+      if (on && !c.passed) {
+        c.passed = true; c.el.classList.add('on');
+        if (c.name !== 'Finish') {
+          cps.forEach(function (o) { if (o !== c && o.el.classList.contains('split')) { clearTimeout(o.tm); o.el.classList.remove('split'); o.lab.textContent = o.name; } });
+          c.el.classList.add('split'); c.lab.textContent = split(c.mi / 26.219 * FIN); clearTimeout(c.tm); c.tm = setTimeout(function () { c.el.classList.remove('split'); c.lab.textContent = c.name; }, 1600);
+        }
+      } else if (!on && c.passed) { c.passed = false; c.el.classList.remove('on', 'split'); clearTimeout(c.tm); c.lab.textContent = c.name === 'Finish' ? '' : c.name; }
+    });
+  }
+  function ask() { if (!raf) raf = requestAnimationFrame(draw); }
+  addEventListener('scroll', ask, { passive: true }); addEventListener('resize', ask);
+  draw();
+})();
+</script>
 <script>
 // Nov 6 to 7 (Jason: "we def should be able to see the full cheat sheet and click into a few of these examples or photos
 // more? like let them full screen"): any link with data-full opens its picture full screen. data-full can hold several
@@ -2815,7 +2891,7 @@ window.MAP_NOTE = 'Apps that build plans from your data with their own math exis
   });
   if (items.length < 2) { box.querySelector('.wb-prev').hidden = true; box.querySelector('.wb-next').hidden = true; }
   function fit() { box.classList.remove('zoom'); img.style.width = ''; }
-  function draw() { var it = items[cur]; fit(); img.src = it.src; img.alt = it.alt; cap.textContent = it.cap; }
+  function draw() { var it = items[cur]; fit(); img.src = it.src; img.alt = it.alt; cap.textContent = it.cap; box.setAttribute('aria-label', it.cap || it.alt || 'Picture'); }   // Nov 8 scan: the dialog was always called "Picture"
   function go(d) { cur = (cur + d + items.length) % items.length; draw(); }
   pics.forEach(function (a) {
     a.addEventListener('click', function (e) { e.preventDefault(); last = a; cur = +a.getAttribute('data-i'); draw(); box.showModal(); });
