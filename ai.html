@@ -1374,7 +1374,7 @@ html.lb-open { overflow: hidden; }
 .case-pic img, .case-pic svg { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
 .case-h { padding: 0 18px; font-size: 1.15rem; font-weight: 800; letter-spacing: -0.01em; }
 .case-h::after { content: '\00a0\2192'; color: var(--muted); }
-.case-l { padding: 0 18px; color: var(--ink-2); font-size: 15.5px; line-height: 1.5; }
+.case-l { padding: 0 18px; color: var(--ink-2); font-size: 15.5px; line-height: 1.5; text-wrap: pretty; }
 
 /* the Morgan Stanley graphic, small and big, drawn with tokens */
 .msg, .msbig svg { font-family: var(--body); }
@@ -1662,11 +1662,13 @@ html.lb-open { overflow: hidden; }
 .sb-f img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .sb-f .pal { display: flex; gap: 2px; width: 100%; height: 100%; background: var(--paper); }
 .sb-f .pal b { display: flex; flex-direction: column; }
-.sb-list { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-direction: column; gap: 5px; }
+.sb-list { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-direction: column; gap: 0; }
 .sb-list li::before { content: none; }
-.sb-list a { display: inline-flex; align-items: baseline; gap: 7px; font-size: 14px; line-height: 1.3; font-weight: 600; color: var(--ink); text-decoration-color: var(--rule-strong); text-underline-offset: 3px; }
+.sb-list a { display: grid; grid-template-columns: 8px 1fr; column-gap: 8px; row-gap: 1px; align-items: baseline; min-height: 44px; padding: 6px 0; box-sizing: border-box; font-size: 14px; line-height: 1.3; font-weight: 600; color: var(--ink); text-decoration: none; }
+.sb-n { text-decoration: underline; text-decoration-color: var(--rule-strong); text-underline-offset: 3px; }
+.sb-d { grid-column: 2; font-size: 12.5px; line-height: 1.3; font-weight: 400; color: var(--muted); }
 .sb-list a i { flex: none; width: 8px; height: 8px; background: var(--k); }
-.sb-list a:hover { text-decoration-color: var(--k); }
+.sb-list a:hover .sb-n { text-decoration-color: var(--k); }
 .sb-list a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 3px; }
 .path.drawing .sb { opacity: .35; transition: opacity .6s ease; }
 .path.drawing .stop.lit .sb { opacity: 1; }
@@ -2109,8 +2111,8 @@ details.more > p + p { margin-top: 12px; }
 
     <section class="exhibit" id="overruled" aria-labelledby="over-h" style="--c: var(--c-magenta)">
       <header><h2 class="ext" id="over-h">Working with it like a teammate</h2></header>
-      <p class="ov-lede">Sometimes I push back hard, sometimes I overrule it, sometimes I let it make the call, and sometimes it explains and I learn from it. And I hand it the long, grinding work.</p>
-      <ul class="overrule"><li><p class="ov-s"><b>I push back.</b> The first Walldrobe screens.</p><p class="ov-q">&ldquo;Complete AI slop, too many buttons, not intuitive.&rdquo;</p><p class="ov-a">It got redone, and later restarted from an earlier version.</p></li><li><p class="ov-s"><b>I overrule it.</b> Leading my Morgan Stanley resume line with how many agents I built.</p><p class="ov-q">&ldquo;It was more that people came to me to ask how to get AI to do what they wanted.&rdquo;</p><p class="ov-a">The line leads with adoption now.</p></li><li><p class="ov-s"><b>I let it make the call.</b> Race day at <a href="projects/5k-5-bars.html">5K 5 Bars</a>.</p><p class="ov-a">At bar three, people asked if we could stay closer to Rittenhouse. I asked Claude mid-race to pick new bars and a new route, and it updated on everyone&rsquo;s phone.</p></li><li><p class="ov-s"><b>I learn from it.</b> My classes.</p><p class="ov-a">I study from <a href="projects/wharton-os.html">guides it makes</a> from my class transcripts, my notes, the slides and the readings, using rules I wrote. Every term gets a plain-English why and a takeaway. I also teach classmates how to use AI.</p><a class="ov-pic" href="img/cheat-1.webp" data-full="img/cheat-1.webp img/cheat-2.webp" data-alt="My whole cheat sheet for the MKTG 6110 final, page 1|My whole cheat sheet for the MKTG 6110 final, page 2" aria-label="Full screen: my whole cheat sheet for the MKTG 6110 final, both pages"><img src="img/call-cheat.webp" width="396" height="297" alt="The first column of my cheat sheet for the MKTG 6110 final" loading="lazy" decoding="async" style="background-color:#D2D3D5"></a></li><li><p class="ov-s"><b>I give it the repetitive work.</b> The long, tedious work.</p><p class="ov-a">It pulled the art from seven photo and shop sites for <a href="projects/walldrobe.html">Walldrobe</a>, and spent hours going through marathon plans and papers on every input for <a href="dreamy.html">Dreamy</a>.</p></li></ul>
+      <p class="ov-lede">Sometimes I overrule it, sometimes I let it make the call, and sometimes it explains and I learn from it. And I hand it the long, grinding work.</p>
+      <ul class="overrule"><li><p class="ov-s"><b>I overrule it.</b> Leading my Morgan Stanley resume line with how many agents I built.</p><p class="ov-q">&ldquo;It was more that people came to me to ask how to get AI to do what they wanted.&rdquo;</p><p class="ov-a">The line leads with adoption now.</p></li><li><p class="ov-s"><b>I let it make the call.</b> Race day at <a href="projects/5k-5-bars.html">5K 5 Bars</a>.</p><p class="ov-a">At bar three, people asked if we could stay closer to Rittenhouse. I asked Claude mid-race to pick new bars and a new route, and it updated on everyone&rsquo;s phone.</p></li><li><p class="ov-s"><b>I learn from it.</b> My classes.</p><p class="ov-a">I study from <a href="projects/wharton-os.html">guides it makes</a> from my class transcripts, my notes, the slides and the readings, using rules I wrote. Every term gets a plain-English why and a takeaway. I also teach classmates how to use AI.</p><a class="ov-pic" href="img/cheat-1.webp" data-full="img/cheat-1.webp img/cheat-2.webp" data-alt="My whole cheat sheet for the MKTG 6110 final, page 1|My whole cheat sheet for the MKTG 6110 final, page 2" aria-label="Full screen: my whole cheat sheet for the MKTG 6110 final, both pages"><img src="img/call-cheat.webp" width="396" height="297" alt="The first column of my cheat sheet for the MKTG 6110 final" loading="lazy" decoding="async" style="background-color:#D2D3D5"></a></li><li><p class="ov-s"><b>I give it the repetitive work.</b> The long, tedious work.</p><p class="ov-a">It pulled the art from seven photo and shop sites for <a href="projects/walldrobe.html">Walldrobe</a>, and spent hours going through marathon plans and papers on every input for <a href="dreamy.html">Dreamy</a>.</p></li></ul>
     </section>
 
     <section class="section" id="rules" aria-labelledby="rules-h">

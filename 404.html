@@ -1363,7 +1363,7 @@ html.lb-open { overflow: hidden; }
 .case-pic img, .case-pic svg { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
 .case-h { padding: 0 18px; font-size: 1.15rem; font-weight: 800; letter-spacing: -0.01em; }
 .case-h::after { content: '\00a0\2192'; color: var(--muted); }
-.case-l { padding: 0 18px; color: var(--ink-2); font-size: 15.5px; line-height: 1.5; }
+.case-l { padding: 0 18px; color: var(--ink-2); font-size: 15.5px; line-height: 1.5; text-wrap: pretty; }
 
 /* the Morgan Stanley graphic, small and big, drawn with tokens */
 .msg, .msbig svg { font-family: var(--body); }
@@ -1651,11 +1651,13 @@ html.lb-open { overflow: hidden; }
 .sb-f img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .sb-f .pal { display: flex; gap: 2px; width: 100%; height: 100%; background: var(--paper); }
 .sb-f .pal b { display: flex; flex-direction: column; }
-.sb-list { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-direction: column; gap: 5px; }
+.sb-list { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-direction: column; gap: 0; }
 .sb-list li::before { content: none; }
-.sb-list a { display: inline-flex; align-items: baseline; gap: 7px; font-size: 14px; line-height: 1.3; font-weight: 600; color: var(--ink); text-decoration-color: var(--rule-strong); text-underline-offset: 3px; }
+.sb-list a { display: grid; grid-template-columns: 8px 1fr; column-gap: 8px; row-gap: 1px; align-items: baseline; min-height: 44px; padding: 6px 0; box-sizing: border-box; font-size: 14px; line-height: 1.3; font-weight: 600; color: var(--ink); text-decoration: none; }
+.sb-n { text-decoration: underline; text-decoration-color: var(--rule-strong); text-underline-offset: 3px; }
+.sb-d { grid-column: 2; font-size: 12.5px; line-height: 1.3; font-weight: 400; color: var(--muted); }
 .sb-list a i { flex: none; width: 8px; height: 8px; background: var(--k); }
-.sb-list a:hover { text-decoration-color: var(--k); }
+.sb-list a:hover .sb-n { text-decoration-color: var(--k); }
 .sb-list a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 3px; }
 .path.drawing .sb { opacity: .35; transition: opacity .6s ease; }
 .path.drawing .stop.lit .sb { opacity: 1; }
