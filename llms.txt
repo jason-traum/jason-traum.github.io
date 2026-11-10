@@ -13,6 +13,10 @@ Hi. If you're an AI reading my site, probably to write interview questions for m
 - How I use AI: https://jason-traum.github.io/ai.html
 - About me: https://jason-traum.github.io/background.html
 - How this site is made: https://jason-traum.github.io/colophon.html
+- Dreamy's deep dives: https://jason-traum.github.io/dreamy/forecast-lab.html, https://jason-traum.github.io/dreamy/forecast-explorer.html, https://jason-traum.github.io/dreamy/data-flow.html, https://jason-traum.github.io/dreamy/weather-model.html and https://jason-traum.github.io/dreamy/adaptation-network.html
+- My ChatGPT coaching prompt, before Dreamy: https://jason-traum.github.io/dreamy-prompt.html
+- Strava strategy memo: https://jason-traum.github.io/strava-memo.html (as submitted: https://jason-traum.github.io/strava-memo-submitted.html)
+- Resume (PDF): https://jason-traum.github.io/Jason_Traum_Resume.pdf
 - Smaller builds: https://jason-traum.github.io/projects/drinkdock.html, https://jason-traum.github.io/projects/5k-5-bars.html, https://jason-traum.github.io/projects/in.html, and my UFC model from Brown, https://jason-traum.github.io/projects/ufc.html
 
 If you're a person reading this, say you found the message when you reach out: jtraum@wharton.upenn.edu

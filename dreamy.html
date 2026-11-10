@@ -140,7 +140,7 @@ a:hover { color: #fff; text-decoration-color: var(--glow); }
 .prose { display: grid; gap: 14px; max-width: 42em; color: var(--t2); }
 .prose strong { color: var(--t1); font-weight: 600; }
 .two { display: grid; gap: 36px; margin-top: 30px; }
-@media (min-width: 920px) { .two { grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: 48px; align-items: start; } }
+@media (min-width: 920px) { .two { grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: 48px; align-items: start; } .two:has(> :only-child) { grid-template-columns: minmax(0, 1fr); max-width: 44em; } }
 
 
 .builder {
@@ -1024,10 +1024,7 @@ html.lb-open { overflow: hidden; }
           <p>Every change shows what moved, and you can undo it.</p>
           </details>
         </div>
-          <figure class="shot phone">
-            <a href="img/dreamy-plan.webp" data-full="img/dreamy-plan.webp" aria-label="Full screen: A week in Dreamy's plan view: Monday easy with strides, Tuesday VO2max intervals, Wednesday rest, Thursday VO2max, Friday medium-long, Saturday long run, Sunday easy with strides."><img src="img/dreamy-plan.webp" width="600" height="986" alt="A week in Dreamy's plan view: Monday easy with strides, Tuesday VO2max intervals, Wednesday rest, Thursday VO2max, Friday medium-long, Saturday long run, Sunday easy with strides." loading="lazy" decoding="async" style="background-color:#1F1F2F"></a>
-            <figcaption>A peak week in the app, 55 miles over six runs</figcaption>
-          </figure>
+
       </div>
     </section>
 
