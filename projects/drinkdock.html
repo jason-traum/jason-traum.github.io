@@ -1482,14 +1482,15 @@ ul + table.career { margin-top: 22px; }
 .h2-photo { display: block; width: 210px; height: 210px; object-fit: cover; object-position: center 30%; border-radius: 14px; }
 
 .h2-flip { appearance: none; background: none; border: 0; padding: 0; margin: 0; display: block; position: relative; width: 210px; height: 210px; border-radius: 14px; cursor: pointer; perspective: 900px; }
-.h2-face { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden; transition: transform .65s cubic-bezier(.2,.7,.2,1); }
+
+.h2-card { position: absolute; inset: 0; border-radius: inherit; transform-style: preserve-3d; transition: transform .7s cubic-bezier(.2,.7,.2,1); }
+.h2-face { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
 .h2-face .h2-photo { width: 100%; height: 100%; border-radius: 0; }
 .h2-back { transform: rotateY(180deg); }
-.h2-flip[aria-pressed="true"] .h2-front { transform: rotateY(-180deg); }
-.h2-flip[aria-pressed="true"] .h2-back { transform: rotateY(0deg); }
-@media (hover: hover) and (pointer: fine) { .h2-flip:hover .h2-front { transform: rotateY(-14deg); } .h2-flip[aria-pressed="true"]:hover .h2-back { transform: rotateY(14deg); } }
+.h2-flip[aria-pressed="true"] .h2-card { transform: rotateY(180deg); }
+@media (hover: hover) and (pointer: fine) { .h2-flip:hover .h2-card { transform: rotateY(14deg); } .h2-flip[aria-pressed="true"]:hover .h2-card { transform: rotateY(166deg); } }
 .h2-flip:focus-visible { outline: 2px solid var(--c-razz); outline-offset: 3px; }
-@media (prefers-reduced-motion: reduce) { .h2-face { transition: none; } .h2-flip:hover .h2-front, .h2-flip[aria-pressed="true"]:hover .h2-back { transform: none; } .h2-flip[aria-pressed="true"]:hover .h2-front { transform: rotateY(-180deg); } }
+@media (prefers-reduced-motion: reduce) { .h2-card { transition: none; } .h2-flip:hover .h2-card { transform: none; } .h2-flip[aria-pressed="true"]:hover .h2-card { transform: rotateY(180deg); } }
 @media (max-width: 699px) {
   .h2-grid { grid-template-columns: 76px minmax(0, 1fr); gap: 16px; }
   .h2-flip { grid-row: 1; grid-column: 1; width: 76px; height: 76px; border-radius: 10px; align-self: start; margin-top: 4px; }
