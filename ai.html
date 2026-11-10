@@ -14,6 +14,7 @@
 <meta property="og:description" content="At work, at school and in what I build">
 <meta property="og:url" content="https://jason-traum.github.io/ai.html">
 <meta property="og:image" content="https://jason-traum.github.io/og.png">
+<meta property="og:image:alt" content="Jason Traum. In every job I&rsquo;ve had, I&rsquo;ve found something to build. Now I build with AI. Wharton MBA, 2028, Morgan Stanley, Guggenheim, Brown, with the case studies Dreamy, Walldrobe, Wharton OS and Morgan Stanley, over a strip of his chart palette.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#141619">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23275C90'/%3E%3Crect x='17' y='17' width='9' height='9' fill='%2339A174'/%3E%3Crect x='6' y='6' width='9' height='9' fill='none' stroke='%23FFFFFF' stroke-width='2'/%3E%3C/svg%3E">
@@ -21,8 +22,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Libre+Franklin:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap">
 <style>
-/* Chartbook: the page reads like one of my Morgan Stanley research reports, numbered exhibits with a takeaway title and a source line,
-   drawn in the chart palette I made there (MS Blue, Blue Razz, Jade, Amethyst, Carrot, Honey, Magenta, Cool Grey). */
+
 :root {
   --paper: #FFFFFF;
   --surface: #F2F4F7;
@@ -32,8 +32,8 @@
   --ink-strong: #000000;
   --rule: #D9DEE4;
   --rule-strong: #14212E;
-  --blue-soft: #275C90;          /* MS Blue: links, focus, the report band */
-  --signal: #39A174;         /* Jade: live marker */
+  --blue-soft: #275C90;          
+  --signal: #39A174;         
   --signal-ink: #FFFFFF;
   --frame: #1D232B;
   --mat: #EEF0F2;
@@ -53,7 +53,7 @@
 }
 :root {
   --paper: #141619; --surface: #1C1F23; --ink: #E7ECF1; --ink-2: #C8D0D8; --muted: #9AA5B2; --ink-strong: #FFFFFF; --gal-wall: #D8D2C8; --gal-floor: #8F7A64; --gal-base: #E6E1D9; --gal-wood: #5B4636; --gal-wood-2: #4B3A2D; --gal-person: #6F6A63; --gal-frame: #0B0C0E; --gal-mat: #F3F1EC; --gal-tape: #E9E0C6; --gal-leaf: #6E7D5C; --gal-books: #6B7480; --gal-bk-klein: #002FA7; --gal-bk-geo: #E9E0CC; --gal-bk-dyn: #1F2A44; --gal-bk-run: #3E6F52; --gal-bk-gilt: #C9A24B; --gal-bk-cream: #F1ECE0; --gal-bk-ink: #2B2A28; --gal-bk-ink-2: #857A66;
-  --rule: #2A2E33; --rule-strong: #B9C3CE; --blue-soft: #7FAEE0; /* Oct 9 rule: Blue Razz (--c-razz) for lines, dots, bars, underlines and outlines; this soft blue for blue text and anything with text on it */ --signal: #5CC495; --signal-ink: #141619;
+  --rule: #2A2E33; --rule-strong: #B9C3CE; --blue-soft: #7FAEE0;  --signal: #5CC495; --signal-ink: #141619;
   --frame: #06090D; --mat: #E6E9EC; --shot-border: #2A2E33;
   --c-msblue: #6FA0D6; --c-razz: #3296FE; --c-jade: #5CC495; --c-amethyst: #A593EC; --c-carrot: #E8834F; --c-honey: #E8AE2E; --c-magenta: #E56A9C; --c-grey: #A3A5AE;
   --k-build: #3296FE; --k-res: #5CC495;
@@ -64,8 +64,7 @@
 
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
-/* Nov 6 (Jason: "i hate how it flashes white everytime i change pages"): the page color sits on html too, so the
-   frame between pages and the page-change fade sit on dark, not the browser's white. Screen only, so print stays white. */
+
 @media screen { html { background: var(--paper); } }
 body {
   margin: 0;
@@ -78,7 +77,7 @@ body {
 img { max-width: 100%; height: auto; }
 [hidden] { display: none !important; }
 h1, h2, h3 { margin: 0; text-wrap: balance; }
-/* Nov 8 scan: h4s and ledes left one word alone on their last line (Unslop rule 16). */
+
 h4 { text-wrap: balance; }
 .lede { text-wrap: pretty; }
 p { margin: 0; }
@@ -99,7 +98,9 @@ a:hover { color: var(--blue-soft); text-decoration-thickness: 2px; }
   overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
 }
 .skip { position: absolute; left: -9999px; top: 8px; }
-.skip:focus { left: 16px; background: var(--paper); padding: 6px 10px; z-index: 10; }
+
+.skip:focus { position: fixed; left: 0; right: 0; top: 0; z-index: 100; display: flex; align-items: center; justify-content: center; box-sizing: border-box; min-height: 71px; padding: 0 16px; outline-offset: -6px; background: var(--paper); border-bottom: 1px solid var(--rule-strong); }
+@media (max-width: 767px) { .skip:focus { min-height: 136px; } }
 
 .page { max-width: 1120px; margin: 0 auto; padding-inline: 16px; }
 @media (min-width: 720px) { .page { padding-inline: 32px; } }
@@ -115,7 +116,7 @@ a:hover { color: var(--blue-soft); text-decoration-thickness: 2px; }
 }
 .note { font-size: 13.5px; line-height: 1.5; color: var(--muted); }
 
-/* Top bar */
+
 .topbar {
   display: flex;
   flex-wrap: wrap;
@@ -129,7 +130,7 @@ a:hover { color: var(--blue-soft); text-decoration-thickness: 2px; }
 .toplinks a { color: var(--ink-2); text-decoration: none; display: inline-block; padding-block: 12px; margin-block: -12px; }
 .toplinks a:hover { color: var(--blue-soft); text-decoration: underline; }
 
-/* Intro */
+
 .intro { padding-block: 36px 64px; }
 .name {
   font-family: var(--display);
@@ -172,11 +173,11 @@ button.copy {
 button.copy:hover { background: var(--ink); color: var(--paper); }
 @media (pointer: coarse) { button.copy, button.swap { min-height: 44px; } }
 
-/* Sections */
+
 .section { padding-block: 56px; border-top: 1px solid var(--rule); scroll-margin-top: 12px; }
 .sec-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 6px 16px; margin-bottom: 22px; }
 
-/* Project index table */
+
 .holdings { width: 100%; border-collapse: collapse; font-size: 15.5px; line-height: 1.45; }
 .holdings thead th {
   text-align: left;
@@ -210,7 +211,7 @@ button.copy:hover { background: var(--ink); color: var(--paper); }
   .holdings td.d { grid-column: 1 / -1; text-align: left; font-size: 12px; color: var(--muted); }
 }
 
-/* Project entries */
+
 .project { padding-block: 60px; border-top: 1px solid var(--rule); scroll-margin-top: 12px; }
 .p-head { display: grid; gap: 8px; margin-bottom: 26px; }
 .p-name {
@@ -230,7 +231,7 @@ button.copy:hover { background: var(--ink); color: var(--paper); }
 @media (max-width: 859px) { .p-meta dl { grid-template-columns: 1fr 1fr; gap: 13px 20px; } }
 .p-body { display: grid; gap: 14px; align-content: start; min-width: 0; }
 .p-body > p { max-width: 38em; }
-/* Oct 7: on phone and tablet, show the work sooner. Status, the first two paragraphs, then the pictures and the demo link, then the rest; the other details go last. */
+
 @media (max-width: 859px) {
   .p-grid { display: flex; flex-direction: column; gap: 14px; }
   .p-meta, .p-meta dl, .p-body { display: contents; }
@@ -253,7 +254,7 @@ button.copy:hover { background: var(--ink); color: var(--paper); }
 }
 .deep-link:hover { background: var(--ink); color: var(--paper); text-decoration: none; }
 
-/* Screenshots */
+
 .shots { margin: 14px 0 0; display: grid; gap: 18px; justify-items: center; }
 .shots figure { margin: 0; width: 100%; max-width: 300px; }
 .shots img { display: block; width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--shot-border); background: var(--surface); }
@@ -263,14 +264,14 @@ button.copy:hover { background: var(--ink); color: var(--paper); }
   .shots figure { max-width: none; }
 }
 
-/* Wharton OS wiring */
-/* Nov 8 refresh: the agents and skills read like the details column, in the body font, with no box or mono. */
+
+
 .wiring { margin: 10px 0 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 13px 28px; }
 .wiring dt { font-size: 13px; color: var(--muted); }
 .wiring dd { margin: 2px 0 0; font-size: 14.5px; line-height: 1.45; color: var(--ink-2); }
 @media (max-width: 699px) { .wiring { grid-template-columns: minmax(0, 1fr); } }
 
-/* Walldrobe wall */
+
 .wall-fig { margin: 14px 0 0; max-width: 720px; }
 .wall {
   position: relative;
@@ -342,7 +343,7 @@ button.swap {
 }
 button.swap:hover { background: var(--ink); color: var(--paper); }
 
-/* Smaller builds */
+
 .builds { list-style: none; padding: 0; margin: 0; }
 .builds li { display: grid; gap: 6px 48px; padding-block: 20px; border-top: 1px solid var(--rule); }
 .builds li:first-child { border-top: 0; padding-top: 0; }
@@ -351,7 +352,7 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .builds .when { display: block; margin-top: 3px; font-size: 13.5px; font-weight: 400; color: var(--muted); }
 .builds p { max-width: 38em; color: var(--ink-2); }
 
-/* Background */
+
 .career { width: 100%; border-collapse: collapse; font-size: 15.5px; line-height: 1.45; }
 .career th { text-align: left; font-weight: 400; }
 .career td, .career th { padding: 12px 18px 12px 0; border-bottom: 1px solid var(--rule); vertical-align: baseline; }
@@ -378,19 +379,19 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .photo-strip figcaption, .wd-concept figcaption { font-size: 13px; color: var(--muted); margin-top: 6px; }
 .wd-concept { margin: 28px 0 0; }
 .wd-concept img { display: block; width: 100%; height: auto; }
-/* Oct 7: DrinkDock render next to a silent loop of the real guest screen. The loop loads and plays only on screen. */
+
 .dd-pair-in { display: grid; grid-template-columns: minmax(0, 2.15fr) minmax(0, 1fr); gap: 12px; align-items: center; }
 .dd-pair video { display: block; width: 100%; height: auto; background: #0F1620; cursor: pointer; }
 @media (max-width: 559px) { .dd-pair-in { grid-template-columns: 1fr; } .dd-pair video { max-width: 280px; justify-self: center; } }
 .intro-side { display: grid; gap: 22px; align-content: start; }
 @media (max-width: 859px) { .intro-side { display: contents; } }
-/* Oct 7: on a phone the ask and the buttons come before the Morgan Stanley detail, so they fit on the first screen */
+
 @media (max-width: 859px) { .intro-body .hero-ms { order: 3; } .intro-body .contact-line { order: 4; } .intro-body .hero-ask { order: 1; } .intro-body .cta-row { order: 2; } .intro-body .lede { order: 0; } }
 .portrait { display: block; width: 100%; max-width: 240px; height: auto; }
 @media (max-width: 859px) { .portrait { width: 120px; } }
 .outside p { color: var(--ink-2); }
 
-/* Contact */
+
 .contact-big {
   display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px;
   font-family: var(--display); font-weight: 700;
@@ -411,7 +412,7 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
   html { scroll-behavior: auto; }
 }
 
-/* Palette before/after and testing sheet. Chart colors are print colors, so the panels stay light in both themes. */
+
 .palette-fig { margin: 16px 0 6px; max-width: 900px; display: grid; gap: 10px; }
 .pal-pair { display: grid; gap: 12px; }
 @media (min-width: 620px) { .pal-pair { grid-template-columns: 1fr 1fr; } }
@@ -431,7 +432,7 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 
 .pubs { margin-top: 22px; max-width: 46em; color: var(--ink-2); }
 
-/* ---------- Chartbook layer ---------- */
+
 .progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; background: var(--c-razz); transform-origin: 0 50%; transform: scaleX(var(--p, 0)); z-index: 50; pointer-events: none; }
 .name { font-weight: 900; letter-spacing: -0.04em; line-height: 0.9; font-size: clamp(3rem, 10vw, 7.4rem); }
 .name span { display: inline; }
@@ -443,15 +444,15 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .exhibit { padding-block: 56px; border-top: 1px solid var(--rule); }
 .exhibit > header { margin-bottom: 20px; }
 
-/* Project colors from the palette */
+
 #dreamy { --c: var(--c-msblue); } #drinkdock { --c: var(--c-amethyst); } #fivek { --c: var(--c-carrot); } #in { --c: var(--c-jade); }
 #wharton-os { --c: var(--c-honey); } #walldrobe { --c: var(--c-magenta); }
 .project { border-top: 1px solid var(--rule); position: relative; }
-/* (Oct 7) the short colored stripe over page titles is gone: it was decoration */
+
 .holdings td.p .sw2 { display: inline-block; width: 10px; height: 10px; margin-right: 9px; background: var(--c); vertical-align: 0; }
 .deep-link { border-color: var(--c, var(--ink)); }
 
-/* Exhibit 1: the build log */
+
 .log-wrap { display: grid; grid-template-columns: minmax(0, var(--w1, 21fr)) minmax(0, var(--w2, 18fr)); gap: 20px; }
 @media (max-width: 859px) { .log-wrap { grid-template-columns: minmax(0, 1fr); gap: 14px; } }
 .log { width: 100%; border-collapse: collapse; table-layout: fixed; }
@@ -459,7 +460,7 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .log thead th { text-align: left; height: 18px; vertical-align: bottom; }
 .log thead th:first-child, .log tbody th { width: 30px; text-align: left; }
 .log td { padding: 0; position: relative; }
-/* Oct 30 review: a day's details work on tap and with the keyboard, not only on mouse hover */
+
 .log td[tabindex] { cursor: pointer; }
 .log td[tabindex]:focus-visible, .log td.on { outline: 2px solid var(--ink); outline-offset: -1px; border-radius: 3px; }
 .log-tip { min-height: 1.5em; margin: 10px 0 0; font-size: 14px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
@@ -471,14 +472,14 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 
 .d-dreamy { background: var(--c-msblue); } .d-in { background: var(--c-jade); } .d-5k { background: var(--c-carrot); }
 .d-dd { background: var(--c-amethyst); } .d-wd { background: var(--c-magenta); } .d-other { background: var(--c-grey); } .d-ink { background: var(--ink-2); }
-/* Oct 30: a day on more than one thing is a split circle, one slice per thing, with a thin gap in the page color */
+
 .log td i.pie { background: none; overflow: visible; }
 .log td i.pie svg { display: block; width: 100%; height: 100%; overflow: visible; }
 .pie path { stroke: var(--paper); stroke-width: 0.12; stroke-linejoin: round; }
 .pie .d-dreamy { fill: var(--c-msblue); } .pie .d-in { fill: var(--c-jade); } .pie .d-5k { fill: var(--c-carrot); }
 .pie .d-dd { fill: var(--c-amethyst); } .pie .d-wd { fill: var(--c-magenta); } .pie .d-other { fill: var(--c-grey); }
 
-/* a ring around the day: honey for a race, ink for my first day at Wharton. A code dot, if any, sits inside it. */
+
 .log td.mark::after { content: ''; position: absolute; inset: 0; margin: auto; width: 74%; aspect-ratio: 1; border-radius: 50%; border: 2px solid var(--ring); box-sizing: border-box; pointer-events: none; }
 .log td.race { --ring: var(--c-honey); } .log td.first { --ring: var(--ink); }
 .log td.mark { cursor: help; }
@@ -488,9 +489,9 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .log-key i.chat { width: 8px; height: 8px; }
 .log-key.k2 { margin-top: -4px; color: var(--muted); }
 
-/* Oct 30 (Jason picked "two color families"): photo finder people (kept outside the skills block, which gen_skills.py rewrites), shades of Blue Razz, MS Blue and Jade from the palette band */
+
 :root { --pf-1: #3296FE; --pf-2: #5CC495; --pf-3: #B1D7FF; --pf-4: #287151; --pf-5: #2369B2; --pf-6: #B4DBCA; --pf-7: #7ABBFE; --pf-8: #39A174; --pf-9: #6FA0D6; --pf-10: #7EC2A5; --pf-11: #7395B7; }
-/* skills */
+
 :root { --k-msblue: #1B436D; --k-razz: #1F72D0; --k-jade: #23774F; --k-amethyst: #6450B8; --k-carrot: #B04A1C; --k-honey: #8A5E00; --k-magenta: #BF2C6E; --k-grey: #5B5A61; }
 :root { --k-msblue: #8DB4E6; --k-razz: #3296FE; --k-jade: #5CC495; --k-amethyst: #A593EC; --k-carrot: #E8834F; --k-honey: #E8AE2E; --k-magenta: #E56A9C; --k-grey: #A3A5AE; }
 .kcloud { position: relative; }
@@ -558,9 +559,9 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 @media (pointer: coarse) { .kchip, .kswitch { min-height: 44px; } }
 @media (prefers-reduced-motion: reduce) { .kcloud.placed { transition: none; } }
 @media (max-width: 699px) { .kcloud:not(.placed) .kgroup { justify-content: center; gap: 6px 14px; margin: 0 0 18px; } }
-/* /skills */
 
-/* See-it column and the demo link by the intro */
+
+
 .holdings td.d.see { font-family: inherit; font-size: 14px; }
 .cta { display: inline-flex; align-items: center; min-height: 40px; padding: 8px 14px; border-radius: 6px; background: var(--blue-soft); color: var(--paper); font-weight: 700; font-size: 14.5px; text-decoration: none; }
 .cta:hover { color: var(--paper); text-decoration: underline; }
@@ -570,7 +571,7 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .cta-row { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 10px; }
 .cta.cta-2 { background: none; color: var(--ink); box-shadow: inset 0 0 0 1px var(--rule-strong); }
 .cta.cta-2:hover { color: var(--ink); }
-/* the one line under my name (Oct 7, from a friend's review) */
+
 .tagline { margin: 14px 0 0; max-width: 30em; font-size: clamp(1.2rem, 2.3vw, 1.6rem); font-weight: 700; line-height: 1.3; letter-spacing: -0.015em; color: var(--ink); }
 .cta-row + .contact-line { margin-top: 12px; }
 
@@ -638,11 +639,11 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 #drinkdock .wd-concept img { border-radius: 10px; border: 1px solid var(--shot-border); }
 #drinkdock .wd-concept + .wd-concept { margin-top: 18px; }
 
-/* band */
+
 .band { margin: 40px 0 8px; }
 .band-strip { display: flex; height: 128px; border-radius: 6px; overflow: hidden; }
 .bs { -webkit-appearance: none; appearance: none; border-radius: 0; flex: var(--w) 1 0; min-width: 14px; border: 0; padding: 0; margin: 0; cursor: pointer; transition: flex-grow .3s ease; display: block; height: 100%; position: relative; background: none; }
-/* Safari lays out a button's children in its own inner box, so the four tints are positioned against the button itself. */
+
 .bs i { position: absolute; left: 0; right: 0; display: block; }
 .bs i:nth-child(1) { top: 0; height: 58%; } .bs i:nth-child(2) { top: 58%; height: 14%; } .bs i:nth-child(3) { top: 72%; height: 14%; } .bs i:nth-child(4) { top: 86%; bottom: 0; }
 .bs[aria-pressed="true"] { flex-grow: calc(var(--w) * 1.5 + 1); }
@@ -669,16 +670,16 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .pc.later .pn::after { content: ' (later)'; font-weight: 500; color: #6A705F; }
 .pcopy:focus-visible { outline: 2px solid #275C90; outline-offset: 2px; }
 .pcopy.copied .ph::after { content: '  copied'; color: #275C90; font-weight: 700; }
-/* /band */
 
-/* projects table blurbs */
+
+
 .holdings td.w { color: var(--ink); }
 .holdings .w-more { display: block; margin-top: 4px; color: var(--ink-2); font-size: 14.5px; line-height: 1.45; max-width: 44em; }
-/* project pages */
+
 .proj-top .toplinks a { white-space: nowrap; }
 .proj-more { padding-block: 40px 8px; border-top: 1px solid var(--rule); margin-top: 48px; }
 .proj-more a { font-weight: 600; }
-/* details sections */
+
 .deep { margin-top: 56px; padding-top: 36px; border-top: 1px solid var(--rule); }
 .feat { display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px 44px; padding-block: 28px; border-bottom: 1px solid var(--rule); }
 .feat-text { min-width: 0; }
@@ -698,17 +699,17 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .feat.wide .feat-fig { margin-top: 2px; }
 .feat-frame iframe { display: block; width: 100%; border: 1px solid var(--shot-border); border-radius: 12px; background: #141619; }
 .feat-frame.phone iframe { max-width: 420px; }
-/* /project pages */
 
-/* dreamy beta line */
+
+
 .beta-line { margin: 18px 0 6px; padding: 14px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); font-size: 1.15rem; line-height: 1.45; color: var(--ink); max-width: 36em; }
 .beta-line strong { font-weight: 700; color: var(--c-msblue); }
 
-/* Dreamy button: MS Blue, filled on hover. */
+
 .deep-link.dd-cta { margin-top: 10px; border: 2px solid var(--c-msblue); }
 .deep-link.dd-cta:hover { background: var(--c-msblue); border-color: var(--c-msblue); color: var(--paper); }
 
-/* walldrobe page */
+
 .wd-hero, .ufc-hero { margin: 10px 0 0; }
 .wd-hero img, .wd-wide img, .ufc-hero img { display: block; width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--shot-border); background: var(--surface); }
 .wd-hero figcaption, .ufc-hero figcaption { margin-top: 8px; font-size: 13.5px; color: var(--muted); }
@@ -736,9 +737,9 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .deep-link.wd-cta:hover { background: var(--c-magenta); border-color: var(--c-magenta); color: var(--paper); }
 .wd-desk { margin-top: 26px; }
 .wd-desk figcaption { margin-top: 8px; font-size: 13.5px; color: var(--muted); }
-/* /walldrobe page */
 
-/* cv: where I've been, right under the name */
+
+
 .cv { list-style: none; margin: 22px 0 10px; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 20px; }
 @media (min-width: 900px) { .cv { grid-template-columns: repeat(2, minmax(0, 340px)); gap: 18px 32px; } }
 .cv li { border-top: 2px solid var(--c-msblue); padding-top: 8px; display: grid; gap: 2px; align-content: start; }
@@ -748,14 +749,13 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .cv-role { font-size: 14px; line-height: 1.4; color: var(--ink-2); }
 .cv-more { font-size: 14.5px; color: var(--muted); margin: 0 0 30px; max-width: 46em; }
 .lede b { font-weight: 700; color: var(--ink); }
-/* a result, in bold white: at most one per paragraph, never in a heading */
+
 strong.res { font-weight: 700; color: var(--ink-strong); }
 
-/* the ending: what I want, then one action */
+
 .ending { font-size: clamp(20px, 2.4vw, 26px); line-height: 1.4; text-wrap: pretty; color: var(--ink); max-width: 30em; margin: 0 0 22px; letter-spacing: -0.01em; }
 
-/* Exhibit 1, the path: my story down the left, and a picture of each thing I made at the stop where I made it.
-   Only things I made go here; evidence lives on the chapter pages. Color is the kind of work (key under the title). */
+
 .kinds { display: flex; flex-wrap: wrap; gap: 6px 22px; margin: 12px 0 0; font-size: 14px; line-height: 1.4; color: var(--ink-2); }
 .kinds span { display: inline-flex; align-items: center; gap: 8px; color: var(--ink); }
 .kinds a { display: inline-flex; align-items: center; gap: 8px; color: var(--ink); text-decoration-color: var(--rule-strong); text-underline-offset: 3px; }
@@ -772,7 +772,7 @@ strong.res { font-weight: 700; color: var(--ink-strong); }
 span.sn .st { text-decoration: none; }
 a.sn:hover .st { text-decoration-color: var(--c-razz); }
 a.sn:hover .dot { background: var(--c-razz); }
-/* Oct 7: the path draws itself as you scroll, top to bottom, in time order. Without JS or with reduced motion it is simply drawn. */
+
 .path.drawing .stop:not(.end)::before { content: ''; position: absolute; left: 11px; top: 12px; width: 3px; height: 100%; background: var(--rule); }
 .path.drawing .stop:not(.end)::after { transform: scaleY(var(--fill, 0)); transform-origin: top; }
 .path.drawing .sn .dot { border-color: var(--rule); transition: border-color .3s ease, background-color .3s ease; }
@@ -809,13 +809,13 @@ a.sn:hover .dot { background: var(--c-razz); }
   .tiles img, .tiles .pal { width: 100%; height: auto; aspect-ratio: 4 / 3; }
 }
 
-/* Read it in order: a book's contents page. Number, chapter, a dotted leader to the arrow, and one line on what's in it. */
 
-/* stop pages: the job, then what I made there, with long stories folded */
+
+
 .stop-h { font-size: clamp(1.25rem, 2.4vw, 1.6rem); font-weight: 800; letter-spacing: -0.015em; line-height: 1.2; margin: 0 0 8px; }
 .made-h { font-size: 19px; font-weight: 800; letter-spacing: -0.01em; margin: 40px 0 6px; }
 .made-lead { max-width: 40em; color: var(--ink-2); margin: 0 0 14px; }
-/* Oct 8: the takeaway of each thing I made, in bold so a skim still gets the so-what */
+
 .tk { color: var(--ink); font-weight: 700; }
 details.more { margin: 10px 0 0; max-width: 46em; }
 details.more > summary { cursor: pointer; display: inline-block; font-size: 15px; font-weight: 600; color: var(--ink); padding: 4px 0; list-style: none; text-decoration: underline; text-decoration-color: var(--rule-strong); text-underline-offset: 4px; }
@@ -833,7 +833,7 @@ details.more[open] > summary { margin-bottom: 10px; }
 .b-name { font-size: 20px; font-weight: 800; letter-spacing: -0.01em; line-height: 1.2; }
 .rbig a:hover .b-name { text-decoration: underline; text-decoration-color: var(--k-build); text-underline-offset: 4px; }
 .b-line { font-size: 15px; line-height: 1.45; color: var(--ink-2); }
-/* Research and strategy: big pictures, then report covers */
+
 .rtiles { padding-top: 24px; }
 .rbig { list-style: none; margin: 0 0 8px; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
 .rbig a { display: flex; flex-direction: column; gap: 6px; text-decoration: none; color: var(--ink); }
@@ -841,7 +841,7 @@ details.more[open] > summary { margin-bottom: 10px; }
 .rbig .pal b { display: flex; flex-direction: column; }
 .rbig a:hover img, .rbig a:hover .pal { border-color: var(--k-res); }
 .made-sub { margin: 0 0 14px; color: var(--ink-2); }
-/* public reports as citations: title, where and when, my part. Real covers replace this once Jason sends the PDFs. */
+
 .reports { list-style: none; margin: 0 0 40px; padding: 0; border-top: 1px solid var(--rule); }
 .reports li { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 3fr) minmax(0, 3fr); gap: 4px 24px; padding: 12px 0; border-bottom: 1px solid var(--rule); align-items: baseline; }
 .reports a { font-weight: 700; color: var(--ink); text-decoration: underline; text-decoration-color: var(--rule-strong); text-underline-offset: 3px; }
@@ -855,13 +855,9 @@ details.more[open] > summary { margin-bottom: 10px; }
   .reports li { grid-template-columns: minmax(0, 1fr); }
 }
 
-/* "Get in touch" lands with the contact info at the top of the screen, not stuck at the bottom of the page.
-   Nov 8: the Antelao drawing under the footer now does that job. start.js sizes .endroom so the last screen runs
-   from the email to the bottom of the drawing (Jason: "look at the size of the window and select the appropriate
-   amount of buffer so this starts with jtraum@wharton.upenn.edu"), so #contact needs no height of its own. */
+
 #contact { padding-bottom: 8px; }
-/* His own photo of Antelao (Dolomites, Oct 13), redrawn in one ink by tools/endscape.py. The sky is the page
-   color, so the mountains rise straight out of the page. A taller crop on phones. Decorative, so no alt text. */
+
 .endroom { height: var(--end-h, auto); overflow: hidden; }
 .endroom picture { display: block; height: 100%; }
 .endscape { display: block; width: 100%; height: 100%; aspect-ratio: 2800 / 1118; object-fit: cover; object-position: 44% 100%;
@@ -869,7 +865,7 @@ details.more[open] > summary { margin-bottom: 10px; }
 @media (max-width: 699px) { .endscape { aspect-ratio: 4 / 5; object-position: 50% 100%; } }
 @media print { .endroom { display: none; } }
 
-/* Public reports as covers (Oct 7, carried over from Oct 6: "More pictures that link, fewer words") */
+
 ul.reports { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 18px; border: 0; }
 ul.reports li { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 8px 24px; align-items: center; padding: 0; border: 0; }
 .r-pic img { display: block; width: 100%; height: auto; border: 1px solid var(--rule); background: #fff; }
@@ -879,7 +875,7 @@ ul.reports li { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap:
 @media (max-width: 599px) { ul.reports li { grid-template-columns: minmax(0, 1fr); } }
 #dd-more { margin-top: 20px; }
 
-/* Analytics package before and after (Jason's outline, Oct 6) */
+
 .flow { margin: 22px 0 6px; max-width: 760px; display: grid; gap: 14px; }
 .flow-row { display: grid; grid-template-columns: 13em minmax(0, 1fr); gap: 6px 16px; align-items: center; }
 .flow-lab { font-size: 15px; line-height: 1.3; }
@@ -901,14 +897,14 @@ ul.reports li { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap:
 .flow.grow.in .flow-row + .flow-row .flow-bar { transition-delay: .25s; }
 @media (max-width: 599px) { .flow-row { grid-template-columns: minmax(0, 1fr); } }
 
-/* About me: rows of pictures at one height each, never stretched (Oct 7) */
+
 @media (min-width: 700px) {
   #outside .photo-strip { max-width: none; flex-wrap: nowrap; gap: 12px; }
   #outside .photo-strip figure { flex: var(--ar) 1 0; }
 }
 #outside .photo-strip + .photo-strip { margin-top: 14px; }
 
-/* About me: one wall of paintings and photos you can filter, sort by color, and open big (Oct 7) */
+
 .pw { margin-top: 30px; }
 .pw-bar { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: space-between; margin-bottom: 16px; }
 .pw-seg { display: inline-flex; flex-wrap: wrap; border: 1px solid var(--rule); }
@@ -944,7 +940,7 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
 .pw-box .wb-x { position: absolute; top: 12px; right: 16px; font-size: 15px; text-decoration: underline; text-underline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) { .pw-b img { transition: none; } }
 
-/* Strategy sim: the result in bold, and the questions I asked (Oct 7) */
+
 .sim-win { font-size: 19px; line-height: 1.45; color: var(--ink); max-width: 38em; margin: 14px 0 6px; }
 .sim-win strong { font-weight: 700; }
 #pivot .made-h { margin: 34px 0 8px; }
@@ -952,7 +948,7 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
 .sim-qs li { display: grid; gap: 4px; }
 .sim-qs q { font-weight: 700; color: var(--ink); quotes: "\201C" "\201D"; }
 .sim-qs span { color: var(--ink-2); }
-/* Oct 7: the questions read like the overrules on How I use AI: the question big, what happened small */
+
 .sim-qs { gap: 30px 48px; max-width: none; margin-top: 14px; }
 @media (min-width: 820px) { .sim-qs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .sim-qs li { gap: 8px; border-top: 1px solid var(--rule); padding-top: 14px; align-content: start; }
@@ -961,14 +957,13 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
 .work-lede { max-width: 30em; margin: 0 0 14px; font-size: clamp(1.15rem, 2vw, 1.4rem); line-height: 1.4; letter-spacing: -0.01em; color: var(--ink); }
 @media (min-width: 820px) { .highlights.two-up { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 48px; max-width: none; } }
 
-/* Your name: big on Start, and it glides to the top left when you open another page (Oct 7) */
+
 @view-transition { navigation: auto; }
 .name { view-transition-name: jt-name; }
 .topbar .label:not(.tb-name) a { view-transition-name: jt-name; display: inline-block; }
 .topbar .tb-name { opacity: 0; pointer-events: none; transition: opacity .25s ease; }
 .topbar .tb-name.on { opacity: 1; pointer-events: auto; }
-/* Oct 8 (Jason: "a bit janky"): the small and big name now share weight and tracking, and each snapshot keeps its own
-   shape (height 100%, width auto) instead of being stretched to the other's box, so the morph is a clean scale. */
+
 .topbar .label a { font-weight: 800; letter-spacing: -0.02em; line-height: 0.92; }
 .name { width: fit-content; }
 ::view-transition-group(jt-name) { animation-duration: .42s; animation-timing-function: cubic-bezier(.4,0,.2,1); }
@@ -976,9 +971,9 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
 ::view-transition-old(root), ::view-transition-new(root) { animation-duration: .3s; }
 @media (prefers-reduced-motion: reduce) { ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; } }
 
-/* Things I've built: one project per row until there's room for two (Astra review, Oct 7: at 768px the text got 110px) */
 
-/* Running: six races drawn like Strava posts, route from his Strava (Oct 7) */
+
+
 .run-lede { color: var(--ink-2); max-width: 40em; margin: 8px 0 20px; }
 .rps { list-style: none; margin: 0; padding: 4px 2px 18px; display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: thin; }
 .rps:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
@@ -1016,9 +1011,7 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
 .rbig-one { grid-template-columns: minmax(0, 520px); margin-top: 22px; }
 .rp-later { margin: 6px 0 0; font-size: 13.5px; color: #6D6D78; font-style: italic; }
 
-/* Oct 7, divider cleanup (Astra's review, Jason's go): rules only where they help you read across rows.
-   Kept: one faint line under the nav, one before the next page or footer, table and dense-list rows,
-   chart axes, timeline connectors, link underlines. Everything below loses its line; spacing stays. */
+
 .section, .exhibit, .project, .deep { border-top: 0; }
 .feat { border-bottom: 0; }
 .src { border-top: 0; padding-top: 0; }
@@ -1029,14 +1022,14 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
 @media (max-width: 859px) { .p-meta dl > div:nth-child(2) { border-top: 0; padding-top: 0; } }
 body:has(.pager) .colophon, body:has(.proj-more) .colophon { border-top: 0; }
 
-/* Oct 7: things to play with (IDEAS.md). They add no words: the room's caption is paid for on About me. */
-/* The room: rehang my paintings. One of them won't stay straight. */
+
+
 .gal { margin: 26px 0 34px; }
 .gal-room { position: relative; aspect-ratio: 1000 / 560; overflow: hidden; border-radius: 8px; background: var(--gal-wall); user-select: none; -webkit-user-select: none; }
 .gal-bg { position: absolute; inset: 0; width: 100%; height: 100%; }
 .gal-wall { fill: var(--gal-wall); } .gal-floor { fill: var(--gal-floor); } .gal-base { fill: var(--gal-base); }
 .gal-cred rect { fill: var(--gal-wood); } .gal-cred-line rect { fill: var(--gal-wood-2); } .gal-vase path { fill: var(--gal-mat); opacity: .85; } .gal-vase .stem { fill: none; stroke: var(--gal-leaf); stroke-width: 3; stroke-linecap: round; opacity: 1; } .gal-books rect { fill: var(--gal-books); }
-/* books on the credenza (tools/gen_books.py) */
+
 .gal-books .bk-klein .sp { fill: var(--gal-bk-klein); } .gal-books .bk-geo .sp { fill: var(--gal-bk-geo); } .gal-books .bk-dyn .sp { fill: var(--gal-bk-dyn); } .gal-books .bk-run .sp { fill: var(--gal-bk-run); }
 .gal-books .bd { fill: var(--gal-bk-gilt); opacity: .7; } .gal-books .bk-klein .bd { opacity: 0; } .gal-books .bk-geo .bd { fill: var(--gal-bk-ink-2); opacity: .5; }
 .gal-books .sh { fill: url(#bk-round); }
@@ -1046,7 +1039,7 @@ body:has(.pager) .colophon, body:has(.proj-more) .colophon { border-top: 0; }
   border: 3px solid var(--gal-frame); background: var(--gal-frame); box-shadow: 0 6px 14px rgba(0, 0, 0, .45); cursor: grab; touch-action: none;
   transform: rotate(var(--rot, 0deg)); transition: transform .55s cubic-bezier(.3, 1.5, .5, 1); z-index: 2; }
 .gal-p img { display: block; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
-/* Oct 8 (Astra): on a phone the smallest frames are about 19 by 15px, so each one gets an invisible margin to grab. */
+
 @media (max-width: 700px) { .gal-p::after { content: ''; position: absolute; inset: -9px; } }
 .gal-p.gal-mat { border-width: 2px; padding: calc(var(--w) * .07 * 1%); background: var(--gal-mat); aspect-ratio: auto; height: auto; }
 .gal-p.gal-mat img { height: auto; aspect-ratio: var(--ar); }
@@ -1055,12 +1048,11 @@ body:has(.pager) .colophon, body:has(.proj-more) .colophon { border-top: 0; }
 .gal-crooked { --rot: 3.4deg; transition: transform 1.1s cubic-bezier(.6, 0, .9, .4); }
 .gal-crooked.straight { --rot: 0deg; transition: transform .4s cubic-bezier(.3, 1.5, .5, 1); }
 .gal-tape { position: absolute; top: -9%; left: 30%; width: 40%; height: 13%; background: var(--gal-tape); opacity: .85; transform: rotate(-8deg); }
-/* Oct 7: walls from the real Walldrobe engine. Sizes are the engine's frame outsides; one thin black frame for all,
-   its 0.75 in moulding (--b, % of room width); a mat only where the engine put one (--m). Padding % is of the room's width. */
+
 .gal-p.gal-wd { height: calc(var(--h) * 1%); aspect-ratio: auto; border: 0; padding: calc(var(--b) * 1%); background: var(--gal-frame); }
 .gal-wd .gal-m { display: block; width: 100%; height: 100%; padding: calc(var(--m) / var(--w) * 100%); background: var(--gal-mat); }
 .gal-wd img { width: 100%; height: 100%; object-fit: cover; }
-/* Oct 7: more frame styles so the wall reads like a real salon wall. */
+
 .gal-p.gal-wood { border: clamp(3px, .55vw, 7px) solid var(--gal-wood); background: var(--gal-wood); }
 .gal-p.gal-thin { border-width: 1px; }
 .gal-p.gal-white { border: clamp(2px, .4vw, 5px) solid var(--gal-mat); background: var(--gal-mat); }
@@ -1082,7 +1074,7 @@ body:has(.pager) .colophon, body:has(.proj-more) .colophon { border-top: 0; }
 .gal-why { color: var(--ink-2); }
 @media (prefers-reduced-motion: reduce) { .gal-p, .gal-crooked, .gal-person { transition: none; } .gal-person.walk { animation: none; } }
 
-/* Bad taste: the same data, every chart crime at once */
+
 .pal-c { position: relative; }
 .tube { position: absolute; top: 8px; right: 8px; width: 32px; height: 32px; padding: 5px; border: 0; border-radius: 6px; background: transparent; color: #6B6A72; cursor: pointer; z-index: 2; }
 .tube:hover, .tube[aria-pressed="true"] { color: #BF2C6E; }
@@ -1101,20 +1093,19 @@ body:has(.pager) .colophon, body:has(.proj-more) .colophon { border-top: 0; }
 .pal-c.awful .sw { flex-direction: row-reverse; transform: rotate(2deg); }
 .pal-c.awful .sw li:nth-child(odd) i { background: #00FF66 !important; } .pal-c.awful .sw li:nth-child(even) i { background: #FF00CC !important; }
 @media (prefers-reduced-motion: reduce) { .pal-c svg, .pal-c .sw, .pal-c .pal-h { transition: none; } }
-/* Oct 7: internal reports, no links or pictures: a plain three-column list. */
+
 ul.reports.r-int { gap: 0; border-top: 1px solid var(--rule); }
 ul.reports.r-int li { grid-template-columns: minmax(0, 5fr) minmax(0, 3fr) minmax(0, 4fr); align-items: baseline; padding: 12px 0; border-bottom: 1px solid var(--rule); }
 ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
 @media (max-width: 699px) { ul.reports.r-int li { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
 
-/* Nov 6 to 7: any picture link with data-full opens full screen (How I use AI, Wharton OS; Jason: "let them full screen").
-   A small corner mark says the picture opens. The viewer itself is src/viewer.js. */
+
 a[data-full] { position: relative; display: block; cursor: zoom-in; border-radius: 6px; }
 a[data-full]::before, a[data-full]::after { content: ""; position: absolute; right: 6px; bottom: 6px; width: 22px; height: 22px; border-radius: 6px; pointer-events: none; }
 a[data-full]::before { background: var(--frame); opacity: 0.82; }
 a[data-full]::after { background: var(--mat); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7'/%3E%3C/svg%3E") center / 13px no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7'/%3E%3C/svg%3E") center / 13px no-repeat; }
 a[data-full]:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
-.feat-fig.phone a[data-full] { width: fit-content; max-width: 100%; }  /* Nov 8: the corner mark sits on the phone shot, not the empty space beside it */
+.feat-fig.phone a[data-full] { width: fit-content; max-width: 100%; }  
 @media (max-width: 480px) { a[data-full]::before, a[data-full]::after { right: 4px; bottom: 4px; width: 20px; height: 20px; } }
 dialog.lb[open] { animation: lb-in 160ms ease-out; }
 @keyframes lb-in { from { opacity: 0; } to { opacity: 1; } }
@@ -1128,8 +1119,7 @@ html.lb-open { overflow: hidden; }
 @media (max-width: 699px) { dialog.lb[open] { grid-template-columns: 36px minmax(0, 1fr) 36px; } .lb .wb-prev, .lb .wb-next { padding: 0 4px; font-size: 36px; } }
 @media (prefers-reduced-motion: reduce) { dialog.lb[open] { animation: none; } }
 
-/* Nov 7 (Jason: "add a few views to my website like this... maybe 100 of kosher things i can have popup"): the live
-   vault graph on the Wharton OS page (src/vaultgraph.js). Dots in the palette, one card at a time, no soft shadows. */
+
 .vg { margin: 10px 0 40px; }
 .vg-top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; margin-bottom: 14px; }
 .vg-h { margin: 0; font-size: clamp(1.7rem, 3.6vw, 2.6rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; }
@@ -1170,13 +1160,13 @@ html.lb-open { overflow: hidden; }
 @media (max-width: 520px) { .vg-find { width: 100%; } .vg-mode button { padding: 0 12px; } }
 @media (prefers-reduced-motion: reduce) { .vg-card, .vg-mode button, .vg-zoom button { transition: none; } }
 
-/* Nov 7: Wharton OS in two zones (how I learn with it, why I can trust it), the "give it zones" fix. */
+
 .zone { margin-top: 72px; }
 .zone-h { margin: 0 0 6px; font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; letter-spacing: -0.025em; line-height: 1.1; }
 .zone .deep { margin-top: 0; padding-top: 0; }
 .zone .feat { padding-block: 18px; }
 @media (max-width: 699px) { .zone { margin-top: 52px; } }
-/* Nov 8 refresh: the graph leads the page; zones use the full width (two columns, or a wide lead row and three columns). */
+
 .project > .vg { margin: 28px 0 44px; }
 .project > .vg .vg-h { font-size: 1.15rem; letter-spacing: -0.01em; }
 @media (min-width: 860px) {
@@ -1189,11 +1179,17 @@ html.lb-open { overflow: hidden; }
 }
 .check-line { margin: 0; font-size: clamp(1.3rem, 2.6vw, 2rem); font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; color: var(--ink); }
 .check-line .num { font-variant-numeric: tabular-nums; }
-/* Nov 7 (Jason: "also incldue both sides of my cheet sheet"): both pages side by side, stacked on a phone; each opens full screen. */
+
 .cheat-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
 @media (max-width: 699px) { .cheat-pair { gap: 8px; } }
 
-/* end of page: previous small, next as the last big line */
+
+.sum-h { display: inline; margin: 0; font: inherit; letter-spacing: inherit; color: inherit; text-wrap: inherit; }
+
+.flow + p { max-width: 40em; margin-top: 20px; }
+ul + table.career { margin-top: 22px; }
+
+
 .pager { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px 40px; margin: 72px 0 8px; padding-top: 22px; border-top: 1px solid var(--rule); }
 .pager a { text-decoration: none; color: inherit; }
 .pg-prev { font-size: 15px; color: var(--ink-2, inherit); }
@@ -1208,7 +1204,7 @@ html.lb-open { overflow: hidden; }
 .pager a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; border-radius: 4px; }
 @media (max-width: 560px) { .pager { flex-direction: column-reverse; align-items: stretch; } .pg-next { align-items: flex-start; text-align: left; margin-left: 0; } }
 
-/* route bar: the stops of the site in order. Filled dot = you've been there, ring = you are here. */
+
 .route-nav { margin: 0; }
 .route-nav ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 0; }
 .route-nav li { position: relative; display: flex; align-items: center; }
@@ -1220,7 +1216,7 @@ html.lb-open { overflow: hidden; }
 .route-nav li.here a { color: var(--ink, #E7ECF1); font-weight: 700; }
 .route-nav li.here i { background: var(--pc); box-shadow: 0 0 0 3px color-mix(in srgb, var(--pc) 30%, transparent); }
 .route-nav li.here a { text-decoration: underline; text-decoration-color: var(--pc); text-decoration-thickness: 2px; text-underline-offset: 6px; }
-/* Oct 30: plain links, like the wireframe Jason pointed at; the current page keeps its colored underline */
+
 .route-nav ol { gap: 4px 22px; }
 .route-nav li + li::before { content: none; }
 .route-nav i { display: none; }
@@ -1232,7 +1228,7 @@ html.lb-open { overflow: hidden; }
   .route-nav a { padding: 8px 0; font-size: 13.5px; gap: 6px; min-height: 36px; }
   .route-nav i { width: 8px; height: 8px; }
 }
-/* Ported from option-b-mock src/pages/ai.css (Oct 24): the dive-in and the photo finder. */
+
 .dive { padding: 40px 0; }
 .dive-js .dive { display: none; }
 .dive-js .dive.open { display: block; position: fixed; inset: 0; z-index: 60; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; background: var(--paper); padding: 0 max(20px, env(safe-area-inset-right)) 64px max(20px, env(safe-area-inset-left)); outline: none; }
@@ -1360,11 +1356,11 @@ html.lb-open { overflow: hidden; }
 .dv-next a::after { content: '\00a0\2192'; }
 .dv-esc { display: none; }
 @media (hover: hover) and (min-width: 980px) { .dive-js .dv-esc { display: inline; margin-left: 4px; color: var(--muted); font-weight: 500; } }
-/* Start, built out (Oct 30, gen_start.py): the case studies, the day with AI, outside work, and the Morgan Stanley case study. */
+
 .tagline.creds { font-size: clamp(1rem, 1.8vw, 1.2rem); font-weight: 600; color: var(--ink-2); letter-spacing: 0; }
 .intro-body .hero-ask { color: var(--ink); font-size: 1.12rem; }
 
-/* the case studies */
+
 .case-list { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 16px; }
 @media (min-width: 760px) { .case-list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .case { display: grid; grid-template-rows: auto auto 1fr; gap: 6px; height: 100%; padding: 0 0 18px; border-radius: 12px; background: var(--surface); border: 1px solid var(--rule); color: var(--ink); text-decoration: none; overflow: hidden; }
@@ -1376,7 +1372,7 @@ html.lb-open { overflow: hidden; }
 .case-h::after { content: '\00a0\2192'; color: var(--muted); }
 .case-l { padding: 0 18px; color: var(--ink-2); font-size: 15.5px; line-height: 1.5; text-wrap: pretty; }
 
-/* the Morgan Stanley graphic, small and big, drawn with tokens */
+
 .msg, .msbig svg { font-family: var(--body); }
 .g-t text { fill: var(--ink-2); font-size: 11px; }
 .g-lg text { font-size: 16px; }
@@ -1391,13 +1387,13 @@ html.lb-open { overflow: hidden; }
 .g-pg2 { fill: var(--rule); stroke: var(--muted); stroke-width: 1; }
 .g-a { fill: var(--c-msblue); } .g-r { fill: var(--c-grey); }
 
-/* the day */
+
 .d-tog { display: none; }
 .start-js .d-tog { display: inline-flex; gap: 4px; padding: 4px; margin: 18px 0 0; border-radius: 999px; background: var(--surface); border: 1px solid var(--rule); }
 .d-tog button { appearance: none; font: inherit; font-size: 15px; font-weight: 700; min-height: 40px; padding: 0 16px; border: 0; border-radius: 999px; background: none; color: var(--ink-2); cursor: pointer; }
 .d-tog button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
 .d-tog button:focus-visible { outline: 2px solid var(--c-razz); outline-offset: 2px; }
-/* Oct 30: two timed stories, one per place (Kelly and Jason's read-through) */
+
 .d-colh { margin: 22px 0 0; font-size: 15px; font-weight: 700; color: var(--ink); }
 .start-js .d-colh { display: none; }
 .d-line { list-style: none; margin: 12px 0 0; padding: 0; }
@@ -1432,7 +1428,7 @@ html.lb-open { overflow: hidden; }
   .start-js .d-line { margin-top: 12px; }
 }
 
-/* outside work */
+
 .out-strip { list-style: none; margin: 22px 0 0; padding: 0; display: flex; gap: 10px; }
 .out-strip li { min-width: 0; }
 .out-strip img { display: block; width: 100%; height: auto; border-radius: 8px; }
@@ -1444,7 +1440,7 @@ html.lb-open { overflow: hidden; }
 }
 .d-more { margin: 10px 0 0; }
 
-/* the Morgan Stanley case study */
+
 .msbig { margin: 8px 0 34px; padding: 22px; border-radius: 12px; background: var(--surface); border: 1px solid var(--rule); }
 .msbig svg { display: block; width: 100%; height: auto; }
 .msbig .flow { margin: 22px 0 0; max-width: none; }
@@ -1468,24 +1464,23 @@ html.lb-open { overflow: hidden; }
 .intro-body { align-content: start; }
 .cta-row { align-items: flex-start; }
 .d-map img { max-height: 280px; object-position: center top; aspect-ratio: 1000 / 800; }
-/* Oct 30: the photo finder screenshot shows whole, never cropped by the map's height cap */
+
 .d-map.d-shot img, .d-shot img { max-height: none; aspect-ratio: auto; object-fit: contain; }
 
 
-/* Oct 30, after Jason pointed at the wireframe ("You don't think this is cleaner? You just made it"): Start matches it.
-   The hero is the name, credentials and one row of buttons and links, with the photo on the right. */
+
 .hero2 { padding-block: 40px 28px; }
 .h2-grid { display: grid; grid-template-columns: minmax(0, 1fr) 210px; gap: 44px; align-items: center; }
 .hero2 .name { font-size: clamp(2.8rem, 6.4vw, 4.6rem); line-height: 0.95; margin: 0; }
 .hero2 .tagline.creds { margin-top: 14px; }
-/* Oct 30, Jason picked the top line: what I do, in my words; the ask stays at the bottom */
+
 .hero2 .h2-line { margin-top: 16px; max-width: 26em; font-size: clamp(1.15rem, 2.1vw, 1.45rem); font-weight: 600; line-height: 1.35; color: var(--ink); }
 .hero2 .h2-line a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 4px; }
 .hero2 .cta-row { margin-top: 24px; align-items: center; gap: 10px 12px; }
 .hero2 .cta { border-radius: 999px; padding: 8px 18px; }
 .h2-l { font-size: 14.5px; font-weight: 600; margin-left: 4px; }
 .h2-photo { display: block; width: 210px; height: 210px; object-fit: cover; object-position: center 30%; border-radius: 14px; }
-/* Nov 9, Jason: the photo flips to his self-portrait (click or tap; a small tilt on hover says it moves) */
+
 .h2-flip { appearance: none; background: none; border: 0; padding: 0; margin: 0; display: block; position: relative; width: 210px; height: 210px; border-radius: 14px; cursor: pointer; perspective: 900px; }
 .h2-face { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden; transition: transform .65s cubic-bezier(.2,.7,.2,1); }
 .h2-face .h2-photo { width: 100%; height: 100%; border-radius: 0; }
@@ -1506,41 +1501,41 @@ html.lb-open { overflow: hidden; }
   .hero2 .tagline.creds { margin-top: 0; }
   .hero2 .cta-row { margin-top: 4px; }
 }
-/* the palette as a thin line under the hero; its story lives on Research */
+
 #band { margin: 6px 0 0; }
 #band .band-strip { height: 6px; border-radius: 3px; pointer-events: none; }
 #band .band-strip .bs { pointer-events: none; }
-/* Oct 30, Jason: "just do the full color no more scale here.. it looks weird otherwise": in the thin strip each stripe
-   is its one full color (no tints under it), and the first stripe doesn't grow as if it were picked */
+
 #band .bs i { display: none; }
 #band .bs i:first-child { display: block; top: 0; bottom: 0; height: auto; }
 #band .bs[aria-pressed="true"] { flex-grow: var(--w); }
 #band figcaption { display: none; }
-/* case studies: pictures, no boxes */
+
 .case { padding: 0; border: 0; background: none; border-radius: 0; gap: 8px; overflow: visible; }
 .case:hover { border: 0; }
 .case-pic { border-radius: 12px; border: 1px solid var(--rule); margin-bottom: 6px; }
 .case:hover .case-pic { border-color: var(--rule-strong); }
 .case-h, .case-l { padding: 0; }
 .case-h::after { content: none; }
-/* Oct 30, Kelly via Jason: "Put the Morgan Stanley above the picture" (phone). One column: name, then picture, then line,
-   with more room between cases so the next picture doesn't read as part of the case above it. */
+
 @media (max-width: 759px) { .case-h { order: -1; } .case-list { gap: 34px; } }
-/* Oct 30, Jason: four cases, "2x2 will look better on the phone". Two columns at every width; on a phone the name
-   stays above the picture and the line is a step smaller so the narrow column doesn't run long. */
+
 .case-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px 20px; }
 @media (max-width: 759px) { .case-list { gap: 26px 12px; } .case-h { font-size: 1.02rem; } .case-l { font-size: 14px; line-height: 1.45; } .case-pic { border-radius: 10px; } }
-/* the day: each story has its times on the left and a thin spine between the times and the moments */
+
 .d-line { position: relative; }
 .d-line::before { content: ''; position: absolute; left: 83px; top: 6px; bottom: 6px; width: 1px; background: var(--rule-strong); opacity: .35; }
 .d-item { border-top: 0; padding: 14px 0 20px; }
 .d-item:last-child { border-bottom: 0; }
 .d-t { color: var(--c-msblue); font-size: 13.5px; }
-/* the path map across the page on a laptop: stops on one line, the things I built under each */
+
 @media (min-width: 1000px) {
   #path .work-note, #path .kinds { display: none; }
+  
+  #path .sb-list a { grid-template-columns: 0 minmax(0, 1fr); column-gap: 0; }
+  #path .sb-list a > i { visibility: hidden; width: 0; }
   #path .path { position: relative; display: grid; grid-template-columns: .85fr .6fr 1.2fr 1.2fr 2.1fr .7fr; column-gap: 18px; margin-top: 26px; }
-  /* Oct 31 (Jason: "why so squisshed"): Brown now has one tile, so its column is wider and its tile takes the full column */
+  
   #path .stop:first-child .tiles { grid-template-columns: minmax(0, 1fr); }
   #path .path::before { content: ''; position: absolute; left: 10px; right: 12%; top: 9px; height: 2px; background: var(--c-razz); opacity: .7; }
   #path .stop { display: block; padding: 32px 0 0; min-width: 0; }
@@ -1563,7 +1558,7 @@ html.lb-open { overflow: hidden; }
 @media (max-width: 699px) { .hero2 .cta { padding: 7px 14px; font-size: 14px; } .hero2 .cta-row { gap: 8px 10px; } .h2-l { margin-left: 0; } }
 .g-t .g-num { fill: var(--paper); font-weight: 800; font-size: 12px; }
 
-/* Oct 30 (Kelly and Jason): the case study pages get a switcher at the top, so a case page doesn't read as still being on Start */
+
 .case-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 6px 0 22px; font-size: 14px; }
 .case-nav span { color: var(--muted); font-weight: 700; margin-right: 4px; }
 .case-nav a { display: inline-flex; align-items: center; min-height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--rule); color: var(--ink-2); font-weight: 700; text-decoration: none; }
@@ -1573,7 +1568,7 @@ html.lb-open { overflow: hidden; }
 .case-nav + .project .p-head { margin-top: 8px; }
 @media (max-width: 520px) { .case-nav { gap: 6px; } .case-nav a { padding: 0 12px; min-height: 34px; } }
 
-/* Oct 30: photo finder people in two color families, blue and green, a different shade each (pf.js ranks them by photos); me in Honey on photo tags */
+
 .pf-ini.pc1, .pf-tags i.pc1 { background: var(--pf-1); color: var(--paper); }
 .pf-ini.pc2, .pf-tags i.pc2 { background: var(--pf-2); color: var(--paper); }
 .pf-ini.pc3, .pf-tags i.pc3 { background: var(--pf-3); color: var(--paper); }
@@ -1587,22 +1582,22 @@ html.lb-open { overflow: hidden; }
 .pf-ini.pc11, .pf-tags i.pc11 { background: var(--pf-11); color: var(--paper); }
 .pf-tags i.pc-me { background: var(--c-honey); color: var(--paper); }
 
-/* Oct 30: the extra place names on the photo finder map show on wider screens only */
+
 @media (max-width: 700px) { .pf-map .x { display: none; } }
-/* Oct 30, Jason: "sizes should be standardized": every person card the same height, cards fill their grid row */
+
 .pf-people { align-items: stretch; grid-auto-rows: 1fr; }
 .pf-people li { display: flex; }
 .pf-person { min-height: 84px; height: 100%; }
 
-/* Oct 31 (Gemini): Research links to the Morgan Stanley case study instead of repeating it */
+
 .cs-link { margin: 10px 0 0; } .cs-link a { font-weight: 700; } .cs-link a::after { content: '\00a0\2192'; }
 
-/* Oct 31 (#30): case studies named in the career map instead of a second picture */
+
 .cs-also { margin: 14px 0 0; font-size: 14.5px; color: var(--muted); }
 .cs-also a { color: var(--ink-2); font-weight: 700; }
-/* Nov 2 (Jason: "I think 4 across on desktop is better"): the four case studies in one row on a laptop */
+
 @media (min-width: 1000px) { .case-list { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 30px 24px; } }
-/* Nov 2 (Jason: "collapse the career blurb unless they are clicked on"): Brown, Guggenheim and Morgan Stanley open a short note */
+
 .sn-t { background: none; border: 0; padding: 0; margin: 0; font: inherit; color: var(--ink); cursor: pointer; text-align: left; }
 .sn-t .st { text-decoration: underline; text-decoration-style: dotted; text-decoration-color: var(--rule-strong); }
 .sn-t::after { content: ''; flex: none; width: 7px; height: 7px; margin-left: 9px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: translateY(-3px) rotate(45deg); transition: transform .15s ease; }
@@ -1615,8 +1610,7 @@ html.lb-open { overflow: hidden; }
 #path .note-slot .note { margin: 24px 0 0; padding: 16px 20px; border: 1px solid var(--rule); border-radius: 12px; background: var(--surface); }
 @media (min-width: 1000px) { .sn-t::after { content: none; } }
 
-/* Nov 7 (Jason: "i like the new highlight one with one case then the others"): Dreamy leads the case studies, big, with
-   the other three smaller under it. Scale, not four equal boxes (the "feels samey, give it scale" fix). */
+
 @media (min-width: 760px) {
   .case-list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px 24px; }
   .case-list > li:first-child { grid-column: 1 / -1; }
@@ -1641,8 +1635,7 @@ html.lb-open { overflow: hidden; }
   .case-list > li:not(:first-child) .case-l { font-size: 14px; }
 }
 
-/* Nov 8 (Jason: "remake the adaptation network so it works better for this"): the Dreamy card's network drawing
-   (gen_start.py dreamy_net). One palette color per column; lines take the color of the column they leave. */
+
 .dn { font-family: var(--body); background: var(--paper); }
 .dn .dn-c0 { --dn: var(--c-grey); } .dn .dn-c1 { --dn: var(--c-razz); } .dn .dn-c2 { --dn: var(--c-amethyst); } .dn .dn-c3 { --dn: var(--c-jade); }
 .dn-n { fill: color-mix(in srgb, var(--dn) 16%, var(--surface)); stroke: var(--dn); stroke-width: 2; }
@@ -1654,7 +1647,7 @@ html.lb-open { overflow: hidden; }
 .dn-h { fill: var(--dn); font-size: 21px; font-weight: 700; }
 .dn-s { fill: var(--muted); font-size: 17px; }
 
-/* Nov 9, path map B: one picture per stop, every project as a link under it (the map is the one full list) */
+
 .sb { margin-top: 12px; min-width: 0; }
 .sb-pic { position: relative; width: 100%; max-width: 300px; aspect-ratio: 4 / 3; border-radius: 6px; overflow: hidden; border: 1px solid var(--rule); background: var(--surface); }
 .sb-f { position: absolute; inset: 0; opacity: 0; transition: opacity .25s ease; }
@@ -1680,7 +1673,7 @@ html.lb-open { overflow: hidden; }
 }
 @media (prefers-reduced-motion: reduce) { .sb-f { transition: none; } }
 
-/* How I use AI: ledgers of what the AI did and what I did. */
+
 .pg main { padding-top: 8px; }
 .pg .p-head { margin-top: 36px; }
 .ai-intro { display: grid; gap: 14px; max-width: 42em; margin-bottom: 34px; }
@@ -1699,7 +1692,7 @@ html.lb-open { overflow: hidden; }
 .calls img { width: 132px; height: 99px; object-fit: cover; border-radius: 6px; border: 1px solid var(--rule); }
 @media (max-width: 480px) { .calls li { grid-template-columns: 96px minmax(0, 1fr); gap: 12px; } .calls img { width: 96px; height: 72px; } }
 @media (min-width: 900px) { .habits { columns: 2; column-gap: 48px; max-width: none; display: block; } .habits li { break-inside: avoid; margin-bottom: 12px; } }
-/* Overrules: what it suggested, small; what I said, big. Two columns on a laptop. */
+
 .overrule { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 30px 48px; }
 @media (min-width: 820px) { .overrule { grid-template-columns: repeat(2, minmax(0, 1fr)); } .overrule li:last-child:nth-child(odd) { grid-column: 1 / -1; } }
 .overrule li { border-top: 1px solid var(--rule); padding-top: 14px; }
@@ -1743,7 +1736,7 @@ html.lb-open { overflow: hidden; }
   .ledger.three td:nth-of-type(3)::before { content: "Where"; }
 }
 
-/* colophon */
+
 .sw-dot { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 8px; vertical-align: -1px; }
 .swatch-table .hexes { font-variant-numeric: tabular-nums; color: var(--ink); }
 .swatch-table .hexes span { color: var(--muted); margin-left: 8px; }
@@ -1755,7 +1748,7 @@ html.lb-open { overflow: hidden; }
   .ledger.changes td::before { content: none !important; }
   .ledger.changes td { margin-top: 4px; }
 }
-/* Colophon, Oct 7: side headings on the prose sections, so the page doesn't read as one long column */
+
 @media (min-width: 980px) {
   .exhibit.side { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); column-gap: 56px; align-items: start; }
   .exhibit.side > header { grid-column: 1; grid-row: 1 / span 4; margin-bottom: 0; position: sticky; top: 96px; }
@@ -1778,12 +1771,12 @@ html.lb-open { overflow: hidden; }
 .tl-d { font-family: var(--mono); font-size: 13.5px; color: var(--muted); padding-top: 2px; font-variant-numeric: tabular-nums; }
 .tl-t { color: var(--ink-2); }
 @media (max-width: 600px) { .timeline li { grid-template-columns: minmax(0, 1fr); } }
-/* Oct 7: Built starts its list right under the title, no empty band */
+
 #built-page { padding-bottom: 12px; }
 #built-page + .section { border-top: 0; padding-top: 8px; }
-/* Oct 7 divider cleanup */
+
 .calls li, .overrule li { border-top: 0; padding-top: 0; }
-/* Oct 7: the rejection pile ("A few more"): the same cards, on a desk */
+
 .pile.js { display: block; position: relative; min-height: var(--ph, 240px); max-width: 540px; margin-top: 22px; cursor: pointer; }
 .pile.js:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; border-radius: 10px; }
 .pile.js li { position: absolute; left: 0; right: 0; top: 0; padding: 20px 22px 22px; background: var(--surface); border: 1px solid var(--rule-strong); border-radius: 10px;
@@ -1793,14 +1786,14 @@ html.lb-open { overflow: hidden; }
 .pile.js li.flip .ov-a { display: block; font-size: clamp(1.05rem, 1.8vw, 1.2rem); line-height: 1.45; color: var(--ink); }
 @media (prefers-reduced-motion: reduce) { .pile.js li { transition: none; } }
 
-/* Oct 7: pictures develop in the page's color (play.js draws the canvas). */
+
 .pg-background { --ht-ink: var(--c-magenta); --ht-paper: var(--gal-mat); }
 canvas.ht { position: absolute; pointer-events: none; opacity: 0; z-index: 1; }
 canvas.ht.on { opacity: 1; }
 canvas.ht.on.dev { opacity: 0; transition: opacity .5s cubic-bezier(.4,0,.2,1); }
 @media (prefers-reduced-motion: reduce) { canvas.ht { display: none; } }
 
-/* Oct 7: some photos open with more: the story behind them, sometimes a second picture. A small dot marks them on the wall. */
+
 .pw-i.more figcaption::after { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--c-magenta); margin-left: 7px; vertical-align: 2px; }
 .pw-box .pw-txt { display: grid; gap: 14px; justify-items: center; max-width: 62ch; }
 .pw-box .pw-more:empty { display: none; }
@@ -1817,7 +1810,7 @@ dialog.pw-box.more figure { align-content: start; }
 }
 dialog.pw-box.more .pw-txt { justify-items: start; padding: 0 12px; } dialog.pw-box.more figcaption { text-align: left; padding: 0; } dialog.pw-box.more .pw-more { padding: 0; }
 
-/* Oct 7: the paint mixer, on the palette's paper card. Paint is a daub; the Excel switch turns it into a cell and the strip into a row of cells mixed the way Excel's color scale does (straight RGB). */
+
 .mixer { scroll-margin-top: 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 18px; margin-top: 16px; padding-top: 4px; }
 .mx-in { display: grid; grid-template-columns: auto auto auto; align-items: center; gap: 6px 10px; }
 .mx-in .mx-t { grid-column: 1 / -1; width: 100%; accent-color: #275C90; }
@@ -1854,10 +1847,10 @@ dialog.pw-box.more .pw-txt { justify-items: start; padding: 0 12px; } dialog.pw-
 @media (max-width: 560px) { .mixer { justify-content: center; } .mx-eq { display: none; } }
 @media (prefers-reduced-motion: reduce) { .well svg path, .mx-r svg path, .mx-cell, .mx-strip i, .mx-track, .mx-knob { transition: none; } }
 
-/* Oct 7: the Excel heatmap script, before and after. Cells like a spreadsheet: a thin gap between each. */
+
 .ramp { margin: 18px 0 0; display: grid; gap: 18px; max-width: 640px; }
 .ramp figcaption { font-size: 14px; color: var(--muted); }
-/* Oct 7: a made-up factor correlation matrix. Pick the two end colors and switch between Excel's blend and the script's. */
+
 .hm { display: grid; gap: 12px; justify-items: start; }
 .hm-ctl { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
 .hm-c { appearance: none; border: 0; width: 30px; height: 30px; border-radius: 8px; cursor: pointer; padding: 0; }
@@ -1879,7 +1872,7 @@ dialog.pw-box.more .pw-txt { justify-items: start; padding: 0 12px; } dialog.pw-
 @media (prefers-reduced-motion: reduce) { .cm td, .hm-leg i { transition: none; } }
 details.more > p + p { margin-top: 12px; }
 
-/* Oct 7: the easel in Outside work. A sheet of paper with paint on it; the tray holds the palette as daubs, plus white. */
+
 @media (min-width: 960px) { .outside { grid-template-columns: minmax(0, 1fr) minmax(300px, 400px); gap: 44px; } }
 .easel { margin: 0; display: grid; gap: 12px; }
 .ez-c { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; border-radius: 3px; background: var(--gal-mat); box-shadow: 0 1px 0 rgba(0, 0, 0, .4), 0 12px 28px rgba(0, 0, 0, .35); touch-action: none; cursor: crosshair; }
@@ -1891,7 +1884,7 @@ details.more > p + p { margin-top: 12px; }
 .ez-x { appearance: none; background: none; border: 0; width: 100%; aspect-ratio: 1; padding: 22%; color: var(--muted); cursor: pointer; border-radius: 8px; }
 .ez-x svg { width: 100%; height: 100%; display: block; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .ez-x:hover { color: var(--ink); }
-/* Oct 7: the color wheel next to the heatmap. Both paths show; the switch picks which one is lit. */
+
 .hm-body { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 20px 32px; }
 .hm-wheel { margin: 0; width: 240px; display: grid; gap: 10px; padding-top: 30px; }
 .hm-wh { position: relative; width: 240px; height: 240px; }
@@ -1904,7 +1897,7 @@ details.more > p + p { margin-top: 12px; }
 .hm.xl .w-me, .hm.xl .w-med, .hm:not(.xl) .w-xl, .hm:not(.xl) .w-xld { opacity: .28; }
 .hm-wheel figcaption { font-size: 13px; color: var(--muted); }
 @media (prefers-reduced-motion: reduce) { .w-xl, .w-me, .w-xld, .w-med { transition: none; } }
-/* Oct 7: elevation by mile for the Cayuga 50, in the Ithaca photo's details. */
+
 .pw-box .ev { width: 100%; max-width: 520px; }
 .ev svg { display: block; width: 100%; height: auto; overflow: visible; }
 .ev text { font-size: 12px; fill: var(--muted); font-variant-numeric: tabular-nums; }
@@ -1912,21 +1905,21 @@ details.more > p + p { margin-top: 12px; }
 .ev-a { fill: var(--c-magenta); opacity: .22; }
 .ev-l { fill: none; stroke: var(--c-magenta); stroke-width: 1.6; stroke-linejoin: round; }
 .ev-t line, .ev-g { stroke: var(--rule); stroke-width: 1; }
-/* Oct 7: the heatmap script sits out of the fold now, under "How it got made". */
+
 .made-more { margin-top: 28px; }
 .made-more .made-p { max-width: 40em; color: var(--ink-2); margin: 0; }
-/* Oct 9: How I use AI is organized by place, with a jump row under the intro */
+
 .ai-jump { display: flex; flex-wrap: wrap; gap: 6px 22px; margin: -14px 0 8px; font-size: 15px; }
 .ai-jump a { color: var(--ink-2); padding-block: 8px; }
 .ai-part { scroll-margin-top: 16px; }
 .ai-part .calls { margin-bottom: 8px; }
 #rules .more summary { font-weight: 700; }
 
-/* Oct 31, Jason: working with AI like a teammate; each card names the mode */
+
 .ov-lede { max-width: 46em; margin: 6px 0 18px; font-size: 16px; line-height: 1.55; color: var(--ink-2); }
 .ov-s b { color: var(--ink); font-weight: 700; }
 .ov-a a, .ov-s a { color: inherit; }
-/* Nov 2: on a phone the chapter pages had about 104px above the title (Start has about 60) and about 116px between the intro and the first section */
+
 @media (max-width: 640px) {
   .pg .p-head { margin-top: 12px; }
   .pg main > article.project { padding-top: 40px; padding-bottom: 32px; }
@@ -1935,8 +1928,7 @@ details.more > p + p { margin-top: 12px; }
 
 
 
-/* Nov 8 slop pass on How I use AI (Jason: "great"): readable Morgan Stanley paragraphs, plain habits list, a two-column
-   rules table, the build log's sentence under a short heading, and the cheat sheet picture in "I learn from it". */
+
 .ai-part .made-p { max-width: 40em; margin: 0 0 12px; }
 .habits.plain { list-style: none; padding-left: 0; }
 .ledger.three.r2 thead th:nth-child(1) { width: 46%; } .ledger.three.r2 thead th:nth-child(2) { width: 54%; }
@@ -1946,7 +1938,7 @@ details.more > p + p { margin-top: 12px; }
 .ov-pic { display: block; width: min(100%, 300px); margin-top: 12px; }
 .ov-pic img { display: block; width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--rule); }
 
-/* Pivot or Perish: market value by round, folded by default */
+
 .mv { max-width: 760px; margin: 6px 0 18px; border: 1px solid var(--rule); border-radius: 10px; background: var(--surface); }
 .mv summary { list-style: none; display: flex; align-items: center; flex-wrap: wrap; gap: 6px 14px; padding: 12px 14px; cursor: pointer; }
 .mv summary::-webkit-details-marker { display: none; }
@@ -2004,7 +1996,7 @@ details.more > p + p { margin-top: 12px; }
 @media (max-width: 560px) { .mv-open { margin-left: 0; } }
 
 
-/* end of page: previous small, next as the last big line */
+
 .pager { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px 40px; margin: 72px 0 8px; padding-top: 22px; border-top: 1px solid var(--rule); }
 .pager a { text-decoration: none; color: inherit; }
 .pg-prev { font-size: 15px; color: var(--ink-2, inherit); }
@@ -2019,7 +2011,7 @@ details.more > p + p { margin-top: 12px; }
 .pager a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; border-radius: 4px; }
 @media (max-width: 560px) { .pager { flex-direction: column-reverse; align-items: stretch; } .pg-next { align-items: flex-start; text-align: left; margin-left: 0; } }
 
-/* route bar: the stops of the site in order. Filled dot = you've been there, ring = you are here. */
+
 .route-nav { margin: 0; }
 .route-nav ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 0; }
 .route-nav li { position: relative; display: flex; align-items: center; }
@@ -2031,7 +2023,7 @@ details.more > p + p { margin-top: 12px; }
 .route-nav li.here a { color: var(--ink, #E7ECF1); font-weight: 700; }
 .route-nav li.here i { background: var(--pc); box-shadow: 0 0 0 3px color-mix(in srgb, var(--pc) 30%, transparent); }
 .route-nav li.here a { text-decoration: underline; text-decoration-color: var(--pc); text-decoration-thickness: 2px; text-underline-offset: 6px; }
-/* Oct 30: plain links, like the wireframe Jason pointed at; the current page keeps its colored underline */
+
 .route-nav ol { gap: 4px 22px; }
 .route-nav li + li::before { content: none; }
 .route-nav i { display: none; }
@@ -2067,7 +2059,7 @@ details.more > p + p { margin-top: 12px; }
       <div class="ai-intro">
         <p class="lede">I&rsquo;ve used these tools since ChatGPT came out. The part I&rsquo;m actually good at is helping people change how they work with them, and I build my own tools.</p>
       </div>
-      <nav class="ai-jump" aria-label="On this page"><a href="#ms">At Morgan Stanley</a><a href="#wharton">At Wharton</a><a href="#building">Building apps</a><a href="#how">How I work with it</a></nav>
+      <nav class="ai-jump" aria-label="On this page"><a href="#ms">At Morgan Stanley</a><a href="#wharton">At Wharton</a><a href="#building">Building apps</a><a href="#overruled">Like a teammate</a><a href="#rules">Rules for Dreamy</a><a href="#log">Build log</a><a href="#how">How I work with it</a></nav>
     </article>
 
     <section class="section ai-part" id="ms" aria-labelledby="ms-h">
@@ -2116,7 +2108,7 @@ details.more > p + p { margin-top: 12px; }
     </section>
 
     <section class="section" id="rules" aria-labelledby="rules-h">
-      <details class="more" open><summary id="rules-h">Rules I&rsquo;ve written for Dreamy, and the mistake behind each</summary>
+      <details class="more" open><summary><h2 class="sum-h" id="rules-h">Rules I&rsquo;ve written for Dreamy, and the mistake behind each</h2></summary>
       <div class="table-wrap">
         <table class="ledger three r2">
           <thead><tr><th scope="col">The rule</th><th scope="col">What went wrong first</th></tr></thead>
@@ -2132,12 +2124,12 @@ details.more > p + p { margin-top: 12px; }
       </details>
     </section>
 
-    <!--log--><section class="exhibit" id="log" aria-labelledby="log-h" style="--c: var(--c-msblue)"><header><h2 class="ext" id="log-h">Build log</h2></header><p class="log-lede">Most of Dreamy got built in February and March, while I was working full time and training for the Jersey City Marathon.</p><div class="log-key"><span><i class="d-dreamy"></i>Dreamy</span><span><i class="d-in"></i>In.</span><span><i class="d-5k"></i>5K 5 Bars</span><span><i class="d-wd"></i>Walldrobe</span><span><i class="d-dd"></i>DrinkDock</span><span><i class="d-other"></i>Other things I built</span><span><i class="ring race"></i>Races</span><span><i class="ring first"></i>First day at Wharton</span></div><div class="log-key k2"><span><i class="d-ink"></i>Circle: a day with code, bigger for more commits, split when I worked on more than one thing</span><span><i class="chat d-ink"></i>Square: a day of research or planning with Claude or ChatGPT, no code</span></div><div class="log-wrap" style="--w1: 21fr; --w2: 24fr"><table class="log"><caption class="sr-only">January to May</caption><thead><tr><th></th><th scope="col">Jan</th><th scope="col"></th><th scope="col"></th><th scope="col"></th><th scope="col">Feb</th><th scope="col"></th><th scope="col"></th><th scope="col"></th><th scope="col">Mar</th><th scope="col"></th><th scope="col"></th><th scope="col"></th><th scope="col"></th><th scope="col">Apr</th><th scope="col"></th><th scope="col"></th><th scope="col"></th><th scope="col">May</th><th scope="col"></th><th scope="col"></th></tr></thead><tbody><tr><th scope="row">Mon</th><td></td><td></td><td></td><td></td><td></td><td title="2026-02-09: 7 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.54"></i></td><td title="2026-02-16: 26 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.72"></i></td><td title="2026-02-23: 52 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.88"></i></td><td title="2026-03-02: 76 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.99"></i></td><td title="2026-03-09: 46 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.85"></i></td><td title="2026-03-16: 23 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.70"></i></td><td title="2026-03-23: 21 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.68"></i></td><td title="2026-03-30: 12 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.60"></i></td><td></td><td title="2026-04-13: 7 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.54"></i></td><td title="2026-04-20: 2 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.45"></i></td><td></td><td></td><td></td><td></td></tr><tr><th scope="row"><span class="sr-only">Tue</span></th><td></td><td></td><td></td><td title="2026-01-27: research or planning on Dreamy" tabindex="0"><i class="chat d-dreamy"></i></td><td title="2026-02-03: 40 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.81"></i></td><td title="2026-02-10: 22 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.69"></i></td><td title="2026-02-17: 51 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.88"></i></td><td title="2026-02-24: 46 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.85"></i></td><td title="2026-03-03: 22 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.69"></i></td><td title="2026-03-10: 49 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.86"></i></td><td title="2026-03-17: 18 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.66"></i></td><td title="2026-03-24: 6 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.52"></i></td><td title="2026-03-31: research or planning on Dreamy" tabindex="0"><i class="chat d-dreamy"></i></td><td title="2026-04-07: 25 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.72"></i></td><td></td><td></td><td></td><td></td><td></td><td title="2026-05-19: research or planning" tabindex="0"><i class="chat d-other"></i></td></tr><tr><th scope="row">Wed</th><td></td><td></td><td></td><td title="2026-01-28: 7 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.54"></i></td><td title="2026-02-04: 26 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.72"></i></td><td title="2026-02-11: 20 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.68"></i></td><td title="2026-02-18: 52 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.88"></i></td><td title="2026-02-25: 43 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.83"></i></td><td title="2026-03-04: 46 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.85"></i></td><td title="2026-03-11: 33 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.77"></i></td><td title="2026-03-18: 1 commit to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.42"></i></td><td title="2026-03-25: 8 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.55"></i></td><td title="2026-04-01: research or planning" tabindex="0"><i class="chat d-other"></i></td><td title="2026-04-08: 33 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.77"></i></td><td title="2026-04-15: research or planning" tabindex="0"><i class="chat d-other"></i></td><td></td><td></td><td></td><td></td><td title="2026-05-20: research or planning" tabindex="0"><i class="chat d-other"></i></td></tr><tr><th scope="row"><span class="sr-only">Thu</span></th><td title="2026-01-08: research or planning" tabindex="0"><i class="chat d-other"></i></td><td></td><td></td><td title="2026-01-29: 32 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.76"></i></td><td title="2026-02-05: 7 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.54"></i></td><td title="2026-02-12: 16 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.64"></i></td><td title="2026-02-19: 19 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.67"></i></td><td title="2026-02-26: 2 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.45"></i></td><td title="2026-03-05: 62 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.93"></i></td><td title="2026-03-12: 46 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.85"></i></td><td title="2026-03-19: 39 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.81"></i></td><td title="2026-03-26: 6 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.52"></i></td><td title="2026-04-02: 6 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.52"></i></td><td title="2026-04-09: 10 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.58"></i></td><td></td><td></td><td></td><td title="2026-05-07: research or planning" tabindex="0"><i class="chat d-other"></i></td><td></td><td></td></tr><tr><th scope="row">Fri</th><td></td><td></td><td></td><td title="2026-01-30: 3 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.47"></i></td><td></td><td title="2026-02-13: 22 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.69"></i></td><td title="2026-02-20: 42 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.83"></i></td><td title="2026-02-27: 45 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.84"></i></td><td title="2026-03-06: 90 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:1.00"></i></td><td title="2026-03-13: 32 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.76"></i></td><td title="2026-03-20: 38 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.80"></i></td><td></td><td title="2026-04-03: 1 commit to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.42"></i></td><td title="2026-04-10: 20 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.68"></i></td><td></td><td></td><td title="2026-05-01: research or planning" tabindex="0"><i class="chat d-other"></i></td><td></td><td></td><td></td></tr><tr><th scope="row"><span class="sr-only">Sat</span></th><td></td><td></td><td></td><td></td><td></td><td title="2026-02-14: 33 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.77"></i></td><td title="2026-02-21: 92 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:1.00"></i></td><td title="2026-02-28: 38 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.80"></i></td><td title="2026-03-07: 67 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.95"></i></td><td title="2026-03-14: 20 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.68"></i></td><td title="2026-03-21: 34 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.78"></i></td><td></td><td title="2026-04-04: 4 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.49"></i></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><th scope="row">Sun</th><td></td><td></td><td></td><td></td><td title="2026-02-08: research or planning" tabindex="0"><i class="chat d-other"></i></td><td title="2026-02-15: 82 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:1.00"></i></td><td title="2026-02-22: 100 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:1.00"></i></td><td title="2026-03-01: 83 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:1.00"></i></td><td title="2026-03-08: 39 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.81"></i></td><td class="mark race" title="NYC Half Marathon, March 15" tabindex="0"><span class="sr-only">NYC Half Marathon, March 15</span></td><td></td><td title="2026-03-29: 14 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.62"></i></td><td></td><td title="2026-04-12: 30 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.75"></i></td><td class="mark race" title="Jersey City Marathon, April 19" tabindex="0"><span class="sr-only">Jersey City Marathon, April 19</span></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table><table class="log"><caption class="sr-only">June to October</caption><thead><tr><th></th><th scope="col"></th><th scope="col">Jun</th><th scope="col"></th><th scope="col"></th><th scope="col"></th><th scope="col"></th><th scope="col">Jul</th><th scope="col"></th><th scope="col"></th><th scope="col"></th><th scope="col">Aug</th><th scope="col"></th><th scope="col"></th><th scope="col"></th><th scope="col"></th><th scope="col">Sep</th><th scope="col"></th><th scope="col"></th><th scope="col"></th><th scope="col">Oct</th><th scope="col"></th><th scope="col"></th><th scope="col"></th></tr></thead><tbody><tr><th scope="row">Mon</th><td></td><td title="2026-06-01: research or planning" tabindex="0"><i class="chat d-other"></i></td><td></td><td title="2026-06-15: research or planning" tabindex="0"><i class="chat d-other"></i></td><td></td><td></td><td title="2026-07-06: research or planning" tabindex="0"><i class="chat d-other"></i></td><td title="2026-07-13: research or planning" tabindex="0"><i class="chat d-other"></i></td><td></td><td></td><td title="2026-08-03: research or planning" tabindex="0"><i class="chat d-other"></i></td><td></td><td></td><td></td><td></td><td title="2026-09-07: research or planning on Walldrobe" tabindex="0"><i class="chat d-wd"></i></td><td></td><td title="2026-09-21: research or planning" tabindex="0"><i class="chat d-other"></i></td><td title="2026-09-28: 11 commits to 5K 5 Bars" tabindex="0"><i class="d-5k" style="--s:0.59"></i></td><td title="2026-10-05: 31 commits to this site, 8 commits to Walldrobe" tabindex="0"><i class="pie" style="--s:0.81"><svg viewBox="-1 -1 2 2" aria-hidden="true"><path class="d-wd" d="M0 0L0.000 -1.000A1 1 0 0 1 0.961 -0.278Z"/><path class="d-other" d="M0 0L0.961 -0.278A1 1 0 1 1 -0.000 -1.000Z"/></svg></i></td><td></td><td></td><td></td></tr><tr><th scope="row"><span class="sr-only">Tue</span></th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="mark first" title="First day at Wharton, August 4" tabindex="0"><span class="sr-only">First day at Wharton, August 4</span></td><td></td><td></td><td title="2026-08-25: research or planning on Walldrobe" tabindex="0"><i class="chat d-wd"></i></td><td></td><td title="2026-09-08: research or planning on Walldrobe" tabindex="0"><i class="chat d-wd"></i></td><td></td><td title="2026-09-22: research or planning on Walldrobe" tabindex="0"><i class="chat d-wd"></i></td><td title="2026-09-29: 57 commits to this site, 9 commits to DrinkDock, 8 commits to 5K 5 Bars" tabindex="0"><i class="pie" style="--s:0.99"><svg viewBox="-1 -1 2 2" aria-hidden="true"><path class="d-5k" d="M0 0L0.000 -1.000A1 1 0 0 1 0.678 -0.735Z"/><path class="d-dd" d="M0 0L0.678 -0.735A1 1 0 0 1 0.998 -0.070Z"/><path class="d-other" d="M0 0L0.998 -0.070A1 1 0 1 1 -0.000 -1.000Z"/></svg></i></td><td title="2026-10-06: 48 commits to this site, 3 commits to Walldrobe" tabindex="0"><i class="pie" style="--s:0.88"><svg viewBox="-1 -1 2 2" aria-hidden="true"><path class="d-wd" d="M0 0L0.000 -1.000A1 1 0 0 1 0.652 -0.758Z"/><path class="d-other" d="M0 0L0.652 -0.758A1 1 0 1 1 -0.000 -1.000Z"/></svg></i></td><td></td><td></td><td title="2026-10-27: 93 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:1.00"></i></td></tr><tr><th scope="row">Wed</th><td></td><td></td><td title="2026-06-10: research or planning" tabindex="0"><i class="chat d-other"></i></td><td></td><td></td><td></td><td title="2026-07-08: research or planning" tabindex="0"><i class="chat d-other"></i></td><td title="2026-07-15: research or planning" tabindex="0"><i class="chat d-other"></i></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td title="2026-09-09: research or planning" tabindex="0"><i class="chat d-other"></i></td><td></td><td></td><td title="2026-09-30: 12 commits to Walldrobe, 6 commits to this site, 4 commits to In." tabindex="0"><i class="pie" style="--s:0.69"><svg viewBox="-1 -1 2 2" aria-hidden="true"><path class="d-in" d="M0 0L0.000 -1.000A1 1 0 0 1 0.910 -0.415Z"/><path class="d-wd" d="M0 0L0.910 -0.415A1 1 0 1 1 -0.990 0.142Z"/><path class="d-other" d="M0 0L-0.990 0.142A1 1 0 0 1 -0.000 -1.000Z"/></svg></i></td><td title="2026-10-07: 31 commits to this site" tabindex="0"><i class="d-other" style="--s:0.76"></i></td><td></td><td></td><td title="2026-10-28: 105 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:1.00"></i></td></tr><tr><th scope="row"><span class="sr-only">Thu</span></th><td></td><td title="2026-06-04: research or planning" tabindex="0"><i class="chat d-other"></i></td><td></td><td></td><td></td><td></td><td title="2026-07-09: research or planning on In." tabindex="0"><i class="chat d-in"></i></td><td></td><td></td><td title="2026-07-30: research or planning on In." tabindex="0"><i class="chat d-in"></i></td><td></td><td></td><td></td><td></td><td></td><td title="2026-09-10: research or planning on Walldrobe" tabindex="0"><i class="chat d-wd"></i></td><td title="2026-09-17: research or planning" tabindex="0"><i class="chat d-other"></i></td><td title="2026-09-24: research or planning" tabindex="0"><i class="chat d-other"></i></td><td title="2026-10-01: 22 commits to Walldrobe, 3 commits to DrinkDock, 1 commit to 5K 5 Bars" tabindex="0"><i class="pie" style="--s:0.72"><svg viewBox="-1 -1 2 2" aria-hidden="true"><path class="d-5k" d="M0 0L0.000 -1.000A1 1 0 0 1 0.640 -0.769Z"/><path class="d-wd" d="M0 0L0.640 -0.769A1 1 0 1 1 -0.640 -0.769Z"/><path class="d-dd" d="M0 0L-0.640 -0.769A1 1 0 0 1 -0.000 -1.000Z"/></svg></i></td><td title="2026-10-08: 6 commits to this site" tabindex="0"><i class="d-other" style="--s:0.52"></i></td><td></td><td title="2026-10-22: 1 commit to this site" tabindex="0"><i class="d-other" style="--s:0.42"></i></td><td title="2026-10-29: 138 commits to Dreamy, 1 commit to this site" tabindex="0"><i class="pie" style="--s:1.00"><svg viewBox="-1 -1 2 2" aria-hidden="true"><path class="d-dreamy" d="M0 0L0.000 -1.000A1 1 0 1 1 -0.627 -0.779Z"/><path class="d-other" d="M0 0L-0.627 -0.779A1 1 0 0 1 -0.000 -1.000Z"/></svg></i></td></tr><tr><th scope="row">Fri</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td title="2026-07-24: research or planning on Dreamy" tabindex="0"><i class="chat d-dreamy"></i></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td title="2026-10-02: 51 commits to Walldrobe, 3 commits to DrinkDock" tabindex="0"><i class="pie" style="--s:0.89"><svg viewBox="-1 -1 2 2" aria-hidden="true"><path class="d-wd" d="M0 0L0.000 -1.000A1 1 0 1 1 -0.651 -0.759Z"/><path class="d-dd" d="M0 0L-0.651 -0.759A1 1 0 0 1 0.000 -1.000Z"/></svg></i></td><td title="2026-10-09: 20 commits to this site" tabindex="0"><i class="d-other" style="--s:0.68"></i></td><td></td><td title="2026-10-23: 22 commits to this site, 1 commit to Dreamy" tabindex="0"><i class="pie" style="--s:0.70"><svg viewBox="-1 -1 2 2" aria-hidden="true"><path class="d-dreamy" d="M0 0L0.000 -1.000A1 1 0 0 1 0.645 -0.765Z"/><path class="d-other" d="M0 0L0.645 -0.765A1 1 0 1 1 0.000 -1.000Z"/></svg></i></td><td title="2026-10-30: 31 commits to this site, 8 commits to Dreamy" tabindex="0"><i class="pie" style="--s:0.81"><svg viewBox="-1 -1 2 2" aria-hidden="true"><path class="d-dreamy" d="M0 0L0.000 -1.000A1 1 0 0 1 0.961 -0.278Z"/><path class="d-other" d="M0 0L0.961 -0.278A1 1 0 1 1 -0.000 -1.000Z"/></svg></i></td></tr><tr><th scope="row"><span class="sr-only">Sat</span></th><td class="mark race" title="Trail ultramarathon near Ithaca, May 30" tabindex="0"><span class="sr-only">Trail ultramarathon near Ithaca, May 30</span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td title="2026-09-26: research or planning" tabindex="0"><i class="chat d-other"></i></td><td title="2026-10-03: 28 commits to Walldrobe, 2 commits to this site" tabindex="0"><i class="pie" style="--s:0.75"><svg viewBox="-1 -1 2 2" aria-hidden="true"><path class="d-wd" d="M0 0L0.000 -1.000A1 1 0 1 1 -0.656 -0.755Z"/><path class="d-other" d="M0 0L-0.656 -0.755A1 1 0 0 1 -0.000 -1.000Z"/></svg></i></td><td></td><td></td><td title="2026-10-24: 15 commits to this site" tabindex="0"><i class="d-other" style="--s:0.63"></i></td><td></td></tr><tr><th scope="row">Sun</th><td></td><td class="mark race" title="Western Mass 70.3, the bike leg of a relay, June 7" tabindex="0"><span class="sr-only">Western Mass 70.3, the bike leg of a relay, June 7</span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td title="2026-09-27: 12 commits to In." tabindex="0"><i class="d-in" style="--s:0.60"></i></td><td title="2026-10-04: 17 commits to Walldrobe, 8 commits to this site" tabindex="0"><i class="pie" style="--s:0.72"><svg viewBox="-1 -1 2 2" aria-hidden="true"><path class="d-wd" d="M0 0L0.000 -1.000A1 1 0 1 1 -0.905 0.426Z"/><path class="d-other" d="M0 0L-0.905 0.426A1 1 0 0 1 0.000 -1.000Z"/></svg></i></td><td></td><td></td><td title="2026-10-25: 7 commits to 5K 5 Bars" tabindex="0"><i class="d-5k" style="--s:0.54"></i></td><td></td></tr></tbody></table></div><p class="log-tip" aria-live="polite"></p><p class="src">January 8 to October 30, 2026. The chat history runs through early October. In late October I went back to Dreamy as a passion project and worked on its fitness and planning engines. Sources: GitHub history for each project and this site; my Claude and ChatGPT chats.</p></section><!--/log-->
+    <section class="exhibit" id="log" aria-labelledby="log-h" style="--c: var(--c-msblue)"><header><h2 class="ext" id="log-h">Build log</h2></header><p class="log-lede">Most of Dreamy got built in February and March, while I was working full time and training for the Jersey City Marathon.</p><div class="log-key"><span><i class="d-dreamy"></i>Dreamy</span><span><i class="d-in"></i>In.</span><span><i class="d-5k"></i>5K 5 Bars</span><span><i class="d-wd"></i>Walldrobe</span><span><i class="d-dd"></i>DrinkDock</span><span><i class="d-other"></i>Other things I built</span><span><i class="ring race"></i>Races</span><span><i class="ring first"></i>First day at Wharton</span></div><div class="log-key k2"><span><i class="d-ink"></i>Circle: a day with code, bigger for more commits, split when I worked on more than one thing</span><span><i class="chat d-ink"></i>Square: a day of research or planning with Claude or ChatGPT, no code</span></div><div class="log-wrap" style="--w1: 21fr; --w2: 24fr"><table class="log"><caption class="sr-only">January to May</caption><thead><tr><th></th><th scope="col">Jan</th><th scope="col"></th><th scope="col"></th><th scope="col"></th><th scope="col">Feb</th><th scope="col"></th><th scope="col"></th><th scope="col"></th><th scope="col">Mar</th><th scope="col"></th><th scope="col"></th><th scope="col"></th><th scope="col"></th><th scope="col">Apr</th><th scope="col"></th><th scope="col"></th><th scope="col"></th><th scope="col">May</th><th scope="col"></th><th scope="col"></th></tr></thead><tbody><tr><th scope="row">Mon</th><td></td><td></td><td></td><td></td><td></td><td title="2026-02-09: 7 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.54"></i></td><td title="2026-02-16: 26 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.72"></i></td><td title="2026-02-23: 52 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.88"></i></td><td title="2026-03-02: 76 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.99"></i></td><td title="2026-03-09: 46 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.85"></i></td><td title="2026-03-16: 23 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.70"></i></td><td title="2026-03-23: 21 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.68"></i></td><td title="2026-03-30: 12 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.60"></i></td><td></td><td title="2026-04-13: 7 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.54"></i></td><td title="2026-04-20: 2 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.45"></i></td><td></td><td></td><td></td><td></td></tr><tr><th scope="row"><span class="sr-only">Tue</span></th><td></td><td></td><td></td><td title="2026-01-27: research or planning on Dreamy" tabindex="0"><i class="chat d-dreamy"></i></td><td title="2026-02-03: 40 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.81"></i></td><td title="2026-02-10: 22 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.69"></i></td><td title="2026-02-17: 51 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.88"></i></td><td title="2026-02-24: 46 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.85"></i></td><td title="2026-03-03: 22 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.69"></i></td><td title="2026-03-10: 49 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.86"></i></td><td title="2026-03-17: 18 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.66"></i></td><td title="2026-03-24: 6 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.52"></i></td><td title="2026-03-31: research or planning on Dreamy" tabindex="0"><i class="chat d-dreamy"></i></td><td title="2026-04-07: 25 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.72"></i></td><td></td><td></td><td></td><td></td><td></td><td title="2026-05-19: research or planning" tabindex="0"><i class="chat d-other"></i></td></tr><tr><th scope="row">Wed</th><td></td><td></td><td></td><td title="2026-01-28: 7 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.54"></i></td><td title="2026-02-04: 26 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.72"></i></td><td title="2026-02-11: 20 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.68"></i></td><td title="2026-02-18: 52 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.88"></i></td><td title="2026-02-25: 43 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.83"></i></td><td title="2026-03-04: 46 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.85"></i></td><td title="2026-03-11: 33 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.77"></i></td><td title="2026-03-18: 1 commit to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.42"></i></td><td title="2026-03-25: 8 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.55"></i></td><td title="2026-04-01: research or planning" tabindex="0"><i class="chat d-other"></i></td><td title="2026-04-08: 33 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.77"></i></td><td title="2026-04-15: research or planning" tabindex="0"><i class="chat d-other"></i></td><td></td><td></td><td></td><td></td><td title="2026-05-20: research or planning" tabindex="0"><i class="chat d-other"></i></td></tr><tr><th scope="row"><span class="sr-only">Thu</span></th><td title="2026-01-08: research or planning" tabindex="0"><i class="chat d-other"></i></td><td></td><td></td><td title="2026-01-29: 32 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.76"></i></td><td title="2026-02-05: 7 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.54"></i></td><td title="2026-02-12: 16 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.64"></i></td><td title="2026-02-19: 19 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.67"></i></td><td title="2026-02-26: 2 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.45"></i></td><td title="2026-03-05: 62 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.93"></i></td><td title="2026-03-12: 46 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.85"></i></td><td title="2026-03-19: 39 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.81"></i></td><td title="2026-03-26: 6 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.52"></i></td><td title="2026-04-02: 6 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.52"></i></td><td title="2026-04-09: 10 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.58"></i></td><td></td><td></td><td></td><td title="2026-05-07: research or planning" tabindex="0"><i class="chat d-other"></i></td><td></td><td></td></tr><tr><th scope="row">Fri</th><td></td><td></td><td></td><td title="2026-01-30: 3 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.47"></i></td><td></td><td title="2026-02-13: 22 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.69"></i></td><td title="2026-02-20: 42 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.83"></i></td><td title="2026-02-27: 45 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.84"></i></td><td title="2026-03-06: 90 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:1.00"></i></td><td title="2026-03-13: 32 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.76"></i></td><td title="2026-03-20: 38 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.80"></i></td><td></td><td title="2026-04-03: 1 commit to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.42"></i></td><td title="2026-04-10: 20 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.68"></i></td><td></td><td></td><td title="2026-05-01: research or planning" tabindex="0"><i class="chat d-other"></i></td><td></td><td></td><td></td></tr><tr><th scope="row"><span class="sr-only">Sat</span></th><td></td><td></td><td></td><td></td><td></td><td title="2026-02-14: 33 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.77"></i></td><td title="2026-02-21: 92 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:1.00"></i></td><td title="2026-02-28: 38 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.80"></i></td><td title="2026-03-07: 67 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.95"></i></td><td title="2026-03-14: 20 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.68"></i></td><td title="2026-03-21: 34 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.78"></i></td><td></td><td title="2026-04-04: 4 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.49"></i></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><th scope="row">Sun</th><td></td><td></td><td></td><td></td><td title="2026-02-08: research or planning" tabindex="0"><i class="chat d-other"></i></td><td title="2026-02-15: 82 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:1.00"></i></td><td title="2026-02-22: 100 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:1.00"></i></td><td title="2026-03-01: 83 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:1.00"></i></td><td title="2026-03-08: 39 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.81"></i></td><td class="mark race" title="NYC Half Marathon, March 15" tabindex="0"><span class="sr-only">NYC Half Marathon, March 15</span></td><td></td><td title="2026-03-29: 14 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.62"></i></td><td></td><td title="2026-04-12: 30 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:0.75"></i></td><td class="mark race" title="Jersey City Marathon, April 19" tabindex="0"><span class="sr-only">Jersey City Marathon, April 19</span></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table><table class="log"><caption class="sr-only">June to October</caption><thead><tr><th></th><th scope="col"></th><th scope="col">Jun</th><th scope="col"></th><th scope="col"></th><th scope="col"></th><th scope="col"></th><th scope="col">Jul</th><th scope="col"></th><th scope="col"></th><th scope="col"></th><th scope="col">Aug</th><th scope="col"></th><th scope="col"></th><th scope="col"></th><th scope="col"></th><th scope="col">Sep</th><th scope="col"></th><th scope="col"></th><th scope="col"></th><th scope="col">Oct</th><th scope="col"></th><th scope="col"></th><th scope="col"></th></tr></thead><tbody><tr><th scope="row">Mon</th><td></td><td title="2026-06-01: research or planning" tabindex="0"><i class="chat d-other"></i></td><td></td><td title="2026-06-15: research or planning" tabindex="0"><i class="chat d-other"></i></td><td></td><td></td><td title="2026-07-06: research or planning" tabindex="0"><i class="chat d-other"></i></td><td title="2026-07-13: research or planning" tabindex="0"><i class="chat d-other"></i></td><td></td><td></td><td title="2026-08-03: research or planning" tabindex="0"><i class="chat d-other"></i></td><td></td><td></td><td></td><td></td><td title="2026-09-07: research or planning on Walldrobe" tabindex="0"><i class="chat d-wd"></i></td><td></td><td title="2026-09-21: research or planning" tabindex="0"><i class="chat d-other"></i></td><td title="2026-09-28: 11 commits to 5K 5 Bars" tabindex="0"><i class="d-5k" style="--s:0.59"></i></td><td title="2026-10-05: 31 commits to this site, 8 commits to Walldrobe" tabindex="0"><i class="pie" style="--s:0.81"><svg viewBox="-1 -1 2 2" aria-hidden="true"><path class="d-wd" d="M0 0L0.000 -1.000A1 1 0 0 1 0.961 -0.278Z"/><path class="d-other" d="M0 0L0.961 -0.278A1 1 0 1 1 -0.000 -1.000Z"/></svg></i></td><td></td><td></td><td></td></tr><tr><th scope="row"><span class="sr-only">Tue</span></th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="mark first" title="First day at Wharton, August 4" tabindex="0"><span class="sr-only">First day at Wharton, August 4</span></td><td></td><td></td><td title="2026-08-25: research or planning on Walldrobe" tabindex="0"><i class="chat d-wd"></i></td><td></td><td title="2026-09-08: research or planning on Walldrobe" tabindex="0"><i class="chat d-wd"></i></td><td></td><td title="2026-09-22: research or planning on Walldrobe" tabindex="0"><i class="chat d-wd"></i></td><td title="2026-09-29: 57 commits to this site, 9 commits to DrinkDock, 8 commits to 5K 5 Bars" tabindex="0"><i class="pie" style="--s:0.99"><svg viewBox="-1 -1 2 2" aria-hidden="true"><path class="d-5k" d="M0 0L0.000 -1.000A1 1 0 0 1 0.678 -0.735Z"/><path class="d-dd" d="M0 0L0.678 -0.735A1 1 0 0 1 0.998 -0.070Z"/><path class="d-other" d="M0 0L0.998 -0.070A1 1 0 1 1 -0.000 -1.000Z"/></svg></i></td><td title="2026-10-06: 48 commits to this site, 3 commits to Walldrobe" tabindex="0"><i class="pie" style="--s:0.88"><svg viewBox="-1 -1 2 2" aria-hidden="true"><path class="d-wd" d="M0 0L0.000 -1.000A1 1 0 0 1 0.652 -0.758Z"/><path class="d-other" d="M0 0L0.652 -0.758A1 1 0 1 1 -0.000 -1.000Z"/></svg></i></td><td></td><td></td><td title="2026-10-27: 93 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:1.00"></i></td></tr><tr><th scope="row">Wed</th><td></td><td></td><td title="2026-06-10: research or planning" tabindex="0"><i class="chat d-other"></i></td><td></td><td></td><td></td><td title="2026-07-08: research or planning" tabindex="0"><i class="chat d-other"></i></td><td title="2026-07-15: research or planning" tabindex="0"><i class="chat d-other"></i></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td title="2026-09-09: research or planning" tabindex="0"><i class="chat d-other"></i></td><td></td><td></td><td title="2026-09-30: 12 commits to Walldrobe, 6 commits to this site, 4 commits to In." tabindex="0"><i class="pie" style="--s:0.69"><svg viewBox="-1 -1 2 2" aria-hidden="true"><path class="d-in" d="M0 0L0.000 -1.000A1 1 0 0 1 0.910 -0.415Z"/><path class="d-wd" d="M0 0L0.910 -0.415A1 1 0 1 1 -0.990 0.142Z"/><path class="d-other" d="M0 0L-0.990 0.142A1 1 0 0 1 -0.000 -1.000Z"/></svg></i></td><td title="2026-10-07: 31 commits to this site" tabindex="0"><i class="d-other" style="--s:0.76"></i></td><td></td><td></td><td title="2026-10-28: 105 commits to Dreamy" tabindex="0"><i class="d-dreamy" style="--s:1.00"></i></td></tr><tr><th scope="row"><span class="sr-only">Thu</span></th><td></td><td title="2026-06-04: research or planning" tabindex="0"><i class="chat d-other"></i></td><td></td><td></td><td></td><td></td><td title="2026-07-09: research or planning on In." tabindex="0"><i class="chat d-in"></i></td><td></td><td></td><td title="2026-07-30: research or planning on In." tabindex="0"><i class="chat d-in"></i></td><td></td><td></td><td></td><td></td><td></td><td title="2026-09-10: research or planning on Walldrobe" tabindex="0"><i class="chat d-wd"></i></td><td title="2026-09-17: research or planning" tabindex="0"><i class="chat d-other"></i></td><td title="2026-09-24: research or planning" tabindex="0"><i class="chat d-other"></i></td><td title="2026-10-01: 22 commits to Walldrobe, 3 commits to DrinkDock, 1 commit to 5K 5 Bars" tabindex="0"><i class="pie" style="--s:0.72"><svg viewBox="-1 -1 2 2" aria-hidden="true"><path class="d-5k" d="M0 0L0.000 -1.000A1 1 0 0 1 0.640 -0.769Z"/><path class="d-wd" d="M0 0L0.640 -0.769A1 1 0 1 1 -0.640 -0.769Z"/><path class="d-dd" d="M0 0L-0.640 -0.769A1 1 0 0 1 -0.000 -1.000Z"/></svg></i></td><td title="2026-10-08: 6 commits to this site" tabindex="0"><i class="d-other" style="--s:0.52"></i></td><td></td><td title="2026-10-22: 1 commit to this site" tabindex="0"><i class="d-other" style="--s:0.42"></i></td><td title="2026-10-29: 138 commits to Dreamy, 1 commit to this site" tabindex="0"><i class="pie" style="--s:1.00"><svg viewBox="-1 -1 2 2" aria-hidden="true"><path class="d-dreamy" d="M0 0L0.000 -1.000A1 1 0 1 1 -0.627 -0.779Z"/><path class="d-other" d="M0 0L-0.627 -0.779A1 1 0 0 1 -0.000 -1.000Z"/></svg></i></td></tr><tr><th scope="row">Fri</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td title="2026-07-24: research or planning on Dreamy" tabindex="0"><i class="chat d-dreamy"></i></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td title="2026-10-02: 51 commits to Walldrobe, 3 commits to DrinkDock" tabindex="0"><i class="pie" style="--s:0.89"><svg viewBox="-1 -1 2 2" aria-hidden="true"><path class="d-wd" d="M0 0L0.000 -1.000A1 1 0 1 1 -0.651 -0.759Z"/><path class="d-dd" d="M0 0L-0.651 -0.759A1 1 0 0 1 0.000 -1.000Z"/></svg></i></td><td title="2026-10-09: 20 commits to this site" tabindex="0"><i class="d-other" style="--s:0.68"></i></td><td></td><td title="2026-10-23: 22 commits to this site, 1 commit to Dreamy" tabindex="0"><i class="pie" style="--s:0.70"><svg viewBox="-1 -1 2 2" aria-hidden="true"><path class="d-dreamy" d="M0 0L0.000 -1.000A1 1 0 0 1 0.645 -0.765Z"/><path class="d-other" d="M0 0L0.645 -0.765A1 1 0 1 1 0.000 -1.000Z"/></svg></i></td><td title="2026-10-30: 31 commits to this site, 8 commits to Dreamy" tabindex="0"><i class="pie" style="--s:0.81"><svg viewBox="-1 -1 2 2" aria-hidden="true"><path class="d-dreamy" d="M0 0L0.000 -1.000A1 1 0 0 1 0.961 -0.278Z"/><path class="d-other" d="M0 0L0.961 -0.278A1 1 0 1 1 -0.000 -1.000Z"/></svg></i></td></tr><tr><th scope="row"><span class="sr-only">Sat</span></th><td class="mark race" title="Trail ultramarathon near Ithaca, May 30" tabindex="0"><span class="sr-only">Trail ultramarathon near Ithaca, May 30</span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td title="2026-09-26: research or planning" tabindex="0"><i class="chat d-other"></i></td><td title="2026-10-03: 28 commits to Walldrobe, 2 commits to this site" tabindex="0"><i class="pie" style="--s:0.75"><svg viewBox="-1 -1 2 2" aria-hidden="true"><path class="d-wd" d="M0 0L0.000 -1.000A1 1 0 1 1 -0.656 -0.755Z"/><path class="d-other" d="M0 0L-0.656 -0.755A1 1 0 0 1 -0.000 -1.000Z"/></svg></i></td><td></td><td></td><td title="2026-10-24: 15 commits to this site" tabindex="0"><i class="d-other" style="--s:0.63"></i></td><td></td></tr><tr><th scope="row">Sun</th><td></td><td class="mark race" title="Western Mass 70.3, the bike leg of a relay, June 7" tabindex="0"><span class="sr-only">Western Mass 70.3, the bike leg of a relay, June 7</span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td title="2026-09-27: 12 commits to In." tabindex="0"><i class="d-in" style="--s:0.60"></i></td><td title="2026-10-04: 17 commits to Walldrobe, 8 commits to this site" tabindex="0"><i class="pie" style="--s:0.72"><svg viewBox="-1 -1 2 2" aria-hidden="true"><path class="d-wd" d="M0 0L0.000 -1.000A1 1 0 1 1 -0.905 0.426Z"/><path class="d-other" d="M0 0L-0.905 0.426A1 1 0 0 1 0.000 -1.000Z"/></svg></i></td><td></td><td></td><td title="2026-10-25: 7 commits to 5K 5 Bars" tabindex="0"><i class="d-5k" style="--s:0.54"></i></td><td></td></tr></tbody></table></div><p class="log-tip" aria-live="polite"></p><p class="src">January 8 to October 30, 2026. The chat history runs through early October. In late October I went back to Dreamy as a passion project and worked on its fitness and planning engines. Sources: GitHub history for each project and this site; my Claude and ChatGPT chats.</p></section>
 
     <section class="section ai-part" id="how" aria-labelledby="how-h">
       <h2 class="stop-h" id="how-h">How I work with it</h2>
       <ul class="habits plain">
-        <li><b>I use more than one model.</b> When Claude audited the whole Dreamy codebase, I had Codex audit the audit. I sent the same Dreamy research question to Claude, Gemini and ChatGPT, then merged the answers.</li>
+        <li><b>I use more than one model.</b> Claude Code did most of the building on Dreamy, and I used Codex as a second system to audit it. Codex was better at a few things, like security fixes, and when Claude got stuck, Codex often figured it out. I sent the same Dreamy research question to Claude, Gemini and ChatGPT, then merged the answers.</li>
         <li><b>Every number needs a source.</b> If it can&rsquo;t show me where a number came from, the number comes off.</li>
         <li><b>I test on real data and real people.</b> Dreamy ran on beta runners&rsquo; training histories and Walldrobe on real walls.</li>
         <li><b>I approve anything that goes out.</b> It drafts emails and I send them myself.</li>
@@ -2152,11 +2144,7 @@ details.more > p + p { margin-top: 12px; }
   </footer>
 </div>
 <script>
-// Nov 6 to 7 (Jason: "we def should be able to see the full cheat sheet and click into a few of these examples or photos
-// more? like let them full screen"): any link with data-full opens its picture full screen. data-full can hold several
-// pictures (the cheat sheet's two pages), data-alt their alt text split by |, data-cap a caption (else the nearest title).
-// Arrows, keys and swipes go through every picture on the page; tap a picture to zoom in and pan, tap again to fit.
-// First in the page script, so nothing earlier can stop it.
+
 (function () {
   var pics = [].slice.call(document.querySelectorAll('a[data-full]'));
   if (!pics.length) return;
@@ -2178,7 +2166,7 @@ details.more > p + p { margin-top: 12px; }
   });
   if (items.length < 2) { box.querySelector('.wb-prev').hidden = true; box.querySelector('.wb-next').hidden = true; }
   function fit() { box.classList.remove('zoom'); img.style.width = ''; }
-  function draw() { var it = items[cur]; fit(); img.src = it.src; img.alt = it.alt; cap.textContent = it.cap; box.setAttribute('aria-label', it.cap || it.alt || 'Picture'); }   // Nov 8 scan: the dialog was always called "Picture"
+  function draw() { var it = items[cur]; fit(); img.src = it.src; img.alt = it.alt; cap.textContent = it.cap; box.setAttribute('aria-label', it.cap || it.alt || 'Picture'); }
   function go(d) { cur = (cur + d + items.length) % items.length; draw(); }
   pics.forEach(function (a) {
     a.addEventListener('click', function (e) { e.preventDefault(); last = a; cur = +a.getAttribute('data-i'); draw(); box.showModal(); });
@@ -2202,7 +2190,7 @@ details.more > p + p { margin-top: 12px; }
   box.addEventListener('toggle', function () { if (box.open) document.documentElement.classList.add('lb-open'); });
 })();
 (function () {
-  // Copy-email buttons: clipboard first, text selection as a fallback.
+
   document.querySelectorAll('button.copy').forEach(function (btn) {
     var original = btn.textContent;
     btn.addEventListener('click', function () {
@@ -2230,7 +2218,6 @@ details.more > p + p { margin-top: 12px; }
     });
   });
 
-  // Walldrobe: the frames stay, the prints rotate.
   var swapBtn = document.getElementById('swap');
   var status = document.getElementById('swap-status');
   var frames = Array.prototype.slice.call(document.querySelectorAll('.wall .frame'));
@@ -2256,7 +2243,7 @@ details.more > p + p { margin-top: 12px; }
     var on = box.querySelector('.art.on');
     var off = layers[0] === on ? layers[1] : layers[0];
     off.className = 'art ' + next;
-    // Force a style flush so the fade runs.
+
     void off.offsetWidth;
     off.classList.add('on');
     on.classList.remove('on');
@@ -2265,8 +2252,6 @@ details.more > p + p { margin-top: 12px; }
   });
   })();
 
-  // band
-  // The palette band: tap or point at a stripe to see the color's name and what it does on this page. Palette cards copy their hex.
   (function () {
     var fig = document.getElementById('band');
     if (fig) {
@@ -2290,14 +2275,11 @@ details.more > p + p { margin-top: 12px; }
       btn.addEventListener('click', function () {
         var hex = btn.getAttribute('data-hex');
         var ok = function () { btn.classList.add('copied'); setTimeout(function () { btn.classList.remove('copied'); }, 1600); };
-        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(hex).then(ok, function () {}); 
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(hex).then(ok, function () {});
       });
     });
   })();
-// /band
 
-  // skills
-  // Exhibit 1: lay the words out from hard (left, or top on a phone) to soft skills. Deterministic spiral packing.
   (function () {
     var box = document.getElementById('kcloud');
     if (!box) return;
@@ -2315,8 +2297,7 @@ details.more > p + p { margin-top: 12px; }
       var W = box.clientWidth;
       if (!W) return;
       lastW = W;
-      // Oct 18: on a phone, show the words as plain wrapped rows by group instead of the packed cloud.
-      // The packed cloud broke on iPhone Safari (one word on top, a big gap, the rest piled up at the bottom).
+
       if (W < 700) {
         box.classList.remove('placed');
         words.forEach(function (el) { el.style.transform = ''; el.style.opacity = ''; el.style.fontSize = ''; el.style.zIndex = ''; });
@@ -2328,7 +2309,7 @@ details.more > p + p { margin-top: 12px; }
       box.classList.add('placed');
       var vertical = W < 700;
       var PX = vertical ? 4 : 7, PY = vertical ? 2 : 4;
-      // A long word on a narrow phone shrinks to fit rather than failing to place.
+
       words.forEach(function (el) {
         el.style.fontSize = '';
         var need = el.offsetWidth + PX * 2 + 4;
@@ -2337,7 +2318,7 @@ details.more > p + p { margin-top: 12px; }
       var items = words.map(function (el) {
         return { el: el, w: el.offsetWidth + PX * 2, h: el.offsetHeight + PY * 2, c: CATS.indexOf(el.getAttribute('data-cat')), wt: +el.className.match(/kw(\d)/)[1], s: hash(el.textContent) };
       });
-      // Band for each group: columns on a wide screen, rows sized by word area on a phone.
+
       var bands = [], n = CATS.length;
       if (vertical) {
         var y = 0;
@@ -2349,7 +2330,7 @@ details.more > p + p { margin-top: 12px; }
           y += hgt;
         }
       } else {
-        // Column widths follow how much each group holds, so every column ends up about the same height.
+
         var areas = CATS.map(function (_, c) { var a = 0; items.forEach(function (it) { if (it.c === c) a += it.w * it.h; }); return a; });
         var tot = areas.reduce(function (a, b) { return a + b; }, 0), x0 = 0;
         areas.forEach(function (a) { var bw = W * a / tot; bands.push({ lo: x0, hi: x0 + bw }); x0 += bw; });
@@ -2375,7 +2356,7 @@ details.more > p + p { margin-top: 12px; }
         return null;
       }
       if (vertical) {
-        // Phone: each group is its own small cloud, stacked from hard (top) to soft (bottom).
+
         var yCur = 0;
         for (var g = 0; g < n; g++) {
           var mine = [];
@@ -2408,8 +2389,6 @@ details.more > p + p { margin-top: 12px; }
       motion.reset();
     }
 
-    // Motion: words swell and make room around the cursor, drift a little while the cloud is on screen,
-    // and shift by size as you scroll past. Off for reduced motion.
     var motion = (function () {
       var still = window.matchMedia('(prefers-reduced-motion: reduce)');
       var st = [], mx = null, my = null, raf = 0, onScreen = false, t0 = performance.now(), entered = false, t1 = 0;
@@ -2435,11 +2414,11 @@ details.more > p + p { margin-top: 12px; }
           }
           var narrow = box.clientWidth < 700;
           if (!narrow && w.el.getAttribute('aria-pressed') === 'true') ts = Math.max(ts, 1.12);
-          // Phones stay still once the words are in: no drift and no scroll shift, so words can't run into each other
+
           if (!narrow) { tx += Math.sin(t * 0.7 + q.ph) * 2.2; ty += Math.cos(t * 0.55 + q.ph * 1.3) * 1.8; ty += prog * (q.wt - 3) * -5; }
           var lag = Math.min(1, Math.max(0, intro * 1.6 - (5 - q.wt) * 0.12));
           var ei = 1 - Math.pow(1 - lag, 3);
-          // Oct 7: words fade in where they will sit; no fly-in or grow-in, so nothing can collide on the way in
+
           var sx = 0, sy = 0;
           var ex = q.w * (ts - 1) / 2 + 2, Wb = box.clientWidth;
           tx = Math.max(ex - q.x, Math.min(Wb - q.x - q.w - ex, tx));
@@ -2486,7 +2465,6 @@ details.more > p + p { margin-top: 12px; }
       motion.kick();
     }
 
-    // After a tap, bring the explanation into view if it is below the screen. It no longer floats over the cloud.
     function reveal() {
       var r = detail.getBoundingClientRect();
       if (r.bottom > window.innerHeight || r.top < 0) detail.scrollIntoView({ block: 'nearest', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
@@ -2500,14 +2478,13 @@ details.more > p + p { margin-top: 12px; }
       if (!listing) layout();
     });
 
-    // A click pins a word. With a mouse, hovering previews another word and leaving the cloud goes back to the pinned one.
     var fine = window.matchMedia('(hover: hover) and (pointer: fine)'), pinned = null;
     words.forEach(function (el) {
       el.addEventListener('click', function () { pinned = el; select(el); reveal(); });
       el.addEventListener('mouseenter', function () { if (fine.matches && box.clientWidth >= 700) select(el); });
     });
     box.addEventListener('mouseleave', function () { if (pinned) select(pinned); });
-    // A tap near a small word still counts: pick the closest word within 22px.
+
     box.addEventListener('click', function (e) {
       if (e.target.classList.contains('kw') || !rects.length) return;
       var r = box.getBoundingClientRect(), px = e.clientX - r.left, py = e.clientY - r.top, best = null, bd = 22;
@@ -2517,7 +2494,7 @@ details.more > p + p { margin-top: 12px; }
       });
       if (best) { pinned = best; select(best); reveal(); }
     });
-    // Arrow keys move between words, so the cloud is one stop in the tab order.
+
     box.addEventListener('keydown', function (e) {
       var i = words.indexOf(document.activeElement);
       if (i < 0) return;
@@ -2546,10 +2523,9 @@ details.more > p + p { margin-top: 12px; }
       tmr = setTimeout(function () { if (box.clientWidth !== lastW) layout(); }, 150);
     });
   })();
-// /skills
+
 })();
 
-// Reading progress: the thin MS Blue rule at the top fills as you scroll.
 (function () {
   var bar = document.querySelector('.progress');
   if (!bar) return;
@@ -2559,16 +2535,12 @@ details.more > p + p { margin-top: 12px; }
   window.addEventListener('resize', set); set();
 })();
 
-// Embedded demos on project pages grow to fit their content (same origin only).
 (function () {
   document.querySelectorAll('iframe[data-autoh]').forEach(function (f) {
-    // Oct 7: Jason: no scrolling inside the embedded apps, and the whole app always shows. The frame takes the app's full
-    // height and the app's own scrollbars are turned off. Works for every demo on this origin (the DrinkDock embeds, and
-    // 5K 5 Bars and In., which live on the same github.io site); anything else keeps its fixed height.
+
     function fit() { try { var d = f.contentDocument; if (d && d.body) {
       d.documentElement.style.overflow = 'hidden'; d.body.style.overflow = 'hidden';
-      // Measure the content, not the body: an app whose body is at least the window tall would otherwise grow the frame
-      // a little more every time it's measured.
+
       var bs = d.defaultView.getComputedStyle(d.body), h = 0;
       [].forEach.call(d.body.children, function (c) {
         var cs = d.defaultView.getComputedStyle(c);
@@ -2578,11 +2550,8 @@ details.more > p + p { margin-top: 12px; }
       h += (d.defaultView.scrollY || 0) + (parseFloat(bs.paddingBottom) || 0) + (parseFloat(bs.borderBottomWidth) || 0) + (parseFloat(bs.marginBottom) || 0);
       if (!h) return;
       var fs = getComputedStyle(f), edge = (parseFloat(fs.borderTopWidth) || 0) + (parseFloat(fs.borderBottomWidth) || 0);
-      f.style.height = Math.ceil(h + edge) + 'px'; } } catch (e) { /* cross-origin: keep fixed height */ } }
-    // Oct 8 (Astra's review): the apps were built for a phone screen, so their "full screen" sizes (100svh and the like)
-    // became the whole frame once it grew to the app's height. That left the 5K race with a long blank tail and In.'s
-    // sheets opening below the visitor's screen. In the frame, screen-sized rules use the visitor's real screen height,
-    // and when a popup opens the page scrolls to it and moves focus into it.
+      f.style.height = Math.ceil(h + edge) + 'px'; } } catch (e) {  } }
+
     function adapt(d) {
       var vh = window.innerHeight, css = [];
       [].forEach.call(d.styleSheets, function (sh) {
@@ -2613,7 +2582,7 @@ details.more > p + p { margin-top: 12px; }
       if (pop === shown) return;
       shown = pop;
       if (!pop) return;
-      // The popup's own box (a sheet at the bottom, or a card in the middle), not the dimmed layer around it.
+
       var box = pop.firstElementChild.getBoundingClientRect(), fr = f.getBoundingClientRect();
       var top = window.scrollY + fr.top + box.top, room = window.innerHeight;
       var y = box.height < room - 32 ? top - (room - box.height) / 2 : top - 16;
@@ -2624,19 +2593,18 @@ details.more > p + p { margin-top: 12px; }
       }
     }
     f.addEventListener('load', function () {
-      try { adapt(f.contentDocument); } catch (e) { /* cross-origin */ }
+      try { adapt(f.contentDocument); } catch (e) {  }
       fit();
       try {
         var d = f.contentDocument;
         new ResizeObserver(fit).observe(d.body);
         var q = false;
         new MutationObserver(function () { if (q) return; q = true; requestAnimationFrame(function () { q = false; fit(); reveal(d); }); }).observe(d.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['class', 'hidden', 'open', 'style'] });
-      } catch (e) { /* ignore */ }
+      } catch (e) {  }
     });
   });
 })();
 
-  // Pivot or Perish replay (How I use AI page). Its own block so a problem here can't stop the rest of the page.
   (function () {
     var root = document.getElementById('sim'), D = window.SIM;
     if (!root || !D) return;
@@ -2647,7 +2615,7 @@ details.more > p + p { margin-top: 12px; }
     function money(v) { return v >= 1000 ? '$' + (v / 1000).toFixed(2) + 'B' : (v < 0 ? '&minus;$' + Math.abs(v).toFixed(0) : '$' + v.toFixed(0)) + 'M'; }
     var cum = []; (function () { var t = 0; [0, 2, 3, 4, 5, 6, 7, 8, 9].forEach(function (s) { t += D.ni[s]; cum.push(t); }); })();
     var testCum = D.ni[0] + D.ni[1];
-    // Matrix: Brand top left, Experience top right, Frictionless bottom right, Low Price bottom left, like the sim.
+
     var AX = [['B', 'Brand', -1, -1], ['E', 'Experience', 1, -1], ['F', 'Frictionless', 1, 1], ['L', 'Low Price', -1, 1]], R = 82;
     function pt(q, v) { var a = AX[q], r = v / 10 * R / Math.SQRT2; return [a[2] * r, a[3] * r]; }
     function poly(vals) { return vals.map(function (v, q) { return pt(q, v).join(','); }).join(' '); }
@@ -2727,7 +2695,6 @@ details.more > p + p { margin-top: 12px; }
     render();
   })();
 
-// A link that points inside a folded section opens it.
 (function () {
   function open() {
     var id = decodeURIComponent(location.hash.slice(1)); if (!id) return;
@@ -2738,7 +2705,6 @@ details.more > p + p { margin-top: 12px; }
   window.addEventListener('hashchange', open); open();
 })();
 
-// Start: the small name in the top bar only appears once the big name has scrolled away
 (function () {
   var big = document.querySelector('.name'), small = document.querySelector('.tb-name');
   if (!big || !small || !('IntersectionObserver' in window)) { if (small) small.classList.add('on'); return; }
@@ -2750,12 +2716,9 @@ details.more > p + p { margin-top: 12px; }
   }, { threshold: 0 }).observe(big);
 })();
 
-// Oct 31: a hello for anyone who opens the console (Jason: "even something gimmicky like jason left you a message")
 try { console.log('%cJason left you a message.%c\nHi. If you found this, say so when you reach out: jtraum@wharton.upenn.edu',
   'font: 700 15px/1.6 "Libre Franklin", sans-serif; color: #5CC495', 'font: 13px/1.6 "Libre Franklin", sans-serif; color: #C8D0D8'); } catch (e) {}
 
-// Nov 2: the career map's Brown, Guggenheim and Morgan Stanley names open a short note. On a laptop the stops sit in one row,
-// so the open note goes in one slot under the map; on a phone it opens under its own stop.
 (function () {
   var path = document.getElementById('path');
   if (!path) return;
@@ -2800,7 +2763,7 @@ try { console.log('%cJason left you a message.%c\nHi. If you found this, say so 
   Array.prototype.forEach.call(nav.querySelectorAll('li'), function (li) {
     if (seen.indexOf(li.getAttribute('data-stop')) >= 0 && !li.classList.contains('here')) li.classList.add('seen');
   });
-  // On Start, #contact is its own stop: mark it as where you are when the link or the address points there
+
   var start = nav.querySelector('li[data-stop="start"]'), contact = nav.querySelector('li[data-stop="contact"]');
   if (start && contact && start.classList.contains('here')) {
     var sync = function () {
@@ -2812,14 +2775,11 @@ try { console.log('%cJason left you a message.%c\nHi. If you found this, say so 
     };
     sync(); window.addEventListener('hashchange', sync);
   }
-  // Side pages: say which section you're in
+
   var hereA = here && here.querySelector('a');
   if (hereA && !hereA.hasAttribute('aria-current')) hereA.setAttribute('aria-current', 'location');
 })();
-// Oct 7: things to play with (IDEAS.md). Each one checks its element is on the page first.
 
-// The room on About me: drag a painting (or focus it and use the arrow keys) to rehang it.
-// The still life won't hang straight; the third time, tape holds it. The person walks over to look.
 (function () {
   var room = document.querySelector('.gal-room');
   if (!room) return;
@@ -2890,14 +2850,12 @@ try { console.log('%cJason left you a message.%c\nHi. If you found this, say so 
   }
   room.querySelectorAll('.gal-p').forEach(bind);
 
-  // Oct 7: Run Walldrobe. Each press hangs the next wall the real Walldrobe engine picked from my work (tools/walldrobe_real),
-  // each in its own layout. The pieces fade off, the new wall fades on one piece at a time, and the person walks over.
   var run = document.querySelector('.gal-run'), why = document.querySelector('.gal-why'), wd = document.getElementById('walldata'), walls = [];
   try { walls = JSON.parse(wd.textContent); } catch (e) {}
   if (!run || !walls.length) return;
   var at = 0, busy = false;
   run.hidden = false;
-  // Hang wall k. `calm` skips the animation (reduced motion, or rebuilding a wall someone sent me).
+
   function hang(k, calm, done) {
     at = k;
     var wall = walls[at], old = [].slice.call(room.querySelectorAll('.gal-p'));
@@ -2918,7 +2876,7 @@ try { console.log('%cJason left you a message.%c\nHi. If you found this, say so 
         if (!calm && b.animate) b.animate([{ opacity: 0, transform: 'scale(1.04)' }, { opacity: 1, transform: 'none' }], { duration: 420, delay: 120 + i * 90, easing: 'ease-out', fill: 'backwards' });
         return b;
       });
-      // Step back to the left to look at the new wall.
+
       if (person) {
         if (!calm) person.classList.add('walk');
         person.style.setProperty('--px', '4');
@@ -2938,8 +2896,6 @@ try { console.log('%cJason left you a message.%c\nHi. If you found this, say so 
     if (calm) busy = false;
   });
 
-  // Oct 8 (Jason): "Think you can do better?" Rehang it, then send me your wall. The link in the email rebuilds the
-  // wall exactly as you left it, and a picture of it goes on your clipboard (or downloads) to paste in.
   var send = document.querySelector('.gal-send');
   function frames() { return [].slice.call(room.querySelectorAll('.gal-p')); }
   function stateLink() {
@@ -2959,13 +2915,13 @@ try { console.log('%cJason left you a message.%c\nHi. If you found this, say so 
     if (why) why.textContent = 'Someone rehung this wall and sent it to me.';
     setTimeout(function () { room.scrollIntoView({ block: 'center' }); }, 300);
   }
-  // Draw the room as it looks right now: the wall and furniture, each frame and mat, the art, and the person.
+
   function svgImage(svg, cb) {
     var c = svg.cloneNode(true), src = svg.querySelectorAll('*'), dst = c.querySelectorAll('*');
     function paint(from, to) {
       var cs = getComputedStyle(from);
       ['fill', 'stroke', 'stroke-width', 'opacity', 'stroke-linecap', 'stroke-linejoin'].forEach(function (k) { to.setAttribute(k, cs.getPropertyValue(k)); });
-      // Book titles: the picture can't reach the page's fonts or CSS variables, so spell the font out with a plain fallback.
+
       if (to.tagName === 'text') to.setAttribute('style', 'font-family:Arial,Helvetica,sans-serif;font-size:' + cs.fontSize + ';font-weight:' + cs.fontWeight + ';letter-spacing:' + cs.letterSpacing);
     }
     paint(svg, c);
@@ -3017,7 +2973,7 @@ try { console.log('%cJason left you a message.%c\nHi. If you found this, say so 
       try {
         if (navigator.clipboard && window.ClipboardItem) copied = navigator.clipboard.write([new ClipboardItem({ 'image/png': pic })]).then(function () { return true; }, function () { return false; });
       } catch (e) { copied = Promise.resolve(false); }
-      // Open the draft right away, inside the click. Safari blocks a mailto that opens after waiting on the picture.
+
       var body = 'Jason,\n\nNo offense to Walldrobe, but I hung it better. Here’s my wall:\n' + link + '\n\nI’ll paste a picture of it here.\n\n';
       location.href = 'mailto:jtraum@wharton.upenn.edu?subject=' + encodeURIComponent('I rehung your wall. It’s better now.') + '&body=' + encodeURIComponent(body);
       copied.then(function (ok) {
@@ -3035,7 +2991,6 @@ try { console.log('%cJason left you a message.%c\nHi. If you found this, say so 
   restore();
 })();
 
-// Bad taste mode on the "after" palette chart: same data, every chart crime at once.
 document.querySelectorAll('.tube').forEach(function (b) {
   b.addEventListener('click', function () {
     var on = b.getAttribute('aria-pressed') !== 'true';
@@ -3044,7 +2999,6 @@ document.querySelectorAll('.tube').forEach(function (b) {
   });
 });
 
-// The rejection pile on How I use AI: tap the top card to flip it, tap again to send it to the back.
 (function () {
   var pile = document.querySelector('.pile');
   if (!pile) return;
@@ -3080,9 +3034,6 @@ document.querySelectorAll('.tube').forEach(function (b) {
   lay();
 })();
 
-/* Oct 7: pictures develop. Each picture with data-ht first shows as a print in the page's color (--ht-ink on --ht-paper),
-   drawn from a 160px grayscale thumbnail, then resolves into the real image once it is loaded and on screen. Once per view.
-   No JS or reduced motion: just the picture. */
 (function () {
   var imgs = [].slice.call(document.querySelectorAll('img[data-ht]'));
   if (!imgs.length || !window.IntersectionObserver) return;
@@ -3100,19 +3051,18 @@ document.querySelectorAll('.tube').forEach(function (b) {
     return [w, h];
   }
 
-  // Halftone: a 45 degree dot screen, dot area proportional to how dark that spot is.
   function halftone(o) {
     var wh = place(o), w = wh[0], h = wh[1];
     if (!w || !h || !o.th) return false;
     var c = o.c, g = c.getContext('2d');
     c.width = Math.round(w * dpr); c.height = Math.round(h * dpr);
-    // sample grid with object-fit: cover, like the picture itself
+
     var tw = o.th.naturalWidth, tht = o.th.naturalHeight, sw = tw, sh = tht, sx = 0, sy = 0;
     if (getComputedStyle(o.img).objectFit === 'cover') {
       var box = w / h, nat = tw / tht;
       if (nat > box) { sw = tht * box; sx = (tw - sw) / 2; } else { sh = tw / box; sy = (tht - sh) / 2; }
     }
-    var p = Math.max(3.2, Math.min(5.4, w / 62));          // dot pitch in CSS px
+    var p = Math.max(3.2, Math.min(5.4, w / 62));
     var gw = Math.max(2, Math.round(w / p * 2)), gh = Math.max(2, Math.round(h / p * 2));
     var s = document.createElement('canvas'); s.width = gw; s.height = gh;
     var sg = s.getContext('2d'); sg.imageSmoothingQuality = 'high';
@@ -3157,7 +3107,7 @@ document.querySelectorAll('.tube').forEach(function (b) {
     setTimeout(function () {
       o.c.classList.add('dev');
       setTimeout(function () { if (o.c.parentNode) o.c.parentNode.removeChild(o.c); }, 700);
-    }, 180 + Math.random() * 160);  // Oct 8 (Jason): faster; was 650 to 1000ms, then a 1.2s fade
+    }, 180 + Math.random() * 160);
   }
 
   var io = new IntersectionObserver(function (es) {
@@ -3180,8 +3130,6 @@ document.querySelectorAll('.tube').forEach(function (b) {
   }
 })();
 
-/* Oct 7: mix two palette colors like paint. Tap a well for the next color, drag a palette card onto a well,
-   slide for how much of each. Paint mixes come from Spectral.js, precomputed at build; screen is the plain RGB average. */
 (function () {
   var mx = document.getElementById('mixer'), dataEl = document.getElementById('mixdata');
   if (!mx || !dataEl) return;
@@ -3240,8 +3188,6 @@ document.querySelectorAll('.tube').forEach(function (b) {
   draw(false); if (window.IntersectionObserver && !calm) swirl.style.opacity = 1;
 })();
 
-/* Oct 7: silent product loops. They load only when on screen, pause when off screen, and never autoplay with reduced motion;
-   tap to play or pause. */
 (function () {
   var vids = [].slice.call(document.querySelectorAll('video.loop'));
   if (!vids.length) return;
@@ -3260,8 +3206,6 @@ document.querySelectorAll('.tube').forEach(function (b) {
   vids.forEach(function (v) { io.observe(v); });
 })();
 
-/* Oct 7: Start's path draws itself as you scroll. The pen sits 60% down the screen; each stop's line fills as the pen passes,
-   its dot lights and its pictures come up. Drawn lines stay drawn. */
 (function () {
   var path = document.querySelector('ol.path');
   if (!path || (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
@@ -3284,10 +3228,6 @@ document.querySelectorAll('.tube').forEach(function (b) {
   draw();
 })();
 
-// Oct 8: the easel on About me draws like soft oil pastels (Jason: "it should be like soft oil pastels"). Wax catches the
-// paper's tooth first, so a light first pass leaves the paper showing through, and going over it again fills it in. Each new
-// layer covers most of what's under it but blends into it, and the stick's tip picks up the color it drags through, so it
-// smears like the real thing until it's back on clean paper. Colors mix with Kubelka-Munk (tables from Spectral.js, MIT, #kmdata).
 function easelPastel() {
   var ez = document.getElementById('easel'), kd = document.getElementById('kmdata');
   if (!ez || !kd) return;
@@ -3295,17 +3235,17 @@ function easelPastel() {
   var cv = ez.querySelector('canvas'), ctx = cv.getContext && cv.getContext('2d');
   if (!ctx) return;
   var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  // Draw at the screen's real resolution so the wax and the paper grain stay crisp.
+
   var cw = cv.getBoundingClientRect().width || 400, dpr = Math.min(2, window.devicePixelRatio || 1);
   var W = Math.max(320, Math.min(1000, Math.round(cw * dpr))), H = Math.round(W * 3 / 4);
   cv.width = W; cv.height = H;
-  var S = W / 400; // demo and stick sizes are written for a 400 wide canvas
+  var S = W / 400;
   var N = 38, B = T.B, CMF = T.CMF, M = T.M;
   function unc(x) { x /= 255; return x > 0.04045 ? Math.pow((x + 0.055) / 1.055, 2.4) : x / 12.92; }
   function cmp(x) { x = x > 0.0031308 ? 1.055 * Math.pow(x, 1 / 2.4) - 0.055 : x * 12.92; return x <= 0 ? 0 : x >= 1 ? 255 : x * 255; }
   var cache = new Map();
   function spec(r, g, b) {
-    // Oct 31: round, not floor. Thousands of small mixes per stroke each lost up to a step, so colors sank toward olive grey.
+
     r = Math.round(r); g = Math.round(g); b = Math.round(b);
     var key = (r << 16) | (g << 8) | b, o = cache.get(key);
     if (o) return o;
@@ -3322,7 +3262,7 @@ function easelPastel() {
     if (cache.size > 60000) cache.clear();
     cache.set(key, o); return o;
   }
-  // t is the share of b, from 0 to 1. Same weighting as Spectral.js: share squared times luminance.
+
   function mix(a, b, t, out) {
     if (t <= 0.002) { out[0] = a[0]; out[1] = a[1]; out[2] = a[2]; return out; }
     if (t >= 0.998) { out[0] = b[0]; out[1] = b[1]; out[2] = b[2]; return out; }
@@ -3337,10 +3277,9 @@ function easelPastel() {
     out[2] = cmp(M[2][0] * X + M[2][1] * Y + M[2][2] * Z);
     return out;
   }
-  // Oct 31: mix() weights by share squared (as Spectral.js does), so a layer meant to cover 13% only added about 2%,
-  // and white could never cover. This turns the share a layer should lay down into the t that lays it down.
+
   function lay(s) { var a = Math.sqrt(s), b = Math.sqrt(1 - s); return a / (a + b); }
-  // Paper tooth: a few octaves of value noise, fine enough to read as cold-press paper. 1 = a peak the wax catches first.
+
   var seed = 7;
   function rnd() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
   function octave(cell) {
@@ -3364,7 +3303,7 @@ function easelPastel() {
   g1 = g2 = g3 = null;
   var PAPER = [244, 241, 234];
   var col = new Float32Array(W * H * 3), wax = new Float32Array(W * H);
-  // Wax under each pixel when the current stroke started, so one pass can only lay down so much.
+
   var base = new Float32Array(W * H), sid = new Uint16Array(W * H), stroke = 0;
   var img = ctx.createImageData(W, H), px = img.data;
   var dirty = [0, 0, W, H], queued = false;
@@ -3379,12 +3318,12 @@ function easelPastel() {
     dirty = null;
     for (var y = y0; y < y1; y++) for (var x = x0; x < x1; x++) {
       var i = y * W + x, j = i * 3, q = i * 4, g = grain[i], h = wax[i];
-      // Bare paper: its grain shows as a faint shadow in the valleys.
+
       var pr = PAPER[0] - (1 - g) * 14, pg = PAPER[1] - (1 - g) * 14, pb = PAPER[2] - (1 - g) * 12;
       if (h <= 0) { px[q] = pr; px[q + 1] = pg; px[q + 2] = pb; px[q + 3] = 255; continue; }
-      // Wax is opaque once it's there; the thinnest crumbs at the edge of a stroke let a little paper through.
+
       var a = h > 0.25 ? 1 : h / 0.25; a = a * a * (3 - 2 * a);
-      // Thin wax still shows the tooth under it; thick wax goes smooth and catches light on its ridges.
+
       var tex = (g - 0.5) * 30 * Math.max(0, 1 - h * 1.4);
       var sh = 0;
       if (x > 0 && y > 0 && x < W - 1 && y < H - 1) sh = (wax[i - 1] - wax[i + 1] + wax[i - W] - wax[i + W]) * 22 / S;
@@ -3397,9 +3336,7 @@ function easelPastel() {
     ctx.putImageData(img, 0, 0, x0, y0, x1 - x0, y1 - y0);
   }
   function hex(h) { return [1, 3, 5].map(function (k) { return parseInt(h.slice(k, k + 2), 16); }); }
-  // The stick: its own color, and the tip, which gets dirty from what it pushes through and cleans up on fresh paper.
-  // Really soft pastel (Jason: "almost paint"): it goes on thick and buttery, covers the paper in one pass except at the
-  // ragged edges, leaves ridges along the stroke, and drags the color under it along like wet paint.
+
   var R = 10 * S, stick = { c: hex('#3296FE'), tip: hex('#3296FE') }, tmp = [0, 0, 0], drag = [0, 0, 0], press = 0.85;
   var RN = 64, ridge = new Float32Array(RN);
   function newRidges() {
@@ -3416,16 +3353,16 @@ function easelPastel() {
       if (d >= 1) continue;
       var i = y * W + x, j = i * 3, h = wax[i], gr = grain[i];
       if (sid[i] !== stroke) { sid[i] = stroke; base[i] = h; }
-      // How hard the stick presses here: flat in the middle, rounding off at the edge.
+
       var p = d < 0.55 ? 1 : 1 - (d - 0.55) / 0.45; p = p * p * (3 - 2 * p) * press;
-      // Across the stroke the stick leaves ridges, like the grooves a soft stick drags into its own wax.
+
       var across = (-ox * uy + oy * ux) / r, rk = ridge[Math.max(0, Math.min(RN - 1, Math.round((across + 1) * 0.5 * (RN - 1))))];
-      // Only the thin edge of the stroke skips over the paper's valleys; the middle covers completely.
+
       var reach = p * 1.6 + Math.min(base[i], 1) * 0.8 - (1 - gr) * 0.75;
       var fill = reach <= 0 ? 0 : reach >= 0.3 ? 1 : reach / 0.3;
       seen += p;
       if (h > 0.02) { var wgt = p * Math.min(h, 1); sr += col[j] * wgt; sg += col[j + 1] * wgt; sb += col[j + 2] * wgt; sw += wgt; }
-      // Push the wax that's already here forward a little, the way wet paint smears.
+
       if (h > 0.05 && p > 0.2) {
         var bx = Math.round(x - ux * back), by = Math.round(y - uy * back);
         if (bx >= 0 && by >= 0 && bx < W && by < H) {
@@ -3443,15 +3380,14 @@ function easelPastel() {
       dep = Math.min(dep, 0.14);
       if (h < 0.03) { col[j] = stick.tip[0]; col[j + 1] = stick.tip[1]; col[j + 2] = stick.tip[2]; }
       else {
-        // Wet into wet: the new color and the one under it work into each other, a bit more on the paper's peaks.
+
         var share = dep * 2.4 / (h + dep * 2.4) * Math.min(1, 0.55 + 0.9 * gr);
         tmp[0] = col[j]; tmp[1] = col[j + 1]; tmp[2] = col[j + 2]; mix(tmp, stick.tip, lay(share), tmp);
         col[j] = tmp[0]; col[j + 1] = tmp[1]; col[j + 2] = tmp[2];
       }
       wax[i] = Math.min(2.2, h + dep);
     }
-    // The tip picks up what it pushed through, then wears back to its own color on clean paper.
-    // (A plain blend here: the tip's color only steers what gets laid down next.)
+
     var cover = seen > 0 ? Math.min(1, sw / seen) : 0, k1 = 0.012 * cover, k2 = 0.04 + 0.12 * (1 - cover);
     for (var c3 = 0; c3 < 3; c3++) {
       if (sw > 0) stick.tip[c3] += ([sr, sg, sb][c3] / sw - stick.tip[c3]) * k1;
@@ -3473,7 +3409,7 @@ function easelPastel() {
   var down = false, touched = false;
   cv.addEventListener('pointerdown', function (e) {
     down = true; touched = true; last = null; press = pressure(e); stroke = (stroke + 1) % 65535 || 1; newRidges();
-    // Oct 31 (Jason: white over yellow after going over blue came out green): each stroke starts with a clean stick.
+
     stick.tip = stick.c.slice();
     try { cv.setPointerCapture(e.pointerId); } catch (er) {}
     var p = at(e); to(p[0], p[1]); e.preventDefault();
@@ -3492,7 +3428,7 @@ function easelPastel() {
   }
   sticks.forEach(function (b) { b.addEventListener('click', function () { choose(b); }); });
   ez.querySelector('.ez-x').addEventListener('click', function () { col.fill(0); wax.fill(0); sid.fill(0); mark(0, 0, W, H); });
-  // First look: a blue scribble, then honey across it, so the place they meet shows the blend.
+
   function demo() {
     var strokes = [
       { c: '#3296FE', pts: function (t) { return [S * (40 + t * 300), S * (110 + Math.sin(t * 5) * 22)]; } },
@@ -3522,11 +3458,8 @@ function easelPastel() {
   } else demo();
 }
 
-// Oct 8: Jason compared the two brushes and picked the soft pastel ("A is wayyy better") over Fluid Paint.
 easelPastel();
 
-// Oct 7: the heatmap on Research. Tap either end color to cycle through the palette; the switch flips between Excel's
-// straight RGB blend and Jason's script (OKLCH: lightness and chroma blended, hue the short way, chroma pulled in to fit).
 (function () {
   var hm = document.getElementById('hm'), dd = document.getElementById('hmdata');
   if (!hm || !dd) return;
@@ -3572,7 +3505,7 @@ easelPastel();
     ends.forEach(function (b, k) { b.style.background = P[pick[k]]; });
     cells.forEach(function (td) {
       var c = f(h1, h2, +td.getAttribute('data-t')), y = 0.2126 * lin(c[0]) + 0.7152 * lin(c[1]) + 0.0722 * lin(c[2]);
-      td.style.backgroundColor = css(c); td.classList.toggle('cm-dk', y > 0.197);   // Nov 8 scan: dark text wherever it beats white for contrast
+      td.style.backgroundColor = css(c); td.classList.toggle('cm-dk', y > 0.197);
     });
     leg.forEach(function (i, k) { i.style.backgroundColor = css(f(h1, h2, k / (leg.length - 1))); });
     wheel(wl.xl[0], wl.xl[1], excel, h1, h2); wheel(wl.me[0], wl.me[1], script, h1, h2);
@@ -3589,7 +3522,6 @@ easelPastel();
   sw.addEventListener('click', function () { mine = !mine; sw.setAttribute('aria-checked', mine ? 'true' : 'false'); draw(); });
 })();
 
-// Oct 7: the analytics bars grow from the left once, when they come into view.
 (function () {
   var f = document.getElementById('flow');
   if (!f || !window.IntersectionObserver || (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
@@ -3598,8 +3530,6 @@ easelPastel();
   io.observe(f);
 })();
 
-// Oct 30 review: the build log's day details only showed on mouse hover. A tap, a click or keyboard focus on a day now
-// shows the same words under the table, so they work on a phone and with a screen reader.
 (function () {
   var tip = document.querySelector('.log-tip'); if (!tip) return;
   var M = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], on = null;
@@ -3610,18 +3540,35 @@ easelPastel();
   }
   document.addEventListener('click', function (ev) { var td = ev.target.closest && ev.target.closest('.log td[tabindex]'); if (td) say(td); });
   document.addEventListener('focusin', function (ev) { var td = ev.target.closest && ev.target.closest('.log td[tabindex]'); if (td) say(td); });
+
+  document.addEventListener('mouseover', function (ev) { var td = ev.target.closest && ev.target.closest('.log td[tabindex]'); if (td) say(td); });
+  Array.prototype.forEach.call(document.querySelectorAll('table.log, .log table'), function (t) {
+    var cells = Array.prototype.slice.call(t.querySelectorAll('td[tabindex]')); if (cells.length < 2) return;
+    cells.forEach(function (c, i) { c.setAttribute('tabindex', i ? '-1' : '0'); });
+    function go(to) { if (!to) return; cells.forEach(function (c) { c.setAttribute('tabindex', c === to ? '0' : '-1'); }); to.focus(); }
+    t.addEventListener('keydown', function (ev) {
+      var td = ev.target.closest && ev.target.closest('td[tabindex]'); if (!td) return;
+      var i = cells.indexOf(td), to = null;
+      if (ev.key === 'ArrowRight') to = cells[i + 1];
+      else if (ev.key === 'ArrowLeft') to = cells[i - 1];
+      else if (ev.key === 'Home') to = cells[0];
+      else if (ev.key === 'End') to = cells[cells.length - 1];
+      else if (ev.key === 'ArrowDown' || ev.key === 'ArrowUp') {
+        var rows = t.rows, r = td.parentNode.rowIndex, col = td.cellIndex, step = ev.key === 'ArrowDown' ? 1 : -1;
+        for (var k = r + step; k >= 0 && k < rows.length && !to; k += step) { var c = rows[k].cells[col]; if (c && c.hasAttribute('tabindex')) to = c; }
+      } else return;
+      ev.preventDefault(); go(to);
+    });
+  });
 })();
-/* The photo finder, inside its dive-in on the AI page. A slice of the public Dolomites Photo Finder:
-   real tags, scores, edit notes (shown only from the scoring call) and Strava tracks (data/pf-slice.json, embedded as #pf-data).
-   Views: Map (photos pinned to each day's route), People (tap one or more), Photos (grid with stacks).
-   window.PF.show(what) is called by the "Show me" buttons next to each call. */
+
 (function () {
   var root = document.getElementById('pf'); if (!root) return;
   var DATA = null, built = false;
   var DAY = { 1: ['Sun', 'Tofana ferrata and cave'], 2: ['Mon', 'Alta Via 1 to Croda da Lago'], 3: ['Tue', 'Hut down to San Vito'], 4: ['Wed', 'Via ferrata above San Vito'], 5: ['Thu', 'Lagazuoi ferrata and tunnels'] };
   var FACE = { f: 'face', s: 'side', b: 'from behind', h: 'face hidden' };
   var S = { view: 'map', who: [], face: '', day: 2, open: null };
-  var PC = {};  // person id -> color class (see build)
+  var PC = {};
   var VIEW = root.querySelector('.pf-view');
   function $(s) { return s === '.pf-view' ? VIEW : root.querySelector(s); }
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
@@ -3630,7 +3577,7 @@ easelPastel();
   function who(p) { return p.pp.map(function (x) { return x[0]; }).filter(Boolean); }
 
   function pass(p) {
-    if (S.face === 'sc') return !p.pp.length;  // Oct 30: scenery, the photos with nobody in them
+    if (S.face === 'sc') return !p.pp.length;
     var w = who(p);
     if (S.who.length && !S.who.every(function (x) { return w.indexOf(x) >= 0; })) return false;
     if (S.face) {
@@ -3649,11 +3596,10 @@ easelPastel();
       }
       out.push({ p: p, n: 1 });
     });
-    // Oct 30 (Jason: "can we also try to put the best photos first?"): highest score first; ties keep time order
+
     return out.map(function (e, i) { return [e, i]; }).sort(function (a, b) { return (b[0].p.s || 0) - (a[0].p.s || 0) || a[1] - b[1]; }).map(function (x) { return x[0]; });
   }
 
-  // ---- photos grid
   function tags(p) {
     var sel = S.who.length ? S.who : (S.face ? null : []);
     var rows = p.pp.filter(function (x) { return x[0] && (sel === null || sel.indexOf(x[0]) >= 0) && (!S.face || x[1] === S.face); });
@@ -3671,10 +3617,9 @@ easelPastel();
     $('.pf-grid').onclick = function (ev) { var b = ev.target.closest('.pf-cell'); if (b) openPhoto(L[+b.getAttribute('data-i')].p); };
   }
 
-  // ---- people
   function drawPeople() {
     var counts = {};
-    // A burst counts once, the way the grid shows it (Oct 30: Me said 51 photos over a grid of 49)
+
     var done = {};
     DATA.photos.forEach(function (p) { p.pp.forEach(function (x) {
       if (!x[0]) return;
@@ -3694,7 +3639,6 @@ easelPastel();
       : 'Showing photos with all ' + n + ' of them together.';
   }
 
-  // ---- map
   var M = null;
   function proj() {
     if (M) return M;
@@ -3713,11 +3657,10 @@ easelPastel();
       s += '<path class="pf-tr d' + d + (on ? ' on' : '') + '" d="M' + T[d].map(function (a) { return m.X(a[1]).toFixed(1) + ' ' + m.Y(a[0]).toFixed(1); }).join('L') + '"/>';
     });
     var labels = [[T[2][0], 'Passo Falzarego'], [T[2][T[2].length - 1], 'Croda da Lago'], [T[3][T[3].length - 1], 'San Vito di Cadore'], [T[5].reduce(function (a, b) { return b[2] > a[2] ? b : a; }), 'Lagazuoi'], [T[1].reduce(function (a, b) { return b[2] > a[2] ? b : a; }), 'Tofana']];
-    // Oct 30 (Jason: "add like 2-5 more spots on the map? at least for computer view"): places named in the photo notes,
-    // pinned to the route point where those photos were taken. Hidden on narrow screens (.pf-lab.x).
+
     var near = function (d, lat, lon) { return T[d].reduce(function (a, b) { return Math.hypot(b[0] - lat, (b[1] - lon) * 0.69) < Math.hypot(a[0] - lat, (a[1] - lon) * 0.69) ? b : a; }); };
-    // [point, name, x offset, y offset]: Passo Giau clears its big photo dot, the cave label goes under Tofana's
-    var extra = [[near(2, 46.48799, 12.0514), 'Passo Giau', 22, 5], [near(2, 46.47234, 12.07577), 'Mondeval', 7, -7], [near(1, 46.5344, 12.05551), 'Tofana cave', -6, 26], [[46.5405, 12.1357], 'Cortina', 7, 4]];  // Cortina: the town center, Jason asked for it
+
+    var extra = [[near(2, 46.48799, 12.0514), 'Passo Giau', 22, 5], [near(2, 46.47234, 12.07577), 'Mondeval', 7, -7], [near(1, 46.5344, 12.05551), 'Tofana cave', -6, 26], [[46.5405, 12.1357], 'Cortina', 7, 4]];
     labels.concat(extra.map(function (l) { return [l[0], l[1], 'x', l[2], l[3]]; })).forEach(function (l) {
       var x = m.X(l[0][1]), y = m.Y(l[0][0]), r = !l[2] && x > m.W * 0.62, c = l[2] ? ' ' + l[2] : '', dx = l[2] ? l[3] : 7, dy = l[2] ? l[4] : -7;
       s += '<circle class="pf-pl' + c + '" cx="' + x + '" cy="' + y + '" r="3"/><text class="pf-lab' + c + '" x="' + (r ? x - 7 : x + dx) + '" y="' + (y + dy) + '" text-anchor="' + (r ? 'end' : 'start') + '">' + l[1] + '</text>';
@@ -3763,9 +3706,8 @@ easelPastel();
     var p = $('.pf-prof'); p.setAttribute('viewBox', '0 0 ' + VW + ' ' + VH); p.innerHTML = s;
   }
 
-  // ---- one photo
   function openPhoto(p) {
-    if (!S.open) S.from = document.activeElement;  // Oct 30 review: focus goes back to what opened the photo
+    if (!S.open) S.from = document.activeElement;
     S.open = p;
     var v = $('.pf-view'), frames = p.st != null ? DATA.photos.filter(function (q) { return q.st === p.st; }) : null;
     var ppl = p.pp.map(function (x) { return '<i class="' + (x[2] ? '' : 'unsure') + '">' + esc(x[0] || 'someone else') + ' · ' + FACE[x[1]] + (x[2] ? '' : ', probably') + '</i>'; }).join('');
@@ -3780,7 +3722,7 @@ easelPastel();
     v.innerHTML = '<div class="pf-v-pic"><img src="' + big(p) + '" alt="' + esc(p.sub) + '"></div>'
       + '<div class="pf-v-info"><button type="button" class="pf-v-x" aria-label="Close the photo">×</button>'
       + '<p class="pf-v-h"><b class="pf-v-s">' + (p.s || '') + '</b><span>' + esc(p.sub) + '<small>' + DAY[p.d][0] + ' ' + p.t + (p.alt ? ', ' + p.alt + ' m' : '') + (p.km != null ? ', km ' + p.km : '') + '</small></span></p>'
-      + '<dl><dt>Why this score</dt><dd>' + esc(p.why) + '</dd>' + (S.edits && p.ed ? '<dt>Edit</dt><dd>' + esc(p.ed) + '</dd>' : '') + '</dl>'  // Oct 30, Jason: edits only after "Show me" on the scoring call
+      + '<dl><dt>Why this score</dt><dd>' + esc(p.why) + '</dd>' + (S.edits && p.ed ? '<dt>Edit</dt><dd>' + esc(p.ed) + '</dd>' : '') + '</dl>'
       + (ppl ? '<p class="pf-v-ppl">' + ppl + '</p>' : '')
       + (frames && frames.length > 1 ? '<p class="pf-v-sub">' + frames.length + ' frames of this shot. The best is outlined.</p><ul class="pf-frames">' + frames.map(function (q) { return '<li><button type="button" class="' + (q.stb ? 'best ' : '') + (q === p ? 'cur' : '') + '" data-k="' + q.k + '"><img src="' + thumb(q) + '" alt="' + esc(q.sub) + '"><span>' + (q.s || '') + '</span></button></li>'; }).join('') + '</ul>' : '')
       + mini + '</div>';
@@ -3808,12 +3750,11 @@ easelPastel();
   function build() {
     if (built) return; built = true;
     DATA = JSON.parse(document.getElementById('pf-data').textContent);
-    // Oct 30, Jason picked "two color families": everyone else gets their own shade of blue or green, most photos first,
-    // alternating family and lightness so neighbors differ (start.css .pc1 to .pc11); me in Honey on photo tags
+
     var cnt = {}; DATA.photos.forEach(function (p) { p.pp.forEach(function (x) { if (x[0] && x[0] !== 'Me') cnt[x[0]] = (cnt[x[0]] || 0) + 1; }); });
     Object.keys(cnt).sort(function (a, b) { return cnt[b] - cnt[a]; }).slice(0, 11).forEach(function (id, i) { PC[id] = 'pc' + (i + 1); });
     PC.Me = 'pc-me';
-    // the photo viewer sits on top of the whole dive-in, not inside its sticky column
+
     var dv = root.closest('.dive'); if (dv) dv.appendChild($('.pf-view'));
     root.querySelector('.pf-tabs').onclick = function (ev) { var b = ev.target.closest('[data-view]'); if (!b) return; S.edits = false; S.view = b.getAttribute('data-view'); closePhoto(); draw(); };
     root.querySelector('.pf-face').onclick = function (ev) { var b = ev.target.closest('button'); if (!b) return; S.face = b.getAttribute('data-f') || ''; draw(); };
@@ -3843,8 +3784,7 @@ easelPastel();
       if (what === 'stack') { S.view = 'photos'; S.who = []; S.face = ''; }
       draw();
       if (what === 'score') {
-        // Oct 30, Jason: "need a better example for this". The sunset on Antelao: half the frame is black forest off the
-        // camera, but it scores 8 for what a crop and a little warmth make of it.
+
         var p = DATA.photos.filter(function (q) { return q.k === 'day3_IMG_4416'; })[0] || DATA.photos.filter(function (q) { return /lift (shadows|face)/i.test(q.ed) && q.s >= 8; })[0];
         if (p) openPhoto(p);
       }
@@ -3854,9 +3794,7 @@ easelPastel();
   };
 })();
 (function () {
-  // Start, built out (Oct 30). The day: on a phone, a switch between Morgan Stanley and Wharton (Jason, Oct 24: "a very
-  // clear toggle tho to check both"); on a laptop both sides show, lined up by time of day. The photo finder opens in
-  // place as a full-screen dive-in. Without the script both sides show and the dive-in sits below the day.
+
   var day = document.getElementById('day'); if (!day) return;
   var html = document.documentElement;
   html.classList.add('start-js', 'dive-js');
@@ -3923,9 +3861,6 @@ easelPastel();
   if (location.hash === '#photos') show(false);
 })();
 
-/* Nov 8: size the room under the footer so the last screen runs from the email to the bottom of the Antelao
-   drawing, whatever the window. Extra room zooms the drawing a little; a short window trims sky, never the peaks.
-   Its own try block so nothing here can stop the scripts after it (Sep 30 lesson). */
 (function () {
   try {
     var room = document.querySelector('.endroom'), mail = document.getElementById('email-bottom'), foot = document.querySelector('footer.colophon');
@@ -3936,7 +3871,7 @@ easelPastel();
     var lastW = -1, coarse = window.matchMedia('(pointer: coarse)').matches;
     var fit = function (force) {
       var w = room.clientWidth;
-      if (!force && w === lastW && coarse) return;   // phones change height while scrolling; there only a new width refits
+      if (!force && w === lastW && coarse) return;
       lastW = w;
       var vh = probe.offsetHeight || window.innerHeight;
       var y = window.scrollY || 0;
@@ -3955,15 +3890,18 @@ easelPastel();
   } catch (e) {}
 })();
 
-// Nov 9: the hero photo flips to Jason's self-portrait on click or tap
 try {
   (function () {
     var b = document.querySelector('.h2-flip'); if (!b) return;
-    b.addEventListener('click', function () { b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') === 'true' ? 'false' : 'true'); });
+
+    b.addEventListener('click', function () {
+      var on = b.getAttribute('aria-pressed') !== 'true';
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      b.setAttribute('aria-label', on ? 'Jason Traum, self-portrait. Flip back to my photo' : 'Jason Traum. Flip to my self-portrait');
+    });
   })();
 } catch (e) {}
 
-// Nov 9: path map B. Hovering or focusing a project name shows its picture at that stop (laptops; phones keep the first picture)
 try {
   (function () {
     Array.prototype.forEach.call(document.querySelectorAll('#path .sb'), function (sb) {

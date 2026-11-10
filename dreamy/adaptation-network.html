@@ -11,6 +11,7 @@
 <meta property="og:description" content="See how one runner&rsquo;s data flows through the engine.">
 <meta property="og:url" content="https://jason-traum.github.io/dreamy/adaptation-network.html">
 <meta property="og:image" content="https://jason-traum.github.io/og-dreamy.png">
+<meta property="og:image:alt" content="Dreamy, Jason Traum&rsquo;s AI running coach">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -70,7 +71,7 @@ h2 { font-size: 17px; font-weight: 650; }
 section { margin-top: 22px; }
 .sec-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
 
-/* picker */
+
 .picker {
   margin-top: 18px;
   display: flex;
@@ -120,12 +121,12 @@ button:hover { border-color: var(--accent); }
 button:disabled { opacity: 0.4; cursor: default; border-color: var(--b2); }
 :focus-visible { outline: 2px solid var(--glow); outline-offset: 2px; }
 
-/* stats */
+
 .stats { display: flex; flex-wrap: wrap; gap: 12px 28px; align-items: flex-end; padding: 14px 0 4px; }
 .stat .k { font-size: 12px; color: var(--t3); }
 .stat .v { font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums; }
 
-/* diagram */
+
 .panel { background: var(--s1); border: 1px solid var(--b1); border-radius: 12px; padding: 12px 14px; }
 .legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 12px; color: var(--t2); margin: 2px 0 10px; }
 .legend span { display: inline-flex; align-items: center; gap: 6px; }
@@ -166,7 +167,7 @@ button:disabled { opacity: 0.4; cursor: default; border-color: var(--b2); }
 #net .cf { stroke: var(--t2); stroke-width: 3; stroke-linecap: round; }
 #net .cf.st { stroke: var(--t3); stroke-dasharray: 1.5 3; }
 
-/* detail */
+
 .detail { margin-top: 14px; }
 .dhead { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .dhead .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex: none; }
@@ -204,7 +205,7 @@ footer { margin-top: 36px; color: var(--t3); font-size: 12px; border-top: 1px so
   table.tv { font-size: 12px; }
   table.tv th, table.tv td { padding: 5px 4px; }
 }
-/* Nov 8 scan: no single word left alone on a heading's last line. */
+
 h1, h2, h3 { text-wrap: balance; }
 </style>
 <link rel="icon" href="/favicon.ico" sizes="48x48">
@@ -269,10 +270,9 @@ h1, h2, h3 { text-wrap: balance; }
     ['Race forecast', '#34d399']
   ];
   var OTHER_MODEL = '#b8b8c8';
-  // geometry
+
   var NW = 176, NH = 60, GAP = 84, ROW = 68, HEAD = 46, PAD = 14, CURL = 46;
 
-  // node table: [label, layer, kind, colour]; point node row: [node, value, sub, confidence, extra]
   function nodeLabel(i) { return DATA.nodes[i][0]; }
   function nodeLayer(i) { return DATA.nodes[i][1]; }
   function nodeKind(i) { return DATA.nodes[i][2]; }
@@ -282,7 +282,6 @@ h1, h2, h3 { text-wrap: balance; }
     return LAYERS[l][1];
   }
 
-  // On a phone the diagram scrolls sideways, so start with nothing picked and every box at full strength.
   var PHONE = !!(window.matchMedia && window.matchMedia('(max-width: 720px)').matches);
   var state = { r: 0, d: 0, sel: null, hover: null };
 
@@ -304,7 +303,6 @@ h1, h2, h3 { text-wrap: balance; }
   function runner() { return DATA.runners[state.r]; }
   function point() { return runner().p[state.d]; }
 
-  // ── picker ──
   function buildPicker() {
     var rs = $('runner');
     var groups = {};
@@ -349,7 +347,6 @@ h1, h2, h3 { text-wrap: balance; }
     render();
   }
 
-  // ── network for the current point ──
   function current() {
     var r = runner(), p = point();
     var rows = {};
@@ -358,7 +355,7 @@ h1, h2, h3 { text-wrap: balance; }
     p.e.forEach(function (k) { var e = DATA.edges[k]; edges.push({ f: e[0], t: e[1], w: e[2], kind: 's' }); });
     p.b.forEach(function (b) { edges.push({ f: b[0], t: b[1], w: b[2], kind: 'b' }); });
     p.m.forEach(function (t) { edges.push({ f: DATA.decay, t: t, w: null, kind: 'p' }); });
-    // stable slots for this runner: every node it has on any date, in assembler order
+
     var cols = [[], [], [], [], []];
     r.slots.forEach(function (i) { cols[nodeLayer(i)].push(i); });
     var max = Math.max.apply(null, cols.map(function (c) { return c.length; }));
@@ -387,7 +384,7 @@ h1, h2, h3 { text-wrap: balance; }
     return 0.6 + 2.4 * e.w;
   }
 
-  var view = null; // {net, nodeEls, edgeEls}
+  var view = null;
 
   function drawNetwork(cur) {
     var net = $('net');
@@ -400,7 +397,7 @@ h1, h2, h3 { text-wrap: balance; }
     });
     var ge = svg('g', {}, net);
     var edgeEls = [];
-    // structural lines first, measured shares on top
+
     var order = cur.edges.slice().sort(function (a, b) { return (a.kind === 's' ? 0 : 1) - (b.kind === 's' ? 0 : 1); });
     order.forEach(function (e) {
       if (!cur.pos[e.f] || !cur.pos[e.t] || !cur.rows[e.f] || !cur.rows[e.t]) return;
@@ -413,7 +410,7 @@ h1, h2, h3 { text-wrap: balance; }
     var nodeEls = {};
     Object.keys(cur.pos).forEach(function (k) {
       var i = +k, row = cur.rows[i];
-      if (!row) return; // absent on this date: not drawn
+      if (!row) return;
       var p = cur.pos[i];
       var g = svg('g', { 'class': 'node', transform: 'translate(' + p.x + ',' + p.y + ')', tabindex: 0, role: 'button',
         'aria-label': nodeLabel(i) + ': ' + row[1] + (row[2] ? ', ' + row[2] : '') }, gn);
@@ -423,7 +420,7 @@ h1, h2, h3 { text-wrap: balance; }
       svg('text', { x: tx + 12, y: 18, 'class': 'nl' }, g).textContent = nodeLabel(i);
       svg('text', { x: tx, y: 37, 'class': 'nv' }, g).textContent = row[1];
       if (row[2]) svg('text', { x: tx, y: 50, 'class': 'ns' }, g).textContent = row[2];
-      // confidence bar on the right edge, bottom to top
+
       var bx = NW - 9, top = 10, bot = NH - 10, h = bot - top;
       svg('line', { 'class': 'ct', x1: bx, x2: bx, y1: top, y2: bot }, g);
       var c = Math.max(0, Math.min(1, row[3]));
@@ -462,7 +459,6 @@ h1, h2, h3 { text-wrap: balance; }
     renderDetail(current());
   }
 
-  // ── stats ──
   function stat(parent, k, v) {
     var s = el('div', 'stat');
     s.appendChild(el('div', 'k', k));
@@ -483,7 +479,6 @@ h1, h2, h3 { text-wrap: balance; }
     stat(box, 'Links', String(cur.edges.length));
   }
 
-  // ── detail for the selected node ──
   function weightCells(tr, e) {
     if (e.kind === 'b') {
       tr.appendChild(el('td', 'w', e.w < 0.0005 ? '<0.1%' : (e.w * 100).toFixed(1) + '%'));
@@ -572,5 +567,6 @@ h1, h2, h3 { text-wrap: balance; }
   render();
 })();
 </script>
+<p style="margin:0;padding:8px 20px 40px;font:600 14px Inter,system-ui,sans-serif"><a href="../dreamy.html#forecast" style="color:inherit;text-underline-offset:3px">Back to Dreamy</a></p>
 </body>
 </html>

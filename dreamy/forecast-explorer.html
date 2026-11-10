@@ -11,6 +11,7 @@
 <meta property="og:description" content="Pick a runner and a distance to see each model&rsquo;s estimate, the blend and the true time.">
 <meta property="og:url" content="https://jason-traum.github.io/dreamy/forecast-explorer.html">
 <meta property="og:image" content="https://jason-traum.github.io/og-dreamy.png">
+<meta property="og:image:alt" content="Dreamy, Jason Traum&rsquo;s AI running coach">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -66,7 +67,7 @@ section { margin-top: 28px; }
 .sec-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
 .sub { color: var(--t3); font-size: 13px; }
 
-/* picker */
+
 .picker {
   margin-top: 18px;
   display: flex;
@@ -118,7 +119,7 @@ button:disabled { opacity: 0.4; cursor: default; border-color: var(--b2); }
 .seg button[aria-pressed="true"] { background: var(--accent); color: #fff; }
 :focus-visible { outline: 2px solid var(--glow); outline-offset: 2px; }
 
-/* headline */
+
 .headline {
   display: flex;
   flex-wrap: wrap;
@@ -131,7 +132,7 @@ button:disabled { opacity: 0.4; cursor: default; border-color: var(--b2); }
 .stat.big .v { font-size: 34px; font-weight: 700; color: var(--t1); font-family: "Manrope", -apple-system, system-ui, sans-serif; letter-spacing: -0.02em; }
 .stat .v.small { font-size: 18px; color: var(--t2); }
 
-/* blend rows */
+
 .panel { background: var(--s1); border: 1px solid var(--b1); border-radius: 12px; padding: 12px 14px; }
 .axis-top { display: block; width: 100%; height: 26px; }
 .rows { margin-top: 2px; }
@@ -168,14 +169,14 @@ details.fold > summary { cursor: pointer; color: var(--t2); font-size: 13px; pad
 .lg-dia.hollow { background: transparent; border: 1.5px solid var(--t2); }
 .lg-tick { width: 2px; height: 10px; background: var(--t3); display: inline-block; }
 
-/* steps */
+
 .steps { margin-top: 12px; display: grid; grid-template-columns: 1fr auto; gap: 6px 16px; font-size: 14px; }
 .steps .sl { color: var(--t2); min-width: 0; }
 .steps .sv { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .steps .final { color: var(--t1); font-weight: 600; border-top: 1px solid var(--b1); padding-top: 6px; }
 .steps .gap { grid-column: 1 / -1; height: 6px; }
 
-/* charts */
+
 .chart { position: relative; width: 100%; }
 .chart svg { display: block; width: 100%; }
 .tip {
@@ -213,7 +214,7 @@ footer { margin-top: 36px; color: var(--t3); font-size: 12px; border-top: 1px so
   .date-row select { width: 100%; }
   .field.date { flex: 1 1 100%; }
 }
-/* Nov 8 scan: no single word left alone on a heading's last line. */
+
 h1, h2, h3 { text-wrap: balance; }
 @media (max-width: 560px) { .mname .nm { white-space: normal; overflow: visible; } }
 </style>
@@ -295,8 +296,8 @@ h1, h2, h3 { text-wrap: balance; }
   var DIST_LABEL = { '5K': '5K', '10K': '10K', 'HM': 'Half', 'M': 'Marathon' };
   var MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   var OTHER_COLOR = '#8888a0';
-  var STACK_SLOTS = 6; // models 0..5 keep their own colour; the rest stack as "Other"
-  // model row: [model, estimate s, raw weight, confidence, base weight, reasoning, status]
+  var STACK_SLOTS = 6;
+
   var STATUS = ['', 'retired, base weight 0', 'quarantined', 'weight zeroed', 'no estimate', 'applied after the blend'];
   var IN = 0, POST = 5;
   function weightSum(p) { return p.m.reduce(function (a, m) { return a + (m[6] === IN ? m[2] : 0); }, 0); }
@@ -337,7 +338,6 @@ h1, h2, h3 { text-wrap: balance; }
   function runner() { return DATA.runners[state.r]; }
   function pred() { return runner().p[state.dist][state.d]; }
 
-  // ── picker ──
   function buildPicker() {
     var rs = $('runner');
     DATA.runners.forEach(function (r, i) {
@@ -381,7 +381,6 @@ h1, h2, h3 { text-wrap: balance; }
     });
   }
 
-  // ── section 2: the blend ──
   function stat(k, v, cls, vcls) {
     var s = el('div', 'stat' + (cls ? ' ' + cls : ''));
     s.appendChild(el('div', 'k', k));
@@ -411,14 +410,12 @@ h1, h2, h3 { text-wrap: balance; }
       hl.appendChild(stat('Forecast vs true', signed((p.t / truth - 1) * 100, 1) + '%', null, 'small'));
     }
 
-    // legend
     var lg = $('blend-legend');
     lg.innerHTML = '';
     [['lg-line', 'Forecast'], ['lg-band', 'p10 to p90'], ['lg-dash', 'True rested time']].forEach(function (x) {
       var s = el('span'); s.appendChild(el('i', x[0])); s.appendChild(document.createTextNode(x[1])); lg.appendChild(s);
     });
 
-    // shared x scale
     var vals = [p.p10, p.p90, p.t];
     if (truth != null) vals.push(truth);
     p.m.forEach(function (m) { if (m[1] != null && m[6] !== POST) vals.push(m[1]); });
@@ -429,7 +426,6 @@ h1, h2, h3 { text-wrap: balance; }
     var X0 = 8, X1 = W - 8;
     var sx = function (v) { return X0 + (v - lo) / (hi - lo) * (X1 - X0); };
 
-    // top axis
     axis.setAttribute('viewBox', '0 0 ' + W + ' 26');
     var ticks = timeTicks(lo, hi, W < 480 ? 4 : 7);
     ticks.forEach(function (t) {
@@ -487,7 +483,6 @@ h1, h2, h3 { text-wrap: balance; }
     });
     $('fold').querySelector('summary').textContent = 'Not in the blend (' + outN + ')';
 
-    // steps from the model estimates to the headline
     function srow(label, value, cls) {
       steps.appendChild(el('div', 'sl' + (cls ? ' ' + cls : ''), label));
       steps.appendChild(el('div', 'sv' + (cls ? ' ' + cls : ''), value));
@@ -513,8 +508,6 @@ h1, h2, h3 { text-wrap: balance; }
     srow('p10 to p90', fmt(p.p10) + ' to ' + fmt(p.p90), 'final');
   }
 
-  // Date labels on an x axis: a uniform stride counted back from the last date,
-  // wide enough that no two labels can touch (labels are at most ~46px at 11px).
   function xLabels(s, xs, labels, y, W) {
     var LABEL_W = 46, GAP = 10;
     var n = xs.length;
@@ -537,7 +530,6 @@ h1, h2, h3 { text-wrap: balance; }
     return out;
   }
 
-  // ── tooltip helper ──
   function tipFor(container) {
     var t = container.querySelector('.tip');
     if (!t) { t = el('div', 'tip'); container.appendChild(t); }
@@ -567,7 +559,6 @@ h1, h2, h3 { text-wrap: balance; }
     });
   }
 
-  // ── section 3: over time ──
   function renderTime() {
     var r = runner();
     var preds = r.p[state.dist];
@@ -591,7 +582,6 @@ h1, h2, h3 { text-wrap: balance; }
     var sy = function (v) { return M.t + (hi - v) / (hi - lo) * (H - M.t - M.b); };
     var s = svg('svg', { viewBox: '0 0 ' + W + ' ' + H, height: H, role: 'img', 'aria-label': 'Forecast, p10 to p90 band and true time across forecast dates (synthetic)' });
 
-    // grid + y labels
     timeTicks(lo, hi, 5).forEach(function (t) {
       svg('line', { x1: M.l, x2: W - M.r, y1: sy(t), y2: sy(t), stroke: '#282836' }, s);
       var tx = svg('text', { x: M.l - 6, y: sy(t) + 4, 'text-anchor': 'end', fill: '#8888a0', 'font-size': 11 }, s);
@@ -600,7 +590,6 @@ h1, h2, h3 { text-wrap: balance; }
     xLabels(s, r.dates.map(function (d) { return sx(parseDate(d)); }), r.dates.map(dateShort), H - M.b + 16, W);
     svg('line', { x1: M.l, x2: W - M.r, y1: H - M.b, y2: H - M.b, stroke: '#42425a' }, s);
 
-    // band (split at missing forecasts)
     var segs = [], cur = [];
     preds.forEach(function (p, i) { if (p) cur.push([i, p]); else { if (cur.length) segs.push(cur); cur = []; } });
     if (cur.length) segs.push(cur);
@@ -609,14 +598,14 @@ h1, h2, h3 { text-wrap: balance; }
       var bot = sg.slice().reverse().map(function (q) { return sx(parseDate(r.dates[q[0]])) + ',' + sy(q[1].p90); });
       svg('polygon', { points: top.concat(bot).join(' '), fill: 'rgba(124,108,240,0.24)' }, s);
     });
-    // selected date
+
     var selX = sx(parseDate(r.dates[state.d]));
     svg('line', { x1: selX, x2: selX, y1: M.t, y2: H - M.b, stroke: '#42425a', 'stroke-width': 1 }, s);
-    // truth
+
     var tp = [];
     truth.forEach(function (t, i) { if (t != null) tp.push(sx(parseDate(r.dates[i])) + ',' + sy(t)); });
     if (tp.length > 1) svg('polyline', { points: tp.join(' '), fill: 'none', stroke: '#ededf2', 'stroke-width': 1.5, 'stroke-dasharray': '4 4' }, s);
-    // forecast
+
     segs.forEach(function (sg) {
       var pts = sg.map(function (q) { return sx(parseDate(r.dates[q[0]])) + ',' + sy(q[1].t); });
       if (pts.length > 1) svg('polyline', { points: pts.join(' '), fill: 'none', stroke: '#a78bfa', 'stroke-width': 2, 'stroke-linejoin': 'round' }, s);
@@ -626,12 +615,12 @@ h1, h2, h3 { text-wrap: balance; }
       var sel = i === state.d;
       svg('circle', { cx: sx(parseDate(r.dates[i])), cy: sy(p.t), r: sel ? 6 : 4, fill: '#a78bfa', stroke: '#141420', 'stroke-width': 2 }, s);
     });
-    // races at this distance
+
     sameRaces.forEach(function (x) {
       var cx = sx(parseDate(x[0])), cy = sy(x[2]), k = 5;
       svg('polygon', { points: [cx + ',' + (cy - k), (cx + k) + ',' + cy, cx + ',' + (cy + k), (cx - k) + ',' + cy].join(' '), fill: x[3] ? '#b8b8c8' : '#141420', stroke: '#b8b8c8', 'stroke-width': 1.5 }, s);
     });
-    // races at other distances: ticks on the axis
+
     otherRaces.forEach(function (x) {
       var cx = sx(parseDate(x[0]));
       svg('line', { x1: cx, x2: cx, y1: H - M.b - 8, y2: H - M.b, stroke: '#8888a0', 'stroke-width': 2 }, s);
@@ -664,7 +653,6 @@ h1, h2, h3 { text-wrap: balance; }
     hit.addEventListener('pointerleave', function () { tip.style.opacity = 0; });
     hit.addEventListener('click', function (evt) { state.d = nearest(evt).i; render(); });
 
-    // table view
     var tb = $('time-table');
     tb.innerHTML = '';
     var hr = el('tr');
@@ -678,7 +666,6 @@ h1, h2, h3 { text-wrap: balance; }
     });
   }
 
-  // ── section 4: weights over time ──
   function stackKey(mi) { return mi < STACK_SLOTS ? mi : STACK_SLOTS; }
   function renderWeights() {
     var r = runner();
@@ -714,7 +701,7 @@ h1, h2, h3 { text-wrap: balance; }
       tx.textContent = Math.round(v * 100) + '%';
     });
     xLabels(s, r.dates.map(function (d, i) { return sx(i); }), r.dates.map(dateShort), H - M.b + 16, W);
-    // stacked areas: bottom-up in model order; split at dates with no forecast
+
     var cum = shares.map(function () { return 0; });
     present.forEach(function (k) {
       var lower = cum.slice();
@@ -780,5 +767,6 @@ h1, h2, h3 { text-wrap: balance; }
   });
 })();
 </script>
+<p style="margin:0;padding:8px 20px 40px;font:600 14px Inter,system-ui,sans-serif"><a href="../dreamy.html#deeper" style="color:inherit;text-underline-offset:3px">Back to Dreamy</a></p>
 </body>
 </html>

@@ -12,6 +12,7 @@
 <meta property="og:description" content="How heat, humidity and hills change a pace.">
 <meta property="og:url" content="https://jason-traum.github.io/dreamy/weather-model.html">
 <meta property="og:image" content="https://jason-traum.github.io/og-dreamy.png">
+<meta property="og:image:alt" content="Dreamy, Jason Traum&rsquo;s AI running coach">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -60,7 +61,7 @@ td{color:var(--t2)}
 td.hi{color:var(--t1)}
 .uses td:first-child{color:var(--t1)}
 .uses td,.uses th{text-align:left;white-space:normal}
-/* Try it */
+
 .try{background:var(--s2);border:1px solid var(--b2);border-radius:14px;padding:16px}
 .ctl{display:grid;grid-template-columns:1fr;gap:14px;margin-bottom:16px}
 @media (min-width:640px){.ctl{grid-template-columns:1fr 1fr}}
@@ -79,7 +80,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0;height:28px}
 .note{font-size:12px;color:var(--t3);margin:10px 0 0}
 footer{padding:20px 0 0;font-size:12px;color:var(--t3)}
 footer p{margin:4px 0}
-/* Nov 8 scan: no single word left alone on a heading's last line. */
+
 h1, h2, h3 { text-wrap: balance; }
 </style>
 <link rel="icon" href="/favicon.ico" sizes="48x48">
@@ -221,7 +222,6 @@ function fmtPace(s){s=Math.round(s);return Math.floor(s/60)+":"+(s%60<10?"0":"")
 function fmtDelta(s){s=Math.round(s);return (s<0?"-":"+")+fmtTime(Math.abs(s));}
 function legend(id,items){var L=document.getElementById(id);if(!L)return;L.innerHTML="";items.forEach(function(it){var s=document.createElement("span");var i=document.createElement("i");i.style.background=it.color;i.style.color=it.color;if(it.dash)i.className="dash";s.appendChild(i);s.appendChild(document.createTextNode(it.name));L.appendChild(s);});}
 
-/* Line chart sized to its container, redrawn on resize, with a crosshair readout. */
 var charts=[];
 function lineChart(o){charts.push(o);drawChart(o);}
 function drawChart(o){
@@ -269,7 +269,6 @@ function pct(v,d){return v.toFixed(d==null?1:d)+"%";}
 function niceMax(v,step){return Math.ceil(v/step)*step;}
 function idxOf(arr,v){for(var i=0;i<arr.length;i++)if(Math.abs(arr[i]-v)<1e-9)return i;return 0;}
 
-/* 1. Heat by air temperature */
 (function(){
   var h=D.heat;var series=h.curves.map(function(c,k){return {name:c.rh+"% humidity",color:COL[k],y:c.pct};});
   legend("lg-heat",series);
@@ -282,7 +281,6 @@ function idxOf(arr,v){for(var i=0;i<arr.length;i++)if(Math.abs(arr[i]-v)<1e-9)re
     read:function(i){return "<b>"+h.t[i]+" °F</b> &nbsp;"+h.curves.map(function(c){return c.rh+"%: <b>"+pct(c.pct[i])+"</b> ("+c.secPerMile[i]+" s/mi)";}).join(" &nbsp; ");}});
 })();
 
-/* 1b. Heat by dew point */
 (function(){
   var h=D.heat;var dm=h.dewMid;
   var series=[{name:"Total used",color:COL[0],y:dm.map(function(p){return p.used;})},{name:"Heat part",color:COL[2],y:dm.map(function(p){return p.heat;}),dash:true},{name:"Cold part",color:COL[1],y:dm.map(function(p){return p.cold;}),dash:true}];
@@ -297,7 +295,6 @@ function idxOf(arr,v){for(var i=0;i<arr.length;i++)if(Math.abs(arr[i]-v)<1e-9)re
     read:function(i){var p=dm[i];return "<b>Dew point "+h.dewF[i]+" °F</b> &nbsp;total <b>"+pct(p.used,2)+"</b> &nbsp;heat "+pct(p.heat,2)+" &nbsp;cold "+pct(p.cold,2);}});
 })();
 
-/* 2a. Ability */
 (function(){
   var h=D.heat,a=D.ability;var series=a.curves.map(function(c,k){return {name:"VDOT "+c.vdot,color:COL[k],y:c.pct};});
   legend("lg-abil",series);
@@ -310,7 +307,6 @@ function idxOf(arr,v){for(var i=0;i<arr.length;i++)if(Math.abs(arr[i]-v)<1e-9)re
     read:function(i){return "<b>"+h.dewF[i]+" °F</b> &nbsp;"+a.curves.map(function(c){return c.vdot+": <b>"+pct(c.pct[i])+"</b>";}).join(" &nbsp; ");}});
 })();
 
-/* 2b. Distance multiplier */
 (function(){
   var mu=D.mult;var km=mu.m.map(function(x){return x/1000;});
   var series=[{name:"Multiplier",color:COL[0],y:mu.v}];
@@ -322,7 +318,6 @@ function idxOf(arr,v){for(var i=0;i<arr.length;i++)if(Math.abs(arr[i]-v)<1e-9)re
     read:function(i){return "<b>"+km[i].toFixed(2)+" km</b> &nbsp;multiplier <b>"+mu.v[i].toFixed(2)+"x</b> the marathon slowdown";}});
 })();
 
-/* 2c. Tier table and same-day table */
 (function(){
   var t=document.getElementById("tb-tiers");
   var rows=D.tiers.filter(function(r){return [30,35,45,55,65,70].indexOf(r.vdot)>=0;});
@@ -336,7 +331,6 @@ function idxOf(arr,v){for(var i=0;i<arr.length;i++)if(Math.abs(arr[i]-v)<1e-9)re
   s.innerHTML=html+"</tbody>";
 })();
 
-/* 3. Cold */
 (function(){
   var c=D.cold;
   var series=[{name:"Total used",color:COL[0],y:c.mid.map(function(p){return p.used;})},{name:"Heat part",color:COL[2],y:c.mid.map(function(p){return p.heat;}),dash:true},{name:"Cold part",color:COL[1],y:c.mid.map(function(p){return p.cold;}),dash:true},{name:"VDOT 70, 30% humidity",color:COL[3],y:c.quirk}];
@@ -352,7 +346,6 @@ function idxOf(arr,v){for(var i=0;i<arr.length;i++)if(Math.abs(arr[i]-v)<1e-9)re
   if(first0>0)document.getElementById("nt-quirk").textContent="Slowdowns under 1% are set to zero, so the VDOT 70 dry-day line drops to 0 at "+c.t[first0]+" °F while colder days still read "+pct(c.quirk[first0-1],1)+" or more.";
 })();
 
-/* 4. Hills */
 (function(){
   var hl=D.hills;
   var series=[{name:"Extra cost",color:COL[0],y:hl.cost}];
@@ -367,7 +360,6 @@ function idxOf(arr,v){for(var i=0;i<arr.length;i++)if(Math.abs(arr[i]-v)<1e-9)re
     hl.table.map(function(r){return "<tr><td>"+r.ftPerMile+" ft/mi</td><td class=hi>"+pct(r.costPct,1)+"</td>"+r.sec.map(function(s){return "<td>+"+s+" s</td>";}).join("")+"</tr>";}).join("")+"</tbody>";
 })();
 
-/* 5. Try it: every value is a node the prep script computed with the engine. */
 (function(){
   var G=D.grid;
   var raw=atob(G.frac);var bytes=new Uint8Array(raw.length);for(var i=0;i<raw.length;i++)bytes[i]=raw.charCodeAt(i);
@@ -403,5 +395,6 @@ function idxOf(arr,v){for(var i=0;i<arr.length;i++)if(Math.abs(arr[i]-v)<1e-9)re
 })();
 })();
 </script>
+<p style="margin:0;padding:8px 20px 40px;font:600 14px Inter,system-ui,sans-serif"><a href="../dreamy.html#deeper" style="color:inherit;text-underline-offset:3px">Back to Dreamy</a></p>
 </body>
 </html>

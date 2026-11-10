@@ -10,8 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Libre+Franklin:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap">
 <style>
-/* Chartbook: the page reads like one of my Morgan Stanley research reports, numbered exhibits with a takeaway title and a source line,
-   drawn in the chart palette I made there (MS Blue, Blue Razz, Jade, Amethyst, Carrot, Honey, Magenta, Cool Grey). */
+
 :root {
   --paper: #FFFFFF;
   --surface: #F2F4F7;
@@ -21,8 +20,8 @@
   --ink-strong: #000000;
   --rule: #D9DEE4;
   --rule-strong: #14212E;
-  --blue-soft: #275C90;          /* MS Blue: links, focus, the report band */
-  --signal: #39A174;         /* Jade: live marker */
+  --blue-soft: #275C90;          
+  --signal: #39A174;         
   --signal-ink: #FFFFFF;
   --frame: #1D232B;
   --mat: #EEF0F2;
@@ -42,7 +41,7 @@
 }
 :root {
   --paper: #141619; --surface: #1C1F23; --ink: #E7ECF1; --ink-2: #C8D0D8; --muted: #9AA5B2; --ink-strong: #FFFFFF; --gal-wall: #D8D2C8; --gal-floor: #8F7A64; --gal-base: #E6E1D9; --gal-wood: #5B4636; --gal-wood-2: #4B3A2D; --gal-person: #6F6A63; --gal-frame: #0B0C0E; --gal-mat: #F3F1EC; --gal-tape: #E9E0C6; --gal-leaf: #6E7D5C; --gal-books: #6B7480; --gal-bk-klein: #002FA7; --gal-bk-geo: #E9E0CC; --gal-bk-dyn: #1F2A44; --gal-bk-run: #3E6F52; --gal-bk-gilt: #C9A24B; --gal-bk-cream: #F1ECE0; --gal-bk-ink: #2B2A28; --gal-bk-ink-2: #857A66;
-  --rule: #2A2E33; --rule-strong: #B9C3CE; --blue-soft: #7FAEE0; /* Oct 9 rule: Blue Razz (--c-razz) for lines, dots, bars, underlines and outlines; this soft blue for blue text and anything with text on it */ --signal: #5CC495; --signal-ink: #141619;
+  --rule: #2A2E33; --rule-strong: #B9C3CE; --blue-soft: #7FAEE0;  --signal: #5CC495; --signal-ink: #141619;
   --frame: #06090D; --mat: #E6E9EC; --shot-border: #2A2E33;
   --c-msblue: #6FA0D6; --c-razz: #3296FE; --c-jade: #5CC495; --c-amethyst: #A593EC; --c-carrot: #E8834F; --c-honey: #E8AE2E; --c-magenta: #E56A9C; --c-grey: #A3A5AE;
   --k-build: #3296FE; --k-res: #5CC495;
@@ -53,8 +52,7 @@
 
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
-/* Nov 6 (Jason: "i hate how it flashes white everytime i change pages"): the page color sits on html too, so the
-   frame between pages and the page-change fade sit on dark, not the browser's white. Screen only, so print stays white. */
+
 @media screen { html { background: var(--paper); } }
 body {
   margin: 0;
@@ -67,7 +65,7 @@ body {
 img { max-width: 100%; height: auto; }
 [hidden] { display: none !important; }
 h1, h2, h3 { margin: 0; text-wrap: balance; }
-/* Nov 8 scan: h4s and ledes left one word alone on their last line (Unslop rule 16). */
+
 h4 { text-wrap: balance; }
 .lede { text-wrap: pretty; }
 p { margin: 0; }
@@ -88,7 +86,9 @@ a:hover { color: var(--blue-soft); text-decoration-thickness: 2px; }
   overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
 }
 .skip { position: absolute; left: -9999px; top: 8px; }
-.skip:focus { left: 16px; background: var(--paper); padding: 6px 10px; z-index: 10; }
+
+.skip:focus { position: fixed; left: 0; right: 0; top: 0; z-index: 100; display: flex; align-items: center; justify-content: center; box-sizing: border-box; min-height: 71px; padding: 0 16px; outline-offset: -6px; background: var(--paper); border-bottom: 1px solid var(--rule-strong); }
+@media (max-width: 767px) { .skip:focus { min-height: 136px; } }
 
 .page { max-width: 1120px; margin: 0 auto; padding-inline: 16px; }
 @media (min-width: 720px) { .page { padding-inline: 32px; } }
@@ -104,7 +104,7 @@ a:hover { color: var(--blue-soft); text-decoration-thickness: 2px; }
 }
 .note { font-size: 13.5px; line-height: 1.5; color: var(--muted); }
 
-/* Top bar */
+
 .topbar {
   display: flex;
   flex-wrap: wrap;
@@ -118,7 +118,7 @@ a:hover { color: var(--blue-soft); text-decoration-thickness: 2px; }
 .toplinks a { color: var(--ink-2); text-decoration: none; display: inline-block; padding-block: 12px; margin-block: -12px; }
 .toplinks a:hover { color: var(--blue-soft); text-decoration: underline; }
 
-/* Intro */
+
 .intro { padding-block: 36px 64px; }
 .name {
   font-family: var(--display);
@@ -161,11 +161,11 @@ button.copy {
 button.copy:hover { background: var(--ink); color: var(--paper); }
 @media (pointer: coarse) { button.copy, button.swap { min-height: 44px; } }
 
-/* Sections */
+
 .section { padding-block: 56px; border-top: 1px solid var(--rule); scroll-margin-top: 12px; }
 .sec-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 6px 16px; margin-bottom: 22px; }
 
-/* Project index table */
+
 .holdings { width: 100%; border-collapse: collapse; font-size: 15.5px; line-height: 1.45; }
 .holdings thead th {
   text-align: left;
@@ -199,7 +199,7 @@ button.copy:hover { background: var(--ink); color: var(--paper); }
   .holdings td.d { grid-column: 1 / -1; text-align: left; font-size: 12px; color: var(--muted); }
 }
 
-/* Project entries */
+
 .project { padding-block: 60px; border-top: 1px solid var(--rule); scroll-margin-top: 12px; }
 .p-head { display: grid; gap: 8px; margin-bottom: 26px; }
 .p-name {
@@ -219,7 +219,7 @@ button.copy:hover { background: var(--ink); color: var(--paper); }
 @media (max-width: 859px) { .p-meta dl { grid-template-columns: 1fr 1fr; gap: 13px 20px; } }
 .p-body { display: grid; gap: 14px; align-content: start; min-width: 0; }
 .p-body > p { max-width: 38em; }
-/* Oct 7: on phone and tablet, show the work sooner. Status, the first two paragraphs, then the pictures and the demo link, then the rest; the other details go last. */
+
 @media (max-width: 859px) {
   .p-grid { display: flex; flex-direction: column; gap: 14px; }
   .p-meta, .p-meta dl, .p-body { display: contents; }
@@ -242,7 +242,7 @@ button.copy:hover { background: var(--ink); color: var(--paper); }
 }
 .deep-link:hover { background: var(--ink); color: var(--paper); text-decoration: none; }
 
-/* Screenshots */
+
 .shots { margin: 14px 0 0; display: grid; gap: 18px; justify-items: center; }
 .shots figure { margin: 0; width: 100%; max-width: 300px; }
 .shots img { display: block; width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--shot-border); background: var(--surface); }
@@ -252,14 +252,14 @@ button.copy:hover { background: var(--ink); color: var(--paper); }
   .shots figure { max-width: none; }
 }
 
-/* Wharton OS wiring */
-/* Nov 8 refresh: the agents and skills read like the details column, in the body font, with no box or mono. */
+
+
 .wiring { margin: 10px 0 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 13px 28px; }
 .wiring dt { font-size: 13px; color: var(--muted); }
 .wiring dd { margin: 2px 0 0; font-size: 14.5px; line-height: 1.45; color: var(--ink-2); }
 @media (max-width: 699px) { .wiring { grid-template-columns: minmax(0, 1fr); } }
 
-/* Walldrobe wall */
+
 .wall-fig { margin: 14px 0 0; max-width: 720px; }
 .wall {
   position: relative;
@@ -331,7 +331,7 @@ button.swap {
 }
 button.swap:hover { background: var(--ink); color: var(--paper); }
 
-/* Smaller builds */
+
 .builds { list-style: none; padding: 0; margin: 0; }
 .builds li { display: grid; gap: 6px 48px; padding-block: 20px; border-top: 1px solid var(--rule); }
 .builds li:first-child { border-top: 0; padding-top: 0; }
@@ -340,7 +340,7 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .builds .when { display: block; margin-top: 3px; font-size: 13.5px; font-weight: 400; color: var(--muted); }
 .builds p { max-width: 38em; color: var(--ink-2); }
 
-/* Background */
+
 .career { width: 100%; border-collapse: collapse; font-size: 15.5px; line-height: 1.45; }
 .career th { text-align: left; font-weight: 400; }
 .career td, .career th { padding: 12px 18px 12px 0; border-bottom: 1px solid var(--rule); vertical-align: baseline; }
@@ -367,19 +367,19 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .photo-strip figcaption, .wd-concept figcaption { font-size: 13px; color: var(--muted); margin-top: 6px; }
 .wd-concept { margin: 28px 0 0; }
 .wd-concept img { display: block; width: 100%; height: auto; }
-/* Oct 7: DrinkDock render next to a silent loop of the real guest screen. The loop loads and plays only on screen. */
+
 .dd-pair-in { display: grid; grid-template-columns: minmax(0, 2.15fr) minmax(0, 1fr); gap: 12px; align-items: center; }
 .dd-pair video { display: block; width: 100%; height: auto; background: #0F1620; cursor: pointer; }
 @media (max-width: 559px) { .dd-pair-in { grid-template-columns: 1fr; } .dd-pair video { max-width: 280px; justify-self: center; } }
 .intro-side { display: grid; gap: 22px; align-content: start; }
 @media (max-width: 859px) { .intro-side { display: contents; } }
-/* Oct 7: on a phone the ask and the buttons come before the Morgan Stanley detail, so they fit on the first screen */
+
 @media (max-width: 859px) { .intro-body .hero-ms { order: 3; } .intro-body .contact-line { order: 4; } .intro-body .hero-ask { order: 1; } .intro-body .cta-row { order: 2; } .intro-body .lede { order: 0; } }
 .portrait { display: block; width: 100%; max-width: 240px; height: auto; }
 @media (max-width: 859px) { .portrait { width: 120px; } }
 .outside p { color: var(--ink-2); }
 
-/* Contact */
+
 .contact-big {
   display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px;
   font-family: var(--display); font-weight: 700;
@@ -400,7 +400,7 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
   html { scroll-behavior: auto; }
 }
 
-/* Palette before/after and testing sheet. Chart colors are print colors, so the panels stay light in both themes. */
+
 .palette-fig { margin: 16px 0 6px; max-width: 900px; display: grid; gap: 10px; }
 .pal-pair { display: grid; gap: 12px; }
 @media (min-width: 620px) { .pal-pair { grid-template-columns: 1fr 1fr; } }
@@ -420,7 +420,7 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 
 .pubs { margin-top: 22px; max-width: 46em; color: var(--ink-2); }
 
-/* ---------- Chartbook layer ---------- */
+
 .progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; background: var(--c-razz); transform-origin: 0 50%; transform: scaleX(var(--p, 0)); z-index: 50; pointer-events: none; }
 .name { font-weight: 900; letter-spacing: -0.04em; line-height: 0.9; font-size: clamp(3rem, 10vw, 7.4rem); }
 .name span { display: inline; }
@@ -432,15 +432,15 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .exhibit { padding-block: 56px; border-top: 1px solid var(--rule); }
 .exhibit > header { margin-bottom: 20px; }
 
-/* Project colors from the palette */
+
 #dreamy { --c: var(--c-msblue); } #drinkdock { --c: var(--c-amethyst); } #fivek { --c: var(--c-carrot); } #in { --c: var(--c-jade); }
 #wharton-os { --c: var(--c-honey); } #walldrobe { --c: var(--c-magenta); }
 .project { border-top: 1px solid var(--rule); position: relative; }
-/* (Oct 7) the short colored stripe over page titles is gone: it was decoration */
+
 .holdings td.p .sw2 { display: inline-block; width: 10px; height: 10px; margin-right: 9px; background: var(--c); vertical-align: 0; }
 .deep-link { border-color: var(--c, var(--ink)); }
 
-/* Exhibit 1: the build log */
+
 .log-wrap { display: grid; grid-template-columns: minmax(0, var(--w1, 21fr)) minmax(0, var(--w2, 18fr)); gap: 20px; }
 @media (max-width: 859px) { .log-wrap { grid-template-columns: minmax(0, 1fr); gap: 14px; } }
 .log { width: 100%; border-collapse: collapse; table-layout: fixed; }
@@ -448,7 +448,7 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .log thead th { text-align: left; height: 18px; vertical-align: bottom; }
 .log thead th:first-child, .log tbody th { width: 30px; text-align: left; }
 .log td { padding: 0; position: relative; }
-/* Oct 30 review: a day's details work on tap and with the keyboard, not only on mouse hover */
+
 .log td[tabindex] { cursor: pointer; }
 .log td[tabindex]:focus-visible, .log td.on { outline: 2px solid var(--ink); outline-offset: -1px; border-radius: 3px; }
 .log-tip { min-height: 1.5em; margin: 10px 0 0; font-size: 14px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
@@ -460,14 +460,14 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 
 .d-dreamy { background: var(--c-msblue); } .d-in { background: var(--c-jade); } .d-5k { background: var(--c-carrot); }
 .d-dd { background: var(--c-amethyst); } .d-wd { background: var(--c-magenta); } .d-other { background: var(--c-grey); } .d-ink { background: var(--ink-2); }
-/* Oct 30: a day on more than one thing is a split circle, one slice per thing, with a thin gap in the page color */
+
 .log td i.pie { background: none; overflow: visible; }
 .log td i.pie svg { display: block; width: 100%; height: 100%; overflow: visible; }
 .pie path { stroke: var(--paper); stroke-width: 0.12; stroke-linejoin: round; }
 .pie .d-dreamy { fill: var(--c-msblue); } .pie .d-in { fill: var(--c-jade); } .pie .d-5k { fill: var(--c-carrot); }
 .pie .d-dd { fill: var(--c-amethyst); } .pie .d-wd { fill: var(--c-magenta); } .pie .d-other { fill: var(--c-grey); }
 
-/* a ring around the day: honey for a race, ink for my first day at Wharton. A code dot, if any, sits inside it. */
+
 .log td.mark::after { content: ''; position: absolute; inset: 0; margin: auto; width: 74%; aspect-ratio: 1; border-radius: 50%; border: 2px solid var(--ring); box-sizing: border-box; pointer-events: none; }
 .log td.race { --ring: var(--c-honey); } .log td.first { --ring: var(--ink); }
 .log td.mark { cursor: help; }
@@ -477,9 +477,9 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .log-key i.chat { width: 8px; height: 8px; }
 .log-key.k2 { margin-top: -4px; color: var(--muted); }
 
-/* Oct 30 (Jason picked "two color families"): photo finder people (kept outside the skills block, which gen_skills.py rewrites), shades of Blue Razz, MS Blue and Jade from the palette band */
+
 :root { --pf-1: #3296FE; --pf-2: #5CC495; --pf-3: #B1D7FF; --pf-4: #287151; --pf-5: #2369B2; --pf-6: #B4DBCA; --pf-7: #7ABBFE; --pf-8: #39A174; --pf-9: #6FA0D6; --pf-10: #7EC2A5; --pf-11: #7395B7; }
-/* skills */
+
 :root { --k-msblue: #1B436D; --k-razz: #1F72D0; --k-jade: #23774F; --k-amethyst: #6450B8; --k-carrot: #B04A1C; --k-honey: #8A5E00; --k-magenta: #BF2C6E; --k-grey: #5B5A61; }
 :root { --k-msblue: #8DB4E6; --k-razz: #3296FE; --k-jade: #5CC495; --k-amethyst: #A593EC; --k-carrot: #E8834F; --k-honey: #E8AE2E; --k-magenta: #E56A9C; --k-grey: #A3A5AE; }
 .kcloud { position: relative; }
@@ -547,9 +547,9 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 @media (pointer: coarse) { .kchip, .kswitch { min-height: 44px; } }
 @media (prefers-reduced-motion: reduce) { .kcloud.placed { transition: none; } }
 @media (max-width: 699px) { .kcloud:not(.placed) .kgroup { justify-content: center; gap: 6px 14px; margin: 0 0 18px; } }
-/* /skills */
 
-/* See-it column and the demo link by the intro */
+
+
 .holdings td.d.see { font-family: inherit; font-size: 14px; }
 .cta { display: inline-flex; align-items: center; min-height: 40px; padding: 8px 14px; border-radius: 6px; background: var(--blue-soft); color: var(--paper); font-weight: 700; font-size: 14.5px; text-decoration: none; }
 .cta:hover { color: var(--paper); text-decoration: underline; }
@@ -559,7 +559,7 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .cta-row { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 10px; }
 .cta.cta-2 { background: none; color: var(--ink); box-shadow: inset 0 0 0 1px var(--rule-strong); }
 .cta.cta-2:hover { color: var(--ink); }
-/* the one line under my name (Oct 7, from a friend's review) */
+
 .tagline { margin: 14px 0 0; max-width: 30em; font-size: clamp(1.2rem, 2.3vw, 1.6rem); font-weight: 700; line-height: 1.3; letter-spacing: -0.015em; color: var(--ink); }
 .cta-row + .contact-line { margin-top: 12px; }
 
@@ -627,11 +627,11 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 #drinkdock .wd-concept img { border-radius: 10px; border: 1px solid var(--shot-border); }
 #drinkdock .wd-concept + .wd-concept { margin-top: 18px; }
 
-/* band */
+
 .band { margin: 40px 0 8px; }
 .band-strip { display: flex; height: 128px; border-radius: 6px; overflow: hidden; }
 .bs { -webkit-appearance: none; appearance: none; border-radius: 0; flex: var(--w) 1 0; min-width: 14px; border: 0; padding: 0; margin: 0; cursor: pointer; transition: flex-grow .3s ease; display: block; height: 100%; position: relative; background: none; }
-/* Safari lays out a button's children in its own inner box, so the four tints are positioned against the button itself. */
+
 .bs i { position: absolute; left: 0; right: 0; display: block; }
 .bs i:nth-child(1) { top: 0; height: 58%; } .bs i:nth-child(2) { top: 58%; height: 14%; } .bs i:nth-child(3) { top: 72%; height: 14%; } .bs i:nth-child(4) { top: 86%; bottom: 0; }
 .bs[aria-pressed="true"] { flex-grow: calc(var(--w) * 1.5 + 1); }
@@ -658,16 +658,16 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .pc.later .pn::after { content: ' (later)'; font-weight: 500; color: #6A705F; }
 .pcopy:focus-visible { outline: 2px solid #275C90; outline-offset: 2px; }
 .pcopy.copied .ph::after { content: '  copied'; color: #275C90; font-weight: 700; }
-/* /band */
 
-/* projects table blurbs */
+
+
 .holdings td.w { color: var(--ink); }
 .holdings .w-more { display: block; margin-top: 4px; color: var(--ink-2); font-size: 14.5px; line-height: 1.45; max-width: 44em; }
-/* project pages */
+
 .proj-top .toplinks a { white-space: nowrap; }
 .proj-more { padding-block: 40px 8px; border-top: 1px solid var(--rule); margin-top: 48px; }
 .proj-more a { font-weight: 600; }
-/* details sections */
+
 .deep { margin-top: 56px; padding-top: 36px; border-top: 1px solid var(--rule); }
 .feat { display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px 44px; padding-block: 28px; border-bottom: 1px solid var(--rule); }
 .feat-text { min-width: 0; }
@@ -687,17 +687,17 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .feat.wide .feat-fig { margin-top: 2px; }
 .feat-frame iframe { display: block; width: 100%; border: 1px solid var(--shot-border); border-radius: 12px; background: #141619; }
 .feat-frame.phone iframe { max-width: 420px; }
-/* /project pages */
 
-/* dreamy beta line */
+
+
 .beta-line { margin: 18px 0 6px; padding: 14px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); font-size: 1.15rem; line-height: 1.45; color: var(--ink); max-width: 36em; }
 .beta-line strong { font-weight: 700; color: var(--c-msblue); }
 
-/* Dreamy button: MS Blue, filled on hover. */
+
 .deep-link.dd-cta { margin-top: 10px; border: 2px solid var(--c-msblue); }
 .deep-link.dd-cta:hover { background: var(--c-msblue); border-color: var(--c-msblue); color: var(--paper); }
 
-/* walldrobe page */
+
 .wd-hero, .ufc-hero { margin: 10px 0 0; }
 .wd-hero img, .wd-wide img, .ufc-hero img { display: block; width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--shot-border); background: var(--surface); }
 .wd-hero figcaption, .ufc-hero figcaption { margin-top: 8px; font-size: 13.5px; color: var(--muted); }
@@ -725,9 +725,9 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .deep-link.wd-cta:hover { background: var(--c-magenta); border-color: var(--c-magenta); color: var(--paper); }
 .wd-desk { margin-top: 26px; }
 .wd-desk figcaption { margin-top: 8px; font-size: 13.5px; color: var(--muted); }
-/* /walldrobe page */
 
-/* cv: where I've been, right under the name */
+
+
 .cv { list-style: none; margin: 22px 0 10px; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 20px; }
 @media (min-width: 900px) { .cv { grid-template-columns: repeat(2, minmax(0, 340px)); gap: 18px 32px; } }
 .cv li { border-top: 2px solid var(--c-msblue); padding-top: 8px; display: grid; gap: 2px; align-content: start; }
@@ -737,14 +737,13 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .cv-role { font-size: 14px; line-height: 1.4; color: var(--ink-2); }
 .cv-more { font-size: 14.5px; color: var(--muted); margin: 0 0 30px; max-width: 46em; }
 .lede b { font-weight: 700; color: var(--ink); }
-/* a result, in bold white: at most one per paragraph, never in a heading */
+
 strong.res { font-weight: 700; color: var(--ink-strong); }
 
-/* the ending: what I want, then one action */
+
 .ending { font-size: clamp(20px, 2.4vw, 26px); line-height: 1.4; text-wrap: pretty; color: var(--ink); max-width: 30em; margin: 0 0 22px; letter-spacing: -0.01em; }
 
-/* Exhibit 1, the path: my story down the left, and a picture of each thing I made at the stop where I made it.
-   Only things I made go here; evidence lives on the chapter pages. Color is the kind of work (key under the title). */
+
 .kinds { display: flex; flex-wrap: wrap; gap: 6px 22px; margin: 12px 0 0; font-size: 14px; line-height: 1.4; color: var(--ink-2); }
 .kinds span { display: inline-flex; align-items: center; gap: 8px; color: var(--ink); }
 .kinds a { display: inline-flex; align-items: center; gap: 8px; color: var(--ink); text-decoration-color: var(--rule-strong); text-underline-offset: 3px; }
@@ -761,7 +760,7 @@ strong.res { font-weight: 700; color: var(--ink-strong); }
 span.sn .st { text-decoration: none; }
 a.sn:hover .st { text-decoration-color: var(--c-razz); }
 a.sn:hover .dot { background: var(--c-razz); }
-/* Oct 7: the path draws itself as you scroll, top to bottom, in time order. Without JS or with reduced motion it is simply drawn. */
+
 .path.drawing .stop:not(.end)::before { content: ''; position: absolute; left: 11px; top: 12px; width: 3px; height: 100%; background: var(--rule); }
 .path.drawing .stop:not(.end)::after { transform: scaleY(var(--fill, 0)); transform-origin: top; }
 .path.drawing .sn .dot { border-color: var(--rule); transition: border-color .3s ease, background-color .3s ease; }
@@ -798,13 +797,13 @@ a.sn:hover .dot { background: var(--c-razz); }
   .tiles img, .tiles .pal { width: 100%; height: auto; aspect-ratio: 4 / 3; }
 }
 
-/* Read it in order: a book's contents page. Number, chapter, a dotted leader to the arrow, and one line on what's in it. */
 
-/* stop pages: the job, then what I made there, with long stories folded */
+
+
 .stop-h { font-size: clamp(1.25rem, 2.4vw, 1.6rem); font-weight: 800; letter-spacing: -0.015em; line-height: 1.2; margin: 0 0 8px; }
 .made-h { font-size: 19px; font-weight: 800; letter-spacing: -0.01em; margin: 40px 0 6px; }
 .made-lead { max-width: 40em; color: var(--ink-2); margin: 0 0 14px; }
-/* Oct 8: the takeaway of each thing I made, in bold so a skim still gets the so-what */
+
 .tk { color: var(--ink); font-weight: 700; }
 details.more { margin: 10px 0 0; max-width: 46em; }
 details.more > summary { cursor: pointer; display: inline-block; font-size: 15px; font-weight: 600; color: var(--ink); padding: 4px 0; list-style: none; text-decoration: underline; text-decoration-color: var(--rule-strong); text-underline-offset: 4px; }
@@ -822,7 +821,7 @@ details.more[open] > summary { margin-bottom: 10px; }
 .b-name { font-size: 20px; font-weight: 800; letter-spacing: -0.01em; line-height: 1.2; }
 .rbig a:hover .b-name { text-decoration: underline; text-decoration-color: var(--k-build); text-underline-offset: 4px; }
 .b-line { font-size: 15px; line-height: 1.45; color: var(--ink-2); }
-/* Research and strategy: big pictures, then report covers */
+
 .rtiles { padding-top: 24px; }
 .rbig { list-style: none; margin: 0 0 8px; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
 .rbig a { display: flex; flex-direction: column; gap: 6px; text-decoration: none; color: var(--ink); }
@@ -830,7 +829,7 @@ details.more[open] > summary { margin-bottom: 10px; }
 .rbig .pal b { display: flex; flex-direction: column; }
 .rbig a:hover img, .rbig a:hover .pal { border-color: var(--k-res); }
 .made-sub { margin: 0 0 14px; color: var(--ink-2); }
-/* public reports as citations: title, where and when, my part. Real covers replace this once Jason sends the PDFs. */
+
 .reports { list-style: none; margin: 0 0 40px; padding: 0; border-top: 1px solid var(--rule); }
 .reports li { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 3fr) minmax(0, 3fr); gap: 4px 24px; padding: 12px 0; border-bottom: 1px solid var(--rule); align-items: baseline; }
 .reports a { font-weight: 700; color: var(--ink); text-decoration: underline; text-decoration-color: var(--rule-strong); text-underline-offset: 3px; }
@@ -844,13 +843,9 @@ details.more[open] > summary { margin-bottom: 10px; }
   .reports li { grid-template-columns: minmax(0, 1fr); }
 }
 
-/* "Get in touch" lands with the contact info at the top of the screen, not stuck at the bottom of the page.
-   Nov 8: the Antelao drawing under the footer now does that job. start.js sizes .endroom so the last screen runs
-   from the email to the bottom of the drawing (Jason: "look at the size of the window and select the appropriate
-   amount of buffer so this starts with jtraum@wharton.upenn.edu"), so #contact needs no height of its own. */
+
 #contact { padding-bottom: 8px; }
-/* His own photo of Antelao (Dolomites, Oct 13), redrawn in one ink by tools/endscape.py. The sky is the page
-   color, so the mountains rise straight out of the page. A taller crop on phones. Decorative, so no alt text. */
+
 .endroom { height: var(--end-h, auto); overflow: hidden; }
 .endroom picture { display: block; height: 100%; }
 .endscape { display: block; width: 100%; height: 100%; aspect-ratio: 2800 / 1118; object-fit: cover; object-position: 44% 100%;
@@ -858,7 +853,7 @@ details.more[open] > summary { margin-bottom: 10px; }
 @media (max-width: 699px) { .endscape { aspect-ratio: 4 / 5; object-position: 50% 100%; } }
 @media print { .endroom { display: none; } }
 
-/* Public reports as covers (Oct 7, carried over from Oct 6: "More pictures that link, fewer words") */
+
 ul.reports { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 18px; border: 0; }
 ul.reports li { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 8px 24px; align-items: center; padding: 0; border: 0; }
 .r-pic img { display: block; width: 100%; height: auto; border: 1px solid var(--rule); background: #fff; }
@@ -868,7 +863,7 @@ ul.reports li { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap:
 @media (max-width: 599px) { ul.reports li { grid-template-columns: minmax(0, 1fr); } }
 #dd-more { margin-top: 20px; }
 
-/* Analytics package before and after (Jason's outline, Oct 6) */
+
 .flow { margin: 22px 0 6px; max-width: 760px; display: grid; gap: 14px; }
 .flow-row { display: grid; grid-template-columns: 13em minmax(0, 1fr); gap: 6px 16px; align-items: center; }
 .flow-lab { font-size: 15px; line-height: 1.3; }
@@ -890,14 +885,14 @@ ul.reports li { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap:
 .flow.grow.in .flow-row + .flow-row .flow-bar { transition-delay: .25s; }
 @media (max-width: 599px) { .flow-row { grid-template-columns: minmax(0, 1fr); } }
 
-/* About me: rows of pictures at one height each, never stretched (Oct 7) */
+
 @media (min-width: 700px) {
   #outside .photo-strip { max-width: none; flex-wrap: nowrap; gap: 12px; }
   #outside .photo-strip figure { flex: var(--ar) 1 0; }
 }
 #outside .photo-strip + .photo-strip { margin-top: 14px; }
 
-/* About me: one wall of paintings and photos you can filter, sort by color, and open big (Oct 7) */
+
 .pw { margin-top: 30px; }
 .pw-bar { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: space-between; margin-bottom: 16px; }
 .pw-seg { display: inline-flex; flex-wrap: wrap; border: 1px solid var(--rule); }
@@ -933,7 +928,7 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
 .pw-box .wb-x { position: absolute; top: 12px; right: 16px; font-size: 15px; text-decoration: underline; text-underline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) { .pw-b img { transition: none; } }
 
-/* Strategy sim: the result in bold, and the questions I asked (Oct 7) */
+
 .sim-win { font-size: 19px; line-height: 1.45; color: var(--ink); max-width: 38em; margin: 14px 0 6px; }
 .sim-win strong { font-weight: 700; }
 #pivot .made-h { margin: 34px 0 8px; }
@@ -941,7 +936,7 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
 .sim-qs li { display: grid; gap: 4px; }
 .sim-qs q { font-weight: 700; color: var(--ink); quotes: "\201C" "\201D"; }
 .sim-qs span { color: var(--ink-2); }
-/* Oct 7: the questions read like the overrules on How I use AI: the question big, what happened small */
+
 .sim-qs { gap: 30px 48px; max-width: none; margin-top: 14px; }
 @media (min-width: 820px) { .sim-qs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .sim-qs li { gap: 8px; border-top: 1px solid var(--rule); padding-top: 14px; align-content: start; }
@@ -950,14 +945,13 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
 .work-lede { max-width: 30em; margin: 0 0 14px; font-size: clamp(1.15rem, 2vw, 1.4rem); line-height: 1.4; letter-spacing: -0.01em; color: var(--ink); }
 @media (min-width: 820px) { .highlights.two-up { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 48px; max-width: none; } }
 
-/* Your name: big on Start, and it glides to the top left when you open another page (Oct 7) */
+
 @view-transition { navigation: auto; }
 .name { view-transition-name: jt-name; }
 .topbar .label:not(.tb-name) a { view-transition-name: jt-name; display: inline-block; }
 .topbar .tb-name { opacity: 0; pointer-events: none; transition: opacity .25s ease; }
 .topbar .tb-name.on { opacity: 1; pointer-events: auto; }
-/* Oct 8 (Jason: "a bit janky"): the small and big name now share weight and tracking, and each snapshot keeps its own
-   shape (height 100%, width auto) instead of being stretched to the other's box, so the morph is a clean scale. */
+
 .topbar .label a { font-weight: 800; letter-spacing: -0.02em; line-height: 0.92; }
 .name { width: fit-content; }
 ::view-transition-group(jt-name) { animation-duration: .42s; animation-timing-function: cubic-bezier(.4,0,.2,1); }
@@ -965,9 +959,9 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
 ::view-transition-old(root), ::view-transition-new(root) { animation-duration: .3s; }
 @media (prefers-reduced-motion: reduce) { ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; } }
 
-/* Things I've built: one project per row until there's room for two (Astra review, Oct 7: at 768px the text got 110px) */
 
-/* Running: six races drawn like Strava posts, route from his Strava (Oct 7) */
+
+
 .run-lede { color: var(--ink-2); max-width: 40em; margin: 8px 0 20px; }
 .rps { list-style: none; margin: 0; padding: 4px 2px 18px; display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: thin; }
 .rps:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
@@ -1005,9 +999,7 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
 .rbig-one { grid-template-columns: minmax(0, 520px); margin-top: 22px; }
 .rp-later { margin: 6px 0 0; font-size: 13.5px; color: #6D6D78; font-style: italic; }
 
-/* Oct 7, divider cleanup (Astra's review, Jason's go): rules only where they help you read across rows.
-   Kept: one faint line under the nav, one before the next page or footer, table and dense-list rows,
-   chart axes, timeline connectors, link underlines. Everything below loses its line; spacing stays. */
+
 .section, .exhibit, .project, .deep { border-top: 0; }
 .feat { border-bottom: 0; }
 .src { border-top: 0; padding-top: 0; }
@@ -1018,14 +1010,14 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
 @media (max-width: 859px) { .p-meta dl > div:nth-child(2) { border-top: 0; padding-top: 0; } }
 body:has(.pager) .colophon, body:has(.proj-more) .colophon { border-top: 0; }
 
-/* Oct 7: things to play with (IDEAS.md). They add no words: the room's caption is paid for on About me. */
-/* The room: rehang my paintings. One of them won't stay straight. */
+
+
 .gal { margin: 26px 0 34px; }
 .gal-room { position: relative; aspect-ratio: 1000 / 560; overflow: hidden; border-radius: 8px; background: var(--gal-wall); user-select: none; -webkit-user-select: none; }
 .gal-bg { position: absolute; inset: 0; width: 100%; height: 100%; }
 .gal-wall { fill: var(--gal-wall); } .gal-floor { fill: var(--gal-floor); } .gal-base { fill: var(--gal-base); }
 .gal-cred rect { fill: var(--gal-wood); } .gal-cred-line rect { fill: var(--gal-wood-2); } .gal-vase path { fill: var(--gal-mat); opacity: .85; } .gal-vase .stem { fill: none; stroke: var(--gal-leaf); stroke-width: 3; stroke-linecap: round; opacity: 1; } .gal-books rect { fill: var(--gal-books); }
-/* books on the credenza (tools/gen_books.py) */
+
 .gal-books .bk-klein .sp { fill: var(--gal-bk-klein); } .gal-books .bk-geo .sp { fill: var(--gal-bk-geo); } .gal-books .bk-dyn .sp { fill: var(--gal-bk-dyn); } .gal-books .bk-run .sp { fill: var(--gal-bk-run); }
 .gal-books .bd { fill: var(--gal-bk-gilt); opacity: .7; } .gal-books .bk-klein .bd { opacity: 0; } .gal-books .bk-geo .bd { fill: var(--gal-bk-ink-2); opacity: .5; }
 .gal-books .sh { fill: url(#bk-round); }
@@ -1035,7 +1027,7 @@ body:has(.pager) .colophon, body:has(.proj-more) .colophon { border-top: 0; }
   border: 3px solid var(--gal-frame); background: var(--gal-frame); box-shadow: 0 6px 14px rgba(0, 0, 0, .45); cursor: grab; touch-action: none;
   transform: rotate(var(--rot, 0deg)); transition: transform .55s cubic-bezier(.3, 1.5, .5, 1); z-index: 2; }
 .gal-p img { display: block; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
-/* Oct 8 (Astra): on a phone the smallest frames are about 19 by 15px, so each one gets an invisible margin to grab. */
+
 @media (max-width: 700px) { .gal-p::after { content: ''; position: absolute; inset: -9px; } }
 .gal-p.gal-mat { border-width: 2px; padding: calc(var(--w) * .07 * 1%); background: var(--gal-mat); aspect-ratio: auto; height: auto; }
 .gal-p.gal-mat img { height: auto; aspect-ratio: var(--ar); }
@@ -1044,12 +1036,11 @@ body:has(.pager) .colophon, body:has(.proj-more) .colophon { border-top: 0; }
 .gal-crooked { --rot: 3.4deg; transition: transform 1.1s cubic-bezier(.6, 0, .9, .4); }
 .gal-crooked.straight { --rot: 0deg; transition: transform .4s cubic-bezier(.3, 1.5, .5, 1); }
 .gal-tape { position: absolute; top: -9%; left: 30%; width: 40%; height: 13%; background: var(--gal-tape); opacity: .85; transform: rotate(-8deg); }
-/* Oct 7: walls from the real Walldrobe engine. Sizes are the engine's frame outsides; one thin black frame for all,
-   its 0.75 in moulding (--b, % of room width); a mat only where the engine put one (--m). Padding % is of the room's width. */
+
 .gal-p.gal-wd { height: calc(var(--h) * 1%); aspect-ratio: auto; border: 0; padding: calc(var(--b) * 1%); background: var(--gal-frame); }
 .gal-wd .gal-m { display: block; width: 100%; height: 100%; padding: calc(var(--m) / var(--w) * 100%); background: var(--gal-mat); }
 .gal-wd img { width: 100%; height: 100%; object-fit: cover; }
-/* Oct 7: more frame styles so the wall reads like a real salon wall. */
+
 .gal-p.gal-wood { border: clamp(3px, .55vw, 7px) solid var(--gal-wood); background: var(--gal-wood); }
 .gal-p.gal-thin { border-width: 1px; }
 .gal-p.gal-white { border: clamp(2px, .4vw, 5px) solid var(--gal-mat); background: var(--gal-mat); }
@@ -1071,7 +1062,7 @@ body:has(.pager) .colophon, body:has(.proj-more) .colophon { border-top: 0; }
 .gal-why { color: var(--ink-2); }
 @media (prefers-reduced-motion: reduce) { .gal-p, .gal-crooked, .gal-person { transition: none; } .gal-person.walk { animation: none; } }
 
-/* Bad taste: the same data, every chart crime at once */
+
 .pal-c { position: relative; }
 .tube { position: absolute; top: 8px; right: 8px; width: 32px; height: 32px; padding: 5px; border: 0; border-radius: 6px; background: transparent; color: #6B6A72; cursor: pointer; z-index: 2; }
 .tube:hover, .tube[aria-pressed="true"] { color: #BF2C6E; }
@@ -1090,20 +1081,19 @@ body:has(.pager) .colophon, body:has(.proj-more) .colophon { border-top: 0; }
 .pal-c.awful .sw { flex-direction: row-reverse; transform: rotate(2deg); }
 .pal-c.awful .sw li:nth-child(odd) i { background: #00FF66 !important; } .pal-c.awful .sw li:nth-child(even) i { background: #FF00CC !important; }
 @media (prefers-reduced-motion: reduce) { .pal-c svg, .pal-c .sw, .pal-c .pal-h { transition: none; } }
-/* Oct 7: internal reports, no links or pictures: a plain three-column list. */
+
 ul.reports.r-int { gap: 0; border-top: 1px solid var(--rule); }
 ul.reports.r-int li { grid-template-columns: minmax(0, 5fr) minmax(0, 3fr) minmax(0, 4fr); align-items: baseline; padding: 12px 0; border-bottom: 1px solid var(--rule); }
 ul.reports.r-int .r-t { font-weight: 700; color: var(--ink); }
 @media (max-width: 699px) { ul.reports.r-int li { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
 
-/* Nov 6 to 7: any picture link with data-full opens full screen (How I use AI, Wharton OS; Jason: "let them full screen").
-   A small corner mark says the picture opens. The viewer itself is src/viewer.js. */
+
 a[data-full] { position: relative; display: block; cursor: zoom-in; border-radius: 6px; }
 a[data-full]::before, a[data-full]::after { content: ""; position: absolute; right: 6px; bottom: 6px; width: 22px; height: 22px; border-radius: 6px; pointer-events: none; }
 a[data-full]::before { background: var(--frame); opacity: 0.82; }
 a[data-full]::after { background: var(--mat); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7'/%3E%3C/svg%3E") center / 13px no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7'/%3E%3C/svg%3E") center / 13px no-repeat; }
 a[data-full]:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
-.feat-fig.phone a[data-full] { width: fit-content; max-width: 100%; }  /* Nov 8: the corner mark sits on the phone shot, not the empty space beside it */
+.feat-fig.phone a[data-full] { width: fit-content; max-width: 100%; }  
 @media (max-width: 480px) { a[data-full]::before, a[data-full]::after { right: 4px; bottom: 4px; width: 20px; height: 20px; } }
 dialog.lb[open] { animation: lb-in 160ms ease-out; }
 @keyframes lb-in { from { opacity: 0; } to { opacity: 1; } }
@@ -1117,8 +1107,7 @@ html.lb-open { overflow: hidden; }
 @media (max-width: 699px) { dialog.lb[open] { grid-template-columns: 36px minmax(0, 1fr) 36px; } .lb .wb-prev, .lb .wb-next { padding: 0 4px; font-size: 36px; } }
 @media (prefers-reduced-motion: reduce) { dialog.lb[open] { animation: none; } }
 
-/* Nov 7 (Jason: "add a few views to my website like this... maybe 100 of kosher things i can have popup"): the live
-   vault graph on the Wharton OS page (src/vaultgraph.js). Dots in the palette, one card at a time, no soft shadows. */
+
 .vg { margin: 10px 0 40px; }
 .vg-top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; margin-bottom: 14px; }
 .vg-h { margin: 0; font-size: clamp(1.7rem, 3.6vw, 2.6rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; }
@@ -1159,13 +1148,13 @@ html.lb-open { overflow: hidden; }
 @media (max-width: 520px) { .vg-find { width: 100%; } .vg-mode button { padding: 0 12px; } }
 @media (prefers-reduced-motion: reduce) { .vg-card, .vg-mode button, .vg-zoom button { transition: none; } }
 
-/* Nov 7: Wharton OS in two zones (how I learn with it, why I can trust it), the "give it zones" fix. */
+
 .zone { margin-top: 72px; }
 .zone-h { margin: 0 0 6px; font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; letter-spacing: -0.025em; line-height: 1.1; }
 .zone .deep { margin-top: 0; padding-top: 0; }
 .zone .feat { padding-block: 18px; }
 @media (max-width: 699px) { .zone { margin-top: 52px; } }
-/* Nov 8 refresh: the graph leads the page; zones use the full width (two columns, or a wide lead row and three columns). */
+
 .project > .vg { margin: 28px 0 44px; }
 .project > .vg .vg-h { font-size: 1.15rem; letter-spacing: -0.01em; }
 @media (min-width: 860px) {
@@ -1178,11 +1167,17 @@ html.lb-open { overflow: hidden; }
 }
 .check-line { margin: 0; font-size: clamp(1.3rem, 2.6vw, 2rem); font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; color: var(--ink); }
 .check-line .num { font-variant-numeric: tabular-nums; }
-/* Nov 7 (Jason: "also incldue both sides of my cheet sheet"): both pages side by side, stacked on a phone; each opens full screen. */
+
 .cheat-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
 @media (max-width: 699px) { .cheat-pair { gap: 8px; } }
 
-/* end of page: previous small, next as the last big line */
+
+.sum-h { display: inline; margin: 0; font: inherit; letter-spacing: inherit; color: inherit; text-wrap: inherit; }
+
+.flow + p { max-width: 40em; margin-top: 20px; }
+ul + table.career { margin-top: 22px; }
+
+
 .pager { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px 40px; margin: 72px 0 8px; padding-top: 22px; border-top: 1px solid var(--rule); }
 .pager a { text-decoration: none; color: inherit; }
 .pg-prev { font-size: 15px; color: var(--ink-2, inherit); }
@@ -1197,7 +1192,7 @@ html.lb-open { overflow: hidden; }
 .pager a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; border-radius: 4px; }
 @media (max-width: 560px) { .pager { flex-direction: column-reverse; align-items: stretch; } .pg-next { align-items: flex-start; text-align: left; margin-left: 0; } }
 
-/* route bar: the stops of the site in order. Filled dot = you've been there, ring = you are here. */
+
 .route-nav { margin: 0; }
 .route-nav ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 0; }
 .route-nav li { position: relative; display: flex; align-items: center; }
@@ -1209,7 +1204,7 @@ html.lb-open { overflow: hidden; }
 .route-nav li.here a { color: var(--ink, #E7ECF1); font-weight: 700; }
 .route-nav li.here i { background: var(--pc); box-shadow: 0 0 0 3px color-mix(in srgb, var(--pc) 30%, transparent); }
 .route-nav li.here a { text-decoration: underline; text-decoration-color: var(--pc); text-decoration-thickness: 2px; text-underline-offset: 6px; }
-/* Oct 30: plain links, like the wireframe Jason pointed at; the current page keeps its colored underline */
+
 .route-nav ol { gap: 4px 22px; }
 .route-nav li + li::before { content: none; }
 .route-nav i { display: none; }
@@ -1221,7 +1216,7 @@ html.lb-open { overflow: hidden; }
   .route-nav a { padding: 8px 0; font-size: 13.5px; gap: 6px; min-height: 36px; }
   .route-nav i { width: 8px; height: 8px; }
 }
-/* Ported from option-b-mock src/pages/ai.css (Oct 24): the dive-in and the photo finder. */
+
 .dive { padding: 40px 0; }
 .dive-js .dive { display: none; }
 .dive-js .dive.open { display: block; position: fixed; inset: 0; z-index: 60; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; background: var(--paper); padding: 0 max(20px, env(safe-area-inset-right)) 64px max(20px, env(safe-area-inset-left)); outline: none; }
@@ -1349,11 +1344,11 @@ html.lb-open { overflow: hidden; }
 .dv-next a::after { content: '\00a0\2192'; }
 .dv-esc { display: none; }
 @media (hover: hover) and (min-width: 980px) { .dive-js .dv-esc { display: inline; margin-left: 4px; color: var(--muted); font-weight: 500; } }
-/* Start, built out (Oct 30, gen_start.py): the case studies, the day with AI, outside work, and the Morgan Stanley case study. */
+
 .tagline.creds { font-size: clamp(1rem, 1.8vw, 1.2rem); font-weight: 600; color: var(--ink-2); letter-spacing: 0; }
 .intro-body .hero-ask { color: var(--ink); font-size: 1.12rem; }
 
-/* the case studies */
+
 .case-list { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 16px; }
 @media (min-width: 760px) { .case-list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .case { display: grid; grid-template-rows: auto auto 1fr; gap: 6px; height: 100%; padding: 0 0 18px; border-radius: 12px; background: var(--surface); border: 1px solid var(--rule); color: var(--ink); text-decoration: none; overflow: hidden; }
@@ -1365,7 +1360,7 @@ html.lb-open { overflow: hidden; }
 .case-h::after { content: '\00a0\2192'; color: var(--muted); }
 .case-l { padding: 0 18px; color: var(--ink-2); font-size: 15.5px; line-height: 1.5; text-wrap: pretty; }
 
-/* the Morgan Stanley graphic, small and big, drawn with tokens */
+
 .msg, .msbig svg { font-family: var(--body); }
 .g-t text { fill: var(--ink-2); font-size: 11px; }
 .g-lg text { font-size: 16px; }
@@ -1380,13 +1375,13 @@ html.lb-open { overflow: hidden; }
 .g-pg2 { fill: var(--rule); stroke: var(--muted); stroke-width: 1; }
 .g-a { fill: var(--c-msblue); } .g-r { fill: var(--c-grey); }
 
-/* the day */
+
 .d-tog { display: none; }
 .start-js .d-tog { display: inline-flex; gap: 4px; padding: 4px; margin: 18px 0 0; border-radius: 999px; background: var(--surface); border: 1px solid var(--rule); }
 .d-tog button { appearance: none; font: inherit; font-size: 15px; font-weight: 700; min-height: 40px; padding: 0 16px; border: 0; border-radius: 999px; background: none; color: var(--ink-2); cursor: pointer; }
 .d-tog button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
 .d-tog button:focus-visible { outline: 2px solid var(--c-razz); outline-offset: 2px; }
-/* Oct 30: two timed stories, one per place (Kelly and Jason's read-through) */
+
 .d-colh { margin: 22px 0 0; font-size: 15px; font-weight: 700; color: var(--ink); }
 .start-js .d-colh { display: none; }
 .d-line { list-style: none; margin: 12px 0 0; padding: 0; }
@@ -1421,7 +1416,7 @@ html.lb-open { overflow: hidden; }
   .start-js .d-line { margin-top: 12px; }
 }
 
-/* outside work */
+
 .out-strip { list-style: none; margin: 22px 0 0; padding: 0; display: flex; gap: 10px; }
 .out-strip li { min-width: 0; }
 .out-strip img { display: block; width: 100%; height: auto; border-radius: 8px; }
@@ -1433,7 +1428,7 @@ html.lb-open { overflow: hidden; }
 }
 .d-more { margin: 10px 0 0; }
 
-/* the Morgan Stanley case study */
+
 .msbig { margin: 8px 0 34px; padding: 22px; border-radius: 12px; background: var(--surface); border: 1px solid var(--rule); }
 .msbig svg { display: block; width: 100%; height: auto; }
 .msbig .flow { margin: 22px 0 0; max-width: none; }
@@ -1457,24 +1452,23 @@ html.lb-open { overflow: hidden; }
 .intro-body { align-content: start; }
 .cta-row { align-items: flex-start; }
 .d-map img { max-height: 280px; object-position: center top; aspect-ratio: 1000 / 800; }
-/* Oct 30: the photo finder screenshot shows whole, never cropped by the map's height cap */
+
 .d-map.d-shot img, .d-shot img { max-height: none; aspect-ratio: auto; object-fit: contain; }
 
 
-/* Oct 30, after Jason pointed at the wireframe ("You don't think this is cleaner? You just made it"): Start matches it.
-   The hero is the name, credentials and one row of buttons and links, with the photo on the right. */
+
 .hero2 { padding-block: 40px 28px; }
 .h2-grid { display: grid; grid-template-columns: minmax(0, 1fr) 210px; gap: 44px; align-items: center; }
 .hero2 .name { font-size: clamp(2.8rem, 6.4vw, 4.6rem); line-height: 0.95; margin: 0; }
 .hero2 .tagline.creds { margin-top: 14px; }
-/* Oct 30, Jason picked the top line: what I do, in my words; the ask stays at the bottom */
+
 .hero2 .h2-line { margin-top: 16px; max-width: 26em; font-size: clamp(1.15rem, 2.1vw, 1.45rem); font-weight: 600; line-height: 1.35; color: var(--ink); }
 .hero2 .h2-line a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 4px; }
 .hero2 .cta-row { margin-top: 24px; align-items: center; gap: 10px 12px; }
 .hero2 .cta { border-radius: 999px; padding: 8px 18px; }
 .h2-l { font-size: 14.5px; font-weight: 600; margin-left: 4px; }
 .h2-photo { display: block; width: 210px; height: 210px; object-fit: cover; object-position: center 30%; border-radius: 14px; }
-/* Nov 9, Jason: the photo flips to his self-portrait (click or tap; a small tilt on hover says it moves) */
+
 .h2-flip { appearance: none; background: none; border: 0; padding: 0; margin: 0; display: block; position: relative; width: 210px; height: 210px; border-radius: 14px; cursor: pointer; perspective: 900px; }
 .h2-face { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden; transition: transform .65s cubic-bezier(.2,.7,.2,1); }
 .h2-face .h2-photo { width: 100%; height: 100%; border-radius: 0; }
@@ -1495,41 +1489,41 @@ html.lb-open { overflow: hidden; }
   .hero2 .tagline.creds { margin-top: 0; }
   .hero2 .cta-row { margin-top: 4px; }
 }
-/* the palette as a thin line under the hero; its story lives on Research */
+
 #band { margin: 6px 0 0; }
 #band .band-strip { height: 6px; border-radius: 3px; pointer-events: none; }
 #band .band-strip .bs { pointer-events: none; }
-/* Oct 30, Jason: "just do the full color no more scale here.. it looks weird otherwise": in the thin strip each stripe
-   is its one full color (no tints under it), and the first stripe doesn't grow as if it were picked */
+
 #band .bs i { display: none; }
 #band .bs i:first-child { display: block; top: 0; bottom: 0; height: auto; }
 #band .bs[aria-pressed="true"] { flex-grow: var(--w); }
 #band figcaption { display: none; }
-/* case studies: pictures, no boxes */
+
 .case { padding: 0; border: 0; background: none; border-radius: 0; gap: 8px; overflow: visible; }
 .case:hover { border: 0; }
 .case-pic { border-radius: 12px; border: 1px solid var(--rule); margin-bottom: 6px; }
 .case:hover .case-pic { border-color: var(--rule-strong); }
 .case-h, .case-l { padding: 0; }
 .case-h::after { content: none; }
-/* Oct 30, Kelly via Jason: "Put the Morgan Stanley above the picture" (phone). One column: name, then picture, then line,
-   with more room between cases so the next picture doesn't read as part of the case above it. */
+
 @media (max-width: 759px) { .case-h { order: -1; } .case-list { gap: 34px; } }
-/* Oct 30, Jason: four cases, "2x2 will look better on the phone". Two columns at every width; on a phone the name
-   stays above the picture and the line is a step smaller so the narrow column doesn't run long. */
+
 .case-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px 20px; }
 @media (max-width: 759px) { .case-list { gap: 26px 12px; } .case-h { font-size: 1.02rem; } .case-l { font-size: 14px; line-height: 1.45; } .case-pic { border-radius: 10px; } }
-/* the day: each story has its times on the left and a thin spine between the times and the moments */
+
 .d-line { position: relative; }
 .d-line::before { content: ''; position: absolute; left: 83px; top: 6px; bottom: 6px; width: 1px; background: var(--rule-strong); opacity: .35; }
 .d-item { border-top: 0; padding: 14px 0 20px; }
 .d-item:last-child { border-bottom: 0; }
 .d-t { color: var(--c-msblue); font-size: 13.5px; }
-/* the path map across the page on a laptop: stops on one line, the things I built under each */
+
 @media (min-width: 1000px) {
   #path .work-note, #path .kinds { display: none; }
+  
+  #path .sb-list a { grid-template-columns: 0 minmax(0, 1fr); column-gap: 0; }
+  #path .sb-list a > i { visibility: hidden; width: 0; }
   #path .path { position: relative; display: grid; grid-template-columns: .85fr .6fr 1.2fr 1.2fr 2.1fr .7fr; column-gap: 18px; margin-top: 26px; }
-  /* Oct 31 (Jason: "why so squisshed"): Brown now has one tile, so its column is wider and its tile takes the full column */
+  
   #path .stop:first-child .tiles { grid-template-columns: minmax(0, 1fr); }
   #path .path::before { content: ''; position: absolute; left: 10px; right: 12%; top: 9px; height: 2px; background: var(--c-razz); opacity: .7; }
   #path .stop { display: block; padding: 32px 0 0; min-width: 0; }
@@ -1552,7 +1546,7 @@ html.lb-open { overflow: hidden; }
 @media (max-width: 699px) { .hero2 .cta { padding: 7px 14px; font-size: 14px; } .hero2 .cta-row { gap: 8px 10px; } .h2-l { margin-left: 0; } }
 .g-t .g-num { fill: var(--paper); font-weight: 800; font-size: 12px; }
 
-/* Oct 30 (Kelly and Jason): the case study pages get a switcher at the top, so a case page doesn't read as still being on Start */
+
 .case-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 6px 0 22px; font-size: 14px; }
 .case-nav span { color: var(--muted); font-weight: 700; margin-right: 4px; }
 .case-nav a { display: inline-flex; align-items: center; min-height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--rule); color: var(--ink-2); font-weight: 700; text-decoration: none; }
@@ -1562,7 +1556,7 @@ html.lb-open { overflow: hidden; }
 .case-nav + .project .p-head { margin-top: 8px; }
 @media (max-width: 520px) { .case-nav { gap: 6px; } .case-nav a { padding: 0 12px; min-height: 34px; } }
 
-/* Oct 30: photo finder people in two color families, blue and green, a different shade each (pf.js ranks them by photos); me in Honey on photo tags */
+
 .pf-ini.pc1, .pf-tags i.pc1 { background: var(--pf-1); color: var(--paper); }
 .pf-ini.pc2, .pf-tags i.pc2 { background: var(--pf-2); color: var(--paper); }
 .pf-ini.pc3, .pf-tags i.pc3 { background: var(--pf-3); color: var(--paper); }
@@ -1576,22 +1570,22 @@ html.lb-open { overflow: hidden; }
 .pf-ini.pc11, .pf-tags i.pc11 { background: var(--pf-11); color: var(--paper); }
 .pf-tags i.pc-me { background: var(--c-honey); color: var(--paper); }
 
-/* Oct 30: the extra place names on the photo finder map show on wider screens only */
+
 @media (max-width: 700px) { .pf-map .x { display: none; } }
-/* Oct 30, Jason: "sizes should be standardized": every person card the same height, cards fill their grid row */
+
 .pf-people { align-items: stretch; grid-auto-rows: 1fr; }
 .pf-people li { display: flex; }
 .pf-person { min-height: 84px; height: 100%; }
 
-/* Oct 31 (Gemini): Research links to the Morgan Stanley case study instead of repeating it */
+
 .cs-link { margin: 10px 0 0; } .cs-link a { font-weight: 700; } .cs-link a::after { content: '\00a0\2192'; }
 
-/* Oct 31 (#30): case studies named in the career map instead of a second picture */
+
 .cs-also { margin: 14px 0 0; font-size: 14.5px; color: var(--muted); }
 .cs-also a { color: var(--ink-2); font-weight: 700; }
-/* Nov 2 (Jason: "I think 4 across on desktop is better"): the four case studies in one row on a laptop */
+
 @media (min-width: 1000px) { .case-list { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 30px 24px; } }
-/* Nov 2 (Jason: "collapse the career blurb unless they are clicked on"): Brown, Guggenheim and Morgan Stanley open a short note */
+
 .sn-t { background: none; border: 0; padding: 0; margin: 0; font: inherit; color: var(--ink); cursor: pointer; text-align: left; }
 .sn-t .st { text-decoration: underline; text-decoration-style: dotted; text-decoration-color: var(--rule-strong); }
 .sn-t::after { content: ''; flex: none; width: 7px; height: 7px; margin-left: 9px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: translateY(-3px) rotate(45deg); transition: transform .15s ease; }
@@ -1604,8 +1598,7 @@ html.lb-open { overflow: hidden; }
 #path .note-slot .note { margin: 24px 0 0; padding: 16px 20px; border: 1px solid var(--rule); border-radius: 12px; background: var(--surface); }
 @media (min-width: 1000px) { .sn-t::after { content: none; } }
 
-/* Nov 7 (Jason: "i like the new highlight one with one case then the others"): Dreamy leads the case studies, big, with
-   the other three smaller under it. Scale, not four equal boxes (the "feels samey, give it scale" fix). */
+
 @media (min-width: 760px) {
   .case-list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px 24px; }
   .case-list > li:first-child { grid-column: 1 / -1; }
@@ -1630,8 +1623,7 @@ html.lb-open { overflow: hidden; }
   .case-list > li:not(:first-child) .case-l { font-size: 14px; }
 }
 
-/* Nov 8 (Jason: "remake the adaptation network so it works better for this"): the Dreamy card's network drawing
-   (gen_start.py dreamy_net). One palette color per column; lines take the color of the column they leave. */
+
 .dn { font-family: var(--body); background: var(--paper); }
 .dn .dn-c0 { --dn: var(--c-grey); } .dn .dn-c1 { --dn: var(--c-razz); } .dn .dn-c2 { --dn: var(--c-amethyst); } .dn .dn-c3 { --dn: var(--c-jade); }
 .dn-n { fill: color-mix(in srgb, var(--dn) 16%, var(--surface)); stroke: var(--dn); stroke-width: 2; }
@@ -1643,7 +1635,7 @@ html.lb-open { overflow: hidden; }
 .dn-h { fill: var(--dn); font-size: 21px; font-weight: 700; }
 .dn-s { fill: var(--muted); font-size: 17px; }
 
-/* Nov 9, path map B: one picture per stop, every project as a link under it (the map is the one full list) */
+
 .sb { margin-top: 12px; min-width: 0; }
 .sb-pic { position: relative; width: 100%; max-width: 300px; aspect-ratio: 4 / 3; border-radius: 6px; overflow: hidden; border: 1px solid var(--rule); background: var(--surface); }
 .sb-f { position: absolute; inset: 0; opacity: 0; transition: opacity .25s ease; }

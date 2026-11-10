@@ -11,6 +11,7 @@
 <meta property="og:description" content="Every engine change, scored against fake runners with a known truth.">
 <meta property="og:url" content="https://jason-traum.github.io/dreamy/forecast-lab.html">
 <meta property="og:image" content="https://jason-traum.github.io/og-dreamy.png">
+<meta property="og:image:alt" content="Dreamy, Jason Traum&rsquo;s AI running coach">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -75,7 +76,7 @@ td.wrap{white-space:normal;min-width:180px}
 .cap{font-size:12px;color:var(--t3);margin:0 0 8px}
 footer{margin-top:64px;padding-top:16px;border-top:1px solid var(--b1);color:var(--t3);font-size:12px}
 @media(max-width:480px){h1{font-size:28px}.stat b{font-size:24px}.stats{gap:20px 28px}.panel{padding:12px}}
-/* Nov 8 scan: no single word left alone on a heading's last line. */
+
 h1, h2, h3 { text-wrap: balance; }
 </style>
 <link rel="icon" href="/favicon.ico" sizes="48x48">
@@ -217,7 +218,6 @@ function td(tr, html, cls){ var c = document.createElement("td"); c.innerHTML = 
 function th(tr, html){ var c = document.createElement("th"); c.innerHTML = html; tr.appendChild(c); return c; }
 function esc(t){ return String(t).replace(/[&<>"]/g, function(ch){ return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[ch]; }); }
 
-/* ---------- 1 setup ---------- */
 (function(){
   var S = D.setup, el = $("stats");
   [[S.runners, "runners"], [S.archetypes, "runner types, " + S.perArchetype + " each"], [S.months, "months simulated each"],
@@ -225,7 +225,6 @@ function esc(t){ return String(t).replace(/[&<>"]/g, function(ch){ return {"&":"
   .forEach(function(x){ var d = document.createElement("div"); d.className = "stat"; d.innerHTML = "<b>" + fmtInt(x[0]) + "</b><span>" + esc(x[1]) + "</span>"; el.appendChild(d); });
 })();
 
-/* ---------- 2 ladder ---------- */
 function drawLadder(){
   var el = $("ladder-chart"), W = width(el), narrow = W < 520;
   var steps = D.ladder, n = steps.length;
@@ -238,7 +237,7 @@ function drawLadder(){
     s("line", {x1:m.l, x2:W - m.r, y1:y(t), y2:y(t), stroke:"var(--b1)", "stroke-width":1}, svg);
     s("text", {x:m.l - 6, y:y(t) + 4, "text-anchor":"end", fill:"var(--t3)", "font-size":11}, svg, t + "%");
   });
-  // distance lines
+
   var ends = [];
   DISTS.forEach(function(d){
     var pts = steps.map(function(st, i){ return x(i) + "," + y(st.dist[d].mae); }).join(" ");
@@ -249,7 +248,7 @@ function drawLadder(){
     });
     ends.push({d:d, y:y(steps[n - 1].dist[d].mae)});
   });
-  // overall with CI
+
   steps.forEach(function(st, i){
     var g = s("g", {}, svg);
     s("line", {x1:x(i), x2:x(i), y1:y(st.all.lo), y2:y(st.all.hi), stroke:"var(--t1)", "stroke-width":2, "stroke-linecap":"round"}, g);
@@ -264,10 +263,10 @@ function drawLadder(){
   ends.sort(function(a, b){ return a.y - b.y; });
   for (var k = 1; k < ends.length; k++) if (ends[k].y - ends[k - 1].y < 13) ends[k].y = ends[k - 1].y + 13;
   ends.forEach(function(e){ s("text", {x:W - m.r + 8, y:e.y + 4, fill:"var(--t2)", "font-size":11}, svg, e.d === "All" ? "All" : narrow ? e.d : DNAME[e.d]); });
-  // x labels
+
   var maxc = Math.max(8, Math.floor(iw / (n - 1) / 6.4));
   steps.forEach(function(st, i){
-    // The first and last labels hang to one side of their point, so they get half the room.
+
     var lines = narrow ? [String(i + 1)] : wrapWords(st.label + (st.today ? " (today)" : ""), i === 0 || i === n - 1 ? Math.max(8, Math.floor(maxc / 2)) : maxc);
     var anchor = i === 0 ? "start" : i === n - 1 ? "end" : "middle", xx = i === 0 ? x(i) - 6 : i === n - 1 ? x(i) + 6 : x(i);
     var t = s("text", {x:xx, y:H - m.b + 18, "text-anchor":anchor, fill:st.today ? "var(--t1)" : "var(--t2)", "font-size":11}, svg);
@@ -283,7 +282,7 @@ legend($("ladder-legend"), [{label:"All distances, 90% CI", color:"var(--t1)", c
     var tr = document.createElement("tr");
     td(tr, "<span class='muted'>" + (i + 1) + "</span>&nbsp; " + esc(st.label) + (st.today ? " <span class='muted'>(today)</span>" : "") + (st.note ? "<small>" + esc(st.note) + "</small>" : ""));
     td(tr, f1(st.all.mae) + "<small>" + f1(st.all.lo) + " to " + f1(st.all.hi) + "</small>");
-    // Two decimals, or three when a nonzero end of the interval would round to 0.00.
+
     var nd = st.delta && [st.delta.lo, st.delta.hi].some(function(x){ return x !== 0 && Number(x.toFixed(2)) === 0; }) ? 3 : 2;
     td(tr, st.delta ? "<span class='" + ({worse:"bad", better:"hi", none:""})[verdict(st.delta, nd)] + "'>" + sg(st.delta.d, nd) + "</span><small>" + sg(st.delta.lo, nd) + " to " + sg(st.delta.hi, nd) + "</small>" : "<span class='muted'>-</span>");
     td(tr, sg(st.all.bias, 1));
@@ -292,7 +291,6 @@ legend($("ladder-legend"), [{label:"All distances, 90% CI", color:"var(--t1)", c
   });
 })();
 
-/* ---------- 3 not merged ---------- */
 function verdict(a, nd){ nd = nd || 2; var lo = +a.lo.toFixed(nd), hi = +a.hi.toFixed(nd); return lo > 0 ? "worse" : hi < 0 ? "better" : "none"; }
 function drawArms(){
   var el = $("arms-chart"), W = width(el), rows = D.arms, rowH = 46, m = {l:8, r:8, t:22, b:24};
@@ -335,7 +333,6 @@ legend($("arms-legend"), [{label:"Change in MAE vs its control, 90% CI", color:"
   });
 })();
 
-/* ---------- 4 baselines ---------- */
 (function(){
   var t = $("base-table"), hr = document.createElement("tr"), eng = D.baselines[0];
   ["Method", "MAE all (90% CI)", "Bias", "No estimate"].concat(DISTS.map(function(d){ return DNAME[d]; })).forEach(function(h){ th(hr, h); });
@@ -368,7 +365,6 @@ legend($("arms-legend"), [{label:"Change in MAE vs its control, 90% CI", color:"
   });
 })();
 
-/* ---------- 5 archetypes ---------- */
 (function(){
   var el = $("arch"), max = 0;
   D.archetypes.forEach(function(a){ max = Math.max(max, a.mae); });
@@ -384,7 +380,6 @@ legend($("arms-legend"), [{label:"Change in MAE vs its control, 90% CI", color:"
   });
 })();
 
-/* ---------- 6 calibration ---------- */
 function drawCal(){
   var el = $("cal-chart"), W = width(el), H = 240, m = {l:36, r:12, t:12, b:28};
   var svg = svgFor(el, W, H), iw = W - m.l - m.r, ih = H - m.t - m.b, C = D.calibration;
@@ -442,7 +437,6 @@ legend($("pit-legend"), [{label:"Forecasts per bin", color:"var(--accent)", cls:
   });
 })();
 
-/* ---------- 7 example ---------- */
 var EX = D.example, exDist = EX.defaultDist;
 $("ex-title").textContent = EX.name;
 $("ex-line").textContent = EX.archetype + ". Forecast range against the true race time over the simulated months.";
@@ -469,14 +463,14 @@ function drawEx(){
   races.forEach(function(r){ lo = Math.min(lo, r.chip); hi = Math.max(hi, r.chip); });
   var pad = (hi - lo) * 0.06; lo -= pad; hi += pad;
   var x = function(ms){ return m.l + (ms - t0) / (t1 - t0) * iw; }, y = function(v){ return m.t + (v - lo) / (hi - lo) * ih; };
-  // y ticks in seconds, nice steps; faster times at the top
+
   var span = hi - lo, steps = [10, 15, 30, 60, 120, 300, 600, 900, 1800], st = steps[steps.length - 1];
   for (var i = 0; i < steps.length; i++) if (span / steps[i] <= (narrow ? 6 : 7)) { st = steps[i]; break; }
   for (var v = Math.ceil(lo / st) * st; v <= hi; v += st) {
     s("line", {x1:m.l, x2:W - m.r, y1:y(v), y2:y(v), stroke:"var(--b1)"}, svg);
     s("text", {x:m.l - 6, y:y(v) + 4, "text-anchor":"end", fill:"var(--t3)", "font-size":11}, svg, hms(v));
   }
-  // month ticks every 3 months
+
   var dt = new Date(t0);
   for (var k = 0; k < 24; k++) {
     var ms = Date.UTC(dt.getUTCFullYear(), dt.getUTCMonth() + k, 1); if (ms > t1) break;
@@ -486,13 +480,13 @@ function drawEx(){
     s("text", {x:x(ms), y:m.t + ih + 16, "text-anchor":"middle", fill:"var(--t3)", "font-size":11}, svg,
       ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][mon] + (narrow ? " " + String(new Date(ms).getUTCFullYear()).slice(2) : " " + new Date(ms).getUTCFullYear()));
   }
-  // band
+
   var up = fc.map(function(f){ return x(dms(f.date)) + "," + y(f[d].p10); });
   var dn = fc.slice().reverse().map(function(f){ return x(dms(f.date)) + "," + y(f[d].p90); });
   s("polygon", {points:up.concat(dn).join(" "), fill:"var(--accent)", opacity:.22}, svg);
-  // truth
+
   s("polyline", {points:tr.map(function(t){ return x(dms(t.date)) + "," + y(t[d]); }).join(" "), fill:"none", stroke:"var(--t1)", "stroke-width":2, "stroke-linejoin":"round"}, svg);
-  // p50
+
   s("polyline", {points:fc.map(function(f){ return x(dms(f.date)) + "," + y(f[d].p50); }).join(" "), fill:"none", stroke:"var(--glow)", "stroke-width":2, "stroke-linejoin":"round"}, svg);
   var truthAt = {}; tr.forEach(function(t){ truthAt[t.date] = t[d]; });
   fc.forEach(function(f){
@@ -501,7 +495,7 @@ function drawEx(){
     s("circle", {cx:x(dms(f.date)), cy:y(f[d].p50), r:12, fill:"transparent"}, g);
     tip(g, f.date + ": forecast " + hms(f[d].p50) + " (" + hms(f[d].p10) + " to " + hms(f[d].p90) + ")" + (truthAt[f.date] ? ", true " + hms(truthAt[f.date]) : ""));
   });
-  // races: all as ticks on the axis, this distance as dots at chip time
+
   EX.races.forEach(function(r){
     var xx = x(dms(r.date)), same = r.distance === d;
     var tk = s("path", {d:"M" + (xx - 4) + "," + (m.t + ih + 30) + "L" + (xx + 4) + "," + (m.t + ih + 30) + "L" + xx + "," + (m.t + ih + 23) + "Z", fill:same ? "var(--dhm)" : "var(--t3)"}, svg);
@@ -521,5 +515,6 @@ var rt = null, lastW = window.innerWidth;
 window.addEventListener("resize", function(){ if (window.innerWidth === lastW) return; lastW = window.innerWidth; clearTimeout(rt); rt = setTimeout(drawAll, 120); });
 })();
 </script>
+<p style="margin:0;padding:8px 20px 40px;font:600 14px Inter,system-ui,sans-serif"><a href="../dreamy.html#deeper" style="color:inherit;text-underline-offset:3px">Back to Dreamy</a></p>
 </body>
 </html>
