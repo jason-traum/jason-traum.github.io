@@ -61,6 +61,7 @@
   --c-msblue: #6FA0D6; --c-razz: #3296FE; --c-jade: #5CC495; --c-amethyst: #A593EC; --c-carrot: #E8834F; --c-honey: #E8AE2E; --c-magenta: #E56A9C; --c-grey: #A3A5AE;
   --k-build: #3296FE; --k-res: #5CC495;
   --dd-a: #4F8FE0; --dd-b: #D9713C; --dd-grid: #272B31;
+  --ex-m-a: #2F8CEB; --ex-m-b: #6B6A72; 
   --ex-card: #FFFFFF; --ex-ink: #111111; --ex-grid: #A9A9A9; --ex-a-fill: #29A3A3; --ex-a-line: #145F6B; --ex-a-key: #3BC3A3; --ex-b-fill: #B2CDE4; --ex-b-line: #005AA4;
   color-scheme: dark;
 }
@@ -625,6 +626,9 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .ex-key > span { display: inline-flex; gap: 18px; font-size: 13px; }
 .ex-key i { width: 12px; height: 12px; border-radius: 2px; display: inline-block; vertical-align: -1px; margin-right: 6px; }
 .ex-src { font-size: 11.5px; color: #444; margin: 8px 0 0; }
+.m7-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 0; }
+.m7-tabs .kswitch { margin: 0; }
+.m7-tabs .kswitch[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
 .pubs-list { list-style: none; margin: 18px 0 0; padding: 0; max-width: 46em; }
 .pubs-list li { padding: 12px 0; border-top: 1px solid var(--rule); }
 .pubs-list li::before { content: none; }

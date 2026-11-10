@@ -58,6 +58,7 @@
   --c-msblue: #6FA0D6; --c-razz: #3296FE; --c-jade: #5CC495; --c-amethyst: #A593EC; --c-carrot: #E8834F; --c-honey: #E8AE2E; --c-magenta: #E56A9C; --c-grey: #A3A5AE;
   --k-build: #3296FE; --k-res: #5CC495;
   --dd-a: #4F8FE0; --dd-b: #D9713C; --dd-grid: #272B31;
+  --ex-m-a: #2F8CEB; --ex-m-b: #6B6A72; 
   --ex-card: #FFFFFF; --ex-ink: #111111; --ex-grid: #A9A9A9; --ex-a-fill: #29A3A3; --ex-a-line: #145F6B; --ex-a-key: #3BC3A3; --ex-b-fill: #B2CDE4; --ex-b-line: #005AA4;
   color-scheme: dark;
 }
@@ -622,6 +623,9 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .ex-key > span { display: inline-flex; gap: 18px; font-size: 13px; }
 .ex-key i { width: 12px; height: 12px; border-radius: 2px; display: inline-block; vertical-align: -1px; margin-right: 6px; }
 .ex-src { font-size: 11.5px; color: #444; margin: 8px 0 0; }
+.m7-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 0; }
+.m7-tabs .kswitch { margin: 0; }
+.m7-tabs .kswitch[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
 .pubs-list { list-style: none; margin: 18px 0 0; padding: 0; max-width: 46em; }
 .pubs-list li { padding: 12px 0; border-top: 1px solid var(--rule); }
 .pubs-list li::before { content: none; }
@@ -2014,16 +2018,16 @@ ul + table.career { margin-top: 22px; }
         <div class="p-meta">
           <dl>
             <div><dt>Status</dt><dd>In use every day</dd></div>
-            <div><dt>Built</dt><dd>Sep to Oct 2026</dd></div>
+            <div><dt>Built</dt><dd>Sep to Nov 2026</dd></div>
             <div><dt>Link</dt><dd>Private</dd></div>
-            <div><dt>Built with</dt><dd>Claude Code agents, skills and hooks; Obsidian; Gmail, Google Calendar, Google Drive and Canvas; small Python scripts</dd></div>
+            <div><dt>Built with</dt><dd>Claude Code agents, skills and hooks; Grok, Muse and Instinct; Obsidian; Gmail, Google Calendar, Google Drive and Canvas; small Python scripts</dd></div>
           </dl>
         </div>
         <div class="p-body">
           <p>Wharton has a course site per class, two calendars and a lot of club email. In September I set up Claude Code to keep track of all of it. In October it grew into an Obsidian vault for everything I learn. By early November it had 115 class meetings, 194 readings and 279 concept notes.</p>
           <p>I borrowed the vault's structure from other people's setups and added my own checks, because if it misses one deadline I can't rely on it.</p>
           <dl class="wiring" aria-label="Agents and skills">
-            <div><dt>Agents</dt><dd>Inbox, calendar, classes, career and research, each reading one thing and reporting back</dd></div>
+            <div><dt>Agents</dt><dd>Claude, plus Grok bots, Muse and Instinct. Each checks one thing and posts a report that Claude reads</dd></div>
             <div><dt>Class skills</dt><dd>Pull Canvas, digest a class meeting, rebuild a study guide, plan an exam, prep a case or a negotiation</dd></div>
             <div><dt>Life skills</dt><dd>Sweep Gmail, prep a coffee chat, check a trip against everything else, a Sunday review, drafts in my voice</dd></div>
           </dl>
@@ -2045,7 +2049,7 @@ ul + table.career { margin-top: 22px; }
 <div class="feat has-fig lead"><div class="feat-text"><h3>Checking deadlines</h3><p>Before it writes any plan or answers "what's due", a script pulls every Canvas item from my calendar feed and lists anything that isn't on my task list. I added it after two deadlines got left off a weekend plan. Each plan starts with the result in one line.</p></div><p class="check-line" role="note">Canvas check: <span class="num">13</span> items in the next <span class="num">21</span> days, <span class="num">0</span> missing.</p></div>
 <div class="feat"><div class="feat-text"><h3>One ledger per course</h3><p>When I pulled everything from Canvas at the start of the semester, each course kept things somewhere different. One posted paper directions only in announcements, and another sent readings by email. So each course has its own ledger of what's due, and one task list pulls from all of them.</p></div></div>
 <div class="feat"><div class="feat-text"><h3>Every date has a source</h3><p>Each deadline carries a pointer to where it came from, like a Canvas assignment, a syllabus page, an email or a calendar event. No date gets copied from memory or an old conversation, and today's date comes from the clock. If an agent's report and the task list disagree, it checks the source again and goes with the source.</p></div></div>
-<div class="feat"><div class="feat-text"><h3>Who can change things</h3><p>Only my main Claude chat writes to my calendar and sorts my task list, and other AIs can add notes. I set that up after I had Claude go through two weeks of email and it added events to my calendar before I'd said yes. A hook blocks sending, deleting, trashing or sharing anything until I say yes in the chat, and a second hook logs every action.</p></div></div>
+<div class="feat"><div class="feat-text"><h3>Who can change things</h3><p>Only my main Claude chat writes to my calendar and task list. Every other AI posts a report instead, and Claude merges them a few times a day. I set that up after Claude added events to my calendar before I'd said yes, and after two bots writing to the same file jammed the vault. A Grok bot checks what Claude merged. A hook blocks sending, deleting, trashing or sharing anything until I say yes in the chat, and a second hook logs every action.</p></div></div>
 </div>
 </section>
 <nav class="cs-next" aria-label="Next case study"><a href="../morgan-stanley.html"><img src="../img/next-ms.webp" width="480" height="360" alt="" loading="lazy" decoding="async" style="background-color:#222831"><span><b>Next: Morgan Stanley</b></span></a></nav>
