@@ -936,7 +936,7 @@ ul.reports li { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap:
 dialog.pw-box { width: 100vw; height: 100vh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: rgba(10, 11, 13, 0.96); color: var(--ink); }
 dialog.pw-box[open] { display: grid; grid-template-columns: 56px minmax(0, 1fr) 56px; align-items: center; }
 dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
-.pw-box figure { margin: 0; display: grid; justify-items: center; gap: 14px; padding: 56px 0 24px; }
+.pw-box figure { grid-column: 2; margin: 0; display: grid; justify-items: center; gap: 14px; padding: 56px 0 24px; }
 .pw-box img { max-width: 100%; max-height: calc(100vh - 150px); width: auto; height: auto; }
 .pw-box figcaption { font-size: 17px; color: var(--ink); text-align: center; padding: 0 12px; }
 .pw-box button { font: inherit; color: var(--ink); background: transparent; border: 0; cursor: pointer; min-height: 44px; }
@@ -2064,7 +2064,7 @@ details.more > p + p { margin-top: 12px; }
       <div class="ai-intro">
         <p class="lede">I&rsquo;ve used these tools since ChatGPT came out. The part I&rsquo;m actually good at is helping people change how they work with them, and I build my own tools.</p>
       </div>
-      <nav class="ai-jump" aria-label="On this page"><a href="#ms">At Morgan Stanley</a><a href="#wharton">At Wharton</a><a href="#building">Building apps</a><a href="#overruled">Like a teammate</a><a href="#rules">Rules for Dreamy</a><a href="#log">Build log</a><a href="#how">How I work with it</a></nav>
+      <nav class="ai-jump" aria-label="On this page"><a href="#ms">At Morgan Stanley</a><a href="#building">Building apps</a><a href="#overruled">Like a teammate</a><a href="#rules">Rules for Dreamy</a><a href="#log">Build log</a><a href="#how">How I work with it</a></nav>
     </article>
 
     <section class="section ai-part" id="ms" aria-labelledby="ms-h">
@@ -2092,12 +2092,6 @@ details.more > p + p { margin-top: 12px; }
       </details>
     </section>
 
-    <section class="section ai-part" id="wharton" aria-labelledby="wh-h">
-      <h2 class="stop-h" id="wh-h">At Wharton</h2>
-      <ul class="calls">
-        <li><a class="call-pic" href="img/rs-sim.webp" data-full="img/rs-sim.webp" aria-label="Full screen: Our team&rsquo;s market value by round in the Pivot or Perish sim"><img src="img/call-sim.webp" width="396" height="297" alt="Our team&rsquo;s market value by round in the Pivot or Perish sim" loading="lazy" decoding="async" style="background-color:#202528"></a><div><b><a href="research.html#pivot">Pivot or Perish, the retail strategy sim in my marketing class</a></b> Claude read the manual, our class notes and every round&rsquo;s reports. Its round 3 plan was safe, so we went bigger.</div></li><li><a class="call-pic" href="img/wos-graph.webp" data-full="img/wos-graph.webp" aria-label="Full screen: The Wharton OS vault as a graph of linked notes"><img src="img/call-wos.webp" width="396" height="297" alt="The Wharton OS vault as a graph of linked notes" loading="lazy" decoding="async" style="background-color:#3B3B3C"></a><div><b><a href="projects/wharton-os.html">Wharton OS, how I keep track of school</a></b> It left two deadlines off a weekend plan, so every plan now starts with a Canvas check. Every tool call gets logged, so I check the log, not the agent&rsquo;s summary.</div></li>
-      </ul>
-    </section>
 
     <section class="section ai-part" id="building" aria-labelledby="bd-h">
       <h2 class="stop-h" id="bd-h">Building apps</h2>
@@ -2109,7 +2103,7 @@ details.more > p + p { margin-top: 12px; }
     <section class="exhibit" id="overruled" aria-labelledby="over-h" style="--c: var(--c-magenta)">
       <header><h2 class="ext" id="over-h">Working with it like a teammate</h2></header>
       <p class="ov-lede">Sometimes I overrule it, sometimes I let it make the call, and sometimes it explains and I learn from it. And I hand it the long, grinding work.</p>
-      <ul class="overrule"><li><p class="ov-s"><b>I overrule it.</b> Leading my Morgan Stanley resume line with how many agents I built.</p><p class="ov-q">&ldquo;It was more that people came to me to ask how to get AI to do what they wanted.&rdquo;</p><p class="ov-a">The line leads with adoption now.</p></li><li><p class="ov-s"><b>I let it make the call.</b> Race day at <a href="projects/5k-5-bars.html">5K 5 Bars</a>.</p><p class="ov-a">At bar two, people asked if we could stay closer to Rittenhouse. I asked Claude mid-race to pick new bars and a new route, and it updated on everyone&rsquo;s phone.</p></li><li><p class="ov-s"><b>I learn from it.</b> My classes.</p><p class="ov-a">I study from <a href="projects/wharton-os.html">guides it makes</a> from my class transcripts, my notes, the slides and the readings, using rules I wrote. Every term gets a plain-English why and a takeaway. I also teach classmates how to use AI.</p><a class="ov-pic" href="img/cheat-1.webp" data-full="img/cheat-1.webp img/cheat-2.webp" data-alt="My whole cheat sheet for the MKTG 6110 final, page 1|My whole cheat sheet for the MKTG 6110 final, page 2" aria-label="Full screen: my whole cheat sheet for the MKTG 6110 final, both pages"><img src="img/call-cheat.webp" width="396" height="297" alt="The first column of my cheat sheet for the MKTG 6110 final" loading="lazy" decoding="async" style="background-color:#D2D3D5"></a></li><li><p class="ov-s"><b>I give it the repetitive work.</b> The long, tedious work.</p><p class="ov-a">It pulled the art from seven photo and shop sites for <a href="projects/walldrobe.html">Walldrobe</a>, and spent hours going through marathon plans and papers on every input for <a href="dreamy.html">Dreamy</a>.</p></li></ul>
+      <ul class="overrule"><li><p class="ov-s"><b>I overrule it.</b> Leading my Morgan Stanley resume line with how many agents I built.</p><p class="ov-q">&ldquo;It was more that people came to me to ask how to get AI to do what they wanted.&rdquo;</p><p class="ov-a">The line leads with adoption now.</p></li><li><p class="ov-s"><b>I let it make the call.</b> Race day at <a href="projects/5k-5-bars.html">5K 5 Bars</a>.</p><p class="ov-a">At bar two, people asked if we could stay closer to Rittenhouse. I asked Claude mid-race to pick new bars and a new route, and it updated on everyone&rsquo;s phone.</p></li><li><p class="ov-s"><b>I learn from it.</b> My classes.</p><p class="ov-a">I study from <a href="projects/wharton-os.html">guides it makes</a> from class recordings, my notes, the slides and the readings, using rules I wrote. Every term gets a plain-English why and a takeaway. I also teach classmates how to use AI.</p><a class="ov-pic" href="img/cheat-1.webp" data-full="img/cheat-1.webp img/cheat-2.webp" data-alt="My whole cheat sheet for the MKTG 6110 final, page 1|My whole cheat sheet for the MKTG 6110 final, page 2" aria-label="Full screen: my whole cheat sheet for the MKTG 6110 final, both pages"><img src="img/call-cheat.webp" width="396" height="297" alt="The first column of my cheat sheet for the MKTG 6110 final" loading="lazy" decoding="async" style="background-color:#D2D3D5"></a></li><li><p class="ov-s"><b>I give it the repetitive work.</b> The long, tedious work.</p><p class="ov-a">It pulled the art from seven photo and shop sites for <a href="projects/walldrobe.html">Walldrobe</a>, and spent hours going through marathon plans and papers on every input for <a href="dreamy.html">Dreamy</a>.</p></li></ul>
     </section>
 
     <section class="section" id="rules" aria-labelledby="rules-h">

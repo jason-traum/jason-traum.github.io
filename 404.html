@@ -924,7 +924,7 @@ ul.reports li { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap:
 dialog.pw-box { width: 100vw; height: 100vh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: rgba(10, 11, 13, 0.96); color: var(--ink); }
 dialog.pw-box[open] { display: grid; grid-template-columns: 56px minmax(0, 1fr) 56px; align-items: center; }
 dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
-.pw-box figure { margin: 0; display: grid; justify-items: center; gap: 14px; padding: 56px 0 24px; }
+.pw-box figure { grid-column: 2; margin: 0; display: grid; justify-items: center; gap: 14px; padding: 56px 0 24px; }
 .pw-box img { max-width: 100%; max-height: calc(100vh - 150px); width: auto; height: auto; }
 .pw-box figcaption { font-size: 17px; color: var(--ink); text-align: center; padding: 0 12px; }
 .pw-box button { font: inherit; color: var(--ink); background: transparent; border: 0; cursor: pointer; min-height: 44px; }

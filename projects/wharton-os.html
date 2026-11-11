@@ -936,7 +936,7 @@ ul.reports li { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap:
 dialog.pw-box { width: 100vw; height: 100vh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: rgba(10, 11, 13, 0.96); color: var(--ink); }
 dialog.pw-box[open] { display: grid; grid-template-columns: 56px minmax(0, 1fr) 56px; align-items: center; }
 dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
-.pw-box figure { margin: 0; display: grid; justify-items: center; gap: 14px; padding: 56px 0 24px; }
+.pw-box figure { grid-column: 2; margin: 0; display: grid; justify-items: center; gap: 14px; padding: 56px 0 24px; }
 .pw-box img { max-width: 100%; max-height: calc(100vh - 150px); width: auto; height: auto; }
 .pw-box figcaption { font-size: 17px; color: var(--ink); text-align: center; padding: 0 12px; }
 .pw-box button { font: inherit; color: var(--ink); background: transparent; border: 0; cursor: pointer; min-height: 44px; }
@@ -1702,7 +1702,7 @@ ul + table.career { margin-top: 22px; }
 <section class="vg" id="vg" aria-labelledby="vg-h">
   <div class="vg-top">
     <h2 class="vg-h" id="vg-h">The vault</h2>
-    <p class="vg-sub">A slice of my notes and how they link. People, transcripts and anything private are left out.</p>
+    <p class="vg-sub">A slice of my notes and how they link. People and anything private are left out.</p>
   </div>
   <div class="vg-bar">
     <div class="vg-mode" role="group" aria-label="Show">
@@ -2039,8 +2039,8 @@ ul + table.career { margin-top: 22px; }
 <h2 class="zone-h" id="z-learn">How I learn with it</h2>
 <div class="deep zone-feats two">
 <div class="feat"><div class="feat-text"><h3>Ideas across classes</h3><p>Each idea, like willingness to pay, switching costs or scaling laws, gets one concept note that links every lecture, reading and case that uses it, in any class. That's how I notice that marketing and operations are talking about the same idea.</p><p>Folders only say what type of file something is. The class, session and exam go in each note's properties, so one reading can belong to all three at once.</p></div></div>
-<div class="feat"><div class="feat-text"><h3>Two transcripts per class</h3><p>After class I pull the transcript from the class recording. The raw one is never edited and stays as the safety copy. The clean one is corrected against that day's slides, my handwritten notes, the readings and Canvas, with a mark on anything it isn't sure about.</p><p>Each class meeting gets one note that links its transcripts, slides and readings.</p></div></div>
-<div class="feat wide"><div class="feat-text"><h3>Study guides with my rules</h3><p>Claude rebuilds the study guide for each course by topic, from the class transcripts, my notes, the slides and the readings, using rules I wrote: every term gets a plain-English why and a takeaway.</p></div><figure class="feat-fig"><div class="cheat-pair"><a href="../img/cheat-1.webp" data-full="../img/cheat-1.webp ../img/cheat-2.webp" data-alt="My cheat sheet for the MKTG 6110 final, page 1|My cheat sheet for the MKTG 6110 final, page 2" aria-label="Full screen: page 1 of my cheat sheet for the MKTG 6110 final"><img src="../img/cheat-1-sm.webp" width="1100" height="850" alt="Page 1 of my cheat sheet for the MKTG 6110 final: four columns of terms, each with a plain-English why and a bold takeaway" loading="lazy" decoding="async" style="background-color:#D4D5D5"></a><a href="../img/cheat-2.webp" data-full="../img/cheat-2.webp" data-alt="My cheat sheet for the MKTG 6110 final, page 2" aria-label="Full screen: page 2 of my cheat sheet for the MKTG 6110 final"><img src="../img/cheat-2-sm.webp" width="1100" height="850" alt="Page 2 of my cheat sheet for the MKTG 6110 final: more terms in four columns, each with a plain-English why and a bold takeaway" loading="lazy" decoding="async" style="background-color:#D3D3D3"></a></div><figcaption>One of them, my cheat sheet for the MKTG 6110 final</figcaption></figure></div>
+<div class="feat"><div class="feat-text"><h3>One note per class</h3><p>Each class meeting gets one note that links that day's class recording, slides, my handwritten notes, the readings and Canvas.</p></div></div>
+<div class="feat wide"><div class="feat-text"><h3>Study guides with my rules</h3><p>Claude rebuilds the study guide for each course by topic, from the class recordings, my notes, the slides and the readings, using rules I wrote: every term gets a plain-English why and a takeaway.</p></div><figure class="feat-fig"><div class="cheat-pair"><a href="../img/cheat-1.webp" data-full="../img/cheat-1.webp ../img/cheat-2.webp" data-alt="My cheat sheet for the MKTG 6110 final, page 1|My cheat sheet for the MKTG 6110 final, page 2" aria-label="Full screen: page 1 of my cheat sheet for the MKTG 6110 final"><img src="../img/cheat-1-sm.webp" width="1100" height="850" alt="Page 1 of my cheat sheet for the MKTG 6110 final: four columns of terms, each with a plain-English why and a bold takeaway" loading="lazy" decoding="async" style="background-color:#D4D5D5"></a><a href="../img/cheat-2.webp" data-full="../img/cheat-2.webp" data-alt="My cheat sheet for the MKTG 6110 final, page 2" aria-label="Full screen: page 2 of my cheat sheet for the MKTG 6110 final"><img src="../img/cheat-2-sm.webp" width="1100" height="850" alt="Page 2 of my cheat sheet for the MKTG 6110 final: more terms in four columns, each with a plain-English why and a bold takeaway" loading="lazy" decoding="async" style="background-color:#D3D3D3"></a></div><figcaption>One of them, my cheat sheet for the MKTG 6110 final</figcaption></figure></div>
 </div>
 </section>
 <section class="zone" aria-labelledby="z-trust">
