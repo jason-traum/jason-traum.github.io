@@ -471,6 +471,8 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .log td::before { content: ''; display: block; padding-top: 100%; }
 .log td i { position: absolute; inset: 0; margin: auto; width: calc(var(--s, 0.4) * 100%); height: auto; aspect-ratio: 1; border-radius: 50%; }
 .log tbody th { font-size: 11px; line-height: 1; }
+
+@media (min-width: 860px) { .log-wrap .log + .log thead th:first-child, .log-wrap .log + .log tbody th { width: 0; font-size: 0; } }
 .log-key { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13.5px; color: var(--ink-2); margin-bottom: 10px; }
 .log-key i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: 0; }
 
