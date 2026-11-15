@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DrinkDock Manager demo</title><meta name="robots" content="noindex">
+<link rel="stylesheet" href="https://getdrinkdock.com/assets/css/site.css?v=1790730414">
+<style>html,body{margin:0;background:#0F1620} body{padding:0} .embed-pad{padding:12px} .app-tasks{background:#fff}</style>
+</head><body>
+<section class="embed-pad"><div class="wrap" style="max-width:none;padding:0"><div class="app-tasks" data-app-tasks>
+      <p class="small muted" style="margin:0 0 12px">It&rsquo;s 11:40 on a Friday at the main bar. Try the three things staff do most:</p>
+      <ol>
+        <li data-task="pause"><span class="tick" aria-hidden="true"></span><span><b>Pause the machine.</b> See what guests see.</span></li>
+        <li data-task="restock"><span class="tick" aria-hidden="true"></span><span><b>Restock Lime Seltzer.</b> It&rsquo;s down to 2.</span></li>
+        <li data-task="block"><span class="tick" aria-hidden="true"></span><span><b>Block a guest.</b> Your bartender says the guest who bought two Hazy IPAs at 11:40 has had enough. Find the sale and block that ID.</span></li>
+      </ol>
+    </div>
+    <div class="app" data-app-demo>
+      <div class="app-bar">
+        <span class="brand"><svg viewBox="0 0 22 30" aria-hidden="true"><rect x="4" y="0.6" width="14" height="3.4" rx="1.7" fill="currentColor"/><rect x="1.5" y="3" width="19" height="26" rx="4.5" fill="currentColor"/><rect x="1.5" y="15.2" width="19" height="4.4" fill="#F2A20C"/></svg><span>DrinkDock</span></span>
+        <label class="small" for="kiosk-select" style="color:var(--night-muted)">Machine</label>
+        <select id="kiosk-select"><option value="main">Main bar, DrinkDock One</option><option value="lobby">Lobby bar, DrinkDock Compact</option></select>
+        <span class="status-dot"><i></i><span>Selling</span></span>
+        <span class="demo-label">Sample data: Friday, 11:40 PM</span>
+      </div>
+      <div class="app-body">
+        <div class="app-kpis">
+          <div class="tile"><h4>Machine sales tonight</h4><div class="v" data-k="sales">$0</div><div class="d">Since 6:00 PM</div></div>
+          <div class="tile"><h4>Drinks sold</h4><div class="v" data-k="drinks">0</div><div class="d">Since 6:00 PM</div></div>
+          <div class="tile"><h4>Median time at the machine</h4><div class="v" data-k="secs">0s</div><div class="d">First tap to can at the port</div></div>
+          <div class="tile"><h4>IDs declined</h4><div class="v" data-k="declined">0</div><div class="d">Expired, invalid, under 21 or no photo match</div></div>
+        </div>
+        <div class="app-main">
+          <div class="tile">
+            <h4>Drinks sold by hour</h4>
+            <div class="bars" data-k="bars" role="img" aria-label="Bar chart of machine drinks sold per hour from 6 PM to 11 PM"></div>
+            <div class="bar-labels" data-k="barlabels"></div>
+            <h4 style="margin-top:22px">Recent activity <span class="sub">Tap a sale for details</span></h4>
+            <ul class="feed" data-k="feed"></ul>
+          </div>
+          <div class="tile">
+            <h4>Stock by row</h4>
+            <ul class="inv" data-k="inv"></ul>
+            <p class="small" style="color:var(--night-muted);margin:12px 0 0" data-k="alert"></p>
+            <h4 style="margin-top:22px">Controls</h4>
+            <div class="switch"><span>Two drinks per ID scan<br><small>Required on every machine. Staff can reset one guest&rsquo;s 20-minute wait.</small></span><span class="locked"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Always on</span></div>
+            <div class="switch"><label for="last-sale">Last sale<br><small>Can&rsquo;t be later than your license allows.</small></label><select id="last-sale" data-k="last"><option>1:45 AM</option><option>1:00 AM</option><option>12:00 AM</option></select></div>
+            <div class="switch"><span>Text on low stock</span><button class="toggle" type="button" role="switch" aria-checked="true" aria-label="Text on low stock" data-k="texts"></button></div>
+            <button class="pause-btn" type="button" aria-pressed="false">Pause machine now</button>
+            <div class="guest-preview"><span>Guest screen now</span><b data-k="guest">Tap a drink</b></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div></section>
+<script src="https://getdrinkdock.com/assets/js/site.js?v=1790730414"></script>
+</body></html>
