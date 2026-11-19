@@ -709,6 +709,13 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .feat-frame iframe { display: block; width: 100%; border: 1px solid var(--shot-border); border-radius: 12px; background: #141619; }
 .feat-frame.phone iframe { max-width: 420px; }
 
+.demo-frame iframe { height: min(86vh, 860px); min-height: 620px; }
+.demo-tour { margin-bottom: 12px; }
+.demo-tour .demo-full { display: inline-flex; align-items: center; min-height: 44px; box-sizing: border-box; padding: 0 16px; border-radius: 999px; font-size: 14px; font-weight: 700; text-decoration: none; border: 1.5px solid var(--c-razz); color: var(--ink); margin-left: auto; }
+.demo-tour .demo-full::after { content: "\2197"; margin-left: 6px; font-weight: 400; }
+@media (max-width: 520px) { .demo-tour .demo-full { margin-left: 0; } }
+@media (max-width: 520px) { .demo-frame iframe { height: 78vh; min-height: 560px; } }
+
 
 
 .beta-line { margin: 18px 0 6px; padding: 14px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); font-size: 1.15rem; line-height: 1.45; color: var(--ink); max-width: 36em; }
@@ -975,9 +982,17 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
 
 .topbar .label a { font-weight: 800; letter-spacing: -0.02em; line-height: 0.92; }
 .name { width: fit-content; }
-::view-transition-group(jt-name) { animation-duration: .28s; animation-timing-function: cubic-bezier(.4,0,.2,1); }
-::view-transition-old(jt-name), ::view-transition-new(jt-name) { height: 100%; width: auto; animation-duration: .28s; animation-timing-function: cubic-bezier(.4,0,.2,1); }
-::view-transition-old(root), ::view-transition-new(root) { animation-duration: .25s; }
+
+::view-transition-group(jt-name) { animation-duration: .46s; animation-timing-function: cubic-bezier(.45,0,.2,1); }
+::view-transition-old(jt-name), ::view-transition-new(jt-name) { height: 100%; width: auto; mix-blend-mode: normal; }
+::view-transition-old(jt-name) { animation: jt-name-out .46s linear both; }
+::view-transition-new(jt-name) { animation: jt-name-in .46s linear both; }
+@keyframes jt-name-out { 0%, 46% { opacity: 1; } 54%, 100% { opacity: 0; } }
+@keyframes jt-name-in { 0%, 46% { opacity: 0; } 54%, 100% { opacity: 1; } }
+::view-transition-old(root) { animation: jt-page-out .2s ease-in both; }
+::view-transition-new(root) { animation: jt-page-in .26s ease-out .18s both; }
+@keyframes jt-page-out { to { opacity: 0; } }
+@keyframes jt-page-in { from { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; } }
 
 
@@ -2882,6 +2897,13 @@ try { console.log('%cJason left you a message.%c\nHi. If you found this, say so 
   place();
   if (wide.addEventListener) wide.addEventListener('change', place); else if (wide.addListener) wide.addListener(place);
 })();
+
+document.addEventListener('click', function (e) {
+  var b = e.target.closest && e.target.closest('[data-myday]'); if (!b) return;
+  var fig = b.closest('.demo-frame'), f = fig && fig.querySelector('iframe'); if (!f || !f.contentWindow) return;
+  f.contentWindow.postMessage({ myday: b.getAttribute('data-myday') }, '*');
+  fig.querySelectorAll('[data-myday]').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+});
 
 (function () {
   var nav = document.querySelector('.route-nav'); if (!nav) return;

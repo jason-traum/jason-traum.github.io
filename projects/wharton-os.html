@@ -709,6 +709,13 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 .feat-frame iframe { display: block; width: 100%; border: 1px solid var(--shot-border); border-radius: 12px; background: #141619; }
 .feat-frame.phone iframe { max-width: 420px; }
 
+.demo-frame iframe { height: min(86vh, 860px); min-height: 620px; }
+.demo-tour { margin-bottom: 12px; }
+.demo-tour .demo-full { display: inline-flex; align-items: center; min-height: 44px; box-sizing: border-box; padding: 0 16px; border-radius: 999px; font-size: 14px; font-weight: 700; text-decoration: none; border: 1.5px solid var(--c-razz); color: var(--ink); margin-left: auto; }
+.demo-tour .demo-full::after { content: "\2197"; margin-left: 6px; font-weight: 400; }
+@media (max-width: 520px) { .demo-tour .demo-full { margin-left: 0; } }
+@media (max-width: 520px) { .demo-frame iframe { height: 78vh; min-height: 560px; } }
+
 
 
 .beta-line { margin: 18px 0 6px; padding: 14px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); font-size: 1.15rem; line-height: 1.45; color: var(--ink); max-width: 36em; }
@@ -975,9 +982,17 @@ dialog.pw-box::backdrop { background: rgba(10, 11, 13, 0.9); }
 
 .topbar .label a { font-weight: 800; letter-spacing: -0.02em; line-height: 0.92; }
 .name { width: fit-content; }
-::view-transition-group(jt-name) { animation-duration: .28s; animation-timing-function: cubic-bezier(.4,0,.2,1); }
-::view-transition-old(jt-name), ::view-transition-new(jt-name) { height: 100%; width: auto; animation-duration: .28s; animation-timing-function: cubic-bezier(.4,0,.2,1); }
-::view-transition-old(root), ::view-transition-new(root) { animation-duration: .25s; }
+
+::view-transition-group(jt-name) { animation-duration: .46s; animation-timing-function: cubic-bezier(.45,0,.2,1); }
+::view-transition-old(jt-name), ::view-transition-new(jt-name) { height: 100%; width: auto; mix-blend-mode: normal; }
+::view-transition-old(jt-name) { animation: jt-name-out .46s linear both; }
+::view-transition-new(jt-name) { animation: jt-name-in .46s linear both; }
+@keyframes jt-name-out { 0%, 46% { opacity: 1; } 54%, 100% { opacity: 0; } }
+@keyframes jt-name-in { 0%, 46% { opacity: 0; } 54%, 100% { opacity: 1; } }
+::view-transition-old(root) { animation: jt-page-out .2s ease-in both; }
+::view-transition-new(root) { animation: jt-page-in .26s ease-out .18s both; }
+@keyframes jt-page-out { to { opacity: 0; } }
+@keyframes jt-page-in { from { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; } }
 
 
@@ -1751,7 +1766,7 @@ p, li, figcaption, dd, blockquote { text-wrap: pretty; }
           </dl>
         </div>
         <div class="p-body">
-          <p>Wharton has a course site per class, two calendars and a lot of club email. In September I set up Claude Code to keep track of all of it. In October it grew into an Obsidian vault for everything I learn. By early November it had 115 class meetings, 194 readings and 279 concept notes.</p>
+          <p>Wharton has a course site per class, two calendars and a lot of club email. In September I set up Claude Code to keep track of all of it. In October it grew into an Obsidian vault for everything I learn. By mid November it had 132 class meetings, 194 readings and 416 concept notes.</p>
           <dl class="wiring" aria-label="How it works">
             <div><dt>What goes in</dt><dd>Canvas, my inboxes and calendars, every class recording, and posts on X and Instagram about things I&rsquo;m into</dd></div>
             <div><dt>Who does what</dt><dd>Claude is the hub. It writes my morning brief, turns each class recording into notes, and is the only one allowed to write my task list and calendar. Grok bots each own one job, like class prep or finding posts on X and Instagram worth reading, and one of them checks Claude&rsquo;s task list for anything dropped, closed without proof, or dated differently from its source. Muse forwards travel bookings from my personal inbox. Instinct reads Canvas and texts me twice a day about anything due in the next 24 hours.</dd></div>
@@ -1763,6 +1778,12 @@ p, li, figcaption, dd, blockquote { text-wrap: pretty; }
         </div>
       </div>
     </article>
+<section class="zone" aria-labelledby="z-day">
+<h2 class="zone-h" id="z-day">My Day</h2>
+<div class="deep zone-feats">
+<div class="feat wide"><div class="feat-text"><h3>A front end for all of it</h3><p>The vault had all the backend and no front end. After a classmate&rsquo;s session on building course dashboards with AI, I built one page on top of it: my day as a timeline, every to-do by due date, what&rsquo;s left before finals, my runs, and what every agent ran and when.</p><p>The vault stays the source of truth. The page shows it and keeps my clicks, and a sync carries them back. The map shows how every part connects, and you can play back a day of agent reports in order.</p><p>This copy runs on sample data and saves nothing.</p></div><figure class="feat-fig feat-frame demo-frame"><div class="vg-mode demo-tour" role="group" aria-label="Show in the demo"><button type="button" data-myday="today" aria-pressed="true">My Day</button><button type="button" data-myday="todos" aria-pressed="false">To-dos</button><button type="button" data-myday="classes" aria-pressed="false">Classes</button><button type="button" data-myday="trips" aria-pressed="false">Trips</button><button type="button" data-myday="system" aria-pressed="false">What ran</button><button type="button" data-myday="system.map" aria-pressed="false">Map</button><button type="button" data-myday="system.map.play" aria-pressed="false">Play a day</button><button type="button" data-myday="system.agents" aria-pressed="false">Agents</button><a class="demo-full" href="../embed/my-day.html" target="_blank" rel="noopener">Full screen</a></div><iframe src="../embed/my-day.html" title="My Day, my Wharton OS dashboard, with sample data" loading="lazy"></iframe><figcaption>You can tick a to-do or click a box on the map.</figcaption></figure></div>
+</div>
+</section>
 
 <section class="vg" id="vg" aria-labelledby="vg-h">
   <div class="vg-top">
@@ -2716,6 +2737,13 @@ try { console.log('%cJason left you a message.%c\nHi. If you found this, say so 
   place();
   if (wide.addEventListener) wide.addEventListener('change', place); else if (wide.addListener) wide.addListener(place);
 })();
+
+document.addEventListener('click', function (e) {
+  var b = e.target.closest && e.target.closest('[data-myday]'); if (!b) return;
+  var fig = b.closest('.demo-frame'), f = fig && fig.querySelector('iframe'); if (!f || !f.contentWindow) return;
+  f.contentWindow.postMessage({ myday: b.getAttribute('data-myday') }, '*');
+  fig.querySelectorAll('[data-myday]').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+});
 
 (function () {
   var nav = document.querySelector('.route-nav'); if (!nav) return;
