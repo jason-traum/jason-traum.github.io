@@ -699,6 +699,13 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 
 .demo-frame iframe { height: min(86vh, 860px); min-height: 620px; }
 .demo-tour { margin-bottom: 12px; }
+
+.wos-demo { margin: 6px 0 44px; }
+.wiring.rows { grid-template-columns: minmax(0, 1fr); gap: 0; max-width: 62em; margin-top: 14px; }
+.wiring.rows > div { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 6px 32px; padding: 18px 0; border-top: 1px solid var(--rule); }
+.wiring.rows dt { font-size: 15px; font-weight: 700; color: var(--ink); }
+.wiring.rows dd { margin: 0; font-size: 16px; line-height: 1.5; color: var(--ink-2); }
+@media (max-width: 699px) { .wiring.rows > div { grid-template-columns: minmax(0, 1fr); padding: 14px 0; } .wos-demo { margin-bottom: 30px; } }
 .demo-tour .demo-full { display: inline-flex; align-items: center; min-height: 44px; box-sizing: border-box; padding: 0 16px; border-radius: 999px; font-size: 14px; font-weight: 700; text-decoration: none; border: 1.5px solid var(--c-razz); color: var(--ink); margin-left: auto; }
 .demo-tour .demo-full::after { content: "\2197"; margin-left: 6px; font-weight: 400; }
 @media (max-width: 520px) { .demo-tour .demo-full { margin-left: 0; } }

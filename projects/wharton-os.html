@@ -711,6 +711,13 @@ button.swap:hover { background: var(--ink); color: var(--paper); }
 
 .demo-frame iframe { height: min(86vh, 860px); min-height: 620px; }
 .demo-tour { margin-bottom: 12px; }
+
+.wos-demo { margin: 6px 0 44px; }
+.wiring.rows { grid-template-columns: minmax(0, 1fr); gap: 0; max-width: 62em; margin-top: 14px; }
+.wiring.rows > div { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 6px 32px; padding: 18px 0; border-top: 1px solid var(--rule); }
+.wiring.rows dt { font-size: 15px; font-weight: 700; color: var(--ink); }
+.wiring.rows dd { margin: 0; font-size: 16px; line-height: 1.5; color: var(--ink-2); }
+@media (max-width: 699px) { .wiring.rows > div { grid-template-columns: minmax(0, 1fr); padding: 14px 0; } .wos-demo { margin-bottom: 30px; } }
 .demo-tour .demo-full { display: inline-flex; align-items: center; min-height: 44px; box-sizing: border-box; padding: 0 16px; border-radius: 999px; font-size: 14px; font-weight: 700; text-decoration: none; border: 1.5px solid var(--c-razz); color: var(--ink); margin-left: auto; }
 .demo-tour .demo-full::after { content: "\2197"; margin-left: 6px; font-weight: 400; }
 @media (max-width: 520px) { .demo-tour .demo-full { margin-left: 0; } }
@@ -1756,6 +1763,7 @@ p, li, figcaption, dd, blockquote { text-wrap: pretty; }
         <h1 class="p-name" id="wos-h">Wharton OS</h1>
         <p class="p-tag">The AI agents I built to stay on top of school, make the most of my time and keep learning. I approve anything that leaves it.</p>
       </header>
+      <figure class="feat-fig feat-frame demo-frame wos-demo"><div class="vg-mode demo-tour" role="group" aria-label="Show in the demo"><button type="button" data-myday="today" aria-pressed="true">My Day</button><button type="button" data-myday="todos" aria-pressed="false">To-dos</button><button type="button" data-myday="classes" aria-pressed="false">Classes</button><button type="button" data-myday="trips" aria-pressed="false">Trips</button><button type="button" data-myday="system" aria-pressed="false">What ran</button><button type="button" data-myday="system.map" aria-pressed="false">Map</button><button type="button" data-myday="system.map.play" aria-pressed="false">Play a day</button><button type="button" data-myday="system.agents" aria-pressed="false">Agents</button><a class="demo-full" href="../embed/my-day.html" target="_blank" rel="noopener">Full screen</a></div><iframe src="../embed/my-day.html" title="My Day, my Wharton OS dashboard, with sample data" loading="lazy"></iframe><figcaption>My Day, the page I open every morning, running on sample data. You can tick a to-do or click a box on the map.</figcaption></figure>
       <div class="p-grid">
         <div class="p-meta">
           <dl>
@@ -1767,7 +1775,15 @@ p, li, figcaption, dd, blockquote { text-wrap: pretty; }
         </div>
         <div class="p-body">
           <p>Wharton has a course site per class, two calendars and a lot of club email. In September I set up Claude Code to keep track of all of it. In October it grew into an Obsidian vault for everything I learn. By mid November it had 132 class meetings, 194 readings and 416 concept notes.</p>
-          <dl class="wiring" aria-label="How it works">
+          <p>The vault had all the backend and no front end. After a classmate&rsquo;s session on building course dashboards with AI, I built one page on top of it: my day as a timeline, every to-do by due date, what&rsquo;s left before finals, my runs, and what every agent ran and when.</p>
+          <p>The vault stays the source of truth. The page shows it and keeps my clicks, and a sync carries them back. The map shows how every part connects, and you can play back a day of agent reports in order.</p>
+
+        </div>
+      </div>
+    </article>
+<section class="zone" aria-labelledby="z-how">
+<h2 class="zone-h" id="z-how">How it works</h2>
+<dl class="wiring rows">
             <div><dt>What goes in</dt><dd>Canvas, my inboxes and calendars, every class recording, and posts on X and Instagram about things I&rsquo;m into</dd></div>
             <div><dt>Who does what</dt><dd>Claude is the hub. It writes my morning brief, turns each class recording into notes, and is the only one allowed to write my task list and calendar. Grok bots each own one job, like class prep or finding posts on X and Instagram worth reading, and one of them checks Claude&rsquo;s task list for anything dropped, closed without proof, or dated differently from its source. Muse forwards travel bookings from my personal inbox. Instinct reads Canvas and texts me twice a day about anything due in the next 24 hours.</dd></div>
             <div><dt>Staying out of each other&rsquo;s way</dt><dd>Every agent posts one file per run to its own lane, even when nothing is new, so a missing post shows up. Claude merges the lanes into one task list, and every date on it carries its source. A run that can&rsquo;t reach something says FAILED. The hub can fail too, so a Grok bot on a different company&rsquo;s servers alerts me if Claude hasn&rsquo;t checked in for 13 hours.</dd></div>
@@ -1775,14 +1791,6 @@ p, li, figcaption, dd, blockquote { text-wrap: pretty; }
             <div><dt>Class skills</dt><dd>Pull Canvas, digest a class meeting, rebuild a study guide, plan an exam, prep a case or a negotiation</dd></div>
             <div><dt>Life skills</dt><dd>Sweep Gmail, prep a coffee chat, check a trip against everything else, a Sunday review, drafts in my voice</dd></div>
           </dl>
-        </div>
-      </div>
-    </article>
-<section class="zone" aria-labelledby="z-day">
-<h2 class="zone-h" id="z-day">My Day</h2>
-<div class="deep zone-feats">
-<div class="feat wide"><div class="feat-text"><h3>A front end for all of it</h3><p>The vault had all the backend and no front end. After a classmate&rsquo;s session on building course dashboards with AI, I built one page on top of it: my day as a timeline, every to-do by due date, what&rsquo;s left before finals, my runs, and what every agent ran and when.</p><p>The vault stays the source of truth. The page shows it and keeps my clicks, and a sync carries them back. The map shows how every part connects, and you can play back a day of agent reports in order.</p><p>This copy runs on sample data and saves nothing.</p></div><figure class="feat-fig feat-frame demo-frame"><div class="vg-mode demo-tour" role="group" aria-label="Show in the demo"><button type="button" data-myday="today" aria-pressed="true">My Day</button><button type="button" data-myday="todos" aria-pressed="false">To-dos</button><button type="button" data-myday="classes" aria-pressed="false">Classes</button><button type="button" data-myday="trips" aria-pressed="false">Trips</button><button type="button" data-myday="system" aria-pressed="false">What ran</button><button type="button" data-myday="system.map" aria-pressed="false">Map</button><button type="button" data-myday="system.map.play" aria-pressed="false">Play a day</button><button type="button" data-myday="system.agents" aria-pressed="false">Agents</button><a class="demo-full" href="../embed/my-day.html" target="_blank" rel="noopener">Full screen</a></div><iframe src="../embed/my-day.html" title="My Day, my Wharton OS dashboard, with sample data" loading="lazy"></iframe><figcaption>You can tick a to-do or click a box on the map.</figcaption></figure></div>
-</div>
 </section>
 
 <section class="vg" id="vg" aria-labelledby="vg-h">
